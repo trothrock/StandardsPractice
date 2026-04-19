@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jazz Standards — Practice Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e0e; --bg2: #161616; --bg3: #1e1e1e;
+    --border: #2a2a2a; --border2: #333;
+    --text: #e8e4dc; --text2: #888; --text3: #555;
+    --gold: #c9a84c; --gold2: #e8c97a; --gold-dim: rgba(201,168,76,0.12);
+    --red: #c0392b; --red-dim: rgba(192,57,43,0.12);
+    --green: #27ae60; --green-dim: rgba(39,174,96,0.12);
+    --blue: #2980b9; --blue-dim: rgba(41,128,185,0.12);
+    --radius: 4px; --radius-lg: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; min-height: 100vh; line-height: 1.5; }
+  .app { display: flex; height: 100vh; overflow: hidden; }
+  .sidebar { width: 220px; flex-shrink: 0; background: var(--bg2); border-right: 1px solid var(--border); display: flex; flex-direction: column; }
+  .sidebar-header { padding: 28px 20px 20px; border-bottom: 1px solid var(--border); }
+  .sidebar-header h1 { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 500; color: var(--gold); letter-spacing: 0.02em; line-height: 1.4; margin-bottom: 2px; }
+  .sidebar-header p { font-size: 11px; color: var(--text3); letter-spacing: 0.04em; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace; }
+  .nav { flex: 1; padding: 12px 0; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 20px; font-size: 13px; color: var(--text2); cursor: pointer; border-left: 2px solid transparent; transition: all 0.15s; user-select: none; }
+  .nav-item:hover { color: var(--text); background: var(--bg3); }
+  .nav-item.active { color: var(--gold); border-left-color: var(--gold); background: var(--gold-dim); font-weight: 500; }
+  .nav-icon { width: 16px; height: 16px; opacity: 0.7; flex-shrink: 0; }
+  .nav-item.active .nav-icon { opacity: 1; }
+  .sidebar-footer { padding: 16px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px; }
+  .btn-sm { width: 100%; padding: 7px 12px; font-size: 12px; font-family: 'IBM Plex Sans', sans-serif; background: transparent; border: 1px solid var(--border2); color: var(--text2); border-radius: var(--radius); cursor: pointer; transition: all 0.15s; text-align: center; letter-spacing: 0.02em; }
+  .btn-sm:hover { border-color: var(--gold); color: var(--gold); }
+  .main { flex: 1; overflow-y: auto; background: var(--bg); }
+  .panel { display: none; padding: 36px 40px; max-width: 800px; }
+  .panel.active { display: block; }
+  .panel-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+  .panel-sub { font-size: 12px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 28px; }
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 28px; }
+  .stat-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px; }
+  .stat-card .label { font-size: 11px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .stat-card .value { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 500; color: var(--text); line-height: 1; }
+  .stat-card .value.gold { color: var(--gold); }
+  .section { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 20px; overflow: hidden; }
+  .section-head { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .section-head h2 { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text2); }
+  .section-head .count { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text3); }
+  .song-row { display: flex; align-items: center; gap: 12px; padding: 12px 20px; border-bottom: 1px solid var(--border); transition: background 0.1s; }
+  .song-row:last-child { border-bottom: none; }
+  .song-row:hover { background: var(--bg3); }
+  .song-name { flex: 1; font-size: 14px; color: var(--text); font-weight: 400; }
+  .song-meta { font-size: 11px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; }
+  .song-meta.urgent { color: var(--red); }
+  .song-meta.due { color: var(--gold); }
+  .song-meta.ok { color: var(--green); }
+  .badge { font-size: 10px; font-family: 'IBM Plex Mono', monospace; font-weight: 500; padding: 2px 7px; border-radius: 3px; flex-shrink: 0; letter-spacing: 0.04em; }
+  .badge-0 { background: #222; color: var(--text3); border: 1px solid #333; }
+  .badge-1 { background: var(--blue-dim); color: #6ab0e0; border: 1px solid rgba(41,128,185,0.25); }
+  .badge-2 { background: var(--green-dim); color: #5dba7e; border: 1px solid rgba(39,174,96,0.25); }
+  .badge-3 { background: var(--gold-dim); color: var(--gold2); border: 1px solid rgba(201,168,76,0.25); }
+  .badge-style { background: transparent; color: var(--text3); border: 1px solid var(--border2); }
+  .badge-learning { background: var(--blue-dim); color: #6ab0e0; border: 1px solid rgba(41,128,185,0.25); }
+  .badge-active { background: var(--gold-dim); color: var(--gold2); border: 1px solid rgba(201,168,76,0.25); }
+  .badge-graduated { background: var(--green-dim); color: #5dba7e; border: 1px solid rgba(39,174,96,0.25); }
+  .btn-pass, .btn-fail, .btn-action { font-size: 12px; font-family: 'IBM Plex Sans', sans-serif; padding: 5px 14px; border-radius: var(--radius); cursor: pointer; border: 1px solid; transition: all 0.15s; white-space: nowrap; }
+  .btn-pass { background: var(--green-dim); border-color: rgba(39,174,96,0.3); color: #5dba7e; }
+  .btn-pass:hover { background: rgba(39,174,96,0.2); }
+  .btn-fail { background: var(--red-dim); border-color: rgba(192,57,43,0.3); color: #e57368; }
+  .btn-fail:hover { background: rgba(192,57,43,0.2); }
+  .btn-action { background: transparent; border-color: var(--border2); color: var(--text2); }
+  .btn-action:hover { border-color: var(--gold); color: var(--gold); }
+  .btn-primary { background: var(--gold-dim); border: 1px solid rgba(201,168,76,0.3); color: var(--gold2); font-size: 12px; font-family: 'IBM Plex Sans', sans-serif; padding: 5px 14px; border-radius: var(--radius); cursor: pointer; transition: all 0.15s; }
+  .btn-primary:hover { background: rgba(201,168,76,0.2); }
+  .interval-track { display: flex; gap: 3px; flex-wrap: nowrap; margin-top: 4px; }
+  .int-pill { font-size: 10px; font-family: 'IBM Plex Mono', monospace; padding: 1px 6px; border-radius: 2px; border: 1px solid var(--border); color: var(--text3); }
+  .int-pill.done { background: var(--green-dim); border-color: rgba(39,174,96,0.2); color: #5dba7e; }
+  .int-pill.next { background: var(--gold-dim); border-color: rgba(201,168,76,0.3); color: var(--gold2); font-weight: 500; }
+  .filter-row { display: flex; gap: 10px; margin-bottom: 16px; align-items: center; }
+  input[type="text"] { flex: 1; background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius); color: var(--text); font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; padding: 7px 12px; outline: none; transition: border-color 0.15s; }
+  input[type="text"]:focus { border-color: var(--gold); }
+  input[type="text"]::placeholder { color: var(--text3); }
+  select { background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius); color: var(--text); font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; padding: 7px 10px; outline: none; cursor: pointer; }
+  select:focus { border-color: var(--gold); }
+  .empty { padding: 24px 20px; color: var(--text3); font-size: 13px; font-style: italic; text-align: center; }
+  .current-song-card { background: var(--bg2); border: 1px solid rgba(201,168,76,0.25); border-radius: var(--radius-lg); padding: 20px 24px; margin-bottom: 20px; display: flex; align-items: center; gap: 16px; }
+  .current-song-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); flex-shrink: 0; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .current-song-info { flex: 1; }
+  .current-song-info .label { font-size: 11px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+  .current-song-info .name { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--text); }
+  .current-song-info .sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
+  .all-clear { padding: 20px; text-align: center; color: var(--text3); }
+  .all-clear .big { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--text2); margin-bottom: 4px; }
+  #toast { position: fixed; bottom: 24px; right: 24px; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius-lg); padding: 12px 18px; font-size: 13px; color: var(--text); opacity: 0; transform: translateY(8px); transition: all 0.25s; pointer-events: none; z-index: 100; max-width: 280px; }
+  #toast.show { opacity: 1; transform: translateY(0); }
+  .prog-wrap { background: var(--bg3); border-radius: 2px; height: 4px; margin-top: 8px; }
+  .prog-bar { height: 4px; border-radius: 2px; background: var(--gold); transition: width 0.4s; }
+  #import-input { display: none; }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #444; }
+  @media (max-width: 700px) { .sidebar { width: 180px; } .panel { padding: 24px 20px; } .stats-row { grid-template-columns: repeat(2,1fr); } }
+  .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 200; align-items: center; justify-content: center; }
+  .modal-backdrop.open { display: flex; }
+  .modal { background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius-lg); width: 420px; max-width: calc(100vw - 40px); padding: 28px; }
+  .modal-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 500; color: var(--text); margin-bottom: 20px; }
+  .field { margin-bottom: 16px; }
+  .field label { display: block; font-size: 11px; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3); margin-bottom: 6px; }
+  .field input[type="text"], .field select { width: 100%; flex: none; }
+  .level-picker { display: flex; gap: 8px; }
+  .level-btn { flex: 1; padding: 8px 0; font-size: 13px; font-family: 'IBM Plex Mono', monospace; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius); color: var(--text3); cursor: pointer; transition: all 0.15s; text-align: center; }
+  .level-btn:hover { border-color: var(--text3); color: var(--text2); }
+  .level-btn.sel-0 { background: #222; border-color: #555; color: var(--text2); }
+  .level-btn.sel-1 { background: var(--blue-dim); border-color: rgba(41,128,185,0.4); color: #6ab0e0; }
+  .level-btn.sel-2 { background: var(--green-dim); border-color: rgba(39,174,96,0.4); color: #5dba7e; }
+  .level-btn.sel-3 { background: var(--gold-dim); border-color: rgba(201,168,76,0.4); color: var(--gold2); }
+  .level-desc { font-size: 11px; color: var(--text3); margin-top: 6px; min-height: 16px; font-style: italic; }
+  .modal-actions { display: flex; gap: 10px; margin-top: 24px; justify-content: flex-end; }
+  .btn-cancel { padding: 7px 18px; font-size: 13px; font-family: 'IBM Plex Sans', sans-serif; background: transparent; border: 1px solid var(--border2); color: var(--text2); border-radius: var(--radius); cursor: pointer; transition: all 0.15s; }
+  .btn-cancel:hover { border-color: var(--text2); }
+  .btn-confirm { padding: 7px 18px; font-size: 13px; font-family: 'IBM Plex Sans', sans-serif; background: var(--gold-dim); border: 1px solid rgba(201,168,76,0.35); color: var(--gold2); border-radius: var(--radius); cursor: pointer; transition: all 0.15s; }
+  .btn-confirm:hover { background: rgba(201,168,76,0.22); }
+  .field-error { font-size: 11px; color: var(--red); margin-top: 4px; display: none; }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h1>Jazz Standards</h1>
+      <p>Practice Tracker</p>
+    </div>
+    <nav class="nav">
+      <div class="nav-item active" onclick="showPanel('today')">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 8h6M5 5h2M5 11h4"/></svg>
+        Today
+      </div>
+      <div class="nav-item" onclick="showPanel('library')">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3h12M2 6h12M2 9h8M2 12h5"/></svg>
+        Library
+      </div>
+      <div class="nav-item" onclick="showPanel('queue')">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3.5l2.5 1.5"/></svg>
+        Review Queue
+      </div>
+      <div class="nav-item" onclick="showPanel('progress')">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 13L6 8l3 3 5-7"/></svg>
+        Progress
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="btn-sm" onclick="openAddSong()" style="border-color:rgba(201,168,76,0.35);color:var(--gold)">+ Add song</button>
+      <button class="btn-sm" onclick="exportData()">Export backup</button>
+      <button class="btn-sm" onclick="document.getElementById('import-input').click()">Import backup</button>
+      <input type="file" id="import-input" accept=".json" onchange="importData(event)">
+    </div>
+  </div>
+  <div class="main">
+    <div id="panel-today" class="panel active">
+      <div class="panel-title" id="today-date"></div>
+      <div class="panel-sub" id="today-sub"></div>
+      <div class="stats-row">
+        <div class="stat-card"><div class="label">Reviews due</div><div class="value gold" id="s-due">0</div></div>
+        <div class="stat-card"><div class="label">In queue</div><div class="value" id="s-active">0</div></div>
+        <div class="stat-card"><div class="label">At level 2+</div><div class="value" id="s-grad">0</div></div>
+        <div class="stat-card"><div class="label">Day streak</div><div class="value" id="s-streak">0</div></div>
+      </div>
+      <div id="current-song-wrap"></div>
+      <div class="section">
+        <div class="section-head"><h2>Reviews due today</h2><span class="count" id="rev-count"></span></div>
+        <div id="reviews-body"></div>
+      </div>
+    </div>
+    <div id="panel-library" class="panel">
+      <div class="panel-title">Library</div>
+      <div class="panel-sub">All 272 standards</div>
+      <div class="filter-row">
+        <input type="text" id="lib-search" placeholder="Search by title..." oninput="renderLibrary()">
+        <select id="lib-level" onchange="renderLibrary()"><option value="">All levels</option><option value="0">Level 0</option><option value="1">Level 1</option><option value="2">Level 2</option><option value="3">Level 3</option></select>
+        <select id="lib-status" onchange="renderLibrary()"><option value="">All statuses</option><option value="untouched">Not started</option><option value="learning">In progress</option><option value="active">In review</option><option value="graduated">Graduated</option></select>
+        <select id="lib-style" onchange="renderLibrary()"><option value="">All styles</option><option value="Bop">Bop</option><option value="Blues">Blues</option><option value="Bossa">Bossa</option><option value="Modal">Modal</option><option value="Trad">Trad</option></select>
+      </div>
+      <div class="section"><div id="library-body"></div></div>
+    </div>
+    <div id="panel-queue" class="panel">
+      <div class="panel-title">Review Queue</div>
+      <div class="panel-sub">Spaced repetition schedule · intervals: 1 · 3 · 7 · 21 · 60 · 180 days</div>
+      <div class="filter-row">
+        <input type="text" id="q-search" placeholder="Search queue..." oninput="renderQueue()">
+        <select id="q-sort" onchange="renderQueue()"><option value="due">Sort by due date</option><option value="name">Sort by title</option></select>
+      </div>
+      <div class="section"><div id="queue-body"></div></div>
+    </div>
+    <div id="panel-progress" class="panel">
+      <div class="panel-title">Progress</div>
+      <div class="panel-sub">Your journey toward 272 standards</div>
+      <div class="stats-row" style="grid-template-columns:repeat(3,1fr);margin-bottom:12px">
+        <div class="stat-card"><div class="label">Not started</div><div class="value" id="p-0">—</div></div>
+        <div class="stat-card"><div class="label">In progress</div><div class="value" id="p-prog">—</div></div>
+        <div class="stat-card"><div class="label">At level 2+</div><div class="value gold" id="p-2">—</div></div>
+      </div>
+      <div class="section" style="margin-bottom:20px">
+        <div class="section-head"><h2>Overall completion</h2></div>
+        <div style="padding:16px 20px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text3);margin-bottom:6px">
+            <span id="prog-label">0 of 272 at level 2+</span><span id="prog-pct">0%</span>
+          </div>
+          <div class="prog-wrap"><div class="prog-bar" id="prog-bar" style="width:0%"></div></div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-head"><h2>Next songs to learn</h2><span class="count">by jam-session priority</span></div>
+        <div id="next-songs-body"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<div class="modal-backdrop" id="add-modal" onclick="handleBackdropClick(event)">
+  <div class="modal">
+    <div class="modal-title">Add a song</div>
+    <div class="field">
+      <label>Title</label>
+      <input type="text" id="add-name" placeholder="e.g. Autumn Leaves" oninput="clearError()">
+      <div class="field-error" id="add-error">A song with this title already exists in your library.</div>
+    </div>
+    <div class="field">
+      <label>Style <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <select id="add-style"><option value="">None</option><option value="Bop">Bop</option><option value="Blues">Blues</option><option value="Bossa">Bossa</option><option value="Modal">Modal</option><option value="Trad">Trad</option></select>
+    </div>
+    <div class="field">
+      <label>Familiarity level</label>
+      <div class="level-picker">
+        <button class="level-btn sel-0" data-lvl="0" onclick="selectLevel(0)">0</button>
+        <button class="level-btn" data-lvl="1" onclick="selectLevel(1)">1</button>
+        <button class="level-btn" data-lvl="2" onclick="selectLevel(2)">2</button>
+        <button class="level-btn" data-lvl="3" onclick="selectLevel(3)">3</button>
+      </div>
+      <div class="level-desc" id="lvl-desc">Complete unfamiliarity — never played it</div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeAddSong()">Cancel</button>
+      <button class="btn-confirm" onclick="submitAddSong()">Add to library</button>
+    </div>
+  </div>
+</div>
+
+<script src="jazz_data.js"></script>
+<script>
+// ALL_SONGS and PRIORITY_ORDER are loaded from jazz_data.js
+
+const INTERVALS = [1,3,7,21,60,180];
+const STORAGE_KEY = 'jazz_sr_v3';
+
+function todayInt() {
+  const d = new Date();
+  return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();
+}
+function addDays(dateInt, n) {
+  const d = new Date(Math.floor(dateInt/10000), Math.floor((dateInt%10000)/100)-1, dateInt%100);
+  d.setDate(d.getDate()+n);
+  return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();
+}
+function daysBetween(from, to) {
+  const p = d => new Date(Math.floor(d/10000), Math.floor((d%10000)/100)-1, d%100);
+  return Math.round((p(to)-p(from))/(86400000));
+}
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+function loadDB() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY))||null; } catch(e){ return null; }
+}
+function saveDB(db) { localStorage.setItem(STORAGE_KEY, JSON.stringify(db)); }
+function initDB() {
+  let db = loadDB();
+  if(!db) {
+    db = { songs:{}, currentNewSong:null, streak:0, lastPracticeDay:null };
+    ALL_SONGS.forEach(([name,lvl,style])=>{
+      db.songs[name] = {
+        name, baseLevel:lvl, currentLevel:lvl, style,
+        status: lvl>=2 ? 'active' : 'untouched',
+        intervalIdx: lvl>=2 ? 0 : -1,
+        nextReview: lvl>=2 ? addDays(todayInt(),1) : null,
+        learnedDate: lvl>=2 ? todayInt() : null,
+        reviews:[]
+      };
+    });
+    saveDB(db);
+  }
+  return db;
+}
+function getDB() { return initDB(); }
+
+function startLearning(name) {
+  const db = getDB();
+  if(db.currentNewSong && db.currentNewSong !== name) {
+    if(!confirm(`You're currently working on "${db.currentNewSong}". Switch to "${name}"?`)) return;
+    db.songs[db.currentNewSong].status = 'untouched';
+  }
+  db.songs[name].status = 'learning';
+  db.currentNewSong = name;
+  saveDB(db); renderAll(); showPanel('today');
+  toast(`Now learning: ${name}`);
+}
+function markLearned(name) {
+  const db = getDB();
+  db.songs[name].status = 'active';
+  db.songs[name].currentLevel = Math.max(db.songs[name].currentLevel, 2);
+  db.songs[name].intervalIdx = 0;
+  db.songs[name].learnedDate = todayInt();
+  db.songs[name].nextReview = addDays(todayInt(), INTERVALS[0]);
+  db.currentNewSong = null;
+  updateStreak(db); saveDB(db); renderAll();
+  toast(`${name} → Level 2. Review scheduled for tomorrow.`);
+}
+function doReview(name, passed) {
+  const db = getDB();
+  const sg = db.songs[name];
+  sg.reviews.push({date:todayInt(), passed});
+  if(passed) {
+    const nextIdx = Math.min(sg.intervalIdx+1, INTERVALS.length-1);
+    sg.intervalIdx = nextIdx;
+    sg.nextReview = addDays(todayInt(), INTERVALS[nextIdx]);
+    if(nextIdx >= INTERVALS.length-1) { sg.status='graduated'; sg.currentLevel=3; toast(`${name} graduated! Level 3.`); }
+    else { toast(`Pass — next review in ${INTERVALS[nextIdx]} days`); }
+  } else {
+    sg.intervalIdx = 0;
+    sg.nextReview = addDays(todayInt(), INTERVALS[0]);
+    toast(`Fail — reset to 1-day interval`);
+  }
+  updateStreak(db); saveDB(db); renderAll();
+}
+function updateStreak(db) {
+  const tod = todayInt(), yesterday = addDays(tod,-1);
+  if(db.lastPracticeDay === tod) return;
+  db.streak = (db.lastPracticeDay === yesterday) ? (db.streak||0)+1 : 1;
+  db.lastPracticeDay = tod;
+}
+function exportData() {
+  const db = getDB();
+  const blob = new Blob([JSON.stringify(db, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const d = new Date();
+  a.href = url;
+  a.download = `jazz-tracker-${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}.json`;
+  a.click(); URL.revokeObjectURL(url);
+  toast('Backup exported.');
+}
+function importData(e) {
+  const file = e.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const db = JSON.parse(ev.target.result);
+      if(!db.songs) throw new Error('Invalid format');
+      if(!confirm('This will replace all current data. Continue?')) return;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+      renderAll(); toast('Backup imported successfully.');
+    } catch(err) { alert("Could not read backup file."); }
+    e.target.value='';
+  };
+  reader.readAsText(file);
+}
+function lvlBadge(l) { return `<span class="badge badge-${Math.min(l,3)}">${l}</span>`; }
+function styleBadge(s) { return s ? `<span class="badge badge-style">${s}</span>` : ''; }
+function getNextSong(db) {
+  for(const name of PRIORITY_ORDER) {
+    if(db.songs[name] && db.songs[name].status==='untouched') return db.songs[name];
+  }
+  return Object.values(db.songs).find(s=>s.status==='untouched')||null;
+}
+
+function renderToday() {
+  const db = getDB(), tod = todayInt();
+  const due = Object.values(db.songs).filter(s=>s.status==='active'&&s.nextReview&&s.nextReview<=tod).sort((a,b)=>a.nextReview-b.nextReview);
+  const active = Object.values(db.songs).filter(s=>s.status==='active'||s.status==='graduated');
+  const grad = Object.values(db.songs).filter(s=>s.currentLevel>=2);
+  document.getElementById('s-due').textContent = due.length;
+  document.getElementById('s-active').textContent = active.length;
+  document.getElementById('s-grad').textContent = grad.length;
+  document.getElementById('s-streak').textContent = db.streak||0;
+  document.getElementById('today-date').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+  document.getElementById('today-sub').textContent = due.length===0 ? 'No reviews due · keep the streak alive' : due.length===1 ? '1 review due today' : `${due.length} reviews due today`;
+  const csw = document.getElementById('current-song-wrap');
+  if(db.currentNewSong && db.songs[db.currentNewSong]) {
+    const sg = db.songs[db.currentNewSong];
+    csw.innerHTML = `<div class="current-song-card"><div class="current-song-dot"></div><div class="current-song-info"><div class="label">Currently learning</div><div class="name">${sg.name}</div><div class="sub">${sg.style||'Standard'} · Work on this all week · 10 min/day</div></div>${lvlBadge(sg.baseLevel)}<button class="btn-primary" onclick="markLearned('${sg.name.replace(/'/g,"\\'")}')">Mark as level 2</button></div>`;
+  } else {
+    const next = getNextSong(db);
+    csw.innerHTML = next ? `<div class="current-song-card"><div class="current-song-dot" style="background:var(--text3);animation:none"></div><div class="current-song-info"><div class="label">Next suggested song</div><div class="name">${next.name}</div><div class="sub">${next.style||'Standard'} · ${next.baseLevel===1?'Already at level 1 — push to 2':'Starting from level 0'}</div></div>${lvlBadge(next.baseLevel)}<button class="btn-action" onclick="startLearning('${next.name.replace(/'/g,"\\'")}')">Start learning</button></div>` : '';
+  }
+  const rb = document.getElementById('reviews-body');
+  document.getElementById('rev-count').textContent = due.length ? `${due.length} song${due.length>1?'s':''}` : '';
+  rb.innerHTML = due.length===0
+    ? `<div class="all-clear"><div class="big">All clear</div><div style="font-size:12px;margin-top:4px">Check back tomorrow · or start a new song above</div></div>`
+    : due.map(sg=>{
+        const overdue = daysBetween(sg.nextReview, tod);
+        const meta = overdue>0 ? `<span class="song-meta urgent">${overdue}d overdue</span>` : `<span class="song-meta due">Due today</span>`;
+        const intLabel = sg.intervalIdx>=0 ? `<span style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${INTERVALS[sg.intervalIdx]}d interval</span>` : '';
+        return `<div class="song-row">${lvlBadge(sg.currentLevel)}${styleBadge(sg.style)}<span class="song-name">${sg.name}</span>${intLabel}${meta}<button class="btn-pass" onclick="doReview('${sg.name.replace(/'/g,"\\'")}',true)">Pass</button><button class="btn-fail" onclick="doReview('${sg.name.replace(/'/g,"\\'")}',false)">Fail</button></div>`;
+      }).join('');
+}
+
+function renderLibrary() {
+  const db = getDB();
+  const q = (document.getElementById('lib-search').value||'').toLowerCase();
+  const lf = document.getElementById('lib-level').value;
+  const sf = document.getElementById('lib-status').value;
+  const stf = document.getElementById('lib-style').value;
+  let songs = ALL_SONGS.map(([name])=>db.songs[name]).filter(Boolean);
+  // Also include user-added songs not in ALL_SONGS
+  const seeded = new Set(ALL_SONGS.map(([n])=>n));
+  Object.values(db.songs).forEach(s=>{ if(!seeded.has(s.name)) songs.push(s); });
+  if(q) songs = songs.filter(s=>s.name.toLowerCase().includes(q));
+  if(lf!=='') songs = songs.filter(s=>s.baseLevel==lf);
+  if(sf!=='') songs = songs.filter(s=>s.status===sf);
+  if(stf!=='') songs = songs.filter(s=>s.style===stf);
+  const lb = document.getElementById('library-body');
+  if(!songs.length){ lb.innerHTML='<div class="empty">No songs match.</div>'; return; }
+  lb.innerHTML = songs.map(sg=>{
+    let statusBadge='';
+    if(sg.status==='graduated') statusBadge='<span class="badge badge-graduated">Graduated</span>';
+    else if(sg.status==='active') statusBadge='<span class="badge badge-active">In review</span>';
+    else if(sg.status==='learning') statusBadge='<span class="badge badge-learning">Learning</span>';
+    let action='';
+    if(sg.status==='untouched') action=`<button class="btn-action" onclick="startLearning('${sg.name.replace(/'/g,"\\'")}')">Start</button>`;
+    else if(sg.status==='learning') action=`<button class="btn-primary" onclick="markLearned('${sg.name.replace(/'/g,"\\'")}')">Mark level 2</button>`;
+    return `<div class="song-row">${lvlBadge(sg.currentLevel)}${styleBadge(sg.style)}<span class="song-name">${sg.name}</span>${statusBadge}${action}</div>`;
+  }).join('');
+}
+
+function renderQueue() {
+  const db = getDB(), tod = todayInt();
+  const q = (document.getElementById('q-search').value||'').toLowerCase();
+  const sortBy = document.getElementById('q-sort').value;
+  let songs = Object.values(db.songs).filter(s=>s.status==='active'||s.status==='graduated');
+  if(q) songs = songs.filter(s=>s.name.toLowerCase().includes(q));
+  songs.sort((a,b)=>sortBy==='name'?a.name.localeCompare(b.name):(a.nextReview||99999999)-(b.nextReview||99999999));
+  const qb = document.getElementById('queue-body');
+  if(!songs.length){ qb.innerHTML='<div class="empty">No songs in the review queue yet.</div>'; return; }
+  qb.innerHTML = songs.map(sg=>{
+    const daysUntil = sg.nextReview ? daysBetween(tod, sg.nextReview) : null;
+    let dueLabel='', dueCls='song-meta';
+    if(sg.status==='graduated') { dueLabel='Graduated'; dueCls='song-meta ok'; }
+    else if(daysUntil===null) { dueLabel='—'; }
+    else if(daysUntil<0) { dueLabel=`${Math.abs(daysUntil)}d overdue`; dueCls='song-meta urgent'; }
+    else if(daysUntil===0) { dueLabel='Due today'; dueCls='song-meta due'; }
+    else { dueLabel=`In ${daysUntil}d`; dueCls='song-meta ok'; }
+    const pills = INTERVALS.map((iv,i)=>`<span class="int-pill ${i<sg.intervalIdx?'done':i===sg.intervalIdx?'next':''}">${iv}d</span>`).join('');
+    return `<div class="song-row" style="align-items:flex-start">${lvlBadge(sg.currentLevel)}<div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;flex-wrap:wrap"><span class="song-name">${sg.name}</span><span class="${dueCls}">${dueLabel}</span></div><div class="interval-track">${pills}</div></div></div>`;
+  }).join('');
+}
+
+function renderProgress() {
+  const db = getDB(), all = Object.values(db.songs);
+  const grad = all.filter(s=>s.currentLevel>=2).length;
+  const inprog = all.filter(s=>s.status==='learning'||s.status==='active').length;
+  const unstarted = all.filter(s=>s.status==='untouched').length;
+  const total = all.length, pct = Math.round(grad/total*100);
+  document.getElementById('p-0').textContent = unstarted;
+  document.getElementById('p-prog').textContent = inprog;
+  document.getElementById('p-2').textContent = grad;
+  document.getElementById('prog-label').textContent = `${grad} of ${total} at level 2+`;
+  document.getElementById('prog-pct').textContent = `${pct}%`;
+  document.getElementById('prog-bar').style.width = pct+'%';
+  const nextNames = PRIORITY_ORDER.filter(n=>db.songs[n]&&db.songs[n].status==='untouched').slice(0,12);
+  const nsb = document.getElementById('next-songs-body');
+  if(!nextNames.length){ nsb.innerHTML='<div class="empty">All priority songs started!</div>'; return; }
+  nsb.innerHTML = nextNames.map((name,i)=>{
+    const sg = db.songs[name];
+    return `<div class="song-row"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text3);width:22px">${i+1}</span>${lvlBadge(sg.baseLevel)}${styleBadge(sg.style)}<span class="song-name">${name}</span><button class="btn-action" onclick="startLearning('${name.replace(/'/g,"\\'")}')">Start</button></div>`;
+  }).join('');
+}
+
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  const idx = ['today','library','queue','progress'].indexOf(id);
+  if(idx>=0) document.querySelectorAll('.nav-item')[idx].classList.add('active');
+  if(id==='library') renderLibrary();
+  if(id==='queue') renderQueue();
+  if(id==='progress') renderProgress();
+}
+function renderAll() {
+  renderToday();
+  const active = document.querySelector('.panel.active');
+  if(active) {
+    const id = active.id.replace('panel-','');
+    if(id==='library') renderLibrary();
+    if(id==='queue') renderQueue();
+    if(id==='progress') renderProgress();
+  }
+}
+
+const LEVEL_DESCS = ['Complete unfamiliarity — never played it','Could fake my way through in a pinch','Comfortable enough to play at a jam session','Second nature — fully performance-ready'];
+let selectedLevel = 0;
+function openAddSong() {
+  selectedLevel = 0;
+  document.getElementById('add-name').value = '';
+  document.getElementById('add-style').value = '';
+  document.getElementById('add-error').style.display = 'none';
+  document.querySelectorAll('.level-btn').forEach(b=>b.className='level-btn');
+  document.querySelector('.level-btn[data-lvl="0"]').classList.add('sel-0');
+  document.getElementById('lvl-desc').textContent = LEVEL_DESCS[0];
+  document.getElementById('add-modal').classList.add('open');
+  setTimeout(()=>document.getElementById('add-name').focus(), 50);
+}
+function closeAddSong() { document.getElementById('add-modal').classList.remove('open'); }
+function handleBackdropClick(e) { if(e.target===document.getElementById('add-modal')) closeAddSong(); }
+function selectLevel(lvl) {
+  selectedLevel = lvl;
+  document.querySelectorAll('.level-btn').forEach(b=>b.className='level-btn');
+  document.querySelector(`.level-btn[data-lvl="${lvl}"]`).classList.add(`sel-${lvl}`);
+  document.getElementById('lvl-desc').textContent = LEVEL_DESCS[lvl];
+}
+function clearError() { document.getElementById('add-error').style.display = 'none'; }
+function submitAddSong() {
+  const name = document.getElementById('add-name').value.trim();
+  const style = document.getElementById('add-style').value;
+  const lvl = selectedLevel;
+  if(!name) { document.getElementById('add-name').focus(); return; }
+  const db = getDB();
+  if(Object.keys(db.songs).some(k=>k.toLowerCase()===name.toLowerCase())) {
+    document.getElementById('add-error').style.display = 'block';
+    document.getElementById('add-name').focus(); return;
+  }
+  db.songs[name] = { name, style, baseLevel:lvl, currentLevel:lvl,
+    status: lvl>=2 ? 'active' : 'untouched',
+    intervalIdx: lvl>=2 ? 0 : -1,
+    nextReview: lvl>=2 ? addDays(todayInt(),1) : null,
+    learnedDate: lvl>=2 ? todayInt() : null, reviews:[] };
+  saveDB(db); closeAddSong(); renderAll();
+  toast(`"${name}" added to ${lvl>=2?'review queue':'backlog'}.`);
+}
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeAddSong(); });
+
+renderToday();
+</script>
+</body>
+</html>
