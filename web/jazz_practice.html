@@ -250,6 +250,35 @@
   </div>
 </div>
 
+<div class="modal-backdrop" id="edit-modal" onclick="handleEditBackdropClick(event)">
+  <div class="modal">
+    <div class="modal-title">Edit song</div>
+    <div class="field">
+      <label>Title</label>
+      <input type="text" id="edit-name" oninput="clearEditError()">
+      <div class="field-error" id="edit-error">A song with this title already exists in your library.</div>
+    </div>
+    <div class="field">
+      <label>Style <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <select id="edit-style"><option value="">None</option><option value="Bop">Bop</option><option value="Blues">Blues</option><option value="Bossa">Bossa</option><option value="Modal">Modal</option><option value="Trad">Trad</option></select>
+    </div>
+    <div class="field">
+      <label>Familiarity level</label>
+      <div class="level-picker">
+        <button class="level-btn" data-edit-lvl="0" onclick="selectEditLevel(0)">0</button>
+        <button class="level-btn" data-edit-lvl="1" onclick="selectEditLevel(1)">1</button>
+        <button class="level-btn" data-edit-lvl="2" onclick="selectEditLevel(2)">2</button>
+        <button class="level-btn" data-edit-lvl="3" onclick="selectEditLevel(3)">3</button>
+      </div>
+      <div class="level-desc" id="edit-lvl-desc"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeEditSong()">Discard</button>
+      <button class="btn-confirm" onclick="submitEditSong()">Save changes</button>
+    </div>
+  </div>
+</div>
+
 <script src="jazz_data.js"></script>
 <script>
 // ALL_SONGS and PRIORITY_ORDER are loaded from jazz_data.js
@@ -280,10 +309,14 @@ function loadDB() {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY))||null; } catch(e){ return null; }
 }
 function saveDB(db) { localStorage.setItem(STORAGE_KEY, JSON.stringify(db)); }
+function logActivity(db, type, data) {
+  if(!db.activity) db.activity = [];
+  db.activity.push({ ts: Date.now(), date: todayInt(), type, ...data });
+}
 function initDB() {
   let db = loadDB();
   if(!db) {
-    db = { songs:{}, currentNewSong:null, streak:0, lastPracticeDay:null };
+    db = { songs:{}, currentNewSong:null, streak:0, lastPracticeDay:null, activity:[] };
     ALL_SONGS.forEach(([name,lvl,style])=>{
       db.songs[name] = {
         name, baseLevel:lvl, currentLevel:lvl, style,
@@ -296,6 +329,7 @@ function initDB() {
     });
     saveDB(db);
   }
+  if(!db.activity) db.activity = [];
   return db;
 }
 function getDB() { return initDB(); }
@@ -305,11 +339,23 @@ function startLearning(name) {
   if(db.currentNewSong && db.currentNewSong !== name) {
     if(!confirm(`You're currently working on "${db.currentNewSong}". Switch to "${name}"?`)) return;
     db.songs[db.currentNewSong].status = 'untouched';
+    logActivity(db, 'stopped_learning', { name: db.currentNewSong });
   }
   db.songs[name].status = 'learning';
   db.currentNewSong = name;
+  logActivity(db, 'started_learning', { name });
   saveDB(db); renderAll(); showPanel('today');
   toast(`Now learning: ${name}`);
+}
+function practicedToday(db, name) {
+  return db.activity.some(e=>e.type==='practiced'&&e.name===name&&e.date===todayInt());
+}
+function markPracticed(name) {
+  const db = getDB();
+  if(practicedToday(db, name)) return;
+  logActivity(db, 'practiced', { name });
+  updateStreak(db); saveDB(db); renderAll();
+  toast(`Practiced: ${name}`);
 }
 function markLearned(name) {
   const db = getDB();
@@ -319,6 +365,7 @@ function markLearned(name) {
   db.songs[name].learnedDate = todayInt();
   db.songs[name].nextReview = addDays(todayInt(), INTERVALS[0]);
   db.currentNewSong = null;
+  logActivity(db, 'learned', { name });
   updateStreak(db); saveDB(db); renderAll();
   toast(`${name} → Level 2. Review scheduled for tomorrow.`);
 }
@@ -326,6 +373,7 @@ function doReview(name, passed) {
   const db = getDB();
   const sg = db.songs[name];
   sg.reviews.push({date:todayInt(), passed});
+  logActivity(db, 'review', { name, passed });
   if(passed) {
     const nextIdx = Math.min(sg.intervalIdx+1, INTERVALS.length-1);
     sg.intervalIdx = nextIdx;
@@ -394,7 +442,12 @@ function renderToday() {
   const csw = document.getElementById('current-song-wrap');
   if(db.currentNewSong && db.songs[db.currentNewSong]) {
     const sg = db.songs[db.currentNewSong];
-    csw.innerHTML = `<div class="current-song-card"><div class="current-song-dot"></div><div class="current-song-info"><div class="label">Currently learning</div><div class="name">${sg.name}</div><div class="sub">${sg.style||'Standard'} · Work on this all week · 10 min/day</div></div>${lvlBadge(sg.baseLevel)}<button class="btn-primary" onclick="markLearned('${sg.name.replace(/'/g,"\\'")}')">Mark as level 2</button></div>`;
+    const safeName = sg.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    const alreadyPracticed = practicedToday(db, sg.name);
+    const practiceBtn = alreadyPracticed
+      ? `<button class="btn-action" style="color:var(--green);border-color:rgba(39,174,96,0.3)" disabled>&#x2713; Practiced</button>`
+      : `<button class="btn-action" onclick="markPracticed('${safeName}')">Mark as practiced</button>`;
+    csw.innerHTML = `<div class="current-song-card"><div class="current-song-dot"></div><div class="current-song-info"><div class="label">Currently learning</div><div class="name">${sg.name}</div><div class="sub">${sg.style||'Standard'} · Work on this all week · 10 min/day</div></div>${lvlBadge(sg.baseLevel)}${practiceBtn}<button class="btn-primary" onclick="markLearned('${safeName}')">Mark as level 2</button></div>`;
   } else {
     const next = getNextSong(db);
     csw.innerHTML = next ? `<div class="current-song-card"><div class="current-song-dot" style="background:var(--text3);animation:none"></div><div class="current-song-info"><div class="label">Next suggested song</div><div class="name">${next.name}</div><div class="sub">${next.style||'Standard'} · ${next.baseLevel===1?'Already at level 1 — push to 2':'Starting from level 0'}</div></div>${lvlBadge(next.baseLevel)}<button class="btn-action" onclick="startLearning('${next.name.replace(/'/g,"\\'")}')">Start learning</button></div>` : '';
@@ -435,7 +488,8 @@ function renderLibrary() {
     let action='';
     if(sg.status==='untouched') action=`<button class="btn-action" onclick="startLearning('${sg.name.replace(/'/g,"\\'")}')">Start</button>`;
     else if(sg.status==='learning') action=`<button class="btn-primary" onclick="markLearned('${sg.name.replace(/'/g,"\\'")}')">Mark level 2</button>`;
-    return `<div class="song-row">${lvlBadge(sg.currentLevel)}${styleBadge(sg.style)}<span class="song-name">${sg.name}</span>${statusBadge}${action}</div>`;
+    const editBtn = `<button class="btn-action" onclick="openEditSong('${sg.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}')">Edit</button>`;
+    return `<div class="song-row">${lvlBadge(sg.currentLevel)}${styleBadge(sg.style)}<span class="song-name">${sg.name}</span>${statusBadge}${action}${editBtn}</div>`;
   }).join('');
 }
 
@@ -540,10 +594,62 @@ function submitAddSong() {
     intervalIdx: lvl>=2 ? 0 : -1,
     nextReview: lvl>=2 ? addDays(todayInt(),1) : null,
     learnedDate: lvl>=2 ? todayInt() : null, reviews:[] };
+  logActivity(db, 'song_added', { name, style, level: lvl });
   saveDB(db); closeAddSong(); renderAll();
   toast(`"${name}" added to ${lvl>=2?'review queue':'backlog'}.`);
 }
-document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeAddSong(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeAddSong(); closeEditSong(); } });
+
+let editOriginalName = null;
+let editSelectedLevel = 0;
+function openEditSong(name) {
+  const db = getDB();
+  const sg = db.songs[name];
+  if(!sg) return;
+  editOriginalName = name;
+  editSelectedLevel = sg.baseLevel;
+  document.getElementById('edit-name').value = sg.name;
+  document.getElementById('edit-style').value = sg.style || '';
+  document.getElementById('edit-error').style.display = 'none';
+  document.querySelectorAll('[data-edit-lvl]').forEach(b=>b.className='level-btn');
+  document.querySelector(`[data-edit-lvl="${editSelectedLevel}"]`).classList.add(`sel-${editSelectedLevel}`);
+  document.getElementById('edit-lvl-desc').textContent = LEVEL_DESCS[editSelectedLevel];
+  document.getElementById('edit-modal').classList.add('open');
+  setTimeout(()=>document.getElementById('edit-name').focus(), 50);
+}
+function closeEditSong() { document.getElementById('edit-modal').classList.remove('open'); }
+function handleEditBackdropClick(e) { if(e.target===document.getElementById('edit-modal')) closeEditSong(); }
+function selectEditLevel(lvl) {
+  editSelectedLevel = lvl;
+  document.querySelectorAll('[data-edit-lvl]').forEach(b=>b.className='level-btn');
+  document.querySelector(`[data-edit-lvl="${lvl}"]`).classList.add(`sel-${lvl}`);
+  document.getElementById('edit-lvl-desc').textContent = LEVEL_DESCS[lvl];
+}
+function clearEditError() { document.getElementById('edit-error').style.display = 'none'; }
+function submitEditSong() {
+  const newName = document.getElementById('edit-name').value.trim();
+  const style = document.getElementById('edit-style').value;
+  const lvl = editSelectedLevel;
+  if(!newName) { document.getElementById('edit-name').focus(); return; }
+  const db = getDB();
+  const nameChanged = newName !== editOriginalName;
+  if(nameChanged && Object.keys(db.songs).some(k=>k.toLowerCase()===newName.toLowerCase())) {
+    document.getElementById('edit-error').style.display = 'block';
+    document.getElementById('edit-name').focus(); return;
+  }
+  const sg = db.songs[editOriginalName];
+  sg.name = newName;
+  sg.style = style;
+  sg.baseLevel = lvl;
+  if(nameChanged) {
+    db.songs[newName] = sg;
+    delete db.songs[editOriginalName];
+    if(db.currentNewSong === editOriginalName) db.currentNewSong = newName;
+  }
+  logActivity(db, 'song_edited', { oldName: editOriginalName, name: newName, style, level: lvl });
+  saveDB(db); closeEditSong(); renderAll();
+  toast(`"${newName}" updated.`);
+}
 
 renderToday();
 </script>
