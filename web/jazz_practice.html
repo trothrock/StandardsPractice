@@ -50,7 +50,10 @@
   .song-row { display: flex; align-items: center; gap: 12px; padding: 12px 20px; border-bottom: 1px solid var(--border); transition: background 0.1s; }
   .song-row:last-child { border-bottom: none; }
   .song-row:hover { background: var(--bg3); }
-  .song-name { flex: 1; font-size: 14px; color: var(--text); font-weight: 400; }
+  .song-name { font-size: 14px; color: var(--text); font-weight: 400; }
+  .song-name-group { flex: 1; display: flex; align-items: center; gap: 8px; }
+  #row-menu { display: none; position: fixed; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius-lg); min-width: 160px; z-index: 150; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+  #row-menu.open { display: block; }
   .song-meta { font-size: 11px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; }
   .song-meta.urgent { color: var(--red); }
   .song-meta.due { color: var(--gold); }
@@ -124,6 +127,37 @@
   .btn-confirm { padding: 7px 18px; font-size: 13px; font-family: 'IBM Plex Sans', sans-serif; background: var(--gold-dim); border: 1px solid rgba(201,168,76,0.35); color: var(--gold2); border-radius: var(--radius); cursor: pointer; transition: all 0.15s; }
   .btn-confirm:hover { background: rgba(201,168,76,0.22); }
   .field-error { font-size: 11px; color: var(--red); margin-top: 4px; display: none; }
+  .timeline-entry { display: flex; gap: 14px; padding: 12px 20px; border-bottom: 1px solid var(--border); align-items: flex-start; }
+  .timeline-entry:last-child { border-bottom: none; }
+  .timeline-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+  .timeline-dot.green { background: var(--green); }
+  .timeline-dot.gold { background: var(--gold); }
+  .timeline-dot.red { background: var(--red); }
+  .timeline-dot.blue { background: var(--blue); }
+  .timeline-dot.dim { background: var(--text3); }
+  .timeline-label { font-size: 13px; color: var(--text); }
+  .timeline-meta { font-size: 11px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; margin-top: 2px; }
+  .detail-header { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px 24px; margin-bottom: 20px; }
+  .detail-header-top { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+  .detail-title { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--text); }
+  .detail-meta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
+  .detail-meta-field .label { color: var(--text3); font-family: 'IBM Plex Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px; }
+  .detail-meta-field .value { color: var(--text2); font-size: 13px; }
+  .detail-meta-field .value.placeholder { color: var(--text3); font-style: italic; }
+  .btn-back { background: transparent; border: none; color: var(--text3); font-size: 12px; font-family: 'IBM Plex Mono', monospace; cursor: pointer; padding: 0; margin-bottom: 16px; display: flex; align-items: center; gap: 6px; letter-spacing: 0.04em; transition: color 0.15s; }
+  .btn-back:hover { color: var(--text); }
+  .song-row.clickable { cursor: pointer; }
+  .field input[type="number"] { width: 100%; background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius); color: var(--text); font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; padding: 7px 12px; outline: none; transition: border-color 0.15s; }
+  .field input[type="number"]:focus { border-color: var(--gold); }
+  .section-menu-wrap { position: relative; }
+  .btn-dots { background: transparent; border: none; color: var(--text3); cursor: pointer; padding: 2px 6px; border-radius: var(--radius); font-size: 16px; line-height: 1; transition: color 0.15s; }
+  .btn-dots:hover { color: var(--text); }
+  .dropdown { display: none; position: absolute; right: 0; top: calc(100% + 4px); background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius-lg); min-width: 180px; z-index: 50; overflow: hidden; }
+  .dropdown.open { display: block; }
+  .dropdown-item { padding: 9px 14px; font-size: 13px; color: var(--text2); cursor: pointer; white-space: nowrap; transition: background 0.1s; }
+  .dropdown-item:hover { background: var(--bg2); color: var(--text); }
+  .dropdown-item.danger { color: var(--red); }
+  .dropdown-item.danger:hover { background: var(--red-dim); color: #e57368; }
 </style>
 </head>
 <body>
@@ -150,6 +184,10 @@
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 13L6 8l3 3 5-7"/></svg>
         Progress
       </div>
+      <div class="nav-item" onclick="showPanel('activity')">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
+        Activity
+      </div>
     </nav>
     <div class="sidebar-footer">
       <button class="btn-sm" onclick="openAddSong()" style="border-color:rgba(201,168,76,0.35);color:var(--gold)">+ Add song</button>
@@ -162,15 +200,9 @@
     <div id="panel-today" class="panel active">
       <div class="panel-title" id="today-date"></div>
       <div class="panel-sub" id="today-sub"></div>
-      <div class="stats-row">
-        <div class="stat-card"><div class="label">Reviews due</div><div class="value gold" id="s-due">0</div></div>
-        <div class="stat-card"><div class="label">In queue</div><div class="value" id="s-active">0</div></div>
-        <div class="stat-card"><div class="label">At level 2+</div><div class="value" id="s-grad">0</div></div>
-        <div class="stat-card"><div class="label">Day streak</div><div class="value" id="s-streak">0</div></div>
-      </div>
       <div id="current-song-wrap"></div>
       <div class="section">
-        <div class="section-head"><h2>Reviews due today</h2><span class="count" id="rev-count"></span></div>
+        <div class="section-head"><h2>Review</h2><div class="section-menu-wrap"><button class="btn-dots" onclick="toggleReviewMenu(event)">···</button><div class="dropdown" id="review-menu"><div class="dropdown-item" onclick="openReviewSettings()">Edit review settings</div></div></div></div>
         <div id="reviews-body"></div>
       </div>
     </div>
@@ -216,10 +248,33 @@
         <div id="next-songs-body"></div>
       </div>
     </div>
+    <div id="panel-activity" class="panel">
+      <div class="panel-title">Activity</div>
+      <div class="panel-sub">All actions across your library</div>
+      <div class="section"><div id="activity-body"></div></div>
+    </div>
+    <div id="panel-detail" class="panel">
+      <button class="btn-back" onclick="showPanel(detailOriginPanel)">← Back</button>
+      <div id="detail-body"></div>
+    </div>
+    </div>
   </div>
 </div>
 
 <div id="toast"></div>
+
+<div id="row-menu"></div>
+
+<div class="modal-backdrop" id="remove-modal" onclick="handleRemoveBackdropClick(event)">
+  <div class="modal">
+    <div class="modal-title">Remove song</div>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:24px">Remove <span id="remove-song-name" style="color:var(--text);font-weight:500"></span> from your library? This cannot be undone.</div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeRemoveSong()">Cancel</button>
+      <button style="padding:7px 18px;font-size:13px;font-family:'IBM Plex Sans',sans-serif;background:var(--red-dim);border:1px solid rgba(192,57,43,0.35);color:#e57368;border-radius:var(--radius);cursor:pointer;transition:all 0.15s" onclick="confirmRemoveSong()">Remove</button>
+    </div>
+  </div>
+</div>
 
 <div class="modal-backdrop" id="add-modal" onclick="handleBackdropClick(event)">
   <div class="modal">
@@ -246,6 +301,20 @@
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeAddSong()">Cancel</button>
       <button class="btn-confirm" onclick="submitAddSong()">Add to library</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="review-settings-modal" onclick="handleReviewSettingsBackdropClick(event)">
+  <div class="modal">
+    <div class="modal-title">Review settings</div>
+    <div class="field">
+      <label>Max songs per day</label>
+      <input type="number" id="review-max-input" min="1" max="20">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeReviewSettings()">Cancel</button>
+      <button class="btn-confirm" onclick="submitReviewSettings()">Save</button>
     </div>
   </div>
 </div>
@@ -330,6 +399,10 @@ function initDB() {
     saveDB(db);
   }
   if(!db.activity) db.activity = [];
+  if(db.reviewMax === undefined) db.reviewMax = 1;
+  let needsSave = false;
+  Object.values(db.songs).forEach(sg => { if(sg.sortSeed === undefined) { sg.sortSeed = Math.random(); needsSave = true; } });
+  if(needsSave) saveDB(db);
   return db;
 }
 function getDB() { return initDB(); }
@@ -428,17 +501,60 @@ function getNextSong(db) {
   return Object.values(db.songs).find(s=>s.status==='untouched')||null;
 }
 
+function scoreSong(sg, tod) {
+  const overdue = Math.max(0, daysBetween(sg.nextReview, tod));
+  const fragility = (INTERVALS.length - 1) - Math.max(0, sg.intervalIdx);
+  const recent = (sg.reviews || []).slice(-5);
+  const failRate = recent.length > 0 ? recent.filter(r => !r.passed).length / recent.length : 0;
+  return overdue * 0.5 + fragility * 10 + failRate * 20;
+}
+function normalizeReviewQueue(db) {
+  const tod = todayInt();
+  const max = db.reviewMax || 1;
+  const active = Object.values(db.songs)
+    .filter(s=>s.status==='active'&&s.nextReview)
+    .sort((a,b)=>{ const d=scoreSong(b,tod)-scoreSong(a,tod); return d!==0?d:a.sortSeed-b.sortSeed; });
+  const due = active.filter(s=>s.nextReview<=tod);
+  let changed = false;
+  if(due.length > max) {
+    due.slice(max).forEach((sg,i)=>{ sg.nextReview = addDays(tod, i+1); changed = true; });
+  } else if(due.length < max) {
+    const upcoming = active.filter(s=>s.nextReview>tod);
+    upcoming.slice(0, max - due.length).forEach(sg=>{ sg.nextReview = tod; changed = true; });
+  }
+  return changed;
+}
+function toggleReviewMenu(e) {
+  e.stopPropagation();
+  document.getElementById('review-menu').classList.toggle('open');
+}
+function closeReviewMenu() { document.getElementById('review-menu').classList.remove('open'); }
+function openReviewSettings() {
+  closeReviewMenu();
+  const db = getDB();
+  document.getElementById('review-max-input').value = db.reviewMax || 1;
+  document.getElementById('review-settings-modal').classList.add('open');
+  setTimeout(()=>document.getElementById('review-max-input').focus(), 50);
+}
+function closeReviewSettings() { document.getElementById('review-settings-modal').classList.remove('open'); }
+function handleReviewSettingsBackdropClick(e) { if(e.target===document.getElementById('review-settings-modal')) closeReviewSettings(); }
+function submitReviewSettings() {
+  const val = parseInt(document.getElementById('review-max-input').value, 10);
+  if(!val || val < 1) return;
+  const db = getDB();
+  db.reviewMax = val;
+  saveDB(db); closeReviewSettings(); renderAll();
+  toast(`Max reviews per day set to ${val}.`);
+}
 function renderToday() {
   const db = getDB(), tod = todayInt();
-  const due = Object.values(db.songs).filter(s=>s.status==='active'&&s.nextReview&&s.nextReview<=tod).sort((a,b)=>a.nextReview-b.nextReview);
+  if(normalizeReviewQueue(db)) saveDB(db);
+  const due = Object.values(db.songs).filter(s=>s.status==='active'&&s.nextReview&&s.nextReview<=tod).sort((a,b)=>scoreSong(b,tod)-scoreSong(a,tod));
   const active = Object.values(db.songs).filter(s=>s.status==='active'||s.status==='graduated');
   const grad = Object.values(db.songs).filter(s=>s.currentLevel>=2);
-  document.getElementById('s-due').textContent = due.length;
-  document.getElementById('s-active').textContent = active.length;
-  document.getElementById('s-grad').textContent = grad.length;
-  document.getElementById('s-streak').textContent = db.streak||0;
   document.getElementById('today-date').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
-  document.getElementById('today-sub').textContent = due.length===0 ? 'No reviews due · keep the streak alive' : due.length===1 ? '1 review due today' : `${due.length} reviews due today`;
+  const streak = db.streak||0;
+  document.getElementById('today-sub').textContent = `${streak} day streak`;
   const csw = document.getElementById('current-song-wrap');
   if(db.currentNewSong && db.songs[db.currentNewSong]) {
     const sg = db.songs[db.currentNewSong];
@@ -453,7 +569,6 @@ function renderToday() {
     csw.innerHTML = next ? `<div class="current-song-card"><div class="current-song-dot" style="background:var(--text3);animation:none"></div><div class="current-song-info"><div class="label">Next suggested song</div><div class="name">${next.name}</div><div class="sub">${next.style||'Standard'} · ${next.baseLevel===1?'Already at level 1 — push to 2':'Starting from level 0'}</div></div>${lvlBadge(next.baseLevel)}<button class="btn-action" onclick="startLearning('${next.name.replace(/'/g,"\\'")}')">Start learning</button></div>` : '';
   }
   const rb = document.getElementById('reviews-body');
-  document.getElementById('rev-count').textContent = due.length ? `${due.length} song${due.length>1?'s':''}` : '';
   rb.innerHTML = due.length===0
     ? `<div class="all-clear"><div class="big">All clear</div><div style="font-size:12px;margin-top:4px">Check back tomorrow · or start a new song above</div></div>`
     : due.map(sg=>{
@@ -474,6 +589,7 @@ function renderLibrary() {
   // Also include user-added songs not in ALL_SONGS
   const seeded = new Set(ALL_SONGS.map(([n])=>n));
   Object.values(db.songs).forEach(s=>{ if(!seeded.has(s.name)) songs.push(s); });
+  songs.sort((a,b)=>a.name.localeCompare(b.name));
   if(q) songs = songs.filter(s=>s.name.toLowerCase().includes(q));
   if(lf!=='') songs = songs.filter(s=>s.baseLevel==lf);
   if(sf!=='') songs = songs.filter(s=>s.status===sf);
@@ -485,11 +601,8 @@ function renderLibrary() {
     if(sg.status==='graduated') statusBadge='<span class="badge badge-graduated">Graduated</span>';
     else if(sg.status==='active') statusBadge='<span class="badge badge-active">In review</span>';
     else if(sg.status==='learning') statusBadge='<span class="badge badge-learning">Learning</span>';
-    let action='';
-    if(sg.status==='untouched') action=`<button class="btn-action" onclick="startLearning('${sg.name.replace(/'/g,"\\'")}')">Start</button>`;
-    else if(sg.status==='learning') action=`<button class="btn-primary" onclick="markLearned('${sg.name.replace(/'/g,"\\'")}')">Mark level 2</button>`;
-    const editBtn = `<button class="btn-action" onclick="openEditSong('${sg.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}')">Edit</button>`;
-    return `<div class="song-row">${lvlBadge(sg.currentLevel)}${styleBadge(sg.style)}<span class="song-name">${sg.name}</span>${statusBadge}${action}${editBtn}</div>`;
+    const safeName = sg.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    return `<div class="song-row clickable" onclick="showSongDetail('${safeName}')">${lvlBadge(sg.currentLevel)}<div class="song-name-group"><span class="song-name">${sg.name}</span>${styleBadge(sg.style)}</div>${statusBadge}<button class="btn-dots" onclick="openRowMenu(event,'${safeName}')">···</button></div>`;
   }).join('');
 }
 
@@ -511,7 +624,8 @@ function renderQueue() {
     else if(daysUntil===0) { dueLabel='Due today'; dueCls='song-meta due'; }
     else { dueLabel=`In ${daysUntil}d`; dueCls='song-meta ok'; }
     const pills = INTERVALS.map((iv,i)=>`<span class="int-pill ${i<sg.intervalIdx?'done':i===sg.intervalIdx?'next':''}">${iv}d</span>`).join('');
-    return `<div class="song-row" style="align-items:flex-start">${lvlBadge(sg.currentLevel)}<div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;flex-wrap:wrap"><span class="song-name">${sg.name}</span><span class="${dueCls}">${dueLabel}</span></div><div class="interval-track">${pills}</div></div></div>`;
+    const safeName = sg.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    return `<div class="song-row clickable" style="align-items:flex-start" onclick="showSongDetail('${safeName}')">${lvlBadge(sg.currentLevel)}<div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;flex-wrap:wrap"><span class="song-name">${sg.name}</span><span class="${dueCls}">${dueLabel}</span></div><div class="interval-track">${pills}</div></div></div>`;
   }).join('');
 }
 
@@ -532,19 +646,82 @@ function renderProgress() {
   if(!nextNames.length){ nsb.innerHTML='<div class="empty">All priority songs started!</div>'; return; }
   nsb.innerHTML = nextNames.map((name,i)=>{
     const sg = db.songs[name];
-    return `<div class="song-row"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text3);width:22px">${i+1}</span>${lvlBadge(sg.baseLevel)}${styleBadge(sg.style)}<span class="song-name">${name}</span><button class="btn-action" onclick="startLearning('${name.replace(/'/g,"\\'")}')">Start</button></div>`;
+    const safeName = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    return `<div class="song-row clickable" onclick="showSongDetail('${safeName}')"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text3);width:22px">${i+1}</span>${lvlBadge(sg.baseLevel)}<div class="song-name-group"><span class="song-name">${name}</span>${styleBadge(sg.style)}</div><button class="btn-dots" onclick="openRowMenu(event,'${safeName}')">···</button></div>`;
   }).join('');
 }
 
+function formatActivityEntry(entry) {
+  switch(entry.type) {
+    case 'started_learning': return { dot:'blue',  label:'Started learning',         detail:entry.name };
+    case 'practiced':        return { dot:'gold',  label:'Practiced',                detail:entry.name };
+    case 'learned':          return { dot:'green', label:'Marked as Level 2',        detail:entry.name };
+    case 'review':           return { dot:entry.passed?'green':'red', label:entry.passed?'Passed review':'Failed review', detail:entry.name };
+    case 'song_added':       return { dot:'blue',  label:'Added to library',         detail:entry.name };
+    case 'song_edited':      return { dot:'dim',   label:(entry.oldLevel!==undefined&&entry.oldLevel!==entry.level)?`Familiarity updated to Level ${entry.level}`:'Song details updated', detail:entry.name||entry.oldName };
+    case 'stopped_learning': return { dot:'dim',   label:'Stopped learning',         detail:entry.name };
+    case 'song_removed':     return { dot:'red',   label:'Removed from library',     detail:entry.name };
+    default:                 return { dot:'dim',   label:entry.type,                 detail:entry.name||'' };
+  }
+}
+function renderActivity() {
+  const db = getDB();
+  const ab = document.getElementById('activity-body');
+  if(!db.activity||!db.activity.length){ ab.innerHTML='<div class="empty">No activity yet.</div>'; return; }
+  const sorted = [...db.activity].sort((a,b)=>b.ts-a.ts);
+  ab.innerHTML = sorted.map(entry=>{
+    const {dot,label,detail} = formatActivityEntry(entry);
+    const d = new Date(entry.ts);
+    const dateStr = d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+    const timeStr = d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+    return `<div class="timeline-entry"><div class="timeline-dot ${dot}"></div><div><div class="timeline-label">${label} — <span style="color:var(--text2)">${detail}</span></div><div class="timeline-meta">${dateStr} · ${timeStr}</div></div></div>`;
+  }).join('');
+}
+let detailOriginPanel = 'library';
+function showSongDetail(name) {
+  const active = document.querySelector('.panel.active');
+  detailOriginPanel = active ? active.id.replace('panel-','') : 'library';
+  renderSongDetail(name);
+  showPanel('detail');
+}
+function renderSongDetail(name) {
+  const db = getDB(), tod = todayInt();
+  const sg = db.songs[name];
+  const container = document.getElementById('detail-body');
+  if(!sg){ container.innerHTML='<div class="empty">Song not found.</div>'; return; }
+  let statusBadge='';
+  if(sg.status==='graduated') statusBadge='<span class="badge badge-graduated">Graduated</span>';
+  else if(sg.status==='active') statusBadge='<span class="badge badge-active">In review</span>';
+  else if(sg.status==='learning') statusBadge='<span class="badge badge-learning">Learning</span>';
+  const pills = sg.intervalIdx>=0
+    ? `<div style="margin-top:10px"><div class="interval-track">${INTERVALS.map((iv,i)=>`<span class="int-pill ${i<sg.intervalIdx?'done':i===sg.intervalIdx?'next':''}">${iv}d</span>`).join('')}</div></div>`
+    : '';
+  const nextReview = sg.nextReview
+    ? (()=>{ const d=new Date(Math.floor(sg.nextReview/10000),Math.floor((sg.nextReview%10000)/100)-1,sg.nextReview%100); return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); })()
+    : '—';
+  const header = `<div class="detail-header"><div class="detail-header-top"><span class="detail-title">${sg.name}</span>${styleBadge(sg.style)}${lvlBadge(sg.currentLevel)}${statusBadge}</div>${pills}<div class="detail-meta-grid"><div class="detail-meta-field"><div class="label">Next review</div><div class="value">${nextReview}</div></div><div class="detail-meta-field"><div class="label">Composer</div><div class="value placeholder">${sg.composer||'—'}</div></div><div class="detail-meta-field"><div class="label">Year</div><div class="value placeholder">${sg.publishDate||'—'}</div></div></div></div>`;
+  const entries = (db.activity||[]).filter(e=>e.name===name||e.oldName===name).sort((a,b)=>b.ts-a.ts);
+  const timeline = entries.length===0
+    ? '<div class="empty">No activity for this song yet.</div>'
+    : entries.map(entry=>{
+        const {dot,label} = formatActivityEntry(entry);
+        const d = new Date(entry.ts);
+        const dateStr = d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+        const timeStr = d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+        return `<div class="timeline-entry"><div class="timeline-dot ${dot}"></div><div><div class="timeline-label">${label}</div><div class="timeline-meta">${dateStr} · ${timeStr}</div></div></div>`;
+      }).join('');
+  container.innerHTML = header + `<div class="section"><div class="section-head"><h2>Activity</h2></div>${timeline}</div>`;
+}
 function showPanel(id) {
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
-  const idx = ['today','library','queue','progress'].indexOf(id);
+  const idx = ['today','library','queue','progress','activity'].indexOf(id);
   if(idx>=0) document.querySelectorAll('.nav-item')[idx].classList.add('active');
   if(id==='library') renderLibrary();
   if(id==='queue') renderQueue();
   if(id==='progress') renderProgress();
+  if(id==='activity') renderActivity();
 }
 function renderAll() {
   renderToday();
@@ -554,6 +731,7 @@ function renderAll() {
     if(id==='library') renderLibrary();
     if(id==='queue') renderQueue();
     if(id==='progress') renderProgress();
+    if(id==='activity') renderActivity();
   }
 }
 
@@ -598,7 +776,44 @@ function submitAddSong() {
   saveDB(db); closeAddSong(); renderAll();
   toast(`"${name}" added to ${lvl>=2?'review queue':'backlog'}.`);
 }
-document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeAddSong(); closeEditSong(); } });
+let removeSongName = null;
+function openRemoveSong(name) {
+  removeSongName = name;
+  document.getElementById('remove-song-name').textContent = name;
+  document.getElementById('remove-modal').classList.add('open');
+}
+function closeRemoveSong() { document.getElementById('remove-modal').classList.remove('open'); removeSongName = null; }
+function handleRemoveBackdropClick(e) { if(e.target===document.getElementById('remove-modal')) closeRemoveSong(); }
+function confirmRemoveSong() {
+  if(!removeSongName) return;
+  const db = getDB();
+  logActivity(db, 'song_removed', { name: removeSongName });
+  delete db.songs[removeSongName];
+  if(db.currentNewSong === removeSongName) db.currentNewSong = null;
+  saveDB(db); closeRemoveSong(); renderAll();
+  toast(`"${removeSongName}" removed.`);
+}
+function openRowMenu(e, name) {
+  e.stopPropagation();
+  const db = getDB();
+  const sg = db.songs[name];
+  if(!sg) return;
+  const safeName = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  const items = [];
+  if(sg.status==='untouched') items.push(`<div class="dropdown-item" onclick="startLearning('${safeName}');closeRowMenu()">Start learning</div>`);
+  else if(sg.status==='learning') items.push(`<div class="dropdown-item" onclick="markLearned('${safeName}');closeRowMenu()">Mark as level 2</div>`);
+  items.push(`<div class="dropdown-item" onclick="openEditSong('${safeName}');closeRowMenu()">Edit</div>`);
+  items.push(`<div class="dropdown-item danger" onclick="openRemoveSong('${safeName}');closeRowMenu()">Remove</div>`);
+  const menu = document.getElementById('row-menu');
+  menu.innerHTML = items.join('');
+  const rect = e.currentTarget.getBoundingClientRect();
+  menu.style.top = (rect.bottom + 4) + 'px';
+  menu.style.right = (window.innerWidth - rect.right) + 'px';
+  menu.classList.add('open');
+}
+function closeRowMenu() { document.getElementById('row-menu').classList.remove('open'); }
+document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeAddSong(); closeEditSong(); closeReviewSettings(); closeReviewMenu(); closeRowMenu(); closeRemoveSong(); } });
+document.addEventListener('click', ()=>{ closeReviewMenu(); closeRowMenu(); });
 
 let editOriginalName = null;
 let editSelectedLevel = 0;
@@ -638,6 +853,7 @@ function submitEditSong() {
     document.getElementById('edit-name').focus(); return;
   }
   const sg = db.songs[editOriginalName];
+  const oldLevel = sg.baseLevel;
   sg.name = newName;
   sg.style = style;
   sg.baseLevel = lvl;
@@ -646,7 +862,7 @@ function submitEditSong() {
     delete db.songs[editOriginalName];
     if(db.currentNewSong === editOriginalName) db.currentNewSong = newName;
   }
-  logActivity(db, 'song_edited', { oldName: editOriginalName, name: newName, style, level: lvl });
+  logActivity(db, 'song_edited', { oldName: editOriginalName, name: newName, style, level: lvl, oldLevel });
   saveDB(db); closeEditSong(); renderAll();
   toast(`"${newName}" updated.`);
 }
