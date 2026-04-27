@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(gh repo *)"
+      "Bash(gh repo *)",
+      "Bash(xargs kill *)",
+      "Bash(python3 -c \"import json; json.load\\(open\\('/Users/rothrock/Desktop/Standards Practice/web/backups/jazz-tracker-2026-04-19.json'\\)\\); print\\('valid'\\)\")",
+      "Bash(node -e ' *)"
     ]
   }
 }

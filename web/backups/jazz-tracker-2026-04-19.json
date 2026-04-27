@@ -29,7 +29,7 @@
       "style": "Trad",
       "status": "active",
       "intervalIdx": 0,
-      "nextReview": 20260420,
+      "nextReview": 20260419,
       "learnedDate": 20260419,
       "reviews": []
     },
@@ -2994,6 +2994,14 @@
     }
   },
   "currentNewSong": "Anthropology",
-  "streak": 0,
-  "lastPracticeDay": null
+  "streak": 1,
+  "lastPracticeDay": 20260419,
+  "activity": [
+    {
+      "ts": 1776634938073,
+      "date": 20260419,
+      "type": "practiced",
+      "name": "Anthropology"
+    }
+  ]
 }

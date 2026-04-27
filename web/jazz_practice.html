@@ -70,8 +70,8 @@
   .btn-pass, .btn-fail, .btn-action { font-size: 12px; font-family: 'IBM Plex Sans', sans-serif; padding: 5px 14px; border-radius: var(--radius); cursor: pointer; border: 1px solid; transition: all 0.15s; white-space: nowrap; }
   .btn-pass { background: var(--green-dim); border-color: rgba(39,174,96,0.3); color: #5dba7e; }
   .btn-pass:hover { background: rgba(39,174,96,0.2); }
-  .btn-fail { background: var(--red-dim); border-color: rgba(192,57,43,0.3); color: #e57368; }
-  .btn-fail:hover { background: rgba(192,57,43,0.2); }
+  .btn-fail { background: var(--gold-dim); border-color: rgba(201,168,76,0.3); color: var(--gold2); }
+  .btn-fail:hover { background: rgba(201,168,76,0.2); }
   .btn-action { background: transparent; border-color: var(--border2); color: var(--text2); }
   .btn-action:hover { border-color: var(--gold); color: var(--gold); }
   .btn-primary { background: var(--gold-dim); border: 1px solid rgba(201,168,76,0.3); color: var(--gold2); font-size: 12px; font-family: 'IBM Plex Sans', sans-serif; padding: 5px 14px; border-radius: var(--radius); cursor: pointer; transition: all 0.15s; }
@@ -173,11 +173,11 @@
         Today
       </div>
       <div class="nav-item" onclick="showPanel('library')">
-        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3h12M2 6h12M2 9h8M2 12h5"/></svg>
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="2" width="10" height="12" rx="1"/><path d="M6 2v12M3 5h3M3 8h3"/></svg>
         Library
       </div>
       <div class="nav-item" onclick="showPanel('queue')">
-        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3.5l2.5 1.5"/></svg>
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3h12M2 6h12M2 9h8M2 12h5"/></svg>
         Review Queue
       </div>
       <div class="nav-item" onclick="showPanel('progress')">
@@ -452,11 +452,11 @@ function doReview(name, passed) {
     sg.intervalIdx = nextIdx;
     sg.nextReview = addDays(todayInt(), INTERVALS[nextIdx]);
     if(nextIdx >= INTERVALS.length-1) { sg.status='graduated'; sg.currentLevel=3; toast(`${name} graduated! Level 3.`); }
-    else { toast(`Pass — next review in ${INTERVALS[nextIdx]} days`); }
+    else { toast(`Reviewed — next review in ${INTERVALS[nextIdx]} days`); }
   } else {
     sg.intervalIdx = 0;
     sg.nextReview = addDays(todayInt(), INTERVALS[0]);
-    toast(`Fail — reset to 1-day interval`);
+    toast(`Continue tomorrow — back in 1 day`);
   }
   updateStreak(db); saveDB(db); renderAll();
 }
@@ -514,13 +514,15 @@ function normalizeReviewQueue(db) {
   const active = Object.values(db.songs)
     .filter(s=>s.status==='active'&&s.nextReview)
     .sort((a,b)=>{ const d=scoreSong(b,tod)-scoreSong(a,tod); return d!==0?d:a.sortSeed-b.sortSeed; });
-  const due = active.filter(s=>s.nextReview<=tod);
+  const due = active.filter(s=>s.nextReview<=tod && !(s.reviews||[]).some(r=>r.date===tod));
+  const reviewedCount = active.filter(s=>(s.reviews||[]).some(r=>r.date===tod)).length;
+  const slotsUsed = due.length + reviewedCount;
   let changed = false;
-  if(due.length > max) {
-    due.slice(max).forEach((sg,i)=>{ sg.nextReview = addDays(tod, i+1); changed = true; });
-  } else if(due.length < max) {
-    const upcoming = active.filter(s=>s.nextReview>tod);
-    upcoming.slice(0, max - due.length).forEach(sg=>{ sg.nextReview = tod; changed = true; });
+  if(due.length > max - reviewedCount) {
+    due.slice(max - reviewedCount).forEach((sg,i)=>{ sg.nextReview = addDays(tod, i+1); changed = true; });
+  } else if(slotsUsed < max && reviewedCount === 0) {
+    const upcoming = active.filter(s=>s.nextReview>tod && !(s.reviews||[]).some(r=>r.date===tod));
+    upcoming.slice(0, max - slotsUsed).forEach(sg=>{ sg.nextReview = tod; changed = true; });
   }
   return changed;
 }
@@ -549,7 +551,7 @@ function submitReviewSettings() {
 function renderToday() {
   const db = getDB(), tod = todayInt();
   if(normalizeReviewQueue(db)) saveDB(db);
-  const due = Object.values(db.songs).filter(s=>s.status==='active'&&s.nextReview&&s.nextReview<=tod).sort((a,b)=>scoreSong(b,tod)-scoreSong(a,tod));
+  const due = Object.values(db.songs).filter(s=>s.status==='active'&&s.nextReview&&s.nextReview<=tod&&!(s.reviews||[]).some(r=>r.date===tod)).sort((a,b)=>scoreSong(b,tod)-scoreSong(a,tod));
   const active = Object.values(db.songs).filter(s=>s.status==='active'||s.status==='graduated');
   const grad = Object.values(db.songs).filter(s=>s.currentLevel>=2);
   document.getElementById('today-date').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
@@ -563,19 +565,22 @@ function renderToday() {
     const practiceBtn = alreadyPracticed
       ? `<button class="btn-action" style="color:var(--green);border-color:rgba(39,174,96,0.3)" disabled>&#x2713; Practiced</button>`
       : `<button class="btn-action" onclick="markPracticed('${safeName}')">Mark as practiced</button>`;
-    csw.innerHTML = `<div class="current-song-card"><div class="current-song-dot"></div><div class="current-song-info"><div class="label">Currently learning</div><div class="name">${sg.name}</div><div class="sub">${sg.style||'Standard'} · Work on this all week · 10 min/day</div></div>${lvlBadge(sg.baseLevel)}${practiceBtn}<button class="btn-primary" onclick="markLearned('${safeName}')">Mark as level 2</button></div>`;
+    csw.innerHTML = `<div class="current-song-card"><div class="current-song-dot"></div><div class="current-song-info" style="cursor:pointer" onclick="showSongDetail('${safeName}')"><div class="label">Currently learning</div><div class="name">${sg.name}</div><div class="sub">${sg.style||'Standard'} · Work on this all week · 10 min/day</div></div>${lvlBadge(sg.baseLevel)}${practiceBtn}<button class="btn-primary" onclick="markLearned('${safeName}')">Mark as level 2</button></div>`;
   } else {
     const next = getNextSong(db);
     csw.innerHTML = next ? `<div class="current-song-card"><div class="current-song-dot" style="background:var(--text3);animation:none"></div><div class="current-song-info"><div class="label">Next suggested song</div><div class="name">${next.name}</div><div class="sub">${next.style||'Standard'} · ${next.baseLevel===1?'Already at level 1 — push to 2':'Starting from level 0'}</div></div>${lvlBadge(next.baseLevel)}<button class="btn-action" onclick="startLearning('${next.name.replace(/'/g,"\\'")}')">Start learning</button></div>` : '';
   }
   const rb = document.getElementById('reviews-body');
+  const reviewedToday = Object.values(db.songs).some(s=>(s.reviews||[]).some(r=>r.date===tod));
   rb.innerHTML = due.length===0
-    ? `<div class="all-clear"><div class="big">All clear</div><div style="font-size:12px;margin-top:4px">Check back tomorrow · or start a new song above</div></div>`
+    ? (reviewedToday
+        ? `<div class="all-clear"><div class="big">Reviews done</div><div style="font-size:12px;margin-top:4px">Nothing left to review today · check back tomorrow</div></div>`
+        : `<div class="all-clear"><div class="big">All clear</div><div style="font-size:12px;margin-top:4px">Check back tomorrow · or start a new song above</div></div>`)
+
     : due.map(sg=>{
-        const overdue = daysBetween(sg.nextReview, tod);
-        const meta = overdue>0 ? `<span class="song-meta urgent">${overdue}d overdue</span>` : `<span class="song-meta due">Due today</span>`;
         const intLabel = sg.intervalIdx>=0 ? `<span style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${INTERVALS[sg.intervalIdx]}d interval</span>` : '';
-        return `<div class="song-row">${lvlBadge(sg.currentLevel)}${styleBadge(sg.style)}<span class="song-name">${sg.name}</span>${intLabel}${meta}<button class="btn-pass" onclick="doReview('${sg.name.replace(/'/g,"\\'")}',true)">Pass</button><button class="btn-fail" onclick="doReview('${sg.name.replace(/'/g,"\\'")}',false)">Fail</button></div>`;
+        const safeN = sg.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+        return `<div class="song-row clickable" onclick="showSongDetail('${safeN}')">${lvlBadge(sg.currentLevel)}<div class="song-name-group"><span class="song-name">${sg.name}</span>${styleBadge(sg.style)}</div>${intLabel}<button class="btn-pass" onclick="doReview('${safeN}',true);event.stopPropagation()">Reviewed</button><button class="btn-fail" onclick="doReview('${safeN}',false);event.stopPropagation()">Continue tomorrow</button></div>`;
       }).join('');
 }
 
@@ -616,16 +621,10 @@ function renderQueue() {
   const qb = document.getElementById('queue-body');
   if(!songs.length){ qb.innerHTML='<div class="empty">No songs in the review queue yet.</div>'; return; }
   qb.innerHTML = songs.map(sg=>{
-    const daysUntil = sg.nextReview ? daysBetween(tod, sg.nextReview) : null;
-    let dueLabel='', dueCls='song-meta';
-    if(sg.status==='graduated') { dueLabel='Graduated'; dueCls='song-meta ok'; }
-    else if(daysUntil===null) { dueLabel='—'; }
-    else if(daysUntil<0) { dueLabel=`${Math.abs(daysUntil)}d overdue`; dueCls='song-meta urgent'; }
-    else if(daysUntil===0) { dueLabel='Due today'; dueCls='song-meta due'; }
-    else { dueLabel=`In ${daysUntil}d`; dueCls='song-meta ok'; }
+    const graduatedBadge = sg.status==='graduated' ? '<span class="badge badge-graduated">Graduated</span>' : '';
     const pills = INTERVALS.map((iv,i)=>`<span class="int-pill ${i<sg.intervalIdx?'done':i===sg.intervalIdx?'next':''}">${iv}d</span>`).join('');
     const safeName = sg.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-    return `<div class="song-row clickable" style="align-items:flex-start" onclick="showSongDetail('${safeName}')">${lvlBadge(sg.currentLevel)}<div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;flex-wrap:wrap"><span class="song-name">${sg.name}</span><span class="${dueCls}">${dueLabel}</span></div><div class="interval-track">${pills}</div></div></div>`;
+    return `<div class="song-row clickable" style="align-items:flex-start" onclick="showSongDetail('${safeName}')">${lvlBadge(sg.currentLevel)}<div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;flex-wrap:wrap"><span class="song-name">${sg.name}</span>${graduatedBadge}</div><div class="interval-track">${pills}</div></div></div>`;
   }).join('');
 }
 
@@ -656,7 +655,7 @@ function formatActivityEntry(entry) {
     case 'started_learning': return { dot:'blue',  label:'Started learning',         detail:entry.name };
     case 'practiced':        return { dot:'gold',  label:'Practiced',                detail:entry.name };
     case 'learned':          return { dot:'green', label:'Marked as Level 2',        detail:entry.name };
-    case 'review':           return { dot:entry.passed?'green':'red', label:entry.passed?'Passed review':'Failed review', detail:entry.name };
+    case 'review':           return { dot:entry.passed?'green':'gold', label:entry.passed?'Reviewed':'Continued', detail:entry.name };
     case 'song_added':       return { dot:'blue',  label:'Added to library',         detail:entry.name };
     case 'song_edited':      return { dot:'dim',   label:(entry.oldLevel!==undefined&&entry.oldLevel!==entry.level)?`Familiarity updated to Level ${entry.level}`:'Song details updated', detail:entry.name||entry.oldName };
     case 'stopped_learning': return { dot:'dim',   label:'Stopped learning',         detail:entry.name };
