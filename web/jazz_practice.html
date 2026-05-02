@@ -158,6 +158,14 @@
   .dropdown-item:hover { background: var(--bg2); color: var(--text); }
   .dropdown-item.danger { color: var(--red); }
   .dropdown-item.danger:hover { background: var(--red-dim); color: #e57368; }
+  .modal-lg { width: 540px; }
+  .onboard-level-row { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); }
+  .onboard-level-row:last-child { border-bottom: none; }
+  .onboard-level-desc { font-size: 12px; color: var(--text2); line-height: 1.5; }
+  .onboard-level-desc small { display: block; font-size: 11px; color: var(--text3); margin-top: 1px; font-style: italic; }
+  .ranker-count { font-size: 11px; font-family: 'IBM Plex Mono', monospace; color: var(--text3); }
+  .ranker-song-title { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--text); margin: 18px 0 5px; }
+  .ranker-song-meta { font-size: 11px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.03em; }
 </style>
 </head>
 <body>
@@ -194,6 +202,7 @@
       <button class="btn-sm" onclick="exportData()">Export backup</button>
       <button class="btn-sm" onclick="document.getElementById('import-input').click()">Import backup</button>
       <input type="file" id="import-input" accept=".json" onchange="importData(event)">
+      <button class="btn-sm" onclick="openResetConfirm()" style="border-color:rgba(192,57,43,0.35);color:#e57368">Reset all data</button>
     </div>
   </div>
   <div class="main">
@@ -272,6 +281,73 @@
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeRemoveSong()">Cancel</button>
       <button style="padding:7px 18px;font-size:13px;font-family:'IBM Plex Sans',sans-serif;background:var(--red-dim);border:1px solid rgba(192,57,43,0.35);color:#e57368;border-radius:var(--radius);cursor:pointer;transition:all 0.15s" onclick="confirmRemoveSong()">Remove</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="reset-modal" onclick="handleResetBackdropClick(event)">
+  <div class="modal">
+    <div class="modal-title">Reset all data</div>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:24px">This will permanently delete all your songs, reviews, activity, and progress. You cannot undo this. Export a backup first if you want to keep your data.</div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeResetConfirm()">Cancel</button>
+      <button style="padding:7px 18px;font-size:13px;font-family:'IBM Plex Sans',sans-serif;background:var(--red-dim);border:1px solid rgba(192,57,43,0.35);color:#e57368;border-radius:var(--radius);cursor:pointer;transition:all 0.15s" onclick="confirmReset()">Reset everything</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="welcome-modal">
+  <div class="modal">
+    <div class="modal-title">Rate your standards</div>
+    <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:20px">Before you start practicing, tell us how well you know each standard. This takes about 10–15 minutes and lets the app build a personalized schedule from day one.</p>
+    <div style="font-size:11px;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:0.06em;color:var(--text3);margin-bottom:10px">Familiarity levels</div>
+    <div style="margin-bottom:24px">
+      <div class="onboard-level-row">
+        <span class="badge badge-0" style="margin-top:2px;flex-shrink:0">0</span>
+        <div class="onboard-level-desc">Complete unfamiliarity<small>Never played it, or only barely know the name</small></div>
+      </div>
+      <div class="onboard-level-row">
+        <span class="badge badge-1" style="margin-top:2px;flex-shrink:0">1</span>
+        <div class="onboard-level-desc">Could fake my way through in a pinch<small>Know the rough shape but wouldn't call it in public</small></div>
+      </div>
+      <div class="onboard-level-row">
+        <span class="badge badge-2" style="margin-top:2px;flex-shrink:0">2</span>
+        <div class="onboard-level-desc">Comfortable enough to play at a jam session<small>Solid on the changes, presentable performance</small></div>
+      </div>
+      <div class="onboard-level-row">
+        <span class="badge badge-3" style="margin-top:2px;flex-shrink:0">3</span>
+        <div class="onboard-level-desc">Second nature — fully performance-ready<small>Deep in the repertoire, play it without thinking</small></div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="skipOnboarding()">Do this later</button>
+      <button class="btn-confirm" onclick="startOnboarding()">Get started</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="ranker-modal">
+  <div class="modal modal-lg">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <span class="ranker-count">Song <span id="ranker-idx">1</span> of <span id="ranker-total">272</span></span>
+      <button class="btn-cancel" style="padding:4px 14px;font-size:12px" onclick="rankerFinish()">Finish &amp; save</button>
+    </div>
+    <div class="prog-wrap"><div class="prog-bar" id="ranker-prog-bar" style="width:0%"></div></div>
+    <div class="ranker-song-title" id="ranker-song-name"></div>
+    <div class="ranker-song-meta" id="ranker-song-meta"></div>
+    <div class="field" style="margin-top:20px">
+      <label>Familiarity level</label>
+      <div class="level-picker">
+        <button class="level-btn" data-ranker-lvl="0" onclick="rankerSetLevel(0)">0</button>
+        <button class="level-btn" data-ranker-lvl="1" onclick="rankerSetLevel(1)">1</button>
+        <button class="level-btn" data-ranker-lvl="2" onclick="rankerSetLevel(2)">2</button>
+        <button class="level-btn" data-ranker-lvl="3" onclick="rankerSetLevel(3)">3</button>
+      </div>
+      <div class="level-desc" id="ranker-lvl-desc"></div>
+    </div>
+    <div class="modal-actions" style="justify-content:space-between">
+      <button class="btn-cancel" id="ranker-back-btn" onclick="rankerBack()">← Back</button>
+      <button class="btn-confirm" id="ranker-next-btn" onclick="rankerNext()">Next →</button>
     </div>
   </div>
 </div>
@@ -385,14 +461,15 @@ function logActivity(db, type, data) {
 function initDB() {
   let db = loadDB();
   if(!db) {
-    db = { songs:{}, currentNewSong:null, streak:0, lastPracticeDay:null, activity:[] };
-    ALL_SONGS.forEach(([name,lvl,style])=>{
+    db = { songs:{}, currentNewSong:null, streak:0, lastPracticeDay:null, activity:[], onboardingComplete:false };
+    ALL_SONGS.forEach(([name,style,composer,year])=>{
       db.songs[name] = {
-        name, baseLevel:lvl, currentLevel:lvl, style,
-        status: lvl>=2 ? 'active' : 'untouched',
-        intervalIdx: lvl>=2 ? 0 : -1,
-        nextReview: lvl>=2 ? addDays(todayInt(),1) : null,
-        learnedDate: lvl>=2 ? todayInt() : null,
+        name, style, composer, year,
+        baseLevel:0, currentLevel:0,
+        status:'untouched',
+        intervalIdx:-1,
+        nextReview:null,
+        learnedDate:null,
         reviews:[]
       };
     });
@@ -400,8 +477,15 @@ function initDB() {
   }
   if(!db.activity) db.activity = [];
   if(db.reviewMax === undefined) db.reviewMax = 1;
+  if(db.onboardingComplete === undefined) db.onboardingComplete = true;
   let needsSave = false;
-  Object.values(db.songs).forEach(sg => { if(sg.sortSeed === undefined) { sg.sortSeed = Math.random(); needsSave = true; } });
+  const seedMap = new Map(ALL_SONGS.map(([name,style,composer,year])=>[name,{composer,year}]));
+  Object.values(db.songs).forEach(sg => {
+    if(sg.sortSeed === undefined) { sg.sortSeed = Math.random(); needsSave = true; }
+    const seed = seedMap.get(sg.name);
+    if(seed && sg.composer === undefined) { sg.composer = seed.composer; needsSave = true; }
+    if(seed && sg.year === undefined) { sg.year = seed.year; needsSave = true; }
+  });
   if(needsSave) saveDB(db);
   return db;
 }
@@ -510,7 +594,7 @@ function scoreSong(sg, tod) {
 }
 function normalizeReviewQueue(db) {
   const tod = todayInt();
-  const max = db.reviewMax || 1;
+  const max = (db.reviewMax || 1) + getExtraReviewCount(db);
   const active = Object.values(db.songs)
     .filter(s=>s.status==='active'&&s.nextReview)
     .sort((a,b)=>{ const d=scoreSong(b,tod)-scoreSong(a,tod); return d!==0?d:a.sortSeed-b.sortSeed; });
@@ -548,6 +632,24 @@ function submitReviewSettings() {
   saveDB(db); closeReviewSettings(); renderAll();
   toast(`Max reviews per day set to ${val}.`);
 }
+function getExtraReviewCount(db) {
+  if(!db.extraReviewsToday || db.extraReviewsToday.date !== todayInt()) return 0;
+  return db.extraReviewsToday.count || 0;
+}
+function reviewAnotherSong() {
+  const db = getDB(), tod = todayInt();
+  const upcoming = Object.values(db.songs)
+    .filter(s=>s.status==='active'&&s.nextReview&&s.nextReview>tod&&!(s.reviews||[]).some(r=>r.date===tod))
+    .sort((a,b)=>{ const d=scoreSong(b,tod)-scoreSong(a,tod); return d!==0?d:a.sortSeed-b.sortSeed; });
+  if(!upcoming.length){ toast('No more songs available to review.'); return; }
+  upcoming[0].nextReview = tod;
+  if(!db.extraReviewsToday || db.extraReviewsToday.date !== tod) {
+    db.extraReviewsToday = { date: tod, count: 1 };
+  } else {
+    db.extraReviewsToday.count++;
+  }
+  saveDB(db); renderAll();
+}
 function renderToday() {
   const db = getDB(), tod = todayInt();
   if(normalizeReviewQueue(db)) saveDB(db);
@@ -565,16 +667,17 @@ function renderToday() {
     const practiceBtn = alreadyPracticed
       ? `<button class="btn-action" style="color:var(--green);border-color:rgba(39,174,96,0.3)" disabled>&#x2713; Practiced</button>`
       : `<button class="btn-action" onclick="markPracticed('${safeName}')">Mark as practiced</button>`;
-    csw.innerHTML = `<div class="current-song-card"><div class="current-song-dot"></div><div class="current-song-info" style="cursor:pointer" onclick="showSongDetail('${safeName}')"><div class="label">Currently learning</div><div class="name">${sg.name}</div><div class="sub">${sg.style||'Standard'} · Work on this all week · 10 min/day</div></div>${lvlBadge(sg.baseLevel)}${practiceBtn}<button class="btn-primary" onclick="markLearned('${safeName}')">Mark as level 2</button></div>`;
+    csw.innerHTML = `<div class="current-song-card"><div class="current-song-dot"></div><div class="current-song-info" style="cursor:pointer" onclick="showSongDetail('${safeName}')"><div class="label">Currently learning</div><div class="name">${sg.name}</div><div class="sub">${sg.style||'Standard'} · Work on this all week</div></div>${lvlBadge(sg.baseLevel)}${practiceBtn}<button class="btn-primary" onclick="markLearned('${safeName}')">Mark as level 2</button></div>`;
   } else {
     const next = getNextSong(db);
     csw.innerHTML = next ? `<div class="current-song-card"><div class="current-song-dot" style="background:var(--text3);animation:none"></div><div class="current-song-info"><div class="label">Next suggested song</div><div class="name">${next.name}</div><div class="sub">${next.style||'Standard'} · ${next.baseLevel===1?'Already at level 1 — push to 2':'Starting from level 0'}</div></div>${lvlBadge(next.baseLevel)}<button class="btn-action" onclick="startLearning('${next.name.replace(/'/g,"\\'")}')">Start learning</button></div>` : '';
   }
   const rb = document.getElementById('reviews-body');
   const reviewedToday = Object.values(db.songs).some(s=>(s.reviews||[]).some(r=>r.date===tod));
+  const hasUpcoming = Object.values(db.songs).some(s=>s.status==='active'&&s.nextReview&&s.nextReview>tod&&!(s.reviews||[]).some(r=>r.date===tod));
   rb.innerHTML = due.length===0
     ? (reviewedToday
-        ? `<div class="all-clear"><div class="big">Reviews done</div><div style="font-size:12px;margin-top:4px">Nothing left to review today · check back tomorrow</div></div>`
+        ? `<div class="all-clear"><div class="big">Reviews done</div><div style="font-size:12px;margin-top:4px">Nothing left to review today · check back tomorrow</div>${hasUpcoming?`<button class="btn-action" style="margin-top:14px;font-size:12px" onclick="reviewAnotherSong()">Review another song</button>`:''}</div>`
         : `<div class="all-clear"><div class="big">All clear</div><div style="font-size:12px;margin-top:4px">Check back tomorrow · or start a new song above</div></div>`)
 
     : due.map(sg=>{
@@ -698,7 +801,7 @@ function renderSongDetail(name) {
   const nextReview = sg.nextReview
     ? (()=>{ const d=new Date(Math.floor(sg.nextReview/10000),Math.floor((sg.nextReview%10000)/100)-1,sg.nextReview%100); return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); })()
     : '—';
-  const header = `<div class="detail-header"><div class="detail-header-top"><span class="detail-title">${sg.name}</span>${styleBadge(sg.style)}${lvlBadge(sg.currentLevel)}${statusBadge}</div>${pills}<div class="detail-meta-grid"><div class="detail-meta-field"><div class="label">Next review</div><div class="value">${nextReview}</div></div><div class="detail-meta-field"><div class="label">Composer</div><div class="value placeholder">${sg.composer||'—'}</div></div><div class="detail-meta-field"><div class="label">Year</div><div class="value placeholder">${sg.publishDate||'—'}</div></div></div></div>`;
+  const header = `<div class="detail-header"><div class="detail-header-top"><span class="detail-title">${sg.name}</span>${styleBadge(sg.style)}${lvlBadge(sg.currentLevel)}${statusBadge}</div>${pills}<div class="detail-meta-grid"><div class="detail-meta-field"><div class="label">Next review</div><div class="value">${nextReview}</div></div><div class="detail-meta-field"><div class="label">Composer</div><div class="value${sg.composer?'':' placeholder'}">${sg.composer||'—'}</div></div><div class="detail-meta-field"><div class="label">Year</div><div class="value${sg.year?'':' placeholder'}">${sg.year||'—'}</div></div></div></div>`;
   const entries = (db.activity||[]).filter(e=>e.name===name||e.oldName===name).sort((a,b)=>b.ts-a.ts);
   const timeline = entries.length===0
     ? '<div class="empty">No activity for this song yet.</div>'
@@ -792,6 +895,14 @@ function confirmRemoveSong() {
   saveDB(db); closeRemoveSong(); renderAll();
   toast(`"${removeSongName}" removed.`);
 }
+function openResetConfirm() { document.getElementById('reset-modal').classList.add('open'); }
+function closeResetConfirm() { document.getElementById('reset-modal').classList.remove('open'); }
+function handleResetBackdropClick(e) { if(e.target===document.getElementById('reset-modal')) closeResetConfirm(); }
+function confirmReset() {
+  localStorage.removeItem(STORAGE_KEY);
+  closeResetConfirm();
+  location.reload();
+}
 function openRowMenu(e, name) {
   e.stopPropagation();
   const db = getDB();
@@ -811,7 +922,7 @@ function openRowMenu(e, name) {
   menu.classList.add('open');
 }
 function closeRowMenu() { document.getElementById('row-menu').classList.remove('open'); }
-document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeAddSong(); closeEditSong(); closeReviewSettings(); closeReviewMenu(); closeRowMenu(); closeRemoveSong(); } });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeAddSong(); closeEditSong(); closeReviewSettings(); closeReviewMenu(); closeRowMenu(); closeRemoveSong(); closeResetConfirm(); } });
 document.addEventListener('click', ()=>{ closeReviewMenu(); closeRowMenu(); });
 
 let editOriginalName = null;
@@ -866,7 +977,84 @@ function submitEditSong() {
   toast(`"${newName}" updated.`);
 }
 
+function checkOnboarding() {
+  const db = getDB();
+  if(!db.onboardingComplete) document.getElementById('welcome-modal').classList.add('open');
+}
+function skipOnboarding() {
+  const db = getDB();
+  db.onboardingComplete = true;
+  saveDB(db);
+  document.getElementById('welcome-modal').classList.remove('open');
+}
+function startOnboarding() {
+  document.getElementById('welcome-modal').classList.remove('open');
+  openRanker();
+}
+
+let rankerSongs = [], rankerIndex = 0, rankerLevels = {};
+function openRanker() {
+  const db = getDB();
+  rankerSongs = ALL_SONGS.map(([name])=>name);
+  rankerIndex = 0;
+  rankerLevels = {};
+  rankerSongs.forEach(name=>{ rankerLevels[name] = db.songs[name] ? db.songs[name].baseLevel : 0; });
+  document.getElementById('ranker-total').textContent = rankerSongs.length;
+  rankerRender();
+  document.getElementById('ranker-modal').classList.add('open');
+}
+function rankerRender() {
+  const name = rankerSongs[rankerIndex];
+  const entry = ALL_SONGS.find(([n])=>n===name);
+  const [,style,composer,year] = entry;
+  const lvl = rankerLevels[name] ?? 0;
+  document.getElementById('ranker-idx').textContent = rankerIndex + 1;
+  document.getElementById('ranker-song-name').textContent = name;
+  const meta = [composer, year, style||''].filter(v=>v!=='').join(' · ');
+  document.getElementById('ranker-song-meta').textContent = meta;
+  document.getElementById('ranker-prog-bar').style.width = `${((rankerIndex + 1) / rankerSongs.length) * 100}%`;
+  document.querySelectorAll('[data-ranker-lvl]').forEach(b=>{
+    b.className = 'level-btn';
+    if(parseInt(b.dataset.rankerLvl) === lvl) b.classList.add(`sel-${lvl}`);
+  });
+  document.getElementById('ranker-lvl-desc').textContent = LEVEL_DESCS[lvl];
+  document.getElementById('ranker-back-btn').disabled = rankerIndex === 0;
+  document.getElementById('ranker-next-btn').textContent = rankerIndex === rankerSongs.length - 1 ? 'Done ✓' : 'Next →';
+}
+function rankerSetLevel(lvl) {
+  rankerLevels[rankerSongs[rankerIndex]] = lvl;
+  rankerRender();
+}
+function rankerNext() {
+  if(rankerIndex === rankerSongs.length - 1) { rankerFinish(); return; }
+  rankerIndex++;
+  rankerRender();
+}
+function rankerBack() {
+  if(rankerIndex > 0) { rankerIndex--; rankerRender(); }
+}
+function rankerFinish() {
+  const db = getDB();
+  rankerSongs.forEach(name=>{
+    const lvl = rankerLevels[name] ?? 0;
+    const sg = db.songs[name];
+    if(!sg) return;
+    sg.baseLevel = lvl; sg.currentLevel = lvl;
+    sg.status = lvl >= 2 ? 'active' : 'untouched';
+    sg.intervalIdx = lvl >= 2 ? 0 : -1;
+    sg.nextReview = lvl >= 2 ? addDays(todayInt(), 1) : null;
+    sg.learnedDate = lvl >= 2 ? (sg.learnedDate || todayInt()) : null;
+  });
+  db.onboardingComplete = true;
+  saveDB(db);
+  document.getElementById('ranker-modal').classList.remove('open');
+  renderAll();
+  const rated = Object.values(rankerLevels).filter(l=>l>0).length;
+  if(rated > 0) toast(`Ratings saved — ${rated} song${rated===1?'':'s'} added to your schedule.`);
+}
+
 renderToday();
+checkOnboarding();
 </script>
 </body>
 </html>
