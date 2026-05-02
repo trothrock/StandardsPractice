@@ -184,6 +184,10 @@
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="2" width="10" height="12" rx="1"/><path d="M6 2v12M3 5h3M3 8h3"/></svg>
         Library
       </div>
+      <div class="nav-item" onclick="showPanel('repertoire')">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="8,2 9.8,6.2 14.4,6.2 10.8,9 12.1,13.5 8,11 3.9,13.5 5.2,9 1.6,6.2 6.2,6.2"/></svg>
+        Repertoire
+      </div>
       <div class="nav-item" onclick="showPanel('queue')">
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3h12M2 6h12M2 9h8M2 12h5"/></svg>
         Review Queue
@@ -210,6 +214,7 @@
       <div class="panel-title" id="today-date"></div>
       <div class="panel-sub" id="today-sub"></div>
       <div id="current-song-wrap"></div>
+      <div id="rep-today-wrap"></div>
       <div class="section">
         <div class="section-head"><h2>Review</h2><div class="section-menu-wrap"><button class="btn-dots" onclick="toggleReviewMenu(event)">···</button><div class="dropdown" id="review-menu"><div class="dropdown-item" onclick="openReviewSettings()">Edit review settings</div></div></div></div>
         <div id="reviews-body"></div>
@@ -225,6 +230,14 @@
         <select id="lib-style" onchange="renderLibrary()"><option value="">All styles</option><option value="Bop">Bop</option><option value="Blues">Blues</option><option value="Bossa">Bossa</option><option value="Modal">Modal</option><option value="Trad">Trad</option></select>
       </div>
       <div class="section"><div id="library-body"></div></div>
+    </div>
+    <div id="panel-repertoire" class="panel">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px">
+        <div class="panel-title">Repertoire</div>
+        <button class="btn-primary" onclick="openAddRepertoire()">+ Add repertoire</button>
+      </div>
+      <div class="panel-sub">Fully worked-up arrangements and original pieces</div>
+      <div id="repertoire-body"></div>
     </div>
     <div id="panel-queue" class="panel">
       <div class="panel-title">Review Queue</div>
@@ -258,9 +271,16 @@
       </div>
     </div>
     <div id="panel-activity" class="panel">
-      <div class="panel-title">Activity</div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px">
+        <div class="panel-title">Activity</div>
+        <select id="activity-group" onchange="renderActivity()" style="font-size:12px;padding:5px 8px">
+          <option value="day">By day</option>
+          <option value="week" selected>By week</option>
+          <option value="month">By month</option>
+        </select>
+      </div>
       <div class="panel-sub">All actions across your library</div>
-      <div class="section"><div id="activity-body"></div></div>
+      <div id="activity-body"></div>
     </div>
     <div id="panel-detail" class="panel">
       <button class="btn-back" onclick="showPanel(detailOriginPanel)">← Back</button>
@@ -292,6 +312,63 @@
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeResetConfirm()">Cancel</button>
       <button style="padding:7px 18px;font-size:13px;font-family:'IBM Plex Sans',sans-serif;background:var(--red-dim);border:1px solid rgba(192,57,43,0.35);color:#e57368;border-radius:var(--radius);cursor:pointer;transition:all 0.15s" onclick="confirmReset()">Reset everything</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="add-repertoire-modal" onclick="handleAddRepertoireBackdropClick(event)">
+  <div class="modal">
+    <div class="modal-title">Add to repertoire</div>
+    <div class="field">
+      <label>Title</label>
+      <input type="text" id="rep-name" placeholder="e.g. Giant Steps solo arrangement">
+      <div class="field-error" id="rep-error">A piece with this title already exists.</div>
+    </div>
+    <div class="field">
+      <label>Composer <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <input type="text" id="rep-composer" placeholder="e.g. John Coltrane">
+    </div>
+    <div class="field">
+      <label>Notes <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <input type="text" id="rep-notes" placeholder="e.g. Solo piano, rubato intro">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeAddRepertoire()">Cancel</button>
+      <button class="btn-confirm" onclick="submitAddRepertoire()">Add to repertoire</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="edit-repertoire-modal" onclick="handleEditRepBackdropClick(event)">
+  <div class="modal">
+    <div class="modal-title">Edit repertoire piece</div>
+    <div class="field">
+      <label>Title</label>
+      <input type="text" id="rep-edit-name">
+      <div class="field-error" id="rep-edit-error">A piece with this title already exists.</div>
+    </div>
+    <div class="field">
+      <label>Composer <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <input type="text" id="rep-edit-composer">
+    </div>
+    <div class="field">
+      <label>Notes <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <input type="text" id="rep-edit-notes">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeEditRep()">Discard</button>
+      <button class="btn-confirm" onclick="submitEditRep()">Save changes</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="remove-rep-modal" onclick="handleRemoveRepBackdropClick(event)">
+  <div class="modal">
+    <div class="modal-title">Remove piece</div>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:24px">Remove <span id="remove-rep-name" style="color:var(--text);font-weight:500"></span> from your repertoire? This cannot be undone.</div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeRemoveRep()">Cancel</button>
+      <button style="padding:7px 18px;font-size:13px;font-family:'IBM Plex Sans',sans-serif;background:var(--red-dim);border:1px solid rgba(192,57,43,0.35);color:#e57368;border-radius:var(--radius);cursor:pointer;transition:all 0.15s" onclick="confirmRemoveRep()">Remove</button>
     </div>
   </div>
 </div>
@@ -476,6 +553,7 @@ function initDB() {
     saveDB(db);
   }
   if(!db.activity) db.activity = [];
+  if(!db.repertoire) db.repertoire = [];
   if(db.reviewMax === undefined) db.reviewMax = 1;
   if(db.onboardingComplete === undefined) db.onboardingComplete = true;
   let needsSave = false;
@@ -672,6 +750,20 @@ function renderToday() {
     const next = getNextSong(db);
     csw.innerHTML = next ? `<div class="current-song-card"><div class="current-song-dot" style="background:var(--text3);animation:none"></div><div class="current-song-info"><div class="label">Next suggested song</div><div class="name">${next.name}</div><div class="sub">${next.style||'Standard'} · ${next.baseLevel===1?'Already at level 1 — push to 2':'Starting from level 0'}</div></div>${lvlBadge(next.baseLevel)}<button class="btn-action" onclick="startLearning('${next.name.replace(/'/g,"\\'")}')">Start learning</button></div>` : '';
   }
+  const featured = getFeaturedRepertoire(db);
+  const rtw = document.getElementById('rep-today-wrap');
+  if(featured) {
+    const safe = featured.name.replace(/'/g,"\\'");
+    const meta = [featured.composer, featured.notes].filter(Boolean).join(' · ');
+    const doneToday = featured.lastReviewed === tod;
+    const reviewBtn = doneToday
+      ? `<button class="btn-action" style="color:var(--green);border-color:rgba(39,174,96,0.3)" disabled>&#x2713; Reviewed</button>`
+      : `<button class="btn-pass" onclick="markRepertoireReviewed('${safe}')">Reviewed</button>`;
+    const continueBtn = doneToday ? '' : `<button class="btn-fail" onclick="repertoireContinueTomorrow('${safe}')">Continue tomorrow</button>`;
+    rtw.innerHTML = `<div class="current-song-card"><div class="current-song-dot" style="background:var(--gold2)"></div><div class="current-song-info"><div class="label">Today's repertoire piece</div><div class="name">${featured.name}</div>${meta?`<div class="sub">${meta}</div>`:''}</div>${reviewBtn}${continueBtn}</div>`;
+  } else {
+    rtw.innerHTML = '';
+  }
   const rb = document.getElementById('reviews-body');
   const reviewedToday = Object.values(db.songs).some(s=>(s.reviews||[]).some(r=>r.date===tod));
   const hasUpcoming = Object.values(db.songs).some(s=>s.status==='active'&&s.nextReview&&s.nextReview>tod&&!(s.reviews||[]).some(r=>r.date===tod));
@@ -762,21 +854,52 @@ function formatActivityEntry(entry) {
     case 'song_added':       return { dot:'blue',  label:'Added to library',         detail:entry.name };
     case 'song_edited':      return { dot:'dim',   label:(entry.oldLevel!==undefined&&entry.oldLevel!==entry.level)?`Familiarity updated to Level ${entry.level}`:'Song details updated', detail:entry.name||entry.oldName };
     case 'stopped_learning': return { dot:'dim',   label:'Stopped learning',         detail:entry.name };
-    case 'song_removed':     return { dot:'red',   label:'Removed from library',     detail:entry.name };
-    default:                 return { dot:'dim',   label:entry.type,                 detail:entry.name||'' };
+    case 'song_removed':       return { dot:'red',   label:'Removed from library',     detail:entry.name };
+    case 'repertoire_added':   return { dot:'blue',  label:'Repertoire added',          detail:entry.name };
+    case 'repertoire_reviewed':return { dot:'green', label:'Repertoire reviewed',        detail:entry.name };
+    case 'repertoire_deferred':return { dot:'gold',  label:'Repertoire continued',       detail:entry.name };
+    default:                   return { dot:'dim',   label:entry.type,                   detail:entry.name||'' };
   }
+}
+function activityGroupKey(ts, period) {
+  const d = new Date(ts);
+  if(period === 'day') {
+    return d.toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric', year:'numeric'});
+  }
+  if(period === 'month') {
+    return d.toLocaleDateString('en-US', {month:'long', year:'numeric'});
+  }
+  // week: find the Monday of the week
+  const day = d.getDay();
+  const monday = new Date(d);
+  monday.setDate(d.getDate() - ((day + 6) % 7));
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 6);
+  const fmt = (dt) => dt.toLocaleDateString('en-US', {month:'short', day:'numeric'});
+  return `${fmt(monday)} – ${fmt(sunday)}, ${sunday.getFullYear()}`;
 }
 function renderActivity() {
   const db = getDB();
   const ab = document.getElementById('activity-body');
   if(!db.activity||!db.activity.length){ ab.innerHTML='<div class="empty">No activity yet.</div>'; return; }
+  const period = (document.getElementById('activity-group')||{}).value || 'week';
   const sorted = [...db.activity].sort((a,b)=>b.ts-a.ts);
-  ab.innerHTML = sorted.map(entry=>{
-    const {dot,label,detail} = formatActivityEntry(entry);
-    const d = new Date(entry.ts);
-    const dateStr = d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-    const timeStr = d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
-    return `<div class="timeline-entry"><div class="timeline-dot ${dot}"></div><div><div class="timeline-label">${label} — <span style="color:var(--text2)">${detail}</span></div><div class="timeline-meta">${dateStr} · ${timeStr}</div></div></div>`;
+  const groups = [];
+  const seen = new Map();
+  sorted.forEach(entry => {
+    const key = activityGroupKey(entry.ts, period);
+    if(!seen.has(key)) { seen.set(key, []); groups.push(key); }
+    seen.get(key).push(entry);
+  });
+  ab.innerHTML = groups.map(key => {
+    const entries = seen.get(key).map(entry => {
+      const {dot,label,detail} = formatActivityEntry(entry);
+      const d = new Date(entry.ts);
+      const dateStr = d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+      const timeStr = d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+      return `<div class="timeline-entry"><div class="timeline-dot ${dot}"></div><div><div class="timeline-label">${label} — <span style="color:var(--text2)">${detail}</span></div><div class="timeline-meta">${period==='day'?timeStr:dateStr+' · '+timeStr}</div></div></div>`;
+    }).join('');
+    return `<div class="section"><div class="section-head"><h2>${key}</h2><span class="count">${seen.get(key).length}</span></div>${entries}</div>`;
   }).join('');
 }
 let detailOriginPanel = 'library';
@@ -818,9 +941,10 @@ function showPanel(id) {
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
-  const idx = ['today','library','queue','progress','activity'].indexOf(id);
+  const idx = ['today','library','repertoire','queue','progress','activity'].indexOf(id);
   if(idx>=0) document.querySelectorAll('.nav-item')[idx].classList.add('active');
   if(id==='library') renderLibrary();
+  if(id==='repertoire') renderRepertoire();
   if(id==='queue') renderQueue();
   if(id==='progress') renderProgress();
   if(id==='activity') renderActivity();
@@ -831,6 +955,7 @@ function renderAll() {
   if(active) {
     const id = active.id.replace('panel-','');
     if(id==='library') renderLibrary();
+    if(id==='repertoire') renderRepertoire();
     if(id==='queue') renderQueue();
     if(id==='progress') renderProgress();
     if(id==='activity') renderActivity();
@@ -922,7 +1047,7 @@ function openRowMenu(e, name) {
   menu.classList.add('open');
 }
 function closeRowMenu() { document.getElementById('row-menu').classList.remove('open'); }
-document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeAddSong(); closeEditSong(); closeReviewSettings(); closeReviewMenu(); closeRowMenu(); closeRemoveSong(); closeResetConfirm(); } });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeAddSong(); closeEditSong(); closeReviewSettings(); closeReviewMenu(); closeRowMenu(); closeRemoveSong(); closeResetConfirm(); closeAddRepertoire(); closeEditRep(); closeRemoveRep(); } });
 document.addEventListener('click', ()=>{ closeReviewMenu(); closeRowMenu(); });
 
 let editOriginalName = null;
@@ -977,6 +1102,149 @@ function submitEditSong() {
   toast(`"${newName}" updated.`);
 }
 
+function getFeaturedRepertoire(db) {
+  const pieces = db.repertoire || [];
+  if(!pieces.length) return null;
+  const today = todayInt();
+  const pinned = pieces.find(p => p.pinnedDate === today);
+  if(pinned) return pinned;
+  const reviewedToday = pieces.find(p => p.lastReviewed === today);
+  if(reviewedToday) return reviewedToday;
+  return [...pieces].sort((a, b) => {
+    if(!a.lastReviewed && !b.lastReviewed) return a.addedDate - b.addedDate;
+    if(!a.lastReviewed) return -1;
+    if(!b.lastReviewed) return 1;
+    return a.lastReviewed - b.lastReviewed;
+  })[0];
+}
+function formatIntDate(d) {
+  if(!d) return '—';
+  const date = new Date(Math.floor(d/10000), Math.floor((d%10000)/100)-1, d%100);
+  return date.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
+}
+function renderRepertoire() {
+  const db = getDB();
+  const container = document.getElementById('repertoire-body');
+  const pieces = db.repertoire || [];
+  if(!pieces.length) {
+    container.innerHTML = '<div class="empty" style="padding:32px 0">No pieces yet. Add your first repertoire entry to get started.</div>';
+    return;
+  }
+  let html = `<div class="section"><div class="section-head"><h2>All pieces</h2><span class="count">${pieces.length}</span></div>`;
+  [...pieces].sort((a,b)=>a.name.localeCompare(b.name)).forEach(p => {
+    const meta = [p.composer, p.notes].filter(Boolean).join(' · ');
+    const reviewed = p.lastReviewed ? `Last reviewed ${formatIntDate(p.lastReviewed)}` : 'Never reviewed';
+    const safe = p.name.replace(/'/g,"\\'");
+    html += `<div class="song-row"><div class="song-name-group"><span class="song-name">${p.name}</span>${meta?`<span class="song-meta">${meta}</span>`:''}</div><span class="song-meta">${reviewed}</span><button class="btn-dots" onclick="openRepMenu(event,'${safe}')">···</button></div>`;
+  });
+  html += '</div>';
+  container.innerHTML = html;
+}
+function markRepertoireReviewed(name) {
+  const db = getDB();
+  const p = db.repertoire.find(p=>p.name===name);
+  if(!p) return;
+  p.lastReviewed = todayInt();
+  delete p.pinnedDate;
+  logActivity(db, 'repertoire_reviewed', { name });
+  saveDB(db); renderAll();
+  toast(`"${name}" marked as reviewed.`);
+}
+function repertoireContinueTomorrow(name) {
+  const db = getDB();
+  const p = db.repertoire.find(p=>p.name===name);
+  if(!p) return;
+  p.pinnedDate = addDays(todayInt(), 1);
+  logActivity(db, 'repertoire_deferred', { name });
+  saveDB(db); renderAll();
+  toast(`"${name}" queued for tomorrow.`);
+}
+function openAddRepertoire() {
+  document.getElementById('rep-name').value = '';
+  document.getElementById('rep-composer').value = '';
+  document.getElementById('rep-notes').value = '';
+  document.getElementById('rep-error').style.display = 'none';
+  document.getElementById('add-repertoire-modal').classList.add('open');
+  setTimeout(()=>document.getElementById('rep-name').focus(), 50);
+}
+function closeAddRepertoire() { document.getElementById('add-repertoire-modal').classList.remove('open'); }
+function handleAddRepertoireBackdropClick(e) { if(e.target===document.getElementById('add-repertoire-modal')) closeAddRepertoire(); }
+function submitAddRepertoire() {
+  const name = document.getElementById('rep-name').value.trim();
+  if(!name) { document.getElementById('rep-name').focus(); return; }
+  const db = getDB();
+  if(db.repertoire.some(p=>p.name.toLowerCase()===name.toLowerCase())) {
+    document.getElementById('rep-error').style.display = 'block'; return;
+  }
+  db.repertoire.push({
+    name,
+    composer: document.getElementById('rep-composer').value.trim() || null,
+    notes: document.getElementById('rep-notes').value.trim() || null,
+    addedDate: todayInt(),
+    lastReviewed: null,
+    pinnedDate: null,
+  });
+  logActivity(db, 'repertoire_added', { name });
+  saveDB(db); closeAddRepertoire(); renderRepertoire();
+  toast(`"${name}" added to repertoire.`);
+}
+function openRepMenu(e, name) {
+  e.stopPropagation();
+  const safe = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  const menu = document.getElementById('row-menu');
+  menu.innerHTML = `<div class="dropdown-item" onclick="openEditRep('${safe}');closeRowMenu()">Edit</div><div class="dropdown-item danger" onclick="openRemoveRep('${safe}');closeRowMenu()">Remove</div>`;
+  const rect = e.currentTarget.getBoundingClientRect();
+  menu.style.top = (rect.bottom + 4) + 'px';
+  menu.style.right = (window.innerWidth - rect.right) + 'px';
+  menu.classList.add('open');
+}
+let repEditOriginalName = null;
+function openEditRep(name) {
+  const db = getDB();
+  const p = db.repertoire.find(p=>p.name===name);
+  if(!p) return;
+  repEditOriginalName = name;
+  document.getElementById('rep-edit-name').value = p.name;
+  document.getElementById('rep-edit-composer').value = p.composer || '';
+  document.getElementById('rep-edit-notes').value = p.notes || '';
+  document.getElementById('rep-edit-error').style.display = 'none';
+  document.getElementById('edit-repertoire-modal').classList.add('open');
+  setTimeout(()=>document.getElementById('rep-edit-name').focus(), 50);
+}
+function closeEditRep() { document.getElementById('edit-repertoire-modal').classList.remove('open'); repEditOriginalName = null; }
+function handleEditRepBackdropClick(e) { if(e.target===document.getElementById('edit-repertoire-modal')) closeEditRep(); }
+function submitEditRep() {
+  const name = document.getElementById('rep-edit-name').value.trim();
+  if(!name) { document.getElementById('rep-edit-name').focus(); return; }
+  const db = getDB();
+  const nameChanged = name.toLowerCase() !== repEditOriginalName.toLowerCase();
+  if(nameChanged && db.repertoire.some(p=>p.name.toLowerCase()===name.toLowerCase())) {
+    document.getElementById('rep-edit-error').style.display = 'block'; return;
+  }
+  const p = db.repertoire.find(p=>p.name===repEditOriginalName);
+  if(!p) return;
+  p.name = name;
+  p.composer = document.getElementById('rep-edit-composer').value.trim() || null;
+  p.notes = document.getElementById('rep-edit-notes').value.trim() || null;
+  saveDB(db); closeEditRep(); renderRepertoire();
+  toast(`"${name}" updated.`);
+}
+let repRemoveName = null;
+function openRemoveRep(name) {
+  repRemoveName = name;
+  document.getElementById('remove-rep-name').textContent = name;
+  document.getElementById('remove-rep-modal').classList.add('open');
+}
+function closeRemoveRep() { document.getElementById('remove-rep-modal').classList.remove('open'); repRemoveName = null; }
+function handleRemoveRepBackdropClick(e) { if(e.target===document.getElementById('remove-rep-modal')) closeRemoveRep(); }
+function confirmRemoveRep() {
+  if(!repRemoveName) return;
+  const db = getDB();
+  db.repertoire = db.repertoire.filter(p=>p.name!==repRemoveName);
+  logActivity(db, 'repertoire_removed', { name: repRemoveName });
+  saveDB(db); closeRemoveRep(); renderAll();
+  toast(`"${repRemoveName}" removed from repertoire.`);
+}
 function checkOnboarding() {
   const db = getDB();
   if(!db.onboardingComplete) document.getElementById('welcome-modal').classList.add('open');
