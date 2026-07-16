@@ -166,6 +166,10 @@
   .ranker-count { font-size: 11px; font-family: 'IBM Plex Mono', monospace; color: var(--text3); }
   .ranker-song-title { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--text); margin: 18px 0 5px; }
   .ranker-song-meta { font-size: 11px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.03em; }
+  .voicing-thumb { width: 44px; height: 44px; border-radius: var(--radius); object-fit: cover; background: var(--bg3); border: 1px solid var(--border2); flex-shrink: 0; }
+  .voicing-img-large { width: 64px; height: 64px; border-radius: var(--radius); object-fit: cover; background: var(--bg3); border: 1px solid var(--border2); flex-shrink: 0; }
+  .voicing-thumb-empty { display: flex; align-items: center; justify-content: center; color: var(--text3); font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-align: center; line-height: 1.1; }
+  .top-note { font-size: 11px; color: var(--gold2); font-family: 'IBM Plex Mono', monospace; flex-shrink: 0; }
 </style>
 </head>
 <body>
@@ -187,6 +191,10 @@
       <div class="nav-item" onclick="showPanel('repertoire')">
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="8,2 9.8,6.2 14.4,6.2 10.8,9 12.1,13.5 8,11 3.9,13.5 5.2,9 1.6,6.2 6.2,6.2"/></svg>
         Repertoire
+      </div>
+      <div class="nav-item" onclick="showPanel('voicings')">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 11V3M8 11V5M12 11V7"/><circle cx="4" cy="12" r="1.4"/><circle cx="8" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/></svg>
+        Voicings
       </div>
       <div class="nav-item" onclick="showPanel('queue')">
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3h12M2 6h12M2 9h8M2 12h5"/></svg>
@@ -215,6 +223,7 @@
       <div class="panel-sub" id="today-sub"></div>
       <div id="current-song-wrap"></div>
       <div id="rep-today-wrap"></div>
+      <div id="voicing-today-wrap"></div>
       <div class="section">
         <div class="section-head"><h2>Review</h2><div class="section-menu-wrap"><button class="btn-dots" onclick="toggleReviewMenu(event)">···</button><div class="dropdown" id="review-menu"><div class="dropdown-item" onclick="openReviewSettings()">Edit review settings</div></div></div></div>
         <div id="reviews-body"></div>
@@ -238,6 +247,14 @@
       </div>
       <div class="panel-sub">Fully worked-up arrangements and original pieces</div>
       <div id="repertoire-body"></div>
+    </div>
+    <div id="panel-voicings" class="panel">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px">
+        <div class="panel-title">Voicings</div>
+        <button class="btn-primary" onclick="openAddVoicing()">+ Add voicing</button>
+      </div>
+      <div class="panel-sub">Chord voicings by category · familiarity 0–2</div>
+      <div id="voicings-body"></div>
     </div>
     <div id="panel-queue" class="panel">
       <div class="panel-title">Review Queue</div>
@@ -369,6 +386,89 @@
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeRemoveRep()">Cancel</button>
       <button style="padding:7px 18px;font-size:13px;font-family:'IBM Plex Sans',sans-serif;background:var(--red-dim);border:1px solid rgba(192,57,43,0.35);color:#e57368;border-radius:var(--radius);cursor:pointer;transition:all 0.15s" onclick="confirmRemoveRep()">Remove</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="add-voicing-modal" onclick="handleAddVoicingBackdropClick(event)">
+  <div class="modal">
+    <div class="modal-title">Add a voicing</div>
+    <div class="field">
+      <label>Name</label>
+      <input type="text" id="voic-name" placeholder="e.g. Major 9 (5th on top)">
+      <div class="field-error" id="voic-error">A voicing with this name already exists.</div>
+    </div>
+    <div class="field">
+      <label>Category</label>
+      <select id="voic-category"><option value="Major">Major</option><option value="Minor">Minor</option><option value="Dominant">Dominant</option><option value="Diminished">Diminished</option></select>
+    </div>
+    <div class="field">
+      <label>Top note <span style="font-weight:400;text-transform:none;letter-spacing:0">(scale degree)</span></label>
+      <input type="text" id="voic-topnote" placeholder="e.g. 9, ♭9, ♯11">
+    </div>
+    <div class="field">
+      <label>Image filename <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <input type="text" id="voic-image" placeholder="e.g. maj9.png — in images/voicings/">
+    </div>
+    <div class="field">
+      <label>Familiarity</label>
+      <div class="level-picker">
+        <button class="level-btn sel-0" data-voic-lvl="0" onclick="voicSelectLevel(0)">0</button>
+        <button class="level-btn" data-voic-lvl="1" onclick="voicSelectLevel(1)">1</button>
+        <button class="level-btn" data-voic-lvl="2" onclick="voicSelectLevel(2)">2</button>
+      </div>
+      <div class="level-desc" id="voic-lvl-desc">No familiarity — haven't worked it out yet</div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeAddVoicing()">Cancel</button>
+      <button class="btn-confirm" onclick="submitAddVoicing()">Add voicing</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="edit-voicing-modal" onclick="handleEditVoicingBackdropClick(event)">
+  <div class="modal">
+    <div class="modal-title">Edit voicing</div>
+    <div class="field">
+      <label>Name</label>
+      <input type="text" id="voic-edit-name">
+      <div class="field-error" id="voic-edit-error">A voicing with this name already exists.</div>
+    </div>
+    <div class="field">
+      <label>Category</label>
+      <select id="voic-edit-category"><option value="Major">Major</option><option value="Minor">Minor</option><option value="Dominant">Dominant</option><option value="Diminished">Diminished</option></select>
+    </div>
+    <div class="field">
+      <label>Top note <span style="font-weight:400;text-transform:none;letter-spacing:0">(scale degree)</span></label>
+      <input type="text" id="voic-edit-topnote" placeholder="e.g. 9, ♭9, ♯11">
+    </div>
+    <div class="field">
+      <label>Image filename <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <input type="text" id="voic-edit-image" placeholder="e.g. maj9.png — in images/voicings/">
+    </div>
+    <div class="field">
+      <label>Familiarity</label>
+      <div class="level-picker">
+        <button class="level-btn" data-voic-edit-lvl="0" onclick="voicEditSelectLevel(0)">0</button>
+        <button class="level-btn" data-voic-edit-lvl="1" onclick="voicEditSelectLevel(1)">1</button>
+        <button class="level-btn" data-voic-edit-lvl="2" onclick="voicEditSelectLevel(2)">2</button>
+      </div>
+      <div class="level-desc" id="voic-edit-lvl-desc"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeEditVoicing()">Discard</button>
+      <button class="btn-confirm" onclick="submitEditVoicing()">Save changes</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="remove-voicing-modal" onclick="handleRemoveVoicingBackdropClick(event)">
+  <div class="modal">
+    <div class="modal-title">Remove voicing</div>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:24px">Remove <span id="remove-voicing-name" style="color:var(--text);font-weight:500"></span> from your voicings? This cannot be undone.</div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeRemoveVoicing()">Cancel</button>
+      <button style="padding:7px 18px;font-size:13px;font-family:'IBM Plex Sans',sans-serif;background:var(--red-dim);border:1px solid rgba(192,57,43,0.35);color:#e57368;border-radius:var(--radius);cursor:pointer;transition:all 0.15s" onclick="confirmRemoveVoicing()">Remove</button>
     </div>
   </div>
 </div>
@@ -554,6 +654,20 @@ function initDB() {
   }
   if(!db.activity) db.activity = [];
   if(!db.repertoire) db.repertoire = [];
+  const VOICINGS_SEED_VERSION = 2;
+  if(db.voicingsSeedVersion !== VOICINGS_SEED_VERSION) {
+    const strip = s => s.replace(/\s*\([^)]*\)\s*$/,'').trim();
+    const prev = db.voicings || [];
+    const prevByKey = {};
+    prev.forEach(v => { prevByKey[strip(v.name).toLowerCase()] = v; });
+    const fresh = seedVoicings();
+    const freshKeys = new Set(fresh.map(v => strip(v.name).toLowerCase()));
+    fresh.forEach(v => { const o = prevByKey[strip(v.name).toLowerCase()]; if(o){ v.familiarity = o.familiarity||0; if(o.image) v.image = o.image; } });
+    prev.forEach(v => { const k = strip(v.name).toLowerCase(); if(!freshKeys.has(k)) fresh.push({ ...v, name: strip(v.name) }); });
+    db.voicings = fresh;
+    db.voicingsSeedVersion = VOICINGS_SEED_VERSION;
+    saveDB(db);
+  }
   if(db.reviewMax === undefined) db.reviewMax = 1;
   if(db.onboardingComplete === undefined) db.onboardingComplete = true;
   let needsSave = false;
@@ -568,6 +682,31 @@ function initDB() {
   return db;
 }
 function getDB() { return initDB(); }
+
+const VOICING_CATEGORIES = ['Major','Minor','Dominant','Diminished'];
+const VOICING_FAM_DESCS = ["No familiarity — haven't worked it out yet","Getting it under my fingers","Mastered — instant recall"];
+function seedVoicings() {
+  const seed = [
+    ['Major 7','Major',7],
+    ['Major 9','Major',9],
+    ['Major 6/9','Major',6],
+    ['Major triad','Major',3],
+    ['Minor 7','Minor',7],
+    ['Minor 9','Minor',9],
+    ['Minor 11','Minor',11],
+    ['Minor 6','Minor',6],
+    ['Dominant 7','Dominant',7],
+    ['Dominant 9','Dominant',9],
+    ['Dominant 13','Dominant',13],
+    ['Dominant 7♭9','Dominant','♭9'],
+    ['Diminished 7','Diminished',7],
+    ['Half-diminished 7','Diminished','♭5'],
+    ['Diminished triad','Diminished','♭3'],
+  ];
+  return seed.map(([name,category,topNote])=>({ name, category, topNote, image:null, familiarity:0, addedDate: todayInt(), sortSeed: Math.random() }));
+}
+function normTopNote(s) { return String(s).trim().replace(/b/gi,'♭').replace(/#/g,'♯'); }
+function topNoteSort(t) { const n = parseInt(String(t==null?'':t).replace(/[^0-9]/g,''),10); return isNaN(n)?999:n; }
 
 function startLearning(name) {
   const db = getDB();
@@ -764,6 +903,21 @@ function renderToday() {
   } else {
     rtw.innerHTML = '';
   }
+  const fv = getFeaturedVoicing(db);
+  const vtw = document.getElementById('voicing-today-wrap');
+  if(fv) {
+    const safe = fv.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    const fam = fv.familiarity||0;
+    const img = voicingImgHTML(fv, 'voicing-img-large');
+    const meta = [fv.category, fv.topNote!=null?`top note ${fv.topNote}`:''].filter(Boolean).join(' · ');
+    const doneToday = (db.activity||[]).some(e=>e.type==='voicing_practiced'&&e.name===fv.name&&e.date===tod);
+    const btn = doneToday
+      ? `<button class="btn-action" style="color:var(--green);border-color:rgba(39,174,96,0.3)" disabled>&#x2713; Practiced</button>`
+      : `<button class="btn-primary" onclick="voicingPracticed('${safe}')">Mark as practiced</button>`;
+    vtw.innerHTML = `<div class="current-song-card"><div class="current-song-dot" style="background:var(--gold2)"></div>${img}<div class="current-song-info" style="cursor:pointer" onclick="showPanel('voicings')"><div class="label">Today's voicing</div><div class="name">${fv.name}</div><div class="sub">${meta}</div></div>${lvlBadge(fam)}${btn}</div>`;
+  } else {
+    vtw.innerHTML = '';
+  }
   const rb = document.getElementById('reviews-body');
   const reviewedToday = Object.values(db.songs).some(s=>(s.reviews||[]).some(r=>r.date===tod));
   const hasUpcoming = Object.values(db.songs).some(s=>s.status==='active'&&s.nextReview&&s.nextReview>tod&&!(s.reviews||[]).some(r=>r.date===tod));
@@ -858,6 +1012,9 @@ function formatActivityEntry(entry) {
     case 'repertoire_added':   return { dot:'blue',  label:'Repertoire added',          detail:entry.name };
     case 'repertoire_reviewed':return { dot:'green', label:'Repertoire reviewed',        detail:entry.name };
     case 'repertoire_deferred':return { dot:'gold',  label:'Repertoire continued',       detail:entry.name };
+    case 'voicing_added':      return { dot:'blue',  label:'Voicing added',              detail:entry.name };
+    case 'voicing_practiced':  return { dot:'green', label:entry.familiarity>=2?'Voicing mastered':`Voicing practiced — familiarity ${entry.familiarity}`, detail:entry.name };
+    case 'voicing_removed':    return { dot:'red',   label:'Voicing removed',            detail:entry.name };
     default:                   return { dot:'dim',   label:entry.type,                   detail:entry.name||'' };
   }
 }
@@ -941,10 +1098,11 @@ function showPanel(id) {
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
-  const idx = ['today','library','repertoire','queue','progress','activity'].indexOf(id);
+  const idx = ['today','library','repertoire','voicings','queue','progress','activity'].indexOf(id);
   if(idx>=0) document.querySelectorAll('.nav-item')[idx].classList.add('active');
   if(id==='library') renderLibrary();
   if(id==='repertoire') renderRepertoire();
+  if(id==='voicings') renderVoicings();
   if(id==='queue') renderQueue();
   if(id==='progress') renderProgress();
   if(id==='activity') renderActivity();
@@ -956,6 +1114,7 @@ function renderAll() {
     const id = active.id.replace('panel-','');
     if(id==='library') renderLibrary();
     if(id==='repertoire') renderRepertoire();
+    if(id==='voicings') renderVoicings();
     if(id==='queue') renderQueue();
     if(id==='progress') renderProgress();
     if(id==='activity') renderActivity();
@@ -1047,7 +1206,7 @@ function openRowMenu(e, name) {
   menu.classList.add('open');
 }
 function closeRowMenu() { document.getElementById('row-menu').classList.remove('open'); }
-document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeAddSong(); closeEditSong(); closeReviewSettings(); closeReviewMenu(); closeRowMenu(); closeRemoveSong(); closeResetConfirm(); closeAddRepertoire(); closeEditRep(); closeRemoveRep(); } });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeAddSong(); closeEditSong(); closeReviewSettings(); closeReviewMenu(); closeRowMenu(); closeRemoveSong(); closeResetConfirm(); closeAddRepertoire(); closeEditRep(); closeRemoveRep(); closeAddVoicing(); closeEditVoicing(); closeRemoveVoicing(); } });
 document.addEventListener('click', ()=>{ closeReviewMenu(); closeRowMenu(); });
 
 let editOriginalName = null;
@@ -1244,6 +1403,167 @@ function confirmRemoveRep() {
   logActivity(db, 'repertoire_removed', { name: repRemoveName });
   saveDB(db); closeRemoveRep(); renderAll();
   toast(`"${repRemoveName}" removed from repertoire.`);
+}
+
+function voicingImgHTML(v, cls) {
+  if(v.image) return `<img class="${cls}" src="images/voicings/${v.image}" alt="" onerror="this.classList.add('voicing-thumb-empty');this.replaceWith(Object.assign(document.createElement('div'),{className:this.className,textContent:'no img'}))">`;
+  return `<div class="${cls} voicing-thumb-empty">no img</div>`;
+}
+function getFeaturedVoicing(db) {
+  const vs = db.voicings || [];
+  if(!vs.length) return null;
+  const minFam = Math.min(...vs.map(v=>v.familiarity||0));
+  if(minFam >= 2) return null;
+  const candidates = vs.filter(v=>(v.familiarity||0)===minFam).sort((a,b)=>a.sortSeed-b.sortSeed);
+  const dayCount = daysBetween(20200101, todayInt());
+  return candidates[((dayCount % candidates.length) + candidates.length) % candidates.length];
+}
+function renderVoicings() {
+  const db = getDB();
+  const container = document.getElementById('voicings-body');
+  const vs = db.voicings || [];
+  if(!vs.length) {
+    container.innerHTML = '<div class="empty" style="padding:32px 0">No voicings yet. Add your first voicing to get started.</div>';
+    return;
+  }
+  let html = '';
+  VOICING_CATEGORIES.forEach(cat => {
+    const items = vs.filter(v=>v.category===cat).sort((a,b)=>(topNoteSort(a.topNote)-topNoteSort(b.topNote))||a.name.localeCompare(b.name));
+    if(!items.length) return;
+    html += `<div class="section"><div class="section-head"><h2>${cat}</h2><span class="count">${items.length}</span></div>`;
+    items.forEach(v=>{
+      const safe = v.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+      const img = voicingImgHTML(v, 'voicing-thumb');
+      const top = v.topNote!=null ? `<span class="top-note">top: ${v.topNote}</span>` : '';
+      html += `<div class="song-row">${img}<div class="song-name-group"><span class="song-name">${v.name}</span>${top}</div>${lvlBadge(v.familiarity||0)}<button class="btn-dots" onclick="openVoicingMenu(event,'${safe}')">···</button></div>`;
+    });
+    html += '</div>';
+  });
+  container.innerHTML = html;
+}
+function voicingPracticed(name) {
+  const db = getDB();
+  const v = (db.voicings||[]).find(v=>v.name===name);
+  if(!v) return;
+  const tod = todayInt();
+  if((db.activity||[]).some(e=>e.type==='voicing_practiced'&&e.name===name&&e.date===tod)) return;
+  v.familiarity = Math.min((v.familiarity||0)+1, 2);
+  logActivity(db, 'voicing_practiced', { name, familiarity: v.familiarity });
+  updateStreak(db); saveDB(db); renderAll();
+  toast(v.familiarity>=2 ? `"${name}" mastered!` : `"${name}" — familiarity now ${v.familiarity}.`);
+}
+let voicSelectedLevel = 0;
+function voicSelectLevel(lvl) {
+  voicSelectedLevel = lvl;
+  document.querySelectorAll('[data-voic-lvl]').forEach(b=>b.className='level-btn');
+  document.querySelector(`[data-voic-lvl="${lvl}"]`).classList.add(`sel-${lvl}`);
+  document.getElementById('voic-lvl-desc').textContent = VOICING_FAM_DESCS[lvl];
+}
+function openAddVoicing() {
+  voicSelectedLevel = 0;
+  document.getElementById('voic-name').value = '';
+  document.getElementById('voic-category').value = 'Major';
+  document.getElementById('voic-topnote').value = '';
+  document.getElementById('voic-image').value = '';
+  document.getElementById('voic-error').style.display = 'none';
+  document.querySelectorAll('[data-voic-lvl]').forEach(b=>b.className='level-btn');
+  document.querySelector('[data-voic-lvl="0"]').classList.add('sel-0');
+  document.getElementById('voic-lvl-desc').textContent = VOICING_FAM_DESCS[0];
+  document.getElementById('add-voicing-modal').classList.add('open');
+  setTimeout(()=>document.getElementById('voic-name').focus(), 50);
+}
+function closeAddVoicing() { document.getElementById('add-voicing-modal').classList.remove('open'); }
+function handleAddVoicingBackdropClick(e) { if(e.target===document.getElementById('add-voicing-modal')) closeAddVoicing(); }
+function submitAddVoicing() {
+  const name = document.getElementById('voic-name').value.trim();
+  if(!name) { document.getElementById('voic-name').focus(); return; }
+  const db = getDB();
+  if((db.voicings||[]).some(v=>v.name.toLowerCase()===name.toLowerCase())) {
+    document.getElementById('voic-error').style.display = 'block';
+    document.getElementById('voic-name').focus(); return;
+  }
+  const topRaw = document.getElementById('voic-topnote').value.trim();
+  db.voicings.push({
+    name,
+    category: document.getElementById('voic-category').value,
+    topNote: topRaw===''? null : normTopNote(topRaw),
+    image: document.getElementById('voic-image').value.trim() || null,
+    familiarity: voicSelectedLevel,
+    addedDate: todayInt(),
+    sortSeed: Math.random()
+  });
+  logActivity(db, 'voicing_added', { name });
+  saveDB(db); closeAddVoicing(); renderAll();
+  toast(`"${name}" added to voicings.`);
+}
+function openVoicingMenu(e, name) {
+  e.stopPropagation();
+  const safe = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  const menu = document.getElementById('row-menu');
+  menu.innerHTML = `<div class="dropdown-item" onclick="openEditVoicing('${safe}');closeRowMenu()">Edit</div><div class="dropdown-item danger" onclick="openRemoveVoicing('${safe}');closeRowMenu()">Remove</div>`;
+  const rect = e.currentTarget.getBoundingClientRect();
+  menu.style.top = (rect.bottom + 4) + 'px';
+  menu.style.right = (window.innerWidth - rect.right) + 'px';
+  menu.classList.add('open');
+}
+let voicEditOriginalName = null, voicEditSelectedLevel = 0;
+function voicEditSelectLevel(lvl) {
+  voicEditSelectedLevel = lvl;
+  document.querySelectorAll('[data-voic-edit-lvl]').forEach(b=>b.className='level-btn');
+  document.querySelector(`[data-voic-edit-lvl="${lvl}"]`).classList.add(`sel-${lvl}`);
+  document.getElementById('voic-edit-lvl-desc').textContent = VOICING_FAM_DESCS[lvl];
+}
+function openEditVoicing(name) {
+  const db = getDB();
+  const v = (db.voicings||[]).find(v=>v.name===name);
+  if(!v) return;
+  voicEditOriginalName = name;
+  voicEditSelectedLevel = v.familiarity||0;
+  document.getElementById('voic-edit-name').value = v.name;
+  document.getElementById('voic-edit-category').value = v.category;
+  document.getElementById('voic-edit-topnote').value = v.topNote!=null ? v.topNote : '';
+  document.getElementById('voic-edit-image').value = v.image || '';
+  document.getElementById('voic-edit-error').style.display = 'none';
+  voicEditSelectLevel(voicEditSelectedLevel);
+  document.getElementById('edit-voicing-modal').classList.add('open');
+  setTimeout(()=>document.getElementById('voic-edit-name').focus(), 50);
+}
+function closeEditVoicing() { document.getElementById('edit-voicing-modal').classList.remove('open'); voicEditOriginalName = null; }
+function handleEditVoicingBackdropClick(e) { if(e.target===document.getElementById('edit-voicing-modal')) closeEditVoicing(); }
+function submitEditVoicing() {
+  const name = document.getElementById('voic-edit-name').value.trim();
+  if(!name) { document.getElementById('voic-edit-name').focus(); return; }
+  const db = getDB();
+  const nameChanged = name.toLowerCase() !== voicEditOriginalName.toLowerCase();
+  if(nameChanged && db.voicings.some(v=>v.name.toLowerCase()===name.toLowerCase())) {
+    document.getElementById('voic-edit-error').style.display = 'block'; return;
+  }
+  const v = db.voicings.find(v=>v.name===voicEditOriginalName);
+  if(!v) return;
+  const topRaw = document.getElementById('voic-edit-topnote').value.trim();
+  v.name = name;
+  v.category = document.getElementById('voic-edit-category').value;
+  v.topNote = topRaw===''? null : normTopNote(topRaw);
+  v.image = document.getElementById('voic-edit-image').value.trim() || null;
+  v.familiarity = voicEditSelectedLevel;
+  saveDB(db); closeEditVoicing(); renderAll();
+  toast(`"${name}" updated.`);
+}
+let voicRemoveName = null;
+function openRemoveVoicing(name) {
+  voicRemoveName = name;
+  document.getElementById('remove-voicing-name').textContent = name;
+  document.getElementById('remove-voicing-modal').classList.add('open');
+}
+function closeRemoveVoicing() { document.getElementById('remove-voicing-modal').classList.remove('open'); voicRemoveName = null; }
+function handleRemoveVoicingBackdropClick(e) { if(e.target===document.getElementById('remove-voicing-modal')) closeRemoveVoicing(); }
+function confirmRemoveVoicing() {
+  if(!voicRemoveName) return;
+  const db = getDB();
+  db.voicings = db.voicings.filter(v=>v.name!==voicRemoveName);
+  logActivity(db, 'voicing_removed', { name: voicRemoveName });
+  saveDB(db); closeRemoveVoicing(); renderAll();
+  toast(`"${voicRemoveName}" removed from voicings.`);
 }
 function checkOnboarding() {
   const db = getDB();
