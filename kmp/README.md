@@ -1,16 +1,26 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Web, Desktop (JVM).
+Kotlin Multiplatform port of the Jazz Standards Practice Tracker (see `../web/`),
+targeting Android, iOS, Web (JS + Wasm), and Desktop (JVM).
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
+* [/composeApp](./composeApp/src) — Compose Multiplatform UI: one screen composable per tab
+  (Today, Library, Repertoire, Voicings, Review Queue, Progress, Activity, plus song detail
+  and the onboarding ranker), each paired with a ViewModel. Platform entry points live in the
+  per-target source sets (`androidMain`, `iosMain`, `jvmMain`, `webMain`/`jsMain`/`wasmJsMain`).
 
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+* [/data](./data/src) — the data layer, behind the `JazzRepository` interface. Holds the
+  serializable models, seed data (generated from `../web/jazz_data.js`), spaced-repetition
+  and scheduling logic, and per-platform `BlobStore` persistence. The stored JSON schema is
+  compatible with the web app's localStorage blob / exported backups (key `jazz_sr_v3`).
+
+* [/iosApp](./iosApp/iosApp) contains the iOS application wrapper. Even if you’re sharing your
+  UI with Compose Multiplatform, you need this entry point for your iOS app.
+
+### Run Unit Tests
+
+All data-layer and ViewModel business logic is covered by common tests, run on JVM:
+
+```shell
+./gradlew :data:jvmTest :composeApp:jvmTest
+```
 
 ### Build and Run Android Application
 
