@@ -13,11 +13,15 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rothrockware.studyjazzstandards.data.DateInt
+import com.rothrockware.studyjazzstandards.data.DefaultJazzRepository
+import com.rothrockware.studyjazzstandards.data.store.InMemoryBlobStore
 import com.rothrockware.studyjazzstandards.ui.activity.ActivityPeriod
 import com.rothrockware.studyjazzstandards.ui.activity.formatActivityEntry
 import com.rothrockware.studyjazzstandards.ui.activity.formatEntryMeta
@@ -29,6 +33,7 @@ import com.rothrockware.studyjazzstandards.ui.components.StatusBadge
 import com.rothrockware.studyjazzstandards.ui.components.StyleBadge
 import com.rothrockware.studyjazzstandards.ui.components.TimelineEntryRow
 import com.rothrockware.studyjazzstandards.ui.theme.JazzColors
+import com.rothrockware.studyjazzstandards.ui.theme.JazzTheme
 import kotlinx.datetime.TimeZone
 
 @Composable
@@ -99,5 +104,18 @@ private fun MetaField(label: String, value: String) {
     Column {
         Text(label.uppercase(), fontSize = 10.sp, color = JazzColors.Text3, letterSpacing = 1.sp)
         Text(value, fontSize = 13.sp, color = JazzColors.Text)
+    }
+}
+
+@Preview
+@Composable
+private fun SongDetailScreenPreview() {
+    val vm = remember {
+        val repo = DefaultJazzRepository(InMemoryBlobStore())
+        val songName = repo.db.value.songs.keys.first()
+        SongDetailViewModel(repo, songName)
+    }
+    JazzTheme {
+        SongDetailScreen(vm = vm, onBack = {})
     }
 }

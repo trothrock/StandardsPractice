@@ -15,18 +15,26 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.rothrockware.studyjazzstandards.data.DefaultJazzRepository
 import com.rothrockware.studyjazzstandards.data.seed.LEVEL_DESCS
+import com.rothrockware.studyjazzstandards.data.store.InMemoryBlobStore
 import com.rothrockware.studyjazzstandards.ui.components.CollectToasts
 import com.rothrockware.studyjazzstandards.ui.components.LevelPicker
+import com.rothrockware.studyjazzstandards.ui.components.LocalSnackbarHost
 import com.rothrockware.studyjazzstandards.ui.theme.JazzColors
+import com.rothrockware.studyjazzstandards.ui.theme.JazzTheme
 
 /** Welcome + ranker flow shown over the app until onboarding completes. */
 @Composable
@@ -124,6 +132,20 @@ private fun RankerDialog(vm: OnboardingViewModel) {
                 TextButton(onClick = vm::finish) { Text("Finish & save", color = JazzColors.Text2) }
                 Button(onClick = vm::next) { Text(if (vm.isLast) "Done ✓" else "Next →") }
             }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun OnboardingFlowPreview() {
+    val vm = remember {
+        val repo = DefaultJazzRepository(InMemoryBlobStore())
+        OnboardingViewModel(repo)
+    }
+    JazzTheme {
+        CompositionLocalProvider(LocalSnackbarHost provides remember { SnackbarHostState() }) {
+            OnboardingFlow(vm = vm)
         }
     }
 }

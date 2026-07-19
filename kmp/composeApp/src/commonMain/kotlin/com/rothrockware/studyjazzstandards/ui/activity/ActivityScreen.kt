@@ -12,11 +12,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.rothrockware.studyjazzstandards.data.DefaultJazzRepository
+import com.rothrockware.studyjazzstandards.data.store.InMemoryBlobStore
 import com.rothrockware.studyjazzstandards.ui.components.EmptyState
 import com.rothrockware.studyjazzstandards.ui.components.SectionHeader
 import com.rothrockware.studyjazzstandards.ui.components.TimelineEntryRow
+import com.rothrockware.studyjazzstandards.ui.theme.JazzTheme
 
 @Composable
 fun ActivityScreen(vm: ActivityViewModel) {
@@ -56,5 +61,17 @@ fun ActivityScreen(vm: ActivityViewModel) {
                 }
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun ActivityScreenPreview() {
+    val vm = remember {
+        val repo = DefaultJazzRepository(InMemoryBlobStore())
+        ActivityViewModel(repo)
+    }
+    JazzTheme {
+        ActivityScreen(vm = vm)
     }
 }
