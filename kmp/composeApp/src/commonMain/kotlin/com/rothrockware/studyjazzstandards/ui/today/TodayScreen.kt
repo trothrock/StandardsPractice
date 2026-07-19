@@ -21,9 +21,11 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,19 +34,24 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.rothrockware.studyjazzstandards.data.DefaultJazzRepository
 import com.rothrockware.studyjazzstandards.data.model.Song
 import com.rothrockware.studyjazzstandards.data.seed.INTERVALS
+import com.rothrockware.studyjazzstandards.data.store.InMemoryBlobStore
 import com.rothrockware.studyjazzstandards.ui.components.CollectToasts
 import com.rothrockware.studyjazzstandards.ui.components.ConfirmDialog
 import com.rothrockware.studyjazzstandards.ui.components.LevelBadge
 import com.rothrockware.studyjazzstandards.ui.components.ListRow
+import com.rothrockware.studyjazzstandards.ui.components.LocalSnackbarHost
 import com.rothrockware.studyjazzstandards.ui.components.MenuAction
 import com.rothrockware.studyjazzstandards.ui.components.RowMenu
 import com.rothrockware.studyjazzstandards.ui.components.SectionHeader
 import com.rothrockware.studyjazzstandards.ui.components.StyleBadge
 import com.rothrockware.studyjazzstandards.ui.theme.JazzColors
+import com.rothrockware.studyjazzstandards.ui.theme.JazzTheme
 
 @Composable
 fun TodayScreen(
@@ -72,7 +79,28 @@ fun TodayScreen(
         // Currently learning / next suggested
         val learning = state.learning
         if (learning != null) {
-            FeatureCard(dotColor = JazzColors.Gold, pulsing = true) {
+            FeatureCard(
+                dotColor = JazzColors.Gold,
+                pulsing = true,
+                actions = {
+                    if (learning.practicedToday) {
+                        OutlinedButton(
+                            onClick = {},
+                            enabled = false,
+                            modifier = Modifier.weight(1f),
+                        ) { Text("✓ Practiced", color = JazzColors.Green) }
+                    } else {
+                        OutlinedButton(
+                            onClick = { vm.markPracticed(learning.song.name) },
+                            modifier = Modifier.weight(1f),
+                        ) { Text("Mark as practiced") }
+                    }
+                    Button(
+                        onClick = { vm.markLearned(learning.song.name) },
+                        modifier = Modifier.weight(1f),
+                    ) { Text("Mark as level 2") }
+                },
+            ) {
                 CardInfo(
                     label = "Currently learning",
                     name = learning.song.name,
@@ -80,12 +108,6 @@ fun TodayScreen(
                     onClick = { onOpenDetail(learning.song.name) },
                 )
                 LevelBadge(learning.song.baseLevel)
-                if (learning.practicedToday) {
-                    OutlinedButton(onClick = {}, enabled = false) { Text("✓ Practiced", color = JazzColors.Green) }
-                } else {
-                    OutlinedButton(onClick = { vm.markPracticed(learning.song.name) }) { Text("Mark as practiced") }
-                }
-                Button(onClick = { vm.markLearned(learning.song.name) }) { Text("Mark as level 2") }
             }
         } else {
             val next = state.suggested
@@ -201,19 +223,34 @@ fun TodayScreen(
 private fun FeatureCard(
     dotColor: androidx.compose.ui.graphics.Color,
     pulsing: Boolean = false,
+    actions: (@Composable androidx.compose.foundation.layout.RowScope.() -> Unit)? = null,
     content: @Composable androidx.compose.foundation.layout.RowScope.() -> Unit,
 ) {
-    Row(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
             .background(JazzColors.Bg2, RoundedCornerShape(8.dp))
             .border(1.dp, JazzColors.Border, RoundedCornerShape(8.dp))
             .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        Box(Modifier.size(8.dp).background(dotColor, CircleShape))
-        content()
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            Box(Modifier.size(8.dp).background(dotColor, CircleShape))
+            content()
+        }
+        if (actions != null) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 12.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                actions()
+            }
+        }
     }
 }
 
@@ -334,4 +371,19 @@ private fun ReviewSettingsDialog(
             TextButton(onClick = onDismiss) { Text("Cancel", color = JazzColors.Text2) }
         },
     )
+}
+
+@Preview
+@Composable
+private fun TodayScreenPreview() {
+    val vm = remember {
+        val repo = DefaultJazzRepository(InMemoryBlobStore())
+        repo.db.value.songs.keys.firstOrNull()?.let { repo.startLearning(it) }
+        TodayViewModel(repo)
+    }
+    JazzTheme {
+        CompositionLocalProvider(LocalSnackbarHost provides remember { SnackbarHostState() }) {
+            TodayScreen(vm = vm, onOpenDetail = {}, onOpenVoicings = {})
+        }
+    }
 }
