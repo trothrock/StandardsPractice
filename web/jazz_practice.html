@@ -281,10 +281,6 @@
           <div class="prog-wrap"><div class="prog-bar" id="prog-bar" style="width:0%"></div></div>
         </div>
       </div>
-      <div class="section">
-        <div class="section-head"><h2>Next songs to learn</h2><span class="count">by jam-session priority</span></div>
-        <div id="next-songs-body"></div>
-      </div>
     </div>
     <div id="panel-activity" class="panel">
       <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px">
@@ -973,14 +969,6 @@ function renderProgress() {
   document.getElementById('prog-label').textContent = `${grad} of ${total} at level 2+`;
   document.getElementById('prog-pct').textContent = `${pct}%`;
   document.getElementById('prog-bar').style.width = pct+'%';
-  const nextNames = PRIORITY_ORDER.filter(n=>db.songs[n]&&db.songs[n].status==='untouched').slice(0,12);
-  const nsb = document.getElementById('next-songs-body');
-  if(!nextNames.length){ nsb.innerHTML='<div class="empty">All priority songs started!</div>'; return; }
-  nsb.innerHTML = nextNames.map((name,i)=>{
-    const sg = db.songs[name];
-    const safeName = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-    return `<div class="song-row clickable" onclick="showSongDetail('${safeName}')"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text3);width:22px">${i+1}</span>${lvlBadge(sg.baseLevel)}<div class="song-name-group"><span class="song-name">${name}</span>${styleBadge(sg.style)}</div><button class="btn-dots" onclick="openRowMenu(event,'${safeName}')">···</button></div>`;
-  }).join('');
 }
 
 function formatActivityEntry(entry) {
