@@ -281,6 +281,10 @@
           <div class="prog-wrap"><div class="prog-bar" id="prog-bar" style="width:0%"></div></div>
         </div>
       </div>
+      <div class="section">
+        <div class="section-head"><h2>Recently learned</h2><span class="count">most recent first</span></div>
+        <div id="recent-learned-body"></div>
+      </div>
     </div>
     <div id="panel-activity" class="panel">
       <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px">
@@ -969,6 +973,20 @@ function renderProgress() {
   document.getElementById('prog-label').textContent = `${grad} of ${total} at level 2+`;
   document.getElementById('prog-pct').textContent = `${pct}%`;
   document.getElementById('prog-bar').style.width = pct+'%';
+  const learnedEvents = (db.activity||[]).filter(e=>e.type==='learned').sort((a,b)=>b.ts-a.ts).slice(0,20);
+  const rlb = document.getElementById('recent-learned-body');
+  if(!learnedEvents.length) {
+    rlb.innerHTML = '<div class="empty">No songs learned yet.</div>';
+  } else {
+    rlb.innerHTML = learnedEvents.map(e=>{
+      const sg = db.songs[e.name];
+      const safeName = e.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+      const dateLabel = formatIntDate(e.date);
+      if(!sg) return `<div class="song-row"><div class="song-name-group"><span class="song-name">${e.name}</span></div><span class="song-meta">${dateLabel}</span></div>`;
+      const statusBadge = sg.status==='graduated' ? '<span class="badge badge-graduated">Graduated</span>' : '';
+      return `<div class="song-row clickable" onclick="showSongDetail('${safeName}')">${lvlBadge(sg.currentLevel)}<div class="song-name-group"><span class="song-name">${sg.name}</span>${styleBadge(sg.style)}</div>${statusBadge}<span class="song-meta">${dateLabel}</span><button class="btn-dots" onclick="openRowMenu(event,'${safeName}')">···</button></div>`;
+    }).join('');
+  }
 }
 
 function formatActivityEntry(entry) {
