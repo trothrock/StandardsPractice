@@ -223,7 +223,6 @@
       <div class="panel-sub" id="today-sub"></div>
       <div id="current-song-wrap"></div>
       <div id="rep-today-wrap"></div>
-      <div id="voicing-today-wrap"></div>
       <div class="section">
         <div class="section-head"><h2>Review</h2><div class="section-menu-wrap"><button class="btn-dots" onclick="toggleReviewMenu(event)">···</button><div class="dropdown" id="review-menu"><div class="dropdown-item" onclick="openReviewSettings()">Edit review settings</div></div></div></div>
         <div id="reviews-body"></div>
@@ -903,21 +902,6 @@ function renderToday() {
   } else {
     rtw.innerHTML = '';
   }
-  const fv = getFeaturedVoicing(db);
-  const vtw = document.getElementById('voicing-today-wrap');
-  if(fv) {
-    const safe = fv.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-    const fam = fv.familiarity||0;
-    const img = voicingImgHTML(fv, 'voicing-img-large');
-    const meta = [fv.category, fv.topNote!=null?`top note ${fv.topNote}`:''].filter(Boolean).join(' · ');
-    const doneToday = (db.activity||[]).some(e=>e.type==='voicing_practiced'&&e.name===fv.name&&e.date===tod);
-    const btn = doneToday
-      ? `<button class="btn-action" style="color:var(--green);border-color:rgba(39,174,96,0.3)" disabled>&#x2713; Practiced</button>`
-      : `<button class="btn-primary" onclick="voicingPracticed('${safe}')">Mark as practiced</button>`;
-    vtw.innerHTML = `<div class="current-song-card"><div class="current-song-dot" style="background:var(--gold2)"></div>${img}<div class="current-song-info" style="cursor:pointer" onclick="showPanel('voicings')"><div class="label">Today's voicing</div><div class="name">${fv.name}</div><div class="sub">${meta}</div></div>${lvlBadge(fam)}${btn}</div>`;
-  } else {
-    vtw.innerHTML = '';
-  }
   const rb = document.getElementById('reviews-body');
   const reviewedToday = Object.values(db.songs).some(s=>(s.reviews||[]).some(r=>r.date===tod));
   const hasUpcoming = Object.values(db.songs).some(s=>s.status==='active'&&s.nextReview&&s.nextReview>tod&&!(s.reviews||[]).some(r=>r.date===tod));
@@ -1409,15 +1393,6 @@ function voicingImgHTML(v, cls) {
   if(v.image) return `<img class="${cls}" src="images/voicings/${v.image}" alt="" onerror="this.classList.add('voicing-thumb-empty');this.replaceWith(Object.assign(document.createElement('div'),{className:this.className,textContent:'no img'}))">`;
   return `<div class="${cls} voicing-thumb-empty">no img</div>`;
 }
-function getFeaturedVoicing(db) {
-  const vs = db.voicings || [];
-  if(!vs.length) return null;
-  const minFam = Math.min(...vs.map(v=>v.familiarity||0));
-  if(minFam >= 2) return null;
-  const candidates = vs.filter(v=>(v.familiarity||0)===minFam).sort((a,b)=>a.sortSeed-b.sortSeed);
-  const dayCount = daysBetween(20200101, todayInt());
-  return candidates[((dayCount % candidates.length) + candidates.length) % candidates.length];
-}
 function renderVoicings() {
   const db = getDB();
   const container = document.getElementById('voicings-body');
@@ -1440,17 +1415,6 @@ function renderVoicings() {
     html += '</div>';
   });
   container.innerHTML = html;
-}
-function voicingPracticed(name) {
-  const db = getDB();
-  const v = (db.voicings||[]).find(v=>v.name===name);
-  if(!v) return;
-  const tod = todayInt();
-  if((db.activity||[]).some(e=>e.type==='voicing_practiced'&&e.name===name&&e.date===tod)) return;
-  v.familiarity = Math.min((v.familiarity||0)+1, 2);
-  logActivity(db, 'voicing_practiced', { name, familiarity: v.familiarity });
-  updateStreak(db); saveDB(db); renderAll();
-  toast(v.familiarity>=2 ? `"${name}" mastered!` : `"${name}" — familiarity now ${v.familiarity}.`);
 }
 let voicSelectedLevel = 0;
 function voicSelectLevel(lvl) {
