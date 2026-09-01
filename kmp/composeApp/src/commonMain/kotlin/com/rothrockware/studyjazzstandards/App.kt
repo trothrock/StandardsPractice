@@ -23,12 +23,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.rothrockware.studyjazzstandards.data.DateInt
+import com.rothrockware.studyjazzstandards.data.ImportBackupResult
 import com.rothrockware.studyjazzstandards.data.model.isOnboardingComplete
 import com.rothrockware.studyjazzstandards.di.AppContainer
 import com.rothrockware.studyjazzstandards.di.LocalAppContainer
@@ -37,6 +40,9 @@ import com.rothrockware.studyjazzstandards.navigation.Route
 import com.rothrockware.studyjazzstandards.navigation.Tab as NavTab
 import com.rothrockware.studyjazzstandards.ui.activity.ActivityScreen
 import com.rothrockware.studyjazzstandards.ui.activity.ActivityViewModel
+import com.rothrockware.studyjazzstandards.ui.backup.backupFileAccessSupported
+import com.rothrockware.studyjazzstandards.ui.backup.pickBackupFile
+import com.rothrockware.studyjazzstandards.ui.backup.saveBackupFile
 import com.rothrockware.studyjazzstandards.ui.components.ConfirmDialog
 import com.rothrockware.studyjazzstandards.ui.components.LocalSnackbarHost
 import com.rothrockware.studyjazzstandards.ui.components.MenuAction
@@ -59,6 +65,7 @@ import com.rothrockware.studyjazzstandards.ui.today.TodayScreen
 import com.rothrockware.studyjazzstandards.ui.today.TodayViewModel
 import com.rothrockware.studyjazzstandards.ui.voicings.VoicingsScreen
 import com.rothrockware.studyjazzstandards.ui.voicings.VoicingsViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun App(container: AppContainer) {
@@ -71,6 +78,7 @@ fun App(container: AppContainer) {
             val repo = container.repository
             val nav: AppViewModel = viewModel { AppViewModel() }
             val db by repo.db.collectAsState()
+            val scope = rememberCoroutineScope()
 
             Scaffold(
                 snackbarHost = { SnackbarHost(snackbarHost) },
@@ -82,6 +90,7 @@ fun App(container: AppContainer) {
                         .padding(padding),
                 ) {
                     var showResetConfirm by remember { mutableStateOf(false) }
+                    var pendingImportJson by remember { mutableStateOf<String?>(null) }
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically,
@@ -95,9 +104,50 @@ fun App(container: AppContainer) {
                                 .padding(start = 16.dp, top = 12.dp, bottom = 8.dp),
                         )
                         RowMenu(
-                            listOf(
-                                MenuAction("Reset all data", danger = true) { showResetConfirm = true },
-                            ),
+                            buildList {
+                                if (backupFileAccessSupported) {
+                                    add(
+                                        MenuAction("Export backup") {
+                                            scope.launch {
+                                                val name = "jazz-tracker-${DateInt.formatIso(repo.today())}.json"
+                                                val saved = saveBackupFile(name, repo.exportBackup())
+                                                if (saved) snackbarHost.showSnackbar("Backup exported.")
+                                            }
+                                        },
+                                    )
+                                    add(
+                                        MenuAction("Import backup") {
+                                            scope.launch {
+                                                val picked = pickBackupFile()
+                                                if (picked != null) pendingImportJson = picked
+                                            }
+                                        },
+                                    )
+                                }
+                                add(MenuAction("Reset all data", danger = true) { showResetConfirm = true })
+                            },
+                        )
+                    }
+                    if (pendingImportJson != null) {
+                        ConfirmDialog(
+                            title = "Import backup?",
+                            text = "This will replace all current data — progress, activity, repertoire, and voicings. Export a backup first if you want to keep it.",
+                            confirmLabel = "Import",
+                            onConfirm = {
+                                val json = pendingImportJson!!
+                                pendingImportJson = null
+                                val result = repo.importBackup(json)
+                                scope.launch {
+                                    snackbarHost.showSnackbar(
+                                        if (result == ImportBackupResult.Ok) {
+                                            "Backup imported successfully."
+                                        } else {
+                                            "Could not read backup file."
+                                        },
+                                    )
+                                }
+                            },
+                            onDismiss = { pendingImportJson = null },
                         )
                     }
                     if (showResetConfirm) {

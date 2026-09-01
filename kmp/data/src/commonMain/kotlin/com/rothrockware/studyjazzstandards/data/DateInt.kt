@@ -50,4 +50,12 @@ object DateInt {
         val d = dateInt.toLocalDate()
         return "${MONTHS[d.month.number - 1]} ${d.day}"
     }
+
+    /** "2026-03-05" — sortable, filesystem-safe, matches the web app's backup filenames. */
+    fun formatIso(dateInt: Int): String {
+        val d = dateInt.toLocalDate()
+        val mm = d.month.number.toString().padStart(2, '0')
+        val dd = d.day.toString().padStart(2, '0')
+        return "${d.year}-$mm-$dd"
+    }
 }

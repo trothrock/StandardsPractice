@@ -13,3 +13,8 @@ val JazzJson: Json = Json {
     explicitNulls = false
     encodeDefaults = true
 }
+
+/** Same shape as [JazzJson], but indented for human-readable backup exports. */
+val JazzJsonPretty: Json = Json(JazzJson) {
+    prettyPrint = true
+}

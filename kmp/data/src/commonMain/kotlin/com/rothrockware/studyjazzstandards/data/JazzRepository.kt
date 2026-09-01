@@ -23,6 +23,11 @@ sealed interface ReviewOutcome {
     data object BackTomorrow : ReviewOutcome
 }
 
+sealed interface ImportBackupResult {
+    data object Ok : ImportBackupResult
+    data object InvalidFormat : ImportBackupResult
+}
+
 interface JazzRepository {
     val db: StateFlow<JazzDb>
 
@@ -69,6 +74,16 @@ interface JazzRepository {
     fun completeOnboarding(levels: Map<String, Int>)
     fun skipOnboarding()
     fun resetAll()
+
+    // Backup
+    /** Serializes the current database, in the same JSON shape the web app exports. */
+    fun exportBackup(): String
+
+    /**
+     * Replaces the entire database with [json], which must be a backup produced by
+     * this app or the web app. Runs the same migrations a freshly loaded db would.
+     */
+    fun importBackup(json: String): ImportBackupResult
 }
 
 /** Web parity: normalize flat/sharp shorthand ("b9" -> "♭9", "#5" -> "♯5"). */

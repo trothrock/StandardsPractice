@@ -19,6 +19,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.serialization.SerializationException
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.decodeFromJsonElement
 
 /**
  * Port of the web app's business logic (web/jazz_practice.html script block).
@@ -39,13 +41,19 @@ class DefaultJazzRepository(
     // ---------- Init & migrations (web initDB) ----------
 
     private fun loadAndMigrate(): JazzDb {
-        var db = readStore()
-        var needsSave = false
-
-        if (db == null) {
-            db = freshDb()
-            needsSave = true
+        val stored = readStore()
+        if (stored == null) {
+            val fresh = freshDb()
+            writeStore(fresh)
+            return fresh
         }
+        return applyMigrations(stored)
+    }
+
+    /** Same migrations a freshly loaded db goes through; also run on imported backups. */
+    private fun applyMigrations(input: JazzDb): JazzDb {
+        var db = input
+        var needsSave = false
 
         // Voicings seed migration (voicingsSeedVersion 2): merge user familiarity
         // and image onto the fresh seed, keep custom voicings not in the seed.
@@ -672,5 +680,30 @@ class DefaultJazzRepository(
     override fun resetAll() {
         store.clear()
         _db.value = loadAndMigrate()
+    }
+
+    // ---------- Backup ----------
+
+    override fun exportBackup(): String = JazzJsonPretty.encodeToString(JazzDb.serializer(), _db.value)
+
+    override fun importBackup(json: String): ImportBackupResult {
+        val element = try {
+            JazzJson.parseToJsonElement(json)
+        } catch (e: SerializationException) {
+            return ImportBackupResult.InvalidFormat
+        }
+        // Web parity: a backup must have a `songs` key to be considered valid.
+        if (element !is JsonObject || "songs" !in element) return ImportBackupResult.InvalidFormat
+        val parsed = try {
+            JazzJson.decodeFromJsonElement(JazzDb.serializer(), element)
+        } catch (e: SerializationException) {
+            return ImportBackupResult.InvalidFormat
+        } catch (e: IllegalArgumentException) {
+            return ImportBackupResult.InvalidFormat
+        }
+        val migrated = applyMigrations(parsed)
+        writeStore(migrated)
+        _db.value = migrated
+        return ImportBackupResult.Ok
     }
 }
