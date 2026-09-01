@@ -144,6 +144,12 @@
   .detail-meta-field .label { color: var(--text3); font-family: 'IBM Plex Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px; }
   .detail-meta-field .value { color: var(--text2); font-size: 13px; }
   .detail-meta-field .value.placeholder { color: var(--text3); font-style: italic; }
+  .notes-body { padding: 16px 20px; }
+  .notes-view { font-size: 13px; line-height: 1.6; color: var(--text2); white-space: pre-wrap; }
+  .notes-view.placeholder { color: var(--text3); font-style: italic; }
+  .notes-textarea { width: 100%; min-height: 110px; background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius); color: var(--text); font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; line-height: 1.5; padding: 10px 12px; outline: none; resize: vertical; transition: border-color 0.15s; }
+  .notes-textarea:focus { border-color: var(--gold); }
+  .notes-actions { display: flex; gap: 8px; margin-top: 10px; }
   .btn-back { background: transparent; border: none; color: var(--text3); font-size: 12px; font-family: 'IBM Plex Mono', monospace; cursor: pointer; padding: 0; margin-bottom: 16px; display: flex; align-items: center; gap: 6px; letter-spacing: 0.04em; transition: color 0.15s; }
   .btn-back:hover { color: var(--text); }
   .song-row.clickable { cursor: pointer; }
@@ -1082,7 +1088,46 @@ function renderSongDetail(name) {
         const timeStr = d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
         return `<div class="timeline-entry"><div class="timeline-dot ${dot}"></div><div><div class="timeline-label">${label}</div><div class="timeline-meta">${dateStr} · ${timeStr}</div></div></div>`;
       }).join('');
-  container.innerHTML = header + `<div class="section"><div class="section-head"><h2>Activity</h2></div>${timeline}</div>`;
+  const notesSection = `<div class="section"><div class="section-head"><h2>Notes</h2></div><div class="notes-body" id="notes-body"></div></div>`;
+  container.innerHTML = header + notesSection + `<div class="section"><div class="section-head"><h2>Activity</h2></div>${timeline}</div>`;
+  renderNotesView(name);
+}
+function renderNotesView(name) {
+  const db = getDB();
+  const sg = db.songs[name];
+  const nb = document.getElementById('notes-body');
+  if(!nb || !sg) return;
+  const safeName = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  const editBtn = `<div class="notes-actions"><button class="btn-action" onclick="editSongNotes('${safeName}')">Edit</button></div>`;
+  if(sg.notes) {
+    nb.innerHTML = `<div class="notes-view" id="notes-view"></div>${editBtn}`;
+    document.getElementById('notes-view').textContent = sg.notes;
+  } else {
+    nb.innerHTML = `<div class="notes-view placeholder">No notes yet.</div>${editBtn}`;
+  }
+}
+function editSongNotes(name) {
+  const db = getDB();
+  const sg = db.songs[name];
+  const nb = document.getElementById('notes-body');
+  if(!nb || !sg) return;
+  const safeName = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  nb.innerHTML = `<textarea class="notes-textarea" id="notes-input" placeholder="Add notes about this song..."></textarea><div class="notes-actions"><button class="btn-confirm" onclick="saveSongNotes('${safeName}')">Save</button><button class="btn-cancel" onclick="cancelEditSongNotes('${safeName}')">Cancel</button></div>`;
+  const input = document.getElementById('notes-input');
+  input.value = sg.notes || '';
+  input.focus();
+}
+function saveSongNotes(name) {
+  const db = getDB();
+  const sg = db.songs[name];
+  if(!sg) return;
+  sg.notes = document.getElementById('notes-input').value.trim();
+  saveDB(db);
+  renderNotesView(name);
+  toast('Notes saved.');
+}
+function cancelEditSongNotes(name) {
+  renderNotesView(name);
 }
 function showPanel(id) {
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
