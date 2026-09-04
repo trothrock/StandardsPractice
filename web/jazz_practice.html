@@ -921,7 +921,7 @@ function renderToday() {
       ? `<button class="btn-action" style="color:var(--green);border-color:rgba(39,174,96,0.3)" disabled>&#x2713; Reviewed</button>`
       : `<button class="btn-pass" onclick="markRepertoireReviewed('${safe}')">Reviewed</button>`;
     const continueBtn = doneToday ? '' : `<button class="btn-fail" onclick="repertoireContinueTomorrow('${safe}')">Continue tomorrow</button>`;
-    rtw.innerHTML = `<div class="current-song-card"><div class="current-song-dot" style="background:var(--gold2)"></div><div class="current-song-info"><div class="label">Today's repertoire piece</div><div class="name">${featured.name}</div>${meta?`<div class="sub">${meta}</div>`:''}</div>${reviewBtn}${continueBtn}</div>`;
+    rtw.innerHTML = `<div class="current-song-card"><div class="current-song-dot" style="background:var(--gold2)"></div><div class="current-song-info" style="cursor:pointer" onclick="showRepertoireDetail('${safe}')"><div class="label">Today's repertoire piece</div><div class="name">${featured.name}</div>${meta?`<div class="sub">${meta}</div>`:''}</div>${reviewBtn}${continueBtn}</div>`;
   } else {
     rtw.innerHTML = '';
   }
@@ -1025,6 +1025,7 @@ function formatActivityEntry(entry) {
     case 'repertoire_added':   return { dot:'blue',  label:'Repertoire added',          detail:entry.name };
     case 'repertoire_reviewed':return { dot:'green', label:'Repertoire reviewed',        detail:entry.name };
     case 'repertoire_deferred':return { dot:'gold',  label:'Repertoire continued',       detail:entry.name };
+    case 'repertoire_removed': return { dot:'red',   label:'Removed from repertoire',    detail:entry.name };
     case 'voicing_added':      return { dot:'blue',  label:'Voicing added',              detail:entry.name };
     case 'voicing_practiced':  return { dot:'green', label:entry.familiarity>=2?'Voicing mastered':`Voicing practiced — familiarity ${entry.familiarity}`, detail:entry.name };
     case 'voicing_removed':    return { dot:'red',   label:'Voicing removed',            detail:entry.name };
@@ -1073,11 +1074,40 @@ function renderActivity() {
   }).join('');
 }
 let detailOriginPanel = 'library';
+let detailType = 'song';
 function showSongDetail(name) {
   const active = document.querySelector('.panel.active');
   detailOriginPanel = active ? active.id.replace('panel-','') : 'library';
+  detailType = 'song';
   renderSongDetail(name);
   showPanel('detail');
+}
+function showRepertoireDetail(name) {
+  const active = document.querySelector('.panel.active');
+  detailOriginPanel = active ? active.id.replace('panel-','') : 'repertoire';
+  detailType = 'repertoire';
+  renderRepertoireDetail(name);
+  showPanel('detail');
+}
+function renderRepertoireDetail(name) {
+  const db = getDB();
+  const p = (db.repertoire||[]).find(p=>p.name===name);
+  const container = document.getElementById('detail-body');
+  if(!p){ container.innerHTML='<div class="empty">Piece not found.</div>'; return; }
+  const header = `<div class="detail-header"><div class="detail-header-top"><span class="detail-title">${p.name}</span><span class="badge badge-graduated">In repertoire</span></div><div class="detail-meta-grid"><div class="detail-meta-field"><div class="label">Last reviewed</div><div class="value${p.lastReviewed?'':' placeholder'}">${p.lastReviewed?formatIntDate(p.lastReviewed):'Never reviewed'}</div></div><div class="detail-meta-field"><div class="label">Composer</div><div class="value${p.composer?'':' placeholder'}">${p.composer||'—'}</div></div><div class="detail-meta-field"><div class="label">Added</div><div class="value${p.addedDate?'':' placeholder'}">${p.addedDate?formatIntDate(p.addedDate):'—'}</div></div></div></div>`;
+  const entries = (db.activity||[]).filter(e=>e.name===name||e.oldName===name).sort((a,b)=>b.ts-a.ts);
+  const timeline = entries.length===0
+    ? '<div class="empty">No activity for this piece yet.</div>'
+    : entries.map(entry=>{
+        const {dot,label} = formatActivityEntry(entry);
+        const d = new Date(entry.ts);
+        const dateStr = d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+        const timeStr = d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+        return `<div class="timeline-entry"><div class="timeline-dot ${dot}"></div><div><div class="timeline-label">${label}</div><div class="timeline-meta">${dateStr} · ${timeStr}</div></div></div>`;
+      }).join('');
+  const notesSection = `<div class="section"><div class="section-head"><h2>Notes</h2></div><div class="notes-body" id="notes-body"></div></div>`;
+  container.innerHTML = header + notesSection + `<div class="section"><div class="section-head"><h2>Activity</h2></div>${timeline}</div>`;
+  renderNotesView('repertoire', name);
 }
 function renderSongDetail(name) {
   const db = getDB(), tod = todayInt();
@@ -1107,44 +1137,47 @@ function renderSongDetail(name) {
       }).join('');
   const notesSection = `<div class="section"><div class="section-head"><h2>Notes</h2></div><div class="notes-body" id="notes-body"></div></div>`;
   container.innerHTML = header + notesSection + `<div class="section"><div class="section-head"><h2>Activity</h2></div>${timeline}</div>`;
-  renderNotesView(name);
+  renderNotesView('song', name);
 }
-function renderNotesView(name) {
+function getDetailEntity(type, db, name) {
+  return type==='repertoire' ? (db.repertoire||[]).find(p=>p.name===name) : db.songs[name];
+}
+function renderNotesView(type, name) {
   const db = getDB();
-  const sg = db.songs[name];
+  const entity = getDetailEntity(type, db, name);
   const nb = document.getElementById('notes-body');
-  if(!nb || !sg) return;
+  if(!nb || !entity) return;
   const safeName = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-  const editBtn = `<div class="notes-actions"><button class="btn-action" onclick="editSongNotes('${safeName}')">Edit</button></div>`;
-  if(sg.notes) {
+  const editBtn = `<div class="notes-actions"><button class="btn-action" onclick="editSongNotes('${type}','${safeName}')">Edit</button></div>`;
+  if(entity.notes) {
     nb.innerHTML = `<div class="notes-view" id="notes-view"></div>${editBtn}`;
-    document.getElementById('notes-view').textContent = sg.notes;
+    document.getElementById('notes-view').textContent = entity.notes;
   } else {
     nb.innerHTML = `<div class="notes-view placeholder">No notes yet.</div>${editBtn}`;
   }
 }
-function editSongNotes(name) {
+function editSongNotes(type, name) {
   const db = getDB();
-  const sg = db.songs[name];
+  const entity = getDetailEntity(type, db, name);
   const nb = document.getElementById('notes-body');
-  if(!nb || !sg) return;
+  if(!nb || !entity) return;
   const safeName = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-  nb.innerHTML = `<textarea class="notes-textarea" id="notes-input" placeholder="Add notes about this song..."></textarea><div class="notes-actions"><button class="btn-confirm" onclick="saveSongNotes('${safeName}')">Save</button><button class="btn-cancel" onclick="cancelEditSongNotes('${safeName}')">Cancel</button></div>`;
+  nb.innerHTML = `<textarea class="notes-textarea" id="notes-input" placeholder="Add notes about this song..."></textarea><div class="notes-actions"><button class="btn-confirm" onclick="saveSongNotes('${type}','${safeName}')">Save</button><button class="btn-cancel" onclick="cancelEditSongNotes('${type}','${safeName}')">Cancel</button></div>`;
   const input = document.getElementById('notes-input');
-  input.value = sg.notes || '';
+  input.value = entity.notes || '';
   input.focus();
 }
-function saveSongNotes(name) {
+function saveSongNotes(type, name) {
   const db = getDB();
-  const sg = db.songs[name];
-  if(!sg) return;
-  sg.notes = document.getElementById('notes-input').value.trim();
+  const entity = getDetailEntity(type, db, name);
+  if(!entity) return;
+  entity.notes = document.getElementById('notes-input').value.trim();
   saveDB(db);
-  renderNotesView(name);
+  renderNotesView(type, name);
   toast('Notes saved.');
 }
-function cancelEditSongNotes(name) {
-  renderNotesView(name);
+function cancelEditSongNotes(type, name) {
+  renderNotesView(type, name);
 }
 function showPanel(id) {
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
@@ -1346,7 +1379,7 @@ function renderRepertoire() {
     const meta = [p.composer, p.notes].filter(Boolean).join(' · ');
     const reviewed = p.lastReviewed ? `Last reviewed ${formatIntDate(p.lastReviewed)}` : 'Never reviewed';
     const safe = p.name.replace(/'/g,"\\'");
-    html += `<div class="song-row"><div class="song-name-group"><span class="song-name">${p.name}</span>${meta?`<span class="song-meta">${meta}</span>`:''}</div><span class="song-meta">${reviewed}</span><button class="btn-dots" onclick="openRepMenu(event,'${safe}')">···</button></div>`;
+    html += `<div class="song-row clickable" onclick="showRepertoireDetail('${safe}')"><div class="song-name-group"><span class="song-name">${p.name}</span>${meta?`<span class="song-meta">${meta}</span>`:''}</div><span class="song-meta">${reviewed}</span><button class="btn-dots" onclick="openRepMenu(event,'${safe}')">···</button></div>`;
   });
   html += '</div>';
   container.innerHTML = html;
