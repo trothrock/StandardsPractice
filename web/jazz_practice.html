@@ -570,6 +570,13 @@
       <label>Max songs per day</label>
       <input type="number" id="review-max-input" min="1" max="20">
     </div>
+    <div class="field">
+      <label>Review queue includes</label>
+      <select id="review-mode-input">
+        <option value="all">All songs with 2+ ratings</option>
+        <option value="learnedOnly">Only recently learned songs</option>
+      </select>
+    </div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeReviewSettings()">Cancel</button>
       <button class="btn-confirm" onclick="submitReviewSettings()">Save</button>
@@ -674,6 +681,7 @@ function initDB() {
     saveDB(db);
   }
   if(db.reviewMax === undefined) db.reviewMax = 1;
+  if(db.reviewQueueMode === undefined) db.reviewQueueMode = 'all';
   if(db.onboardingComplete === undefined) db.onboardingComplete = true;
   let needsSave = false;
   const seedMap = new Map(ALL_SONGS.map(([name,style,composer,year])=>[name,{composer,year}]));
@@ -814,11 +822,17 @@ function scoreSong(sg, tod) {
   const failRate = recent.length > 0 ? recent.filter(r => !r.passed).length / recent.length : 0;
   return overdue * 0.5 + fragility * 10 + failRate * 20;
 }
+function isLearnedSong(db, name) {
+  return (db.activity||[]).some(e=>e.type==='learned'&&e.name===name);
+}
+function reviewEligible(db, sg) {
+  return sg.status==='active' && (db.reviewQueueMode!=='learnedOnly' || isLearnedSong(db, sg.name));
+}
 function normalizeReviewQueue(db) {
   const tod = todayInt();
   const max = (db.reviewMax || 1) + getExtraReviewCount(db);
   const active = Object.values(db.songs)
-    .filter(s=>s.status==='active'&&s.nextReview)
+    .filter(s=>reviewEligible(db,s)&&s.nextReview)
     .sort((a,b)=>{ const d=scoreSong(b,tod)-scoreSong(a,tod); return d!==0?d:a.sortSeed-b.sortSeed; });
   const due = active.filter(s=>s.nextReview<=tod && !(s.reviews||[]).some(r=>r.date===tod));
   const reviewedCount = active.filter(s=>(s.reviews||[]).some(r=>r.date===tod)).length;
@@ -841,6 +855,7 @@ function openReviewSettings() {
   closeReviewMenu();
   const db = getDB();
   document.getElementById('review-max-input').value = db.reviewMax || 1;
+  document.getElementById('review-mode-input').value = db.reviewQueueMode || 'all';
   document.getElementById('review-settings-modal').classList.add('open');
   setTimeout(()=>document.getElementById('review-max-input').focus(), 50);
 }
@@ -849,8 +864,10 @@ function handleReviewSettingsBackdropClick(e) { if(e.target===document.getElemen
 function submitReviewSettings() {
   const val = parseInt(document.getElementById('review-max-input').value, 10);
   if(!val || val < 1) return;
+  const mode = document.getElementById('review-mode-input').value;
   const db = getDB();
   db.reviewMax = val;
+  db.reviewQueueMode = mode;
   saveDB(db); closeReviewSettings(); renderAll();
   toast(`Max reviews per day set to ${val}.`);
 }
@@ -861,7 +878,7 @@ function getExtraReviewCount(db) {
 function reviewAnotherSong() {
   const db = getDB(), tod = todayInt();
   const upcoming = Object.values(db.songs)
-    .filter(s=>s.status==='active'&&s.nextReview&&s.nextReview>tod&&!(s.reviews||[]).some(r=>r.date===tod))
+    .filter(s=>reviewEligible(db,s)&&s.nextReview&&s.nextReview>tod&&!(s.reviews||[]).some(r=>r.date===tod))
     .sort((a,b)=>{ const d=scoreSong(b,tod)-scoreSong(a,tod); return d!==0?d:a.sortSeed-b.sortSeed; });
   if(!upcoming.length){ toast('No more songs available to review.'); return; }
   upcoming[0].nextReview = tod;
@@ -875,7 +892,7 @@ function reviewAnotherSong() {
 function renderToday() {
   const db = getDB(), tod = todayInt();
   if(normalizeReviewQueue(db)) saveDB(db);
-  const due = Object.values(db.songs).filter(s=>s.status==='active'&&s.nextReview&&s.nextReview<=tod&&!(s.reviews||[]).some(r=>r.date===tod)).sort((a,b)=>scoreSong(b,tod)-scoreSong(a,tod));
+  const due = Object.values(db.songs).filter(s=>reviewEligible(db,s)&&s.nextReview&&s.nextReview<=tod&&!(s.reviews||[]).some(r=>r.date===tod)).sort((a,b)=>scoreSong(b,tod)-scoreSong(a,tod));
   const active = Object.values(db.songs).filter(s=>s.status==='active'||s.status==='graduated');
   const grad = Object.values(db.songs).filter(s=>s.currentLevel>=2);
   document.getElementById('today-date').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
@@ -910,7 +927,7 @@ function renderToday() {
   }
   const rb = document.getElementById('reviews-body');
   const reviewedToday = Object.values(db.songs).some(s=>(s.reviews||[]).some(r=>r.date===tod));
-  const hasUpcoming = Object.values(db.songs).some(s=>s.status==='active'&&s.nextReview&&s.nextReview>tod&&!(s.reviews||[]).some(r=>r.date===tod));
+  const hasUpcoming = Object.values(db.songs).some(s=>reviewEligible(db,s)&&s.nextReview&&s.nextReview>tod&&!(s.reviews||[]).some(r=>r.date===tod));
   rb.innerHTML = due.length===0
     ? (reviewedToday
         ? `<div class="all-clear"><div class="big">Reviews done</div><div style="font-size:12px;margin-top:4px">Nothing left to review today · check back tomorrow</div>${hasUpcoming?`<button class="btn-action" style="margin-top:14px;font-size:12px" onclick="reviewAnotherSong()">Review another song</button>`:''}</div>`
