@@ -1394,6 +1394,16 @@ function markRepertoireReviewed(name) {
   saveDB(db); renderAll();
   toast(`"${name}" marked as reviewed.`);
 }
+function startReviewingRep(name) {
+  const db = getDB();
+  const p = db.repertoire.find(p=>p.name===name);
+  if(!p) return;
+  db.repertoire.forEach(x=>{ if(x!==p) delete x.pinnedDate; });
+  p.pinnedDate = todayInt();
+  logActivity(db, 'repertoire_start_reviewing', { name });
+  saveDB(db); renderAll();
+  toast(`"${name}" set as today's repertoire piece.`);
+}
 function repertoireContinueTomorrow(name) {
   const db = getDB();
   const p = db.repertoire.find(p=>p.name===name);
@@ -1436,7 +1446,7 @@ function openRepMenu(e, name) {
   e.stopPropagation();
   const safe = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
   const menu = document.getElementById('row-menu');
-  menu.innerHTML = `<div class="dropdown-item" onclick="openEditRep('${safe}');closeRowMenu()">Edit</div><div class="dropdown-item danger" onclick="openRemoveRep('${safe}');closeRowMenu()">Remove</div>`;
+  menu.innerHTML = `<div class="dropdown-item" onclick="startReviewingRep('${safe}');closeRowMenu()">Start reviewing</div><div class="dropdown-item" onclick="openEditRep('${safe}');closeRowMenu()">Edit</div><div class="dropdown-item danger" onclick="openRemoveRep('${safe}');closeRowMenu()">Remove</div>`;
   const rect = e.currentTarget.getBoundingClientRect();
   menu.style.top = (rect.bottom + 4) + 'px';
   menu.style.right = (window.innerWidth - rect.right) + 'px';
