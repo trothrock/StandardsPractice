@@ -969,10 +969,15 @@ function renderToday() {
     const safe = featured.name.replace(/'/g,"\\'");
     const meta = featured.composer || '';
     const doneToday = featured.lastReviewed === tod;
+    const deferredToday = featured.deferredDate === tod;
     const reviewBtn = doneToday
       ? `<button class="btn-action" style="color:var(--green);border-color:rgba(39,174,96,0.3)" disabled>&#x2713; Reviewed</button>`
       : `<button class="btn-pass" onclick="markRepertoireReviewed('${safe}')">Reviewed</button>`;
-    const continueBtn = doneToday ? '' : `<button class="btn-fail" onclick="repertoireContinueTomorrow('${safe}')">Continue tomorrow</button>`;
+    const continueBtn = doneToday
+      ? ''
+      : deferredToday
+        ? `<button class="btn-fail" style="opacity:0.6;cursor:default" disabled>Continuing tomorrow</button>`
+        : `<button class="btn-fail" onclick="repertoireContinueTomorrow('${safe}')">Continue tomorrow</button>`;
     rtw.innerHTML = `<div class="current-song-card"><div class="current-song-dot" style="background:var(--gold2)"></div><div class="current-song-info" style="cursor:pointer" onclick="showRepertoireDetail('${safe}')"><div class="label">Today's repertoire piece</div><div class="name">${featured.name}</div>${meta?`<div class="sub">${meta}</div>`:''}</div>${reviewBtn}${continueBtn}</div>`;
   } else {
     rtw.innerHTML = '';
@@ -983,10 +988,15 @@ function renderToday() {
     const vsafe = featuredVoicing.name.replace(/'/g,"\\'");
     const vmeta = [featuredVoicing.category, featuredVoicing.topNote!=null?`Top note ${featuredVoicing.topNote}`:null].filter(Boolean).join(' · ');
     const vDoneToday = featuredVoicing.lastPracticed === tod;
+    const vDeferredToday = featuredVoicing.deferredDate === tod;
     const practiceBtnV = vDoneToday
       ? `<button class="btn-action" style="color:var(--green);border-color:rgba(39,174,96,0.3)" disabled>&#x2713; Practiced</button>`
       : `<button class="btn-pass" onclick="markVoicingPracticed('${vsafe}')">Practiced</button>`;
-    const continueBtnV = vDoneToday ? '' : `<button class="btn-fail" onclick="voicingContinueTomorrow('${vsafe}')">Continue tomorrow</button>`;
+    const continueBtnV = vDoneToday
+      ? ''
+      : vDeferredToday
+        ? `<button class="btn-fail" style="opacity:0.6;cursor:default" disabled>Continuing tomorrow</button>`
+        : `<button class="btn-fail" onclick="voicingContinueTomorrow('${vsafe}')">Continue tomorrow</button>`;
     vtw.innerHTML = `<div class="current-song-card"><div class="current-song-dot" style="background:var(--blue)"></div><div class="current-song-info" style="cursor:pointer" onclick="showVoicingDetail('${vsafe}')"><div class="label">Today's voicing</div><div class="name">${featuredVoicing.name}</div>${vmeta?`<div class="sub">${vmeta}</div>`:''}</div>${lvlBadge(featuredVoicing.familiarity||0)}${practiceBtnV}${continueBtnV}</div>`;
   } else {
     vtw.innerHTML = '';
@@ -1468,6 +1478,8 @@ function getFeaturedRepertoire(db) {
   const today = todayInt();
   const pinned = pieces.find(p => p.pinnedDate === today);
   if(pinned) return pinned;
+  const deferredToday = pieces.find(p => p.deferredDate === today);
+  if(deferredToday) return deferredToday;
   const reviewedToday = pieces.find(p => p.lastReviewed === today);
   if(reviewedToday) return reviewedToday;
   return [...pieces].sort((a, b) => {
@@ -1506,6 +1518,7 @@ function markRepertoireReviewed(name) {
   if(!p) return;
   p.lastReviewed = todayInt();
   delete p.pinnedDate;
+  delete p.deferredDate;
   logActivity(db, 'repertoire_reviewed', { name });
   saveDB(db); renderAll();
   toast(`"${name}" marked as reviewed.`);
@@ -1514,8 +1527,9 @@ function startReviewingRep(name) {
   const db = getDB();
   const p = db.repertoire.find(p=>p.name===name);
   if(!p) return;
-  db.repertoire.forEach(x=>{ if(x!==p) delete x.pinnedDate; });
+  db.repertoire.forEach(x=>{ if(x!==p) { delete x.pinnedDate; delete x.deferredDate; } });
   p.pinnedDate = todayInt();
+  delete p.deferredDate;
   logActivity(db, 'repertoire_start_reviewing', { name });
   saveDB(db); renderAll();
   toast(`"${name}" set as today's repertoire piece.`);
@@ -1525,6 +1539,7 @@ function repertoireContinueTomorrow(name) {
   const p = db.repertoire.find(p=>p.name===name);
   if(!p) return;
   p.pinnedDate = addDays(todayInt(), 1);
+  p.deferredDate = todayInt();
   logActivity(db, 'repertoire_deferred', { name });
   saveDB(db); renderAll();
   toast(`"${name}" queued for tomorrow.`);
@@ -1535,6 +1550,8 @@ function getFeaturedVoicing(db) {
   const today = todayInt();
   const pinned = voicings.find(v => v.pinnedDate === today);
   if(pinned) return pinned;
+  const deferredToday = voicings.find(v => v.deferredDate === today);
+  if(deferredToday) return deferredToday;
   const practicedToday = voicings.find(v => v.lastPracticed === today);
   if(practicedToday) return practicedToday;
   return [...voicings].sort((a, b) => {
@@ -1550,6 +1567,7 @@ function markVoicingPracticed(name) {
   if(!v) return;
   v.lastPracticed = todayInt();
   delete v.pinnedDate;
+  delete v.deferredDate;
   logActivity(db, 'voicing_practiced', { name, familiarity: v.familiarity||0 });
   saveDB(db); renderAll();
   toast(`"${name}" marked as practiced.`);
@@ -1558,8 +1576,9 @@ function startPracticingVoicing(name) {
   const db = getDB();
   const v = (db.voicings||[]).find(v=>v.name===name);
   if(!v) return;
-  (db.voicings||[]).forEach(x=>{ if(x!==v) delete x.pinnedDate; });
+  (db.voicings||[]).forEach(x=>{ if(x!==v) { delete x.pinnedDate; delete x.deferredDate; } });
   v.pinnedDate = todayInt();
+  delete v.deferredDate;
   saveDB(db); renderAll();
   toast(`"${name}" set as today's voicing.`);
 }
@@ -1568,6 +1587,7 @@ function voicingContinueTomorrow(name) {
   const v = (db.voicings||[]).find(v=>v.name===name);
   if(!v) return;
   v.pinnedDate = addDays(todayInt(), 1);
+  v.deferredDate = todayInt();
   saveDB(db); renderAll();
   toast(`"${name}" queued for tomorrow.`);
 }
