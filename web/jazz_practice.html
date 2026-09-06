@@ -1023,6 +1023,7 @@ function formatActivityEntry(entry) {
     case 'stopped_learning': return { dot:'dim',   label:'Stopped learning',         detail:entry.name };
     case 'song_removed':       return { dot:'red',   label:'Removed from library',     detail:entry.name };
     case 'repertoire_added':   return { dot:'blue',  label:'Repertoire added',          detail:entry.name };
+    case 'repertoire_start_reviewing': return { dot:'gold', label:'Started reviewing',  detail:entry.name };
     case 'repertoire_reviewed':return { dot:'green', label:'Repertoire reviewed',        detail:entry.name };
     case 'repertoire_deferred':return { dot:'gold',  label:'Repertoire continued',       detail:entry.name };
     case 'repertoire_removed': return { dot:'red',   label:'Removed from repertoire',    detail:entry.name };
