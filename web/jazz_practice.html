@@ -174,6 +174,7 @@
   .ranker-song-meta { font-size: 11px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.03em; }
   .voicing-thumb { width: 44px; height: 44px; border-radius: var(--radius); object-fit: cover; background: var(--bg3); border: 1px solid var(--border2); flex-shrink: 0; }
   .voicing-img-large { width: 64px; height: 64px; border-radius: var(--radius); object-fit: cover; background: var(--bg3); border: 1px solid var(--border2); flex-shrink: 0; }
+  .voicing-img-full { width: 100%; height: 260px; border-radius: var(--radius-lg); object-fit: contain; background: var(--bg3); border: 1px solid var(--border2); margin-bottom: 16px; font-size: 13px; }
   .voicing-thumb-empty { display: flex; align-items: center; justify-content: center; color: var(--text3); font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-align: center; line-height: 1.1; }
   .top-note { font-size: 11px; color: var(--gold2); font-family: 'IBM Plex Mono', monospace; flex-shrink: 0; }
 </style>
@@ -828,6 +829,9 @@ function isLearnedSong(db, name) {
 function reviewEligible(db, sg) {
   return sg.status==='active' && (db.reviewQueueMode!=='learnedOnly' || isLearnedSong(db, sg.name));
 }
+function queueVisible(db, sg) {
+  return (sg.status==='active'||sg.status==='graduated') && (db.reviewQueueMode!=='learnedOnly' || isLearnedSong(db, sg.name));
+}
 function normalizeReviewQueue(db) {
   const tod = todayInt();
   const max = (db.reviewMax || 1) + getExtraReviewCount(db);
@@ -915,7 +919,7 @@ function renderToday() {
   const rtw = document.getElementById('rep-today-wrap');
   if(featured) {
     const safe = featured.name.replace(/'/g,"\\'");
-    const meta = [featured.composer, featured.notes].filter(Boolean).join(' · ');
+    const meta = featured.composer || '';
     const doneToday = featured.lastReviewed === tod;
     const reviewBtn = doneToday
       ? `<button class="btn-action" style="color:var(--green);border-color:rgba(39,174,96,0.3)" disabled>&#x2713; Reviewed</button>`
@@ -971,7 +975,7 @@ function renderQueue() {
   const db = getDB(), tod = todayInt();
   const q = (document.getElementById('q-search').value||'').toLowerCase();
   const sortBy = document.getElementById('q-sort').value;
-  let songs = Object.values(db.songs).filter(s=>s.status==='active'||s.status==='graduated');
+  let songs = Object.values(db.songs).filter(s=>queueVisible(db,s));
   if(q) songs = songs.filter(s=>s.name.toLowerCase().includes(q));
   songs.sort((a,b)=>sortBy==='name'?a.name.localeCompare(b.name):(a.nextReview||99999999)-(b.nextReview||99999999));
   const qb = document.getElementById('queue-body');
@@ -1110,6 +1114,35 @@ function renderRepertoireDetail(name) {
   container.innerHTML = header + notesSection + `<div class="section"><div class="section-head"><h2>Activity</h2></div>${timeline}</div>`;
   renderNotesView('repertoire', name);
 }
+function showVoicingDetail(name) {
+  const active = document.querySelector('.panel.active');
+  detailOriginPanel = active ? active.id.replace('panel-','') : 'voicings';
+  detailType = 'voicing';
+  renderVoicingDetail(name);
+  showPanel('detail');
+}
+function renderVoicingDetail(name) {
+  const db = getDB();
+  const v = (db.voicings||[]).find(v=>v.name===name);
+  const container = document.getElementById('detail-body');
+  if(!v){ container.innerHTML='<div class="empty">Voicing not found.</div>'; return; }
+  const img = voicingImgHTML(v, 'voicing-img-full');
+  const top = v.topNote!=null ? `<span class="top-note">top: ${v.topNote}</span>` : '';
+  const header = `<div class="detail-header">${img}<div class="detail-header-top"><span class="detail-title">${v.name}</span><span class="badge badge-style">${v.category}</span>${lvlBadge(v.familiarity||0)}${top}</div><div class="detail-meta-grid"><div class="detail-meta-field"><div class="label">Category</div><div class="value">${v.category}</div></div><div class="detail-meta-field"><div class="label">Top note</div><div class="value${v.topNote!=null?'':' placeholder'}">${v.topNote!=null?v.topNote:'—'}</div></div><div class="detail-meta-field"><div class="label">Added</div><div class="value${v.addedDate?'':' placeholder'}">${v.addedDate?formatIntDate(v.addedDate):'—'}</div></div></div></div>`;
+  const entries = (db.activity||[]).filter(e=>e.name===name||e.oldName===name).sort((a,b)=>b.ts-a.ts);
+  const timeline = entries.length===0
+    ? '<div class="empty">No activity for this voicing yet.</div>'
+    : entries.map(entry=>{
+        const {dot,label} = formatActivityEntry(entry);
+        const d = new Date(entry.ts);
+        const dateStr = d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+        const timeStr = d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+        return `<div class="timeline-entry"><div class="timeline-dot ${dot}"></div><div><div class="timeline-label">${label}</div><div class="timeline-meta">${dateStr} · ${timeStr}</div></div></div>`;
+      }).join('');
+  const notesSection = `<div class="section"><div class="section-head"><h2>Notes</h2></div><div class="notes-body" id="notes-body"></div></div>`;
+  container.innerHTML = header + notesSection + `<div class="section"><div class="section-head"><h2>Activity</h2></div>${timeline}</div>`;
+  renderNotesView('voicing', name);
+}
 function renderSongDetail(name) {
   const db = getDB(), tod = todayInt();
   const sg = db.songs[name];
@@ -1141,7 +1174,9 @@ function renderSongDetail(name) {
   renderNotesView('song', name);
 }
 function getDetailEntity(type, db, name) {
-  return type==='repertoire' ? (db.repertoire||[]).find(p=>p.name===name) : db.songs[name];
+  if(type==='repertoire') return (db.repertoire||[]).find(p=>p.name===name);
+  if(type==='voicing') return (db.voicings||[]).find(v=>v.name===name);
+  return db.songs[name];
 }
 function renderNotesView(type, name) {
   const db = getDB();
@@ -1377,7 +1412,7 @@ function renderRepertoire() {
   }
   let html = `<div class="section"><div class="section-head"><h2>All pieces</h2><span class="count">${pieces.length}</span></div>`;
   [...pieces].sort((a,b)=>a.name.localeCompare(b.name)).forEach(p => {
-    const meta = [p.composer, p.notes].filter(Boolean).join(' · ');
+    const meta = p.composer || '';
     const reviewed = p.lastReviewed ? `Last reviewed ${formatIntDate(p.lastReviewed)}` : 'Never reviewed';
     const safe = p.name.replace(/'/g,"\\'");
     html += `<div class="song-row clickable" onclick="showRepertoireDetail('${safe}')"><div class="song-name-group"><span class="song-name">${p.name}</span>${meta?`<span class="song-meta">${meta}</span>`:''}</div><span class="song-meta">${reviewed}</span><button class="btn-dots" onclick="openRepMenu(event,'${safe}')">···</button></div>`;
@@ -1522,7 +1557,7 @@ function renderVoicings() {
       const safe = v.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
       const img = voicingImgHTML(v, 'voicing-thumb');
       const top = v.topNote!=null ? `<span class="top-note">top: ${v.topNote}</span>` : '';
-      html += `<div class="song-row">${img}<div class="song-name-group"><span class="song-name">${v.name}</span>${top}</div>${lvlBadge(v.familiarity||0)}<button class="btn-dots" onclick="openVoicingMenu(event,'${safe}')">···</button></div>`;
+      html += `<div class="song-row clickable" onclick="showVoicingDetail('${safe}')">${img}<div class="song-name-group"><span class="song-name">${v.name}</span>${top}</div>${lvlBadge(v.familiarity||0)}<button class="btn-dots" onclick="openVoicingMenu(event,'${safe}')">···</button></div>`;
     });
     html += '</div>';
   });
