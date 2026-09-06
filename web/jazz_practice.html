@@ -30,9 +30,19 @@
   .nav-item.active { color: var(--gold); border-left-color: var(--gold); background: var(--gold-dim); font-weight: 500; }
   .nav-icon { width: 16px; height: 16px; opacity: 0.7; flex-shrink: 0; }
   .nav-item.active .nav-icon { opacity: 1; }
-  .sidebar-footer { padding: 16px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px; }
+  .sidebar-footer { padding: 12px 0; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px; }
   .btn-sm { width: 100%; padding: 7px 12px; font-size: 12px; font-family: 'IBM Plex Sans', sans-serif; background: transparent; border: 1px solid var(--border2); color: var(--text2); border-radius: var(--radius); cursor: pointer; transition: all 0.15s; text-align: center; letter-spacing: 0.02em; }
   .btn-sm:hover { border-color: var(--gold); color: var(--gold); }
+  .settings-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 20px; border-bottom: 1px solid var(--border); }
+  .settings-row:last-child { border-bottom: none; }
+  .settings-row .label { font-size: 13px; color: var(--text); }
+  .settings-row .sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .toggle-switch { position: relative; width: 36px; height: 20px; flex-shrink: 0; }
+  .toggle-switch input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+  .toggle-slider { position: absolute; inset: 0; background: var(--bg3); border: 1px solid var(--border2); border-radius: 999px; transition: all 0.15s; pointer-events: none; }
+  .toggle-slider::before { content: ''; position: absolute; width: 14px; height: 14px; left: 2px; top: 2px; background: var(--text2); border-radius: 50%; transition: all 0.15s; }
+  .toggle-switch input:checked + .toggle-slider { background: var(--gold-dim); border-color: rgba(201,168,76,0.35); }
+  .toggle-switch input:checked + .toggle-slider::before { transform: translateX(16px); background: var(--gold); }
   .main { flex: 1; overflow-y: auto; background: var(--bg); }
   .panel { display: none; padding: 36px 40px; max-width: 800px; }
   .panel.active { display: block; }
@@ -217,11 +227,10 @@
       </div>
     </nav>
     <div class="sidebar-footer">
-      <button class="btn-sm" onclick="openAddSong()" style="border-color:rgba(201,168,76,0.35);color:var(--gold)">+ Add song</button>
-      <button class="btn-sm" onclick="exportData()">Export backup</button>
-      <button class="btn-sm" onclick="document.getElementById('import-input').click()">Import backup</button>
-      <input type="file" id="import-input" accept=".json" onchange="importData(event)">
-      <button class="btn-sm" onclick="openResetConfirm()" style="border-color:rgba(192,57,43,0.35);color:#e57368">Reset all data</button>
+      <div class="nav-item" id="nav-settings" onclick="showPanel('settings')">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="2.2"/><path d="M8 1.5v1.6M8 12.9v1.6M14.5 8h-1.6M3.1 8H1.5M12.4 3.6l-1.1 1.1M4.7 11.3l-1.1 1.1M12.4 12.4l-1.1-1.1M4.7 4.7L3.6 3.6"/></svg>
+        Settings
+      </div>
     </div>
   </div>
   <div class="main">
@@ -230,7 +239,8 @@
       <div class="panel-sub" id="today-sub"></div>
       <div id="current-song-wrap"></div>
       <div id="rep-today-wrap"></div>
-      <div class="section">
+      <div id="voicing-today-wrap"></div>
+      <div class="section" id="review-section">
         <div class="section-head"><h2>Review</h2><div class="section-menu-wrap"><button class="btn-dots" onclick="toggleReviewMenu(event)">···</button><div class="dropdown" id="review-menu"><div class="dropdown-item" onclick="openReviewSettings()">Edit review settings</div></div></div></div>
         <div id="reviews-body"></div>
       </div>
@@ -308,6 +318,38 @@
     <div id="panel-detail" class="panel">
       <button class="btn-back" onclick="showPanel(detailOriginPanel)">← Back</button>
       <div id="detail-body"></div>
+    </div>
+    <div id="panel-settings" class="panel">
+      <div class="panel-title">Settings</div>
+      <div class="panel-sub">Manage your song library and data</div>
+      <div class="section" style="margin-bottom:20px">
+        <div class="section-head"><h2>Practice management</h2></div>
+        <div class="settings-row">
+          <div><div class="label">Currently learning</div><div class="sub">The song you're actively working on this week</div></div>
+          <label class="toggle-switch"><input type="checkbox" id="section-toggle-learning" onchange="toggleTodaySection('learning')"><span class="toggle-slider"></span></label>
+        </div>
+        <div class="settings-row">
+          <div><div class="label">Repertoire</div><div class="sub">Today's featured repertoire piece</div></div>
+          <label class="toggle-switch"><input type="checkbox" id="section-toggle-repertoire" onchange="toggleTodaySection('repertoire')"><span class="toggle-slider"></span></label>
+        </div>
+        <div class="settings-row">
+          <div><div class="label">Voicing</div><div class="sub">Today's featured chord voicing</div></div>
+          <label class="toggle-switch"><input type="checkbox" id="section-toggle-voicing" onchange="toggleTodaySection('voicing')"><span class="toggle-slider"></span></label>
+        </div>
+        <div class="settings-row">
+          <div><div class="label">Review</div><div class="sub">Songs due for spaced-repetition review</div></div>
+          <label class="toggle-switch"><input type="checkbox" id="section-toggle-review" onchange="toggleTodaySection('review')"><span class="toggle-slider"></span></label>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-head"><h2>Manage data</h2></div>
+        <div style="padding:20px;display:flex;flex-direction:column;gap:10px;max-width:280px">
+          <button class="btn-sm" onclick="exportData()">Export backup</button>
+          <button class="btn-sm" onclick="document.getElementById('import-input').click()">Import backup</button>
+          <input type="file" id="import-input" accept=".json" onchange="importData(event)">
+          <button class="btn-sm" onclick="openResetConfirm()" style="border-color:rgba(192,57,43,0.35);color:#e57368">Reset all data</button>
+        </div>
+      </div>
     </div>
     </div>
   </div>
@@ -684,6 +726,7 @@ function initDB() {
   if(db.reviewMax === undefined) db.reviewMax = 1;
   if(db.reviewQueueMode === undefined) db.reviewQueueMode = 'all';
   if(db.onboardingComplete === undefined) db.onboardingComplete = true;
+  if(!db.todaySections) db.todaySections = { learning:true, repertoire:true, voicing:true, review:true };
   let needsSave = false;
   const seedMap = new Map(ALL_SONGS.map(([name,style,composer,year])=>[name,{composer,year}]));
   Object.values(db.songs).forEach(sg => {
@@ -717,7 +760,7 @@ function seedVoicings() {
     ['Half-diminished 7','Diminished','♭5'],
     ['Diminished triad','Diminished','♭3'],
   ];
-  return seed.map(([name,category,topNote])=>({ name, category, topNote, image:null, familiarity:0, addedDate: todayInt(), sortSeed: Math.random() }));
+  return seed.map(([name,category,topNote])=>({ name, category, topNote, image:null, familiarity:0, addedDate: todayInt(), sortSeed: Math.random(), lastPracticed:null, pinnedDate:null }));
 }
 function normTopNote(s) { return String(s).trim().replace(/b/gi,'♭').replace(/#/g,'♯'); }
 function topNoteSort(t) { const n = parseInt(String(t==null?'':t).replace(/[^0-9]/g,''),10); return isNaN(n)?999:n; }
@@ -902,6 +945,11 @@ function renderToday() {
   document.getElementById('today-date').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
   const streak = db.streak||0;
   document.getElementById('today-sub').textContent = `${streak} day streak`;
+  const sections = db.todaySections || { learning:true, repertoire:true, voicing:true, review:true };
+  document.getElementById('current-song-wrap').style.display = sections.learning ? '' : 'none';
+  document.getElementById('rep-today-wrap').style.display = sections.repertoire ? '' : 'none';
+  document.getElementById('voicing-today-wrap').style.display = sections.voicing ? '' : 'none';
+  document.getElementById('review-section').style.display = sections.review ? '' : 'none';
   const csw = document.getElementById('current-song-wrap');
   if(db.currentNewSong && db.songs[db.currentNewSong]) {
     const sg = db.songs[db.currentNewSong];
@@ -928,6 +976,20 @@ function renderToday() {
     rtw.innerHTML = `<div class="current-song-card"><div class="current-song-dot" style="background:var(--gold2)"></div><div class="current-song-info" style="cursor:pointer" onclick="showRepertoireDetail('${safe}')"><div class="label">Today's repertoire piece</div><div class="name">${featured.name}</div>${meta?`<div class="sub">${meta}</div>`:''}</div>${reviewBtn}${continueBtn}</div>`;
   } else {
     rtw.innerHTML = '';
+  }
+  const featuredVoicing = getFeaturedVoicing(db);
+  const vtw = document.getElementById('voicing-today-wrap');
+  if(featuredVoicing) {
+    const vsafe = featuredVoicing.name.replace(/'/g,"\\'");
+    const vmeta = [featuredVoicing.category, featuredVoicing.topNote!=null?`Top note ${featuredVoicing.topNote}`:null].filter(Boolean).join(' · ');
+    const vDoneToday = featuredVoicing.lastPracticed === tod;
+    const practiceBtnV = vDoneToday
+      ? `<button class="btn-action" style="color:var(--green);border-color:rgba(39,174,96,0.3)" disabled>&#x2713; Practiced</button>`
+      : `<button class="btn-pass" onclick="markVoicingPracticed('${vsafe}')">Practiced</button>`;
+    const continueBtnV = vDoneToday ? '' : `<button class="btn-fail" onclick="voicingContinueTomorrow('${vsafe}')">Continue tomorrow</button>`;
+    vtw.innerHTML = `<div class="current-song-card"><div class="current-song-dot" style="background:var(--blue)"></div><div class="current-song-info" style="cursor:pointer" onclick="showVoicingDetail('${vsafe}')"><div class="label">Today's voicing</div><div class="name">${featuredVoicing.name}</div>${vmeta?`<div class="sub">${vmeta}</div>`:''}</div>${lvlBadge(featuredVoicing.familiarity||0)}${practiceBtnV}${continueBtnV}</div>`;
+  } else {
+    vtw.innerHTML = '';
   }
   const rb = document.getElementById('reviews-body');
   const reviewedToday = Object.values(db.songs).some(s=>(s.reviews||[]).some(r=>r.date===tod));
@@ -1221,12 +1283,14 @@ function showPanel(id) {
   document.getElementById('panel-'+id).classList.add('active');
   const idx = ['today','library','repertoire','voicings','queue','progress','activity'].indexOf(id);
   if(idx>=0) document.querySelectorAll('.nav-item')[idx].classList.add('active');
+  if(id==='settings') document.getElementById('nav-settings').classList.add('active');
   if(id==='library') renderLibrary();
   if(id==='repertoire') renderRepertoire();
   if(id==='voicings') renderVoicings();
   if(id==='queue') renderQueue();
   if(id==='progress') renderProgress();
   if(id==='activity') renderActivity();
+  if(id==='settings') renderSettings();
 }
 function renderAll() {
   renderToday();
@@ -1239,6 +1303,7 @@ function renderAll() {
     if(id==='queue') renderQueue();
     if(id==='progress') renderProgress();
     if(id==='activity') renderActivity();
+    if(id==='settings') renderSettings();
   }
 }
 
@@ -1299,6 +1364,21 @@ function confirmRemoveSong() {
   if(db.currentNewSong === removeSongName) db.currentNewSong = null;
   saveDB(db); closeRemoveSong(); renderAll();
   toast(`"${removeSongName}" removed.`);
+}
+function renderSettings() {
+  const db = getDB();
+  const sections = db.todaySections || { learning:true, repertoire:true, voicing:true, review:true };
+  document.getElementById('section-toggle-learning').checked = !!sections.learning;
+  document.getElementById('section-toggle-repertoire').checked = !!sections.repertoire;
+  document.getElementById('section-toggle-voicing').checked = !!sections.voicing;
+  document.getElementById('section-toggle-review').checked = !!sections.review;
+}
+function toggleTodaySection(key) {
+  const db = getDB();
+  if(!db.todaySections) db.todaySections = { learning:true, repertoire:true, voicing:true, review:true };
+  db.todaySections[key] = document.getElementById('section-toggle-'+key).checked;
+  saveDB(db);
+  renderToday();
 }
 function openResetConfirm() { document.getElementById('reset-modal').classList.add('open'); }
 function closeResetConfirm() { document.getElementById('reset-modal').classList.remove('open'); }
@@ -1446,6 +1526,48 @@ function repertoireContinueTomorrow(name) {
   if(!p) return;
   p.pinnedDate = addDays(todayInt(), 1);
   logActivity(db, 'repertoire_deferred', { name });
+  saveDB(db); renderAll();
+  toast(`"${name}" queued for tomorrow.`);
+}
+function getFeaturedVoicing(db) {
+  const voicings = db.voicings || [];
+  if(!voicings.length) return null;
+  const today = todayInt();
+  const pinned = voicings.find(v => v.pinnedDate === today);
+  if(pinned) return pinned;
+  const practicedToday = voicings.find(v => v.lastPracticed === today);
+  if(practicedToday) return practicedToday;
+  return [...voicings].sort((a, b) => {
+    if(!a.lastPracticed && !b.lastPracticed) return a.addedDate - b.addedDate;
+    if(!a.lastPracticed) return -1;
+    if(!b.lastPracticed) return 1;
+    return a.lastPracticed - b.lastPracticed;
+  })[0];
+}
+function markVoicingPracticed(name) {
+  const db = getDB();
+  const v = (db.voicings||[]).find(v=>v.name===name);
+  if(!v) return;
+  v.lastPracticed = todayInt();
+  delete v.pinnedDate;
+  logActivity(db, 'voicing_practiced', { name, familiarity: v.familiarity||0 });
+  saveDB(db); renderAll();
+  toast(`"${name}" marked as practiced.`);
+}
+function startPracticingVoicing(name) {
+  const db = getDB();
+  const v = (db.voicings||[]).find(v=>v.name===name);
+  if(!v) return;
+  (db.voicings||[]).forEach(x=>{ if(x!==v) delete x.pinnedDate; });
+  v.pinnedDate = todayInt();
+  saveDB(db); renderAll();
+  toast(`"${name}" set as today's voicing.`);
+}
+function voicingContinueTomorrow(name) {
+  const db = getDB();
+  const v = (db.voicings||[]).find(v=>v.name===name);
+  if(!v) return;
+  v.pinnedDate = addDays(todayInt(), 1);
   saveDB(db); renderAll();
   toast(`"${name}" queued for tomorrow.`);
 }
@@ -1601,7 +1723,9 @@ function submitAddVoicing() {
     image: document.getElementById('voic-image').value.trim() || null,
     familiarity: voicSelectedLevel,
     addedDate: todayInt(),
-    sortSeed: Math.random()
+    sortSeed: Math.random(),
+    lastPracticed: null,
+    pinnedDate: null
   });
   logActivity(db, 'voicing_added', { name });
   saveDB(db); closeAddVoicing(); renderAll();
@@ -1611,7 +1735,7 @@ function openVoicingMenu(e, name) {
   e.stopPropagation();
   const safe = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
   const menu = document.getElementById('row-menu');
-  menu.innerHTML = `<div class="dropdown-item" onclick="openEditVoicing('${safe}');closeRowMenu()">Edit</div><div class="dropdown-item danger" onclick="openRemoveVoicing('${safe}');closeRowMenu()">Remove</div>`;
+  menu.innerHTML = `<div class="dropdown-item" onclick="startPracticingVoicing('${safe}');closeRowMenu()">Practice today</div><div class="dropdown-item" onclick="openEditVoicing('${safe}');closeRowMenu()">Edit</div><div class="dropdown-item danger" onclick="openRemoveVoicing('${safe}');closeRowMenu()">Remove</div>`;
   const rect = e.currentTarget.getBoundingClientRect();
   menu.style.top = (rect.bottom + 4) + 'px';
   menu.style.right = (window.innerWidth - rect.right) + 'px';
