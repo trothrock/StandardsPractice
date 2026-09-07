@@ -640,6 +640,14 @@
       <select id="edit-style"><option value="">None</option><option value="Bop">Bop</option><option value="Blues">Blues</option><option value="Bossa">Bossa</option><option value="Modal">Modal</option><option value="Trad">Trad</option></select>
     </div>
     <div class="field">
+      <label>Composer <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <input type="text" id="edit-composer">
+    </div>
+    <div class="field">
+      <label>Year <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <input type="number" id="edit-year">
+    </div>
+    <div class="field">
       <label>Familiarity level</label>
       <div class="level-picker">
         <button class="level-btn" data-edit-lvl="0" onclick="selectEditLevel(0)">0</button>
@@ -1152,10 +1160,12 @@ function renderActivity() {
 }
 let detailOriginPanel = 'library';
 let detailType = 'song';
+let currentDetailName = null;
 function showSongDetail(name) {
   const active = document.querySelector('.panel.active');
   detailOriginPanel = active ? active.id.replace('panel-','') : 'library';
   detailType = 'song';
+  currentDetailName = name;
   renderSongDetail(name);
   showPanel('detail');
 }
@@ -1163,6 +1173,7 @@ function showRepertoireDetail(name) {
   const active = document.querySelector('.panel.active');
   detailOriginPanel = active ? active.id.replace('panel-','') : 'repertoire';
   detailType = 'repertoire';
+  currentDetailName = name;
   renderRepertoireDetail(name);
   showPanel('detail');
 }
@@ -1190,6 +1201,7 @@ function showVoicingDetail(name) {
   const active = document.querySelector('.panel.active');
   detailOriginPanel = active ? active.id.replace('panel-','') : 'voicings';
   detailType = 'voicing';
+  currentDetailName = name;
   renderVoicingDetail(name);
   showPanel('detail');
 }
@@ -1230,7 +1242,8 @@ function renderSongDetail(name) {
   const nextReview = sg.nextReview
     ? (()=>{ const d=new Date(Math.floor(sg.nextReview/10000),Math.floor((sg.nextReview%10000)/100)-1,sg.nextReview%100); return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); })()
     : '—';
-  const header = `<div class="detail-header"><div class="detail-header-top"><span class="detail-title">${sg.name}</span>${styleBadge(sg.style)}${lvlBadge(sg.currentLevel)}${statusBadge}</div>${pills}<div class="detail-meta-grid"><div class="detail-meta-field"><div class="label">Next review</div><div class="value">${nextReview}</div></div><div class="detail-meta-field"><div class="label">Composer</div><div class="value${sg.composer?'':' placeholder'}">${sg.composer||'—'}</div></div><div class="detail-meta-field"><div class="label">Year</div><div class="value${sg.year?'':' placeholder'}">${sg.year||'—'}</div></div></div></div>`;
+  const safeName = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  const header = `<div class="detail-header"><div class="detail-header-top"><span class="detail-title">${sg.name}</span>${styleBadge(sg.style)}${lvlBadge(sg.currentLevel)}${statusBadge}</div>${pills}<div class="detail-meta-grid"><div class="detail-meta-field"><div class="label">Next review</div><div class="value">${nextReview}</div></div><div class="detail-meta-field"><div class="label">Composer</div><div class="value${sg.composer?'':' placeholder'}">${sg.composer||'—'}</div></div><div class="detail-meta-field"><div class="label">Year</div><div class="value${sg.year?'':' placeholder'}">${sg.year||'—'}</div></div></div><div class="notes-actions"><button class="btn-action" onclick="openEditSong('${safeName}')">Edit</button></div></div>`;
   const entries = (db.activity||[]).filter(e=>e.name===name||e.oldName===name).sort((a,b)=>b.ts-a.ts);
   const timeline = entries.length===0
     ? '<div class="empty">No activity for this song yet.</div>'
@@ -1314,7 +1327,13 @@ function renderAll() {
     if(id==='progress') renderProgress();
     if(id==='activity') renderActivity();
     if(id==='settings') renderSettings();
+    if(id==='detail') refreshCurrentDetail();
   }
+}
+function refreshCurrentDetail() {
+  if(detailType==='repertoire') renderRepertoireDetail(currentDetailName);
+  else if(detailType==='voicing') renderVoicingDetail(currentDetailName);
+  else renderSongDetail(currentDetailName);
 }
 
 const LEVEL_DESCS = ['Complete unfamiliarity — never played it','Could fake my way through in a pinch','Comfortable enough to play at a jam session','Second nature — fully performance-ready'];
@@ -1430,6 +1449,8 @@ function openEditSong(name) {
   editSelectedLevel = sg.baseLevel;
   document.getElementById('edit-name').value = sg.name;
   document.getElementById('edit-style').value = sg.style || '';
+  document.getElementById('edit-composer').value = sg.composer || '';
+  document.getElementById('edit-year').value = sg.year || '';
   document.getElementById('edit-error').style.display = 'none';
   document.querySelectorAll('[data-edit-lvl]').forEach(b=>b.className='level-btn');
   document.querySelector(`[data-edit-lvl="${editSelectedLevel}"]`).classList.add(`sel-${editSelectedLevel}`);
@@ -1449,6 +1470,9 @@ function clearEditError() { document.getElementById('edit-error').style.display 
 function submitEditSong() {
   const newName = document.getElementById('edit-name').value.trim();
   const style = document.getElementById('edit-style').value;
+  const composer = document.getElementById('edit-composer').value.trim() || null;
+  const yearRaw = document.getElementById('edit-year').value.trim();
+  const year = yearRaw ? parseInt(yearRaw, 10) : null;
   const lvl = editSelectedLevel;
   if(!newName) { document.getElementById('edit-name').focus(); return; }
   const db = getDB();
@@ -1461,11 +1485,14 @@ function submitEditSong() {
   const oldLevel = sg.baseLevel;
   sg.name = newName;
   sg.style = style;
+  sg.composer = composer;
+  sg.year = year;
   sg.baseLevel = lvl;
   if(nameChanged) {
     db.songs[newName] = sg;
     delete db.songs[editOriginalName];
     if(db.currentNewSong === editOriginalName) db.currentNewSong = newName;
+    if(currentDetailName === editOriginalName) currentDetailName = newName;
   }
   logActivity(db, 'song_edited', { oldName: editOriginalName, name: newName, style, level: lvl, oldLevel });
   saveDB(db); closeEditSong(); renderAll();
