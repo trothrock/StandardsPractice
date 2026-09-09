@@ -1113,6 +1113,7 @@ function formatActivityEntry(entry) {
     case 'repertoire_removed': return { dot:'red',   label:'Removed from repertoire',    detail:entry.name };
     case 'voicing_added':      return { dot:'blue',  label:'Voicing added',              detail:entry.name };
     case 'voicing_practiced':  return { dot:'green', label:entry.familiarity>=2?'Voicing mastered':`Voicing practiced — familiarity ${entry.familiarity}`, detail:entry.name };
+    case 'voicing_deferred':   return { dot:'gold',  label:'Voicing continued',          detail:entry.name };
     case 'voicing_removed':    return { dot:'red',   label:'Voicing removed',            detail:entry.name };
     default:                   return { dot:'dim',   label:entry.type,                   detail:entry.name||'' };
   }
@@ -1615,6 +1616,7 @@ function voicingContinueTomorrow(name) {
   if(!v) return;
   v.pinnedDate = addDays(todayInt(), 1);
   v.deferredDate = todayInt();
+  logActivity(db, 'voicing_deferred', { name });
   saveDB(db); renderAll();
   toast(`"${name}" queued for tomorrow.`);
 }
