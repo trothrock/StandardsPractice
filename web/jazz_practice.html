@@ -1504,7 +1504,7 @@ function getFeaturedRepertoire(db) {
   const pieces = db.repertoire || [];
   if(!pieces.length) return null;
   const today = todayInt();
-  const pinned = pieces.find(p => p.pinnedDate === today);
+  const pinned = pieces.find(p => p.pinnedDate && p.pinnedDate <= today);
   if(pinned) return pinned;
   const deferredToday = pieces.find(p => p.deferredDate === today);
   if(deferredToday) return deferredToday;
@@ -1576,7 +1576,7 @@ function getFeaturedVoicing(db) {
   const voicings = db.voicings || [];
   if(!voicings.length) return null;
   const today = todayInt();
-  const pinned = voicings.find(v => v.pinnedDate === today);
+  const pinned = voicings.find(v => v.pinnedDate && v.pinnedDate <= today);
   if(pinned) return pinned;
   const deferredToday = voicings.find(v => v.deferredDate === today);
   if(deferredToday) return deferredToday;
