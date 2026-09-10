@@ -213,6 +213,10 @@
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 11V3M8 11V5M12 11V7"/><circle cx="4" cy="12" r="1.4"/><circle cx="8" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/></svg>
         Voicings
       </div>
+      <div class="nav-item" onclick="showPanel('vocabulary')">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5h12v7H6.5L3.5 13.5V10.5H2z"/><path d="M4.5 6h7M4.5 8h4"/></svg>
+        Vocabulary
+      </div>
       <div class="nav-item" onclick="showPanel('queue')">
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3h12M2 6h12M2 9h8M2 12h5"/></svg>
         Review Queue
@@ -240,6 +244,7 @@
       <div id="current-song-wrap"></div>
       <div id="rep-today-wrap"></div>
       <div id="voicing-today-wrap"></div>
+      <div id="vocab-today-wrap"></div>
       <div class="section" id="review-section">
         <div class="section-head"><h2>Review</h2><div class="section-menu-wrap"><button class="btn-dots" onclick="toggleReviewMenu(event)">···</button><div class="dropdown" id="review-menu"><div class="dropdown-item" onclick="openReviewSettings()">Edit review settings</div></div></div></div>
         <div id="reviews-body"></div>
@@ -271,6 +276,14 @@
       </div>
       <div class="panel-sub">Chord voicings by category · familiarity 0–2</div>
       <div id="voicings-body"></div>
+    </div>
+    <div id="panel-vocabulary" class="panel">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px">
+        <div class="panel-title">Vocabulary</div>
+        <button class="btn-primary" onclick="openAddVocab()">+ Add vocabulary</button>
+      </div>
+      <div class="panel-sub">Lines, licks and devices &middot; familiarity 0&ndash;2</div>
+      <div id="vocabulary-body"></div>
     </div>
     <div id="panel-queue" class="panel">
       <div class="panel-title">Review Queue</div>
@@ -335,6 +348,10 @@
         <div class="settings-row">
           <div><div class="label">Voicing</div><div class="sub">Today's featured chord voicing</div></div>
           <label class="toggle-switch"><input type="checkbox" id="section-toggle-voicing" onchange="toggleTodaySection('voicing')"><span class="toggle-slider"></span></label>
+        </div>
+        <div class="settings-row">
+          <div><div class="label">Vocabulary</div><div class="sub">Today's featured vocabulary item</div></div>
+          <label class="toggle-switch"><input type="checkbox" id="section-toggle-vocabulary" onchange="toggleTodaySection('vocabulary')"><span class="toggle-slider"></span></label>
         </div>
         <div class="settings-row">
           <div><div class="label">Review</div><div class="sub">Songs due for spaced-repetition review</div></div>
@@ -517,6 +534,73 @@
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeRemoveVoicing()">Cancel</button>
       <button style="padding:7px 18px;font-size:13px;font-family:'IBM Plex Sans',sans-serif;background:var(--red-dim);border:1px solid rgba(192,57,43,0.35);color:#e57368;border-radius:var(--radius);cursor:pointer;transition:all 0.15s" onclick="confirmRemoveVoicing()">Remove</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="add-vocab-modal" onclick="handleAddVocabBackdropClick(event)">
+  <div class="modal">
+    <div class="modal-title">Add vocabulary</div>
+    <div class="field">
+      <label>Name</label>
+      <input type="text" id="vocab-name" placeholder="e.g. Bebop enclosure over ii-V">
+      <div class="field-error" id="vocab-error">A vocabulary item with this name already exists.</div>
+    </div>
+    <div class="field">
+      <label>Image filename <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <input type="text" id="vocab-image" placeholder="e.g. enclosure.png &mdash; in images/vocabulary/">
+    </div>
+    <div class="field">
+      <label>Familiarity</label>
+      <div class="level-picker">
+        <button class="level-btn sel-0" data-vocab-lvl="0" onclick="vocabSelectLevel(0)">0</button>
+        <button class="level-btn" data-vocab-lvl="1" onclick="vocabSelectLevel(1)">1</button>
+        <button class="level-btn" data-vocab-lvl="2" onclick="vocabSelectLevel(2)">2</button>
+      </div>
+      <div class="level-desc" id="vocab-lvl-desc">No familiarity &mdash; haven't worked it out yet</div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeAddVocab()">Cancel</button>
+      <button class="btn-confirm" onclick="submitAddVocab()">Add vocabulary</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="edit-vocab-modal" onclick="handleEditVocabBackdropClick(event)">
+  <div class="modal">
+    <div class="modal-title">Edit vocabulary</div>
+    <div class="field">
+      <label>Name</label>
+      <input type="text" id="vocab-edit-name">
+      <div class="field-error" id="vocab-edit-error">A vocabulary item with this name already exists.</div>
+    </div>
+    <div class="field">
+      <label>Image filename <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <input type="text" id="vocab-edit-image" placeholder="e.g. enclosure.png &mdash; in images/vocabulary/">
+    </div>
+    <div class="field">
+      <label>Familiarity</label>
+      <div class="level-picker">
+        <button class="level-btn" data-vocab-edit-lvl="0" onclick="vocabEditSelectLevel(0)">0</button>
+        <button class="level-btn" data-vocab-edit-lvl="1" onclick="vocabEditSelectLevel(1)">1</button>
+        <button class="level-btn" data-vocab-edit-lvl="2" onclick="vocabEditSelectLevel(2)">2</button>
+      </div>
+      <div class="level-desc" id="vocab-edit-lvl-desc"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeEditVocab()">Discard</button>
+      <button class="btn-confirm" onclick="submitEditVocab()">Save changes</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="remove-vocab-modal" onclick="handleRemoveVocabBackdropClick(event)">
+  <div class="modal">
+    <div class="modal-title">Remove vocabulary</div>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:24px">Remove <span id="remove-vocab-name" style="color:var(--text);font-weight:500"></span> from your vocabulary? This cannot be undone.</div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeRemoveVocab()">Cancel</button>
+      <button style="padding:7px 18px;font-size:13px;font-family:'IBM Plex Sans',sans-serif;background:var(--red-dim);border:1px solid rgba(192,57,43,0.35);color:#e57368;border-radius:var(--radius);cursor:pointer;transition:all 0.15s" onclick="confirmRemoveVocab()">Remove</button>
     </div>
   </div>
 </div>
@@ -717,6 +801,7 @@ function initDB() {
   }
   if(!db.activity) db.activity = [];
   if(!db.repertoire) db.repertoire = [];
+  if(!db.vocabulary) db.vocabulary = [];
   const VOICINGS_SEED_VERSION = 2;
   if(db.voicingsSeedVersion !== VOICINGS_SEED_VERSION) {
     const strip = s => s.replace(/\s*\([^)]*\)\s*$/,'').trim();
@@ -734,7 +819,8 @@ function initDB() {
   if(db.reviewMax === undefined) db.reviewMax = 1;
   if(db.reviewQueueMode === undefined) db.reviewQueueMode = 'all';
   if(db.onboardingComplete === undefined) db.onboardingComplete = true;
-  if(!db.todaySections) db.todaySections = { learning:true, repertoire:true, voicing:true, review:true };
+  if(!db.todaySections) db.todaySections = { learning:true, repertoire:true, voicing:true, vocabulary:true, review:true };
+  if(db.todaySections.vocabulary === undefined) { db.todaySections.vocabulary = true; saveDB(db); }
   let needsSave = false;
   const seedMap = new Map(ALL_SONGS.map(([name,style,composer,year])=>[name,{composer,year}]));
   Object.values(db.songs).forEach(sg => {
@@ -749,6 +835,7 @@ function initDB() {
 function getDB() { return initDB(); }
 
 const VOICING_CATEGORIES = ['Major','Minor','Dominant','Diminished'];
+const VOCAB_FAM_DESCS = ["No familiarity — haven't worked it out yet","Getting it under my fingers","Mastered — instant recall"];
 const VOICING_FAM_DESCS = ["No familiarity — haven't worked it out yet","Getting it under my fingers","Mastered — instant recall"];
 function seedVoicings() {
   const seed = [
@@ -953,10 +1040,11 @@ function renderToday() {
   document.getElementById('today-date').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
   const streak = db.streak||0;
   document.getElementById('today-sub').textContent = `${streak} day streak`;
-  const sections = db.todaySections || { learning:true, repertoire:true, voicing:true, review:true };
+  const sections = db.todaySections || { learning:true, repertoire:true, voicing:true, vocabulary:true, review:true };
   document.getElementById('current-song-wrap').style.display = sections.learning ? '' : 'none';
   document.getElementById('rep-today-wrap').style.display = sections.repertoire ? '' : 'none';
   document.getElementById('voicing-today-wrap').style.display = sections.voicing ? '' : 'none';
+  document.getElementById('vocab-today-wrap').style.display = sections.vocabulary ? '' : 'none';
   document.getElementById('review-section').style.display = sections.review ? '' : 'none';
   const csw = document.getElementById('current-song-wrap');
   if(db.currentNewSong && db.songs[db.currentNewSong]) {
@@ -1008,6 +1096,24 @@ function renderToday() {
     vtw.innerHTML = `<div class="current-song-card"><div class="current-song-dot" style="background:var(--blue)"></div><div class="current-song-info" style="cursor:pointer" onclick="showVoicingDetail('${vsafe}')"><div class="label">Today's voicing</div><div class="name">${featuredVoicing.name}</div>${vmeta?`<div class="sub">${vmeta}</div>`:''}</div>${lvlBadge(featuredVoicing.familiarity||0)}${practiceBtnV}${continueBtnV}</div>`;
   } else {
     vtw.innerHTML = '';
+  }
+  const featuredVocab = getFeaturedVocab(db);
+  const cvw = document.getElementById('vocab-today-wrap');
+  if(featuredVocab) {
+    const csafe = featuredVocab.name.replace(/'/g,"\\'");
+    const cDoneToday = featuredVocab.lastPracticed === tod;
+    const cDeferredToday = featuredVocab.deferredDate === tod;
+    const practiceBtnC = cDoneToday
+      ? `<button class="btn-action" style="color:var(--green);border-color:rgba(39,174,96,0.3)" disabled>&#x2713; Practiced</button>`
+      : `<button class="btn-pass" onclick="markVocabPracticed('${csafe}')">Practiced</button>`;
+    const continueBtnC = cDoneToday
+      ? ''
+      : cDeferredToday
+        ? `<button class="btn-fail" style="opacity:0.6;cursor:default" disabled>Continuing tomorrow</button>`
+        : `<button class="btn-fail" onclick="vocabContinueTomorrow('${csafe}')">Continue tomorrow</button>`;
+    cvw.innerHTML = `<div class="current-song-card"><div class="current-song-dot" style="background:var(--green)"></div><div class="current-song-info" style="cursor:pointer" onclick="showVocabDetail('${csafe}')"><div class="label">Today's vocabulary</div><div class="name">${featuredVocab.name}</div></div>${lvlBadge(featuredVocab.familiarity||0)}${practiceBtnC}${continueBtnC}</div>`;
+  } else {
+    cvw.innerHTML = '';
   }
   const rb = document.getElementById('reviews-body');
   const reviewedToday = Object.values(db.songs).some(s=>(s.reviews||[]).some(r=>r.date===tod));
@@ -1115,6 +1221,10 @@ function formatActivityEntry(entry) {
     case 'voicing_practiced':  return { dot:'green', label:entry.familiarity>=2?'Voicing mastered':`Voicing practiced — familiarity ${entry.familiarity}`, detail:entry.name };
     case 'voicing_deferred':   return { dot:'gold',  label:'Voicing continued',          detail:entry.name };
     case 'voicing_removed':    return { dot:'red',   label:'Voicing removed',            detail:entry.name };
+    case 'vocab_added':        return { dot:'blue',  label:'Vocabulary added',           detail:entry.name };
+    case 'vocab_practiced':    return { dot:'green', label:entry.familiarity>=2?'Vocabulary mastered':`Vocabulary practiced — familiarity ${entry.familiarity}`, detail:entry.name };
+    case 'vocab_deferred':     return { dot:'gold',  label:'Vocabulary continued',       detail:entry.name };
+    case 'vocab_removed':      return { dot:'red',   label:'Vocabulary removed',         detail:entry.name };
     default:                   return { dot:'dim',   label:entry.type,                   detail:entry.name||'' };
   }
 }
@@ -1228,6 +1338,35 @@ function renderVoicingDetail(name) {
   container.innerHTML = header + notesSection + `<div class="section"><div class="section-head"><h2>Activity</h2></div>${timeline}</div>`;
   renderNotesView('voicing', name);
 }
+function showVocabDetail(name) {
+  const active = document.querySelector('.panel.active');
+  detailOriginPanel = active ? active.id.replace('panel-','') : 'vocabulary';
+  detailType = 'vocab';
+  currentDetailName = name;
+  renderVocabDetail(name);
+  showPanel('detail');
+}
+function renderVocabDetail(name) {
+  const db = getDB();
+  const c = (db.vocabulary||[]).find(c=>c.name===name);
+  const container = document.getElementById('detail-body');
+  if(!c){ container.innerHTML='<div class="empty">Vocabulary item not found.</div>'; return; }
+  const img = vocabImgHTML(c, 'voicing-img-full');
+  const header = `<div class="detail-header">${img}<div class="detail-header-top"><span class="detail-title">${c.name}</span>${lvlBadge(c.familiarity||0)}</div><div class="detail-meta-grid"><div class="detail-meta-field"><div class="label">Added</div><div class="value${c.addedDate?'':' placeholder'}">${c.addedDate?formatIntDate(c.addedDate):'—'}</div></div><div class="detail-meta-field"><div class="label">Last practiced</div><div class="value${c.lastPracticed?'':' placeholder'}">${c.lastPracticed?formatIntDate(c.lastPracticed):'—'}</div></div></div></div>`;
+  const entries = (db.activity||[]).filter(e=>e.name===name||e.oldName===name).sort((a,b)=>b.ts-a.ts);
+  const timeline = entries.length===0
+    ? '<div class="empty">No activity for this vocabulary item yet.</div>'
+    : entries.map(entry=>{
+        const {dot,label} = formatActivityEntry(entry);
+        const d = new Date(entry.ts);
+        const dateStr = d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+        const timeStr = d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+        return `<div class="timeline-entry"><div class="timeline-dot ${dot}"></div><div><div class="timeline-label">${label}</div><div class="timeline-meta">${dateStr} · ${timeStr}</div></div></div>`;
+      }).join('');
+  const notesSection = `<div class="section"><div class="section-head"><h2>Notes</h2></div><div class="notes-body" id="notes-body"></div></div>`;
+  container.innerHTML = header + notesSection + `<div class="section"><div class="section-head"><h2>Activity</h2></div>${timeline}</div>`;
+  renderNotesView('vocab', name);
+}
 function renderSongDetail(name) {
   const db = getDB(), tod = todayInt();
   const sg = db.songs[name];
@@ -1262,6 +1401,7 @@ function renderSongDetail(name) {
 function getDetailEntity(type, db, name) {
   if(type==='repertoire') return (db.repertoire||[]).find(p=>p.name===name);
   if(type==='voicing') return (db.voicings||[]).find(v=>v.name===name);
+  if(type==='vocab') return (db.vocabulary||[]).find(c=>c.name===name);
   return db.songs[name];
 }
 function renderNotesView(type, name) {
@@ -1305,12 +1445,13 @@ function showPanel(id) {
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
-  const idx = ['today','library','repertoire','voicings','queue','progress','activity'].indexOf(id);
+  const idx = ['today','library','repertoire','voicings','vocabulary','queue','progress','activity'].indexOf(id);
   if(idx>=0) document.querySelectorAll('.nav-item')[idx].classList.add('active');
   if(id==='settings') document.getElementById('nav-settings').classList.add('active');
   if(id==='library') renderLibrary();
   if(id==='repertoire') renderRepertoire();
   if(id==='voicings') renderVoicings();
+  if(id==='vocabulary') renderVocabulary();
   if(id==='queue') renderQueue();
   if(id==='progress') renderProgress();
   if(id==='activity') renderActivity();
@@ -1324,6 +1465,7 @@ function renderAll() {
     if(id==='library') renderLibrary();
     if(id==='repertoire') renderRepertoire();
     if(id==='voicings') renderVoicings();
+    if(id==='vocabulary') renderVocabulary();
     if(id==='queue') renderQueue();
     if(id==='progress') renderProgress();
     if(id==='activity') renderActivity();
@@ -1334,6 +1476,7 @@ function renderAll() {
 function refreshCurrentDetail() {
   if(detailType==='repertoire') renderRepertoireDetail(currentDetailName);
   else if(detailType==='voicing') renderVoicingDetail(currentDetailName);
+  else if(detailType==='vocab') renderVocabDetail(currentDetailName);
   else renderSongDetail(currentDetailName);
 }
 
@@ -1397,15 +1540,16 @@ function confirmRemoveSong() {
 }
 function renderSettings() {
   const db = getDB();
-  const sections = db.todaySections || { learning:true, repertoire:true, voicing:true, review:true };
+  const sections = db.todaySections || { learning:true, repertoire:true, voicing:true, vocabulary:true, review:true };
   document.getElementById('section-toggle-learning').checked = !!sections.learning;
   document.getElementById('section-toggle-repertoire').checked = !!sections.repertoire;
   document.getElementById('section-toggle-voicing').checked = !!sections.voicing;
+  document.getElementById('section-toggle-vocabulary').checked = !!sections.vocabulary;
   document.getElementById('section-toggle-review').checked = !!sections.review;
 }
 function toggleTodaySection(key) {
   const db = getDB();
-  if(!db.todaySections) db.todaySections = { learning:true, repertoire:true, voicing:true, review:true };
+  if(!db.todaySections) db.todaySections = { learning:true, repertoire:true, voicing:true, vocabulary:true, review:true };
   db.todaySections[key] = document.getElementById('section-toggle-'+key).checked;
   saveDB(db);
   renderToday();
@@ -1437,7 +1581,7 @@ function openRowMenu(e, name) {
   menu.classList.add('open');
 }
 function closeRowMenu() { document.getElementById('row-menu').classList.remove('open'); }
-document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeAddSong(); closeEditSong(); closeReviewSettings(); closeReviewMenu(); closeRowMenu(); closeRemoveSong(); closeResetConfirm(); closeAddRepertoire(); closeEditRep(); closeRemoveRep(); closeAddVoicing(); closeEditVoicing(); closeRemoveVoicing(); } });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeAddSong(); closeEditSong(); closeReviewSettings(); closeReviewMenu(); closeRowMenu(); closeRemoveSong(); closeResetConfirm(); closeAddRepertoire(); closeEditRep(); closeRemoveRep(); closeAddVoicing(); closeEditVoicing(); closeRemoveVoicing(); closeAddVocab(); closeEditVocab(); closeRemoveVocab(); } });
 document.addEventListener('click', ()=>{ closeReviewMenu(); closeRowMenu(); });
 
 let editOriginalName = null;
@@ -1848,6 +1992,182 @@ function confirmRemoveVoicing() {
   logActivity(db, 'voicing_removed', { name: voicRemoveName });
   saveDB(db); closeRemoveVoicing(); renderAll();
   toast(`"${voicRemoveName}" removed from voicings.`);
+}
+function getFeaturedVocab(db) {
+  const items = db.vocabulary || [];
+  if(!items.length) return null;
+  const today = todayInt();
+  const pinned = items.find(c => c.pinnedDate && c.pinnedDate <= today);
+  if(pinned) return pinned;
+  const deferredToday = items.find(c => c.deferredDate === today);
+  if(deferredToday) return deferredToday;
+  const practicedToday = items.find(c => c.lastPracticed === today);
+  if(practicedToday) return practicedToday;
+  return [...items].sort((a, b) => {
+    if(!a.lastPracticed && !b.lastPracticed) return a.addedDate - b.addedDate;
+    if(!a.lastPracticed) return -1;
+    if(!b.lastPracticed) return 1;
+    return a.lastPracticed - b.lastPracticed;
+  })[0];
+}
+function markVocabPracticed(name) {
+  const db = getDB();
+  const c = (db.vocabulary||[]).find(c=>c.name===name);
+  if(!c) return;
+  c.lastPracticed = todayInt();
+  delete c.pinnedDate;
+  delete c.deferredDate;
+  logActivity(db, 'vocab_practiced', { name, familiarity: c.familiarity||0 });
+  saveDB(db); renderAll();
+  toast(`"${name}" marked as practiced.`);
+}
+function startPracticingVocab(name) {
+  const db = getDB();
+  const c = (db.vocabulary||[]).find(c=>c.name===name);
+  if(!c) return;
+  (db.vocabulary||[]).forEach(x=>{ if(x!==c) { delete x.pinnedDate; delete x.deferredDate; } });
+  c.pinnedDate = todayInt();
+  delete c.deferredDate;
+  saveDB(db); renderAll();
+  toast(`"${name}" set as today's vocabulary.`);
+}
+function vocabContinueTomorrow(name) {
+  const db = getDB();
+  const c = (db.vocabulary||[]).find(c=>c.name===name);
+  if(!c) return;
+  c.pinnedDate = addDays(todayInt(), 1);
+  c.deferredDate = todayInt();
+  logActivity(db, 'vocab_deferred', { name });
+  saveDB(db); renderAll();
+  toast(`"${name}" queued for tomorrow.`);
+}
+
+function vocabImgHTML(c, cls) {
+  if(c.image) return `<img class="${cls}" src="images/vocabulary/${c.image}" alt="" onerror="this.classList.add('voicing-thumb-empty');this.replaceWith(Object.assign(document.createElement('div'),{className:this.className,textContent:'no img'}))">`;
+  return `<div class="${cls} voicing-thumb-empty">no img</div>`;
+}
+function renderVocabulary() {
+  const db = getDB();
+  const container = document.getElementById('vocabulary-body');
+  const items = db.vocabulary || [];
+  if(!items.length) {
+    container.innerHTML = '<div class="empty" style="padding:32px 0">No vocabulary yet. Add your first item to get started.</div>';
+    return;
+  }
+  const sorted = [...items].sort((a,b)=>a.name.localeCompare(b.name));
+  let html = `<div class="section"><div class="section-head"><h2>All vocabulary</h2><span class="count">${sorted.length}</span></div>`;
+  sorted.forEach(c=>{
+    const safe = c.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    const img = vocabImgHTML(c, 'voicing-thumb');
+    html += `<div class="song-row clickable" onclick="showVocabDetail('${safe}')">${img}<div class="song-name-group"><span class="song-name">${c.name}</span></div>${lvlBadge(c.familiarity||0)}<button class="btn-dots" onclick="openVocabMenu(event,'${safe}')">···</button></div>`;
+  });
+  html += '</div>';
+  container.innerHTML = html;
+}
+let vocabSelectedLevel = 0;
+function vocabSelectLevel(lvl) {
+  vocabSelectedLevel = lvl;
+  document.querySelectorAll('[data-vocab-lvl]').forEach(b=>b.className='level-btn');
+  document.querySelector(`[data-vocab-lvl="${lvl}"]`).classList.add(`sel-${lvl}`);
+  document.getElementById('vocab-lvl-desc').textContent = VOCAB_FAM_DESCS[lvl];
+}
+function openAddVocab() {
+  vocabSelectedLevel = 0;
+  document.getElementById('vocab-name').value = '';
+  document.getElementById('vocab-image').value = '';
+  document.getElementById('vocab-error').style.display = 'none';
+  document.querySelectorAll('[data-vocab-lvl]').forEach(b=>b.className='level-btn');
+  document.querySelector('[data-vocab-lvl="0"]').classList.add('sel-0');
+  document.getElementById('vocab-lvl-desc').textContent = VOCAB_FAM_DESCS[0];
+  document.getElementById('add-vocab-modal').classList.add('open');
+  setTimeout(()=>document.getElementById('vocab-name').focus(), 50);
+}
+function closeAddVocab() { document.getElementById('add-vocab-modal').classList.remove('open'); }
+function handleAddVocabBackdropClick(e) { if(e.target===document.getElementById('add-vocab-modal')) closeAddVocab(); }
+function submitAddVocab() {
+  const name = document.getElementById('vocab-name').value.trim();
+  if(!name) { document.getElementById('vocab-name').focus(); return; }
+  const db = getDB();
+  if((db.vocabulary||[]).some(c=>c.name.toLowerCase()===name.toLowerCase())) {
+    document.getElementById('vocab-error').style.display = 'block';
+    document.getElementById('vocab-name').focus(); return;
+  }
+  db.vocabulary.push({
+    name,
+    image: document.getElementById('vocab-image').value.trim() || null,
+    familiarity: vocabSelectedLevel,
+    addedDate: todayInt(),
+    sortSeed: Math.random(),
+    lastPracticed: null,
+    pinnedDate: null
+  });
+  logActivity(db, 'vocab_added', { name });
+  saveDB(db); closeAddVocab(); renderAll();
+  toast(`"${name}" added to vocabulary.`);
+}
+function openVocabMenu(e, name) {
+  e.stopPropagation();
+  const safe = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  const menu = document.getElementById('row-menu');
+  menu.innerHTML = `<div class="dropdown-item" onclick="startPracticingVocab('${safe}');closeRowMenu()">Practice today</div><div class="dropdown-item" onclick="openEditVocab('${safe}');closeRowMenu()">Edit</div><div class="dropdown-item danger" onclick="openRemoveVocab('${safe}');closeRowMenu()">Remove</div>`;
+  const rect = e.currentTarget.getBoundingClientRect();
+  menu.style.top = (rect.bottom + 4) + 'px';
+  menu.style.right = (window.innerWidth - rect.right) + 'px';
+  menu.classList.add('open');
+}
+let vocabEditOriginalName = null, vocabEditSelectedLevel = 0;
+function vocabEditSelectLevel(lvl) {
+  vocabEditSelectedLevel = lvl;
+  document.querySelectorAll('[data-vocab-edit-lvl]').forEach(b=>b.className='level-btn');
+  document.querySelector(`[data-vocab-edit-lvl="${lvl}"]`).classList.add(`sel-${lvl}`);
+  document.getElementById('vocab-edit-lvl-desc').textContent = VOCAB_FAM_DESCS[lvl];
+}
+function openEditVocab(name) {
+  const db = getDB();
+  const c = (db.vocabulary||[]).find(c=>c.name===name);
+  if(!c) return;
+  vocabEditOriginalName = name;
+  vocabEditSelectedLevel = c.familiarity||0;
+  document.getElementById('vocab-edit-name').value = c.name;
+  document.getElementById('vocab-edit-image').value = c.image || '';
+  document.getElementById('vocab-edit-error').style.display = 'none';
+  vocabEditSelectLevel(vocabEditSelectedLevel);
+  document.getElementById('edit-vocab-modal').classList.add('open');
+  setTimeout(()=>document.getElementById('vocab-edit-name').focus(), 50);
+}
+function closeEditVocab() { document.getElementById('edit-vocab-modal').classList.remove('open'); vocabEditOriginalName = null; }
+function handleEditVocabBackdropClick(e) { if(e.target===document.getElementById('edit-vocab-modal')) closeEditVocab(); }
+function submitEditVocab() {
+  const name = document.getElementById('vocab-edit-name').value.trim();
+  if(!name) { document.getElementById('vocab-edit-name').focus(); return; }
+  const db = getDB();
+  const nameChanged = name.toLowerCase() !== vocabEditOriginalName.toLowerCase();
+  if(nameChanged && db.vocabulary.some(c=>c.name.toLowerCase()===name.toLowerCase())) {
+    document.getElementById('vocab-edit-error').style.display = 'block'; return;
+  }
+  const c = db.vocabulary.find(c=>c.name===vocabEditOriginalName);
+  if(!c) return;
+  c.name = name;
+  c.image = document.getElementById('vocab-edit-image').value.trim() || null;
+  c.familiarity = vocabEditSelectedLevel;
+  saveDB(db); closeEditVocab(); renderAll();
+  toast(`"${name}" updated.`);
+}
+let vocabRemoveName = null;
+function openRemoveVocab(name) {
+  vocabRemoveName = name;
+  document.getElementById('remove-vocab-name').textContent = name;
+  document.getElementById('remove-vocab-modal').classList.add('open');
+}
+function closeRemoveVocab() { document.getElementById('remove-vocab-modal').classList.remove('open'); vocabRemoveName = null; }
+function handleRemoveVocabBackdropClick(e) { if(e.target===document.getElementById('remove-vocab-modal')) closeRemoveVocab(); }
+function confirmRemoveVocab() {
+  if(!vocabRemoveName) return;
+  const db = getDB();
+  db.vocabulary = db.vocabulary.filter(c=>c.name!==vocabRemoveName);
+  logActivity(db, 'vocab_removed', { name: vocabRemoveName });
+  saveDB(db); closeRemoveVocab(); renderAll();
+  toast(`"${vocabRemoveName}" removed from vocabulary.`);
 }
 function checkOnboarding() {
   const db = getDB();
