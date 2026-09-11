@@ -297,10 +297,9 @@
     <div id="panel-progress" class="panel">
       <div class="panel-title">Progress</div>
       <div class="panel-sub">Your journey toward 272 standards</div>
-      <div class="stats-row" style="grid-template-columns:repeat(3,1fr);margin-bottom:12px">
-        <div class="stat-card"><div class="label">Not started</div><div class="value" id="p-0">—</div></div>
-        <div class="stat-card"><div class="label">In progress</div><div class="value" id="p-prog">—</div></div>
+      <div class="stats-row" style="grid-template-columns:repeat(2,1fr);margin-bottom:12px">
         <div class="stat-card"><div class="label">At level 2+</div><div class="value gold" id="p-2">—</div></div>
+        <div class="stat-card"><div class="label">Remaining</div><div class="value" id="p-0">—</div></div>
       </div>
       <div class="section" style="margin-bottom:20px">
         <div class="section-head"><h2>Overall completion</h2></div>
@@ -1177,11 +1176,8 @@ function renderQueue() {
 function renderProgress() {
   const db = getDB(), all = Object.values(db.songs);
   const grad = all.filter(s=>s.currentLevel>=2).length;
-  const inprog = all.filter(s=>s.status==='learning'||s.status==='active').length;
-  const unstarted = all.filter(s=>s.status==='untouched').length;
   const total = all.length, pct = Math.round(grad/total*100);
-  document.getElementById('p-0').textContent = unstarted;
-  document.getElementById('p-prog').textContent = inprog;
+  document.getElementById('p-0').textContent = total - grad;
   document.getElementById('p-2').textContent = grad;
   document.getElementById('prog-label').textContent = `${grad} of ${total} at level 2+`;
   document.getElementById('prog-pct').textContent = `${pct}%`;
