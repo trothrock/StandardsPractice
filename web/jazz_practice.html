@@ -86,6 +86,10 @@
   .btn-action:hover { border-color: var(--gold); color: var(--gold); }
   .btn-primary { background: var(--gold-dim); border: 1px solid rgba(201,168,76,0.3); color: var(--gold2); font-size: 12px; font-family: 'IBM Plex Sans', sans-serif; padding: 5px 14px; border-radius: var(--radius); cursor: pointer; transition: all 0.15s; }
   .btn-primary:hover { background: rgba(201,168,76,0.2); }
+  #reviews-body .song-row { padding-left: 24px; padding-right: 24px; }
+  #panel-today .btn-pass, #panel-today .btn-done { width: 112px; }
+  #panel-today .btn-fail, #panel-today .btn-primary { width: 164px; }
+  #panel-today .btn-pass, #panel-today .btn-done, #panel-today .btn-fail, #panel-today .btn-primary { text-align: center; flex-shrink: 0; }
   .interval-track { display: flex; gap: 3px; flex-wrap: nowrap; margin-top: 4px; }
   .int-pill { font-size: 10px; font-family: 'IBM Plex Mono', monospace; padding: 1px 6px; border-radius: 2px; border: 1px solid var(--border); color: var(--text3); }
   .int-pill.done { background: var(--green-dim); border-color: rgba(39,174,96,0.2); color: #5dba7e; }
@@ -1051,8 +1055,8 @@ function renderToday() {
     const safeName = sg.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
     const alreadyPracticed = practicedToday(db, sg.name);
     const practiceBtn = alreadyPracticed
-      ? `<button class="btn-action" style="color:var(--green);border-color:rgba(39,174,96,0.3)" disabled>&#x2713; Practiced</button>`
-      : `<button class="btn-action" onclick="markPracticed('${safeName}')">Mark as practiced</button>`;
+      ? `<button class="btn-action btn-done" style="color:var(--green);border-color:rgba(39,174,96,0.3)" disabled>&#x2713; Practiced</button>`
+      : `<button class="btn-pass" onclick="markPracticed('${safeName}')">Practiced</button>`;
     csw.innerHTML = `<div class="current-song-card"><div class="current-song-dot"></div><div class="current-song-info" style="cursor:pointer" onclick="showSongDetail('${safeName}')"><div class="label">Currently learning</div><div class="name">${sg.name}</div><div class="sub">${sg.style||'Standard'} · Work on this all week</div></div>${lvlBadge(sg.baseLevel)}${practiceBtn}<button class="btn-primary" onclick="markLearned('${safeName}')">Mark as level 2</button></div>`;
   } else {
     const next = getNextSong(db);
@@ -1066,7 +1070,7 @@ function renderToday() {
     const doneToday = featured.lastReviewed === tod;
     const deferredToday = featured.deferredDate === tod;
     const reviewBtn = doneToday
-      ? `<button class="btn-action" style="color:var(--green);border-color:rgba(39,174,96,0.3)" disabled>&#x2713; Reviewed</button>`
+      ? `<button class="btn-action btn-done" style="color:var(--green);border-color:rgba(39,174,96,0.3)" disabled>&#x2713; Reviewed</button>`
       : `<button class="btn-pass" onclick="markRepertoireReviewed('${safe}')">Reviewed</button>`;
     const continueBtn = doneToday
       ? ''
@@ -1085,7 +1089,7 @@ function renderToday() {
     const vDoneToday = featuredVoicing.lastPracticed === tod;
     const vDeferredToday = featuredVoicing.deferredDate === tod;
     const practiceBtnV = vDoneToday
-      ? `<button class="btn-action" style="color:var(--green);border-color:rgba(39,174,96,0.3)" disabled>&#x2713; Practiced</button>`
+      ? `<button class="btn-action btn-done" style="color:var(--green);border-color:rgba(39,174,96,0.3)" disabled>&#x2713; Practiced</button>`
       : `<button class="btn-pass" onclick="markVoicingPracticed('${vsafe}')">Practiced</button>`;
     const continueBtnV = vDoneToday
       ? ''
@@ -1103,7 +1107,7 @@ function renderToday() {
     const cDoneToday = featuredVocab.lastPracticed === tod;
     const cDeferredToday = featuredVocab.deferredDate === tod;
     const practiceBtnC = cDoneToday
-      ? `<button class="btn-action" style="color:var(--green);border-color:rgba(39,174,96,0.3)" disabled>&#x2713; Practiced</button>`
+      ? `<button class="btn-action btn-done" style="color:var(--green);border-color:rgba(39,174,96,0.3)" disabled>&#x2713; Practiced</button>`
       : `<button class="btn-pass" onclick="markVocabPracticed('${csafe}')">Practiced</button>`;
     const continueBtnC = cDoneToday
       ? ''
