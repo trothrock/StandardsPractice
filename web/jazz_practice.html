@@ -261,7 +261,7 @@
         <input type="text" id="lib-search" placeholder="Search by title..." oninput="renderLibrary()">
         <select id="lib-level" onchange="renderLibrary()"><option value="">All levels</option><option value="0">Level 0</option><option value="1">Level 1</option><option value="2">Level 2</option><option value="3">Level 3</option></select>
         <select id="lib-status" onchange="renderLibrary()"><option value="">All statuses</option><option value="untouched">Not started</option><option value="learning">In progress</option><option value="active">In review</option><option value="graduated">Graduated</option></select>
-        <select id="lib-style" onchange="renderLibrary()"><option value="">All styles</option><option value="Bop">Bop</option><option value="Blues">Blues</option><option value="Bossa">Bossa</option><option value="Modal">Modal</option><option value="Trad">Trad</option></select>
+        <select id="lib-style" onchange="renderLibrary()"><option value="">All styles</option><option value="Ballad">Ballad</option><option value="Bop">Bop</option><option value="Blues">Blues</option><option value="Bossa">Bossa</option><option value="Modal">Modal</option><option value="Trad">Trad</option></select>
       </div>
       <div class="section"><div id="library-body"></div></div>
     </div>
@@ -674,7 +674,7 @@
     </div>
     <div class="field">
       <label>Style <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
-      <select id="add-style"><option value="">None</option><option value="Bop">Bop</option><option value="Blues">Blues</option><option value="Bossa">Bossa</option><option value="Modal">Modal</option><option value="Trad">Trad</option></select>
+      <select id="add-style"><option value="">None</option><option value="Ballad">Ballad</option><option value="Bop">Bop</option><option value="Blues">Blues</option><option value="Bossa">Bossa</option><option value="Modal">Modal</option><option value="Trad">Trad</option></select>
     </div>
     <div class="field">
       <label>Familiarity level</label>
@@ -724,7 +724,7 @@
     </div>
     <div class="field">
       <label>Style <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
-      <select id="edit-style"><option value="">None</option><option value="Bop">Bop</option><option value="Blues">Blues</option><option value="Bossa">Bossa</option><option value="Modal">Modal</option><option value="Trad">Trad</option></select>
+      <select id="edit-style"><option value="">None</option><option value="Ballad">Ballad</option><option value="Bop">Bop</option><option value="Blues">Blues</option><option value="Bossa">Bossa</option><option value="Modal">Modal</option><option value="Trad">Trad</option></select>
     </div>
     <div class="field">
       <label>Composer <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
@@ -825,10 +825,13 @@ function initDB() {
   if(!db.todaySections) db.todaySections = { learning:true, repertoire:true, voicing:true, vocabulary:true, review:true };
   if(db.todaySections.vocabulary === undefined) { db.todaySections.vocabulary = true; saveDB(db); }
   let needsSave = false;
-  const seedMap = new Map(ALL_SONGS.map(([name,style,composer,year])=>[name,{composer,year}]));
+  const seedMap = new Map(ALL_SONGS.map(([name,style,composer,year])=>[name,{style,composer,year}]));
+  const seedBallads = !db.balladStylesSeeded;
+  if(seedBallads) { db.balladStylesSeeded = true; needsSave = true; }
   Object.values(db.songs).forEach(sg => {
     if(sg.sortSeed === undefined) { sg.sortSeed = Math.random(); needsSave = true; }
     const seed = seedMap.get(sg.name);
+    if(seedBallads && seed && seed.style === 'Ballad' && !sg.style) sg.style = 'Ballad';
     if(seed && sg.composer === undefined) { sg.composer = seed.composer; needsSave = true; }
     if(seed && sg.year === undefined) { sg.year = seed.year; needsSave = true; }
   });

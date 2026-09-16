@@ -55,6 +55,6 @@ Edit `web/jazz_data.js`. Each entry follows the format:
 ["Song Title", "Style", "Composer Name", year],
 ```
 
-Style options: `Bop`, `Blues`, `Bossa`, `Modal`, `Trad`, or `""` for standard.
+Style options: `Ballad`, `Bop`, `Blues`, `Bossa`, `Modal`, `Trad`, or `""` for standard.
 
 Songs added or removed here only affect new users (or after a data reset) — existing localStorage data is not modified.
