@@ -364,6 +364,7 @@
       <div class="section">
         <div class="section-head"><h2>Manage data</h2></div>
         <div style="padding:20px;display:flex;flex-direction:column;gap:10px;max-width:280px">
+          <button class="btn-sm" onclick="syncNotes(true)">Sync to Apple Notes</button>
           <button class="btn-sm" onclick="exportData()">Export backup</button>
           <button class="btn-sm" onclick="document.getElementById('import-input').click()">Import backup</button>
           <input type="file" id="import-input" accept=".json" onchange="importData(event)">
@@ -780,7 +781,37 @@ function toast(msg) {
 function loadDB() {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY))||null; } catch(e){ return null; }
 }
-function saveDB(db) { localStorage.setItem(STORAGE_KEY, JSON.stringify(db)); }
+function saveDB(db) { localStorage.setItem(STORAGE_KEY, JSON.stringify(db)); scheduleNotesSync(); }
+
+// Apple Notes sync — server.js writes the level 2+ list to the "Jam Session Calls" note
+let notesSyncTimer = null, lastNotesSyncSig = null;
+function notesSyncPayload() {
+  const db = loadDB();
+  if(!db) return [];
+  return Object.values(db.songs).filter(s=>s.currentLevel>=2)
+    .map(s=>({ name:s.name, level:s.currentLevel, style:s.style||'', composer:s.composer||'' }))
+    .sort((a,b)=>a.name.localeCompare(b.name));
+}
+function scheduleNotesSync() {
+  clearTimeout(notesSyncTimer);
+  notesSyncTimer = setTimeout(()=>syncNotes(false), 2000);
+}
+async function syncNotes(manual) {
+  if(location.protocol==='file:') { if(manual) toast('Notes sync needs the local server running.'); return; }
+  const songs = notesSyncPayload();
+  const sig = JSON.stringify(songs);
+  if(!manual && sig===lastNotesSyncSig) return;
+  try {
+    const res = await fetch('/api/sync-notes', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({songs}) });
+    const out = await res.json();
+    if(!out.ok) throw new Error(out.error);
+    lastNotesSyncSig = sig;
+    if(manual) toast(`Synced ${songs.length} songs to Apple Notes.`);
+  } catch(err) {
+    console.warn('Notes sync failed:', err);
+    if(manual) toast('Notes sync failed — is the server running?');
+  }
+}
 function logActivity(db, type, data) {
   if(!db.activity) db.activity = [];
   db.activity.push({ ts: Date.now(), date: todayInt(), type, ...data });
@@ -944,7 +975,7 @@ function importData(e) {
       const db = JSON.parse(ev.target.result);
       if(!db.songs) throw new Error('Invalid format');
       if(!confirm('This will replace all current data. Continue?')) return;
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+      saveDB(db);
       renderAll(); toast('Backup imported successfully.');
     } catch(err) { alert("Could not read backup file."); }
     e.target.value='';
@@ -2250,6 +2281,7 @@ function rankerFinish() {
 
 renderToday();
 checkOnboarding();
+scheduleNotesSync();
 </script>
 </body>
 </html>
