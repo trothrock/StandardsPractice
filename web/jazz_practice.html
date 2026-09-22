@@ -190,6 +190,12 @@
   .voicing-img-large { width: 64px; height: 64px; border-radius: var(--radius); object-fit: cover; background: var(--bg3); border: 1px solid var(--border2); flex-shrink: 0; }
   .voicing-img-full { width: 100%; height: 260px; border-radius: var(--radius-lg); object-fit: contain; background: var(--bg3); border: 1px solid var(--border2); margin-bottom: 16px; font-size: 13px; }
   .voicing-thumb-empty { display: flex; align-items: center; justify-content: center; color: var(--text3); font-family: 'IBM Plex Mono', monospace; font-size: 9px; text-align: center; line-height: 1.1; }
+  .key-chip { font-size: 11px; font-family: 'IBM Plex Mono', monospace; color: var(--gold2); background: var(--gold-dim); border: 1px solid rgba(201,168,76,0.3); border-radius: 3px; padding: 1px 7px; flex-shrink: 0; white-space: nowrap; }
+  .key-name { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--text); width: 44px; flex-shrink: 0; }
+  .key-stat { font-size: 11px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; white-space: nowrap; }
+  .key-stat b { color: var(--text2); font-weight: 500; }
+  .key-fam-picker { display: flex; gap: 4px; flex-shrink: 0; }
+  .key-fam-picker .level-btn { flex: none; width: 30px; padding: 3px 0; font-size: 11px; }
   .top-note { font-size: 11px; color: var(--gold2); font-family: 'IBM Plex Mono', monospace; flex-shrink: 0; }
 </style>
 </head>
@@ -220,6 +226,10 @@
       <div class="nav-item" onclick="showPanel('vocabulary')">
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5h12v7H6.5L3.5 13.5V10.5H2z"/><path d="M4.5 6h7M4.5 8h4"/></svg>
         Vocabulary
+      </div>
+      <div class="nav-item" onclick="showPanel('keys')">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><circle cx="8" cy="8" r="2"/><path d="M8 2v2M8 12v2M2 8h2M12 8h2"/></svg>
+        Key centers
       </div>
       <div class="nav-item" onclick="showPanel('queue')">
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3h12M2 6h12M2 9h8M2 12h5"/></svg>
@@ -288,6 +298,11 @@
       </div>
       <div class="panel-sub">Lines, licks and devices &middot; familiarity 0&ndash;2</div>
       <div id="vocabulary-body"></div>
+    </div>
+    <div id="panel-keys" class="panel">
+      <div class="panel-title">Key centers</div>
+      <div class="panel-sub">Review sessions per key &middot; familiarity 0&ndash;3</div>
+      <div id="keys-body"></div>
     </div>
     <div id="panel-queue" class="panel">
       <div class="panel-title">Review Queue</div>
@@ -736,6 +751,14 @@
       <input type="number" id="edit-year">
     </div>
     <div class="field">
+      <label>Standard key <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <select id="edit-standard-key"></select>
+    </div>
+    <div class="field" style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+      <div><label style="margin-bottom:2px">Multi-key practice</label><div style="font-size:11px;color:var(--text3)">Reviews assign a key center matching the standard key's quality</div></div>
+      <label class="toggle-switch"><input type="checkbox" id="edit-multikey"><span class="toggle-slider"></span></label>
+    </div>
+    <div class="field">
       <label>Familiarity level</label>
       <div class="level-picker">
         <button class="level-btn" data-edit-lvl="0" onclick="selectEditLevel(0)">0</button>
@@ -828,7 +851,9 @@ function initDB() {
         intervalIdx:-1,
         nextReview:null,
         learnedDate:null,
-        reviews:[]
+        reviews:[],
+        standardKey:null,
+        multiKey:false
       };
     });
     saveDB(db);
@@ -850,6 +875,8 @@ function initDB() {
     db.voicingsSeedVersion = VOICINGS_SEED_VERSION;
     saveDB(db);
   }
+  if(!db.keyCenters) db.keyCenters = {};
+  KEY_CENTERS.forEach(k=>{ if(!db.keyCenters[k.id]) db.keyCenters[k.id] = { familiarity: 0 }; });
   if(db.reviewMax === undefined) db.reviewMax = 1;
   if(db.reviewQueueMode === undefined) db.reviewQueueMode = 'all';
   if(db.onboardingComplete === undefined) db.onboardingComplete = true;
@@ -865,11 +892,100 @@ function initDB() {
     if(seedBallads && seed && seed.style === 'Ballad' && !sg.style) sg.style = 'Ballad';
     if(seed && sg.composer === undefined) { sg.composer = seed.composer; needsSave = true; }
     if(seed && sg.year === undefined) { sg.year = seed.year; needsSave = true; }
+    if(sg.standardKey === undefined) { sg.standardKey = null; needsSave = true; }
+    if(sg.multiKey === undefined) { sg.multiKey = false; needsSave = true; }
   });
   if(needsSave) saveDB(db);
   return db;
 }
 function getDB() { return initDB(); }
+
+// 24 key centers: 12 chromatic roots × major/minor. ids are stable ASCII; labels use ♭/♯.
+const KEY_ROOTS_MAJOR = ['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B'];
+const KEY_ROOTS_MINOR = ['C','C#','D','Eb','E','F','F#','G','G#','A','Bb','B'];
+const KEY_CENTERS = [
+  ...KEY_ROOTS_MAJOR.map(r=>({ id:r, root:r, quality:'major' })),
+  ...KEY_ROOTS_MINOR.map(r=>({ id:r+'m', root:r, quality:'minor' })),
+];
+const KEY_BY_ID = Object.fromEntries(KEY_CENTERS.map(k=>[k.id,k]));
+const KEY_FAM_DESCS = ['Very unfamiliar','Somewhat unfamiliar','Somewhat familiar','Very familiar'];
+function keyRootLabel(root) { return root.replace('b','♭').replace('#','♯'); }
+function keyLabel(id) { const k = KEY_BY_ID[id]; return k ? `${keyRootLabel(k.root)} ${k.quality}` : ''; }
+function keyFamiliarity(db, id) { return ((db.keyCenters||{})[id]||{}).familiarity||0; }
+// Key a review counts toward: multi-key assignment for today, else the song's standard key
+function reviewKeyFor(sg, date) {
+  if(sg.multiKey && sg.practiceKey && sg.practiceKey.date===date) return sg.practiceKey.key;
+  return sg.standardKey || null;
+}
+// One session per song per day; reviews recorded without a key fall back to the song's standard key
+function keyCenterCounts(db) {
+  const counts = {};
+  Object.values(db.songs).forEach(sg=>{
+    const seenDates = new Set();
+    (sg.reviews||[]).forEach(r=>{
+      if(seenDates.has(r.date)) return;
+      const key = r.key || sg.standardKey;
+      if(!key || !KEY_BY_ID[key]) return;
+      seenDates.add(r.date);
+      counts[key] = (counts[key]||0) + 1;
+    });
+  });
+  return counts;
+}
+// Weighted pick among other keys of the same quality; less familiar keys weigh more (16/9/4/1)
+function pickPracticeKey(db, sg) {
+  const std = KEY_BY_ID[sg.standardKey];
+  if(!std) return null;
+  const pool = KEY_CENTERS.filter(k=>k.quality===std.quality && k.id!==std.id);
+  const weights = pool.map(k=>Math.pow(4 - keyFamiliarity(db, k.id), 2));
+  let r = Math.random() * weights.reduce((a,b)=>a+b, 0);
+  for(let i=0;i<pool.length;i++){ r -= weights[i]; if(r<0) return pool[i].id; }
+  return pool[pool.length-1].id;
+}
+// Returns true if today's assignment changed (caller saves)
+function ensurePracticeKey(db, sg) {
+  if(!sg.multiKey || !KEY_BY_ID[sg.standardKey]) return false;
+  const tod = todayInt(), pk = sg.practiceKey, std = KEY_BY_ID[sg.standardKey];
+  if(pk && pk.date===tod && KEY_BY_ID[pk.key] && KEY_BY_ID[pk.key].quality===std.quality && pk.key!==std.id) return false;
+  sg.practiceKey = { date: tod, key: pickPracticeKey(db, sg) };
+  return true;
+}
+function keySelectOptions(selected) {
+  const opt = k => `<option value="${k.id}"${k.id===selected?' selected':''}>${keyLabel(k.id)}</option>`;
+  return `<option value="">Not set</option><optgroup label="Major">${KEY_CENTERS.filter(k=>k.quality==='major').map(opt).join('')}</optgroup><optgroup label="Minor">${KEY_CENTERS.filter(k=>k.quality==='minor').map(opt).join('')}</optgroup>`;
+}
+function renderKeyCenters() {
+  const db = getDB();
+  const counts = keyCenterCounts(db);
+  const songCounts = {};
+  Object.values(db.songs).forEach(sg=>{ if(sg.standardKey) songCounts[sg.standardKey] = (songCounts[sg.standardKey]||0) + 1; });
+  const html = ['major','minor'].map(q=>{
+    const keys = KEY_CENTERS.filter(k=>k.quality===q);
+    const total = keys.reduce((a,k)=>a+(counts[k.id]||0), 0);
+    const rows = keys.map(k=>{
+      const fam = keyFamiliarity(db, k.id);
+      const n = counts[k.id]||0, songs = songCounts[k.id]||0;
+      const picker = [0,1,2,3].map(l=>`<button class="level-btn${l===fam?' sel-'+l:''}" title="${KEY_FAM_DESCS[l]}" onclick="setKeyFamiliarity('${k.id}',${l})">${l}</button>`).join('');
+      return `<div class="song-row"><span class="key-name">${keyRootLabel(k.root)}${q==='minor'?'m':''}</span><div class="song-name-group"><span class="key-stat"><b>${n}</b> review session${n===1?'':'s'}</span>${songs?`<span class="key-stat">· ${songs} song${songs===1?'':'s'} in this key</span>`:''}</div><span class="key-stat" style="width:130px;text-align:right">${KEY_FAM_DESCS[fam]}</span><div class="key-fam-picker">${picker}</div></div>`;
+    }).join('');
+    return `<div class="section"><div class="section-head"><h2>${q==='major'?'Major':'Minor'}</h2><span class="count">${total} session${total===1?'':'s'}</span></div>${rows}</div>`;
+  }).join('');
+  document.getElementById('keys-body').innerHTML = html;
+}
+function setKeyFamiliarity(id, lvl) {
+  const db = getDB();
+  if(!db.keyCenters[id]) db.keyCenters[id] = { familiarity: 0 };
+  db.keyCenters[id].familiarity = lvl;
+  saveDB(db); renderKeyCenters();
+}
+function toggleMultiKey(name, on) {
+  const db = getDB();
+  const sg = db.songs[name];
+  if(!sg) return;
+  sg.multiKey = on;
+  saveDB(db); renderAll();
+  toast(on ? (sg.standardKey ? `Multi-key practice on for "${name}".` : `Multi-key practice on — set a standard key to get key assignments.`) : `Multi-key practice off for "${name}".`);
+}
 
 const VOICING_CATEGORIES = ['Major','Minor','Dominant','Diminished'];
 const VOCAB_FAM_DESCS = ["No familiarity — haven't worked it out yet","Getting it under my fingers","Mastered — instant recall"];
@@ -935,8 +1051,9 @@ function markLearned(name) {
 function doReview(name, passed) {
   const db = getDB();
   const sg = db.songs[name];
-  sg.reviews.push({date:todayInt(), passed});
-  logActivity(db, 'review', { name, passed });
+  const key = reviewKeyFor(sg, todayInt());
+  sg.reviews.push(key ? {date:todayInt(), passed, key} : {date:todayInt(), passed});
+  logActivity(db, 'review', key ? { name, passed, key } : { name, passed });
   if(passed) {
     const nextIdx = Math.min(sg.intervalIdx+1, INTERVALS.length-1);
     sg.intervalIdx = nextIdx;
@@ -1152,6 +1269,7 @@ function renderToday() {
   } else {
     cvw.innerHTML = '';
   }
+  if(due.map(sg=>ensurePracticeKey(db, sg)).some(Boolean)) saveDB(db);
   const rb = document.getElementById('reviews-body');
   const reviewedToday = Object.values(db.songs).some(s=>(s.reviews||[]).some(r=>r.date===tod));
   const hasUpcoming = Object.values(db.songs).some(s=>reviewEligible(db,s)&&s.nextReview&&s.nextReview>tod&&!(s.reviews||[]).some(r=>r.date===tod));
@@ -1163,7 +1281,9 @@ function renderToday() {
     : due.map(sg=>{
         const intLabel = sg.intervalIdx>=0 ? `<span style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${INTERVALS[sg.intervalIdx]}d interval</span>` : '';
         const safeN = sg.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-        return `<div class="song-row clickable" onclick="showSongDetail('${safeN}')">${lvlBadge(sg.currentLevel)}<div class="song-name-group"><span class="song-name">${sg.name}</span>${styleBadge(sg.style)}</div>${intLabel}<button class="btn-pass" onclick="doReview('${safeN}',true);event.stopPropagation()">Reviewed</button><button class="btn-fail" onclick="doReview('${safeN}',false);event.stopPropagation()">Continue tomorrow</button></div>`;
+        const pk = sg.multiKey && sg.standardKey && sg.practiceKey && sg.practiceKey.date===tod ? sg.practiceKey.key : null;
+        const keyChip = pk ? `<span class="key-chip" title="Multi-key practice · standard key ${keyLabel(sg.standardKey)}">in ${keyLabel(pk)}</span>` : '';
+        return `<div class="song-row clickable" onclick="showSongDetail('${safeN}')">${lvlBadge(sg.currentLevel)}<div class="song-name-group"><span class="song-name">${sg.name}</span>${styleBadge(sg.style)}${keyChip}</div>${intLabel}<button class="btn-pass" onclick="doReview('${safeN}',true);event.stopPropagation()">Reviewed</button><button class="btn-fail" onclick="doReview('${safeN}',false);event.stopPropagation()">Continue tomorrow</button></div>`;
       }).join('');
 }
 
@@ -1241,7 +1361,7 @@ function formatActivityEntry(entry) {
     case 'started_learning': return { dot:'blue',  label:'Started learning',         detail:entry.name };
     case 'practiced':        return { dot:'gold',  label:'Practiced',                detail:entry.name };
     case 'learned':          return { dot:'green', label:'Marked as Level 2',        detail:entry.name };
-    case 'review':           return { dot:entry.passed?'green':'gold', label:entry.passed?'Reviewed':'Continued', detail:entry.name };
+    case 'review':           return { dot:entry.passed?'green':'gold', label:(entry.passed?'Reviewed':'Continued')+(entry.key?` in ${keyLabel(entry.key)}`:''), detail:entry.name };
     case 'song_added':       return { dot:'blue',  label:'Added to library',         detail:entry.name };
     case 'song_edited':      return { dot:'dim',   label:(entry.oldLevel!==undefined&&entry.oldLevel!==entry.level)?`Familiarity updated to Level ${entry.level}`:'Song details updated', detail:entry.name||entry.oldName };
     case 'stopped_learning': return { dot:'dim',   label:'Stopped learning',         detail:entry.name };
@@ -1417,7 +1537,7 @@ function renderSongDetail(name) {
     ? (()=>{ const d=new Date(Math.floor(sg.nextReview/10000),Math.floor((sg.nextReview%10000)/100)-1,sg.nextReview%100); return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); })()
     : '—';
   const safeName = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-  const header = `<div class="detail-header"><div class="detail-header-top"><span class="detail-title">${sg.name}</span>${styleBadge(sg.style)}${lvlBadge(sg.currentLevel)}${statusBadge}</div>${pills}<div class="detail-meta-grid"><div class="detail-meta-field"><div class="label">Next review</div><div class="value">${nextReview}</div></div><div class="detail-meta-field"><div class="label">Composer</div><div class="value${sg.composer?'':' placeholder'}">${sg.composer||'—'}</div></div><div class="detail-meta-field"><div class="label">Year</div><div class="value${sg.year?'':' placeholder'}">${sg.year||'—'}</div></div></div><div class="notes-actions"><button class="btn-action" onclick="openEditSong('${safeName}')">Edit</button></div></div>`;
+  const header = `<div class="detail-header"><div class="detail-header-top"><span class="detail-title">${sg.name}</span>${styleBadge(sg.style)}${lvlBadge(sg.currentLevel)}${statusBadge}</div>${pills}<div class="detail-meta-grid"><div class="detail-meta-field"><div class="label">Next review</div><div class="value">${nextReview}</div></div><div class="detail-meta-field"><div class="label">Composer</div><div class="value${sg.composer?'':' placeholder'}">${sg.composer||'—'}</div></div><div class="detail-meta-field"><div class="label">Year</div><div class="value${sg.year?'':' placeholder'}">${sg.year||'—'}</div></div><div class="detail-meta-field"><div class="label">Standard key</div><div class="value${sg.standardKey?'':' placeholder'}">${sg.standardKey?keyLabel(sg.standardKey):'Not set'}</div></div><div class="detail-meta-field"><div class="label">Multi-key practice</div><div style="display:flex;align-items:center;gap:8px"><label class="toggle-switch"><input type="checkbox"${sg.multiKey?' checked':''} onchange="toggleMultiKey('${safeName}',this.checked)"><span class="toggle-slider"></span></label>${sg.multiKey&&!sg.standardKey?'<span class="key-stat">needs standard key</span>':''}</div></div></div><div class="notes-actions"><button class="btn-action" onclick="openEditSong('${safeName}')">Edit</button></div></div>`;
   const entries = (db.activity||[]).filter(e=>e.name===name||e.oldName===name).sort((a,b)=>b.ts-a.ts);
   const timeline = entries.length===0
     ? '<div class="empty">No activity for this song yet.</div>'
@@ -1479,13 +1599,14 @@ function showPanel(id) {
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
-  const idx = ['today','library','repertoire','voicings','vocabulary','queue','progress','activity'].indexOf(id);
+  const idx = ['today','library','repertoire','voicings','vocabulary','keys','queue','progress','activity'].indexOf(id);
   if(idx>=0) document.querySelectorAll('.nav-item')[idx].classList.add('active');
   if(id==='settings') document.getElementById('nav-settings').classList.add('active');
   if(id==='library') renderLibrary();
   if(id==='repertoire') renderRepertoire();
   if(id==='voicings') renderVoicings();
   if(id==='vocabulary') renderVocabulary();
+  if(id==='keys') renderKeyCenters();
   if(id==='queue') renderQueue();
   if(id==='progress') renderProgress();
   if(id==='activity') renderActivity();
@@ -1500,6 +1621,7 @@ function renderAll() {
     if(id==='repertoire') renderRepertoire();
     if(id==='voicings') renderVoicings();
     if(id==='vocabulary') renderVocabulary();
+    if(id==='keys') renderKeyCenters();
     if(id==='queue') renderQueue();
     if(id==='progress') renderProgress();
     if(id==='activity') renderActivity();
@@ -1550,7 +1672,7 @@ function submitAddSong() {
     status: lvl>=2 ? 'active' : 'untouched',
     intervalIdx: lvl>=2 ? 0 : -1,
     nextReview: lvl>=2 ? addDays(todayInt(),1) : null,
-    learnedDate: lvl>=2 ? todayInt() : null, reviews:[] };
+    learnedDate: lvl>=2 ? todayInt() : null, reviews:[], standardKey:null, multiKey:false };
   logActivity(db, 'song_added', { name, style, level: lvl });
   saveDB(db); closeAddSong(); renderAll();
   toast(`"${name}" added to ${lvl>=2?'review queue':'backlog'}.`);
@@ -1630,6 +1752,8 @@ function openEditSong(name) {
   document.getElementById('edit-style').value = sg.style || '';
   document.getElementById('edit-composer').value = sg.composer || '';
   document.getElementById('edit-year').value = sg.year || '';
+  document.getElementById('edit-standard-key').innerHTML = keySelectOptions(sg.standardKey);
+  document.getElementById('edit-multikey').checked = !!sg.multiKey;
   document.getElementById('edit-error').style.display = 'none';
   document.querySelectorAll('[data-edit-lvl]').forEach(b=>b.className='level-btn');
   document.querySelector(`[data-edit-lvl="${editSelectedLevel}"]`).classList.add(`sel-${editSelectedLevel}`);
@@ -1652,6 +1776,8 @@ function submitEditSong() {
   const composer = document.getElementById('edit-composer').value.trim() || null;
   const yearRaw = document.getElementById('edit-year').value.trim();
   const year = yearRaw ? parseInt(yearRaw, 10) : null;
+  const standardKey = document.getElementById('edit-standard-key').value || null;
+  const multiKey = document.getElementById('edit-multikey').checked;
   const lvl = editSelectedLevel;
   if(!newName) { document.getElementById('edit-name').focus(); return; }
   const db = getDB();
@@ -1666,6 +1792,8 @@ function submitEditSong() {
   sg.style = style;
   sg.composer = composer;
   sg.year = year;
+  sg.standardKey = standardKey;
+  sg.multiKey = multiKey;
   sg.baseLevel = lvl;
   if(nameChanged) {
     db.songs[newName] = sg;
