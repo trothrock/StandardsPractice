@@ -843,7 +843,7 @@ function initDB() {
   let db = loadDB();
   if(!db) {
     db = { songs:{}, currentNewSong:null, streak:0, lastPracticeDay:null, activity:[], onboardingComplete:false };
-    ALL_SONGS.forEach(([name,style,composer,year])=>{
+    ALL_SONGS.forEach(([name,style,composer,year,standardKey])=>{
       db.songs[name] = {
         name, style, composer, year,
         baseLevel:0, currentLevel:0,
@@ -852,7 +852,7 @@ function initDB() {
         nextReview:null,
         learnedDate:null,
         reviews:[],
-        standardKey:null,
+        standardKey:standardKey||null,
         multiKey:false
       };
     });
@@ -883,9 +883,11 @@ function initDB() {
   if(!db.todaySections) db.todaySections = { learning:true, repertoire:true, voicing:true, vocabulary:true, review:true };
   if(db.todaySections.vocabulary === undefined) { db.todaySections.vocabulary = true; saveDB(db); }
   let needsSave = false;
-  const seedMap = new Map(ALL_SONGS.map(([name,style,composer,year])=>[name,{style,composer,year}]));
+  const seedMap = new Map(ALL_SONGS.map(([name,style,composer,year,standardKey])=>[name,{style,composer,year,standardKey}]));
   const seedBallads = !db.balladStylesSeeded;
   if(seedBallads) { db.balladStylesSeeded = true; needsSave = true; }
+  const seedKeys = !db.standardKeysSeeded;
+  if(seedKeys) { db.standardKeysSeeded = true; needsSave = true; }
   Object.values(db.songs).forEach(sg => {
     if(sg.sortSeed === undefined) { sg.sortSeed = Math.random(); needsSave = true; }
     const seed = seedMap.get(sg.name);
@@ -893,6 +895,7 @@ function initDB() {
     if(seed && sg.composer === undefined) { sg.composer = seed.composer; needsSave = true; }
     if(seed && sg.year === undefined) { sg.year = seed.year; needsSave = true; }
     if(sg.standardKey === undefined) { sg.standardKey = null; needsSave = true; }
+    if(seedKeys && seed && seed.standardKey && !sg.standardKey) sg.standardKey = seed.standardKey;
     if(sg.multiKey === undefined) { sg.multiKey = false; needsSave = true; }
   });
   if(needsSave) saveDB(db);
