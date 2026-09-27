@@ -915,9 +915,9 @@ const KEY_FAM_DESCS = ['Very unfamiliar','Somewhat unfamiliar','Somewhat familia
 function keyRootLabel(root) { return root.replace('b','♭').replace('#','♯'); }
 function keyLabel(id) { const k = KEY_BY_ID[id]; return k ? `${keyRootLabel(k.root)} ${k.quality}` : ''; }
 function keyFamiliarity(db, id) { return ((db.keyCenters||{})[id]||{}).familiarity||0; }
-// Key a review counts toward: multi-key assignment for today, else the song's standard key
+// Key a review counts toward: the song's current multi-key assignment, else its standard key
 function reviewKeyFor(sg, date) {
-  if(sg.multiKey && sg.practiceKey && sg.practiceKey.date===date) return sg.practiceKey.key;
+  if(sg.multiKey && sg.practiceKey && KEY_BY_ID[sg.practiceKey.key]) return sg.practiceKey.key;
   return sg.standardKey || null;
 }
 // One session per song per day; reviews recorded without a key fall back to the song's standard key
@@ -945,12 +945,17 @@ function pickPracticeKey(db, sg) {
   for(let i=0;i<pool.length;i++){ r -= weights[i]; if(r<0) return pool[i].id; }
   return pool[pool.length-1].id;
 }
-// Returns true if today's assignment changed (caller saves)
+// A practice key holds steady across days while a song stays in the review queue —
+// it only rolls over once a passing review has closed out the cycle it was assigned for.
+// Returns true if the assignment changed (caller saves)
 function ensurePracticeKey(db, sg) {
   if(!sg.multiKey || !KEY_BY_ID[sg.standardKey]) return false;
-  const tod = todayInt(), pk = sg.practiceKey, std = KEY_BY_ID[sg.standardKey];
-  if(pk && pk.date===tod && KEY_BY_ID[pk.key] && KEY_BY_ID[pk.key].quality===std.quality && pk.key!==std.id) return false;
-  sg.practiceKey = { date: tod, key: pickPracticeKey(db, sg) };
+  const pk = sg.practiceKey, std = KEY_BY_ID[sg.standardKey];
+  if(pk && KEY_BY_ID[pk.key] && KEY_BY_ID[pk.key].quality===std.quality && pk.key!==std.id) {
+    const closedOut = (sg.reviews||[]).some(r=>r.date>=pk.date && r.passed);
+    if(!closedOut) return false;
+  }
+  sg.practiceKey = { date: todayInt(), key: pickPracticeKey(db, sg) };
   return true;
 }
 function keySelectOptions(selected) {
@@ -1284,7 +1289,7 @@ function renderToday() {
     : due.map(sg=>{
         const intLabel = sg.intervalIdx>=0 ? `<span style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${INTERVALS[sg.intervalIdx]}d interval</span>` : '';
         const safeN = sg.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-        const pk = sg.multiKey && sg.standardKey && sg.practiceKey && sg.practiceKey.date===tod ? sg.practiceKey.key : null;
+        const pk = sg.multiKey && sg.standardKey && sg.practiceKey && KEY_BY_ID[sg.practiceKey.key] ? sg.practiceKey.key : null;
         const keyChip = pk ? `<span class="key-chip" title="Multi-key practice · standard key ${keyLabel(sg.standardKey)}">in ${keyLabel(pk)}</span>` : '';
         return `<div class="song-row clickable" onclick="showSongDetail('${safeN}')">${lvlBadge(sg.currentLevel)}<div class="song-name-group"><span class="song-name">${sg.name}</span>${styleBadge(sg.style)}${keyChip}</div>${intLabel}<button class="btn-pass" onclick="doReview('${safeN}',true);event.stopPropagation()">Reviewed</button><button class="btn-fail" onclick="doReview('${safeN}',false);event.stopPropagation()">Continue tomorrow</button></div>`;
       }).join('');
