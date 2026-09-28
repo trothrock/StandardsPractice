@@ -723,6 +723,10 @@
         <option value="learnedOnly">Only recently learned songs</option>
       </select>
     </div>
+    <div class="field">
+      <label>Multi-key sessions per key center</label>
+      <input type="number" id="multikey-session-input" min="1" max="20">
+    </div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeReviewSettings()">Cancel</button>
       <button class="btn-confirm" onclick="submitReviewSettings()">Save</button>
@@ -879,6 +883,8 @@ function initDB() {
   KEY_CENTERS.forEach(k=>{ if(!db.keyCenters[k.id]) db.keyCenters[k.id] = { familiarity: 0 }; });
   if(db.reviewMax === undefined) db.reviewMax = 1;
   if(db.reviewQueueMode === undefined) db.reviewQueueMode = 'all';
+  if(db.multiKeySessionLength === undefined) db.multiKeySessionLength = 3;
+  if(!db.multiKeyGroups) db.multiKeyGroups = { major: { key: null, count: 0 }, minor: { key: null, count: 0 } };
   if(db.onboardingComplete === undefined) db.onboardingComplete = true;
   if(!db.todaySections) db.todaySections = { learning:true, repertoire:true, voicing:true, vocabulary:true, review:true };
   if(db.todaySections.vocabulary === undefined) { db.todaySections.vocabulary = true; saveDB(db); }
@@ -935,15 +941,31 @@ function keyCenterCounts(db) {
   });
   return counts;
 }
-// Weighted pick among other keys of the same quality; less familiar keys weigh more (16/9/4/1)
-function pickPracticeKey(db, sg) {
-  const std = KEY_BY_ID[sg.standardKey];
-  if(!std) return null;
-  const pool = KEY_CENTERS.filter(k=>k.quality===std.quality && k.id!==std.id);
+// Weighted pick among keys of a given quality (optionally excluding one); less familiar keys weigh more (16/9/4/1)
+function pickKeyForQuality(db, quality, excludeId) {
+  const pool = KEY_CENTERS.filter(k=>k.quality===quality && k.id!==excludeId);
   const weights = pool.map(k=>Math.pow(4 - keyFamiliarity(db, k.id), 2));
   let r = Math.random() * weights.reduce((a,b)=>a+b, 0);
   for(let i=0;i<pool.length;i++){ r -= weights[i]; if(r<0) return pool[i].id; }
   return pool[pool.length-1].id;
+}
+// Major and minor each hold one shared "current" practice key, reused for the next N
+// multi-key-eligible songs (N = db.multiKeySessionLength) that enter the review queue in
+// that quality, then roll over to a new weighted pick. Tracked independently per quality.
+function assignGroupKey(db, std) {
+  const sessionLen = Math.max(1, parseInt(db.multiKeySessionLength, 10) || 1);
+  if(!db.multiKeyGroups) db.multiKeyGroups = { major: { key: null, count: 0 }, minor: { key: null, count: 0 } };
+  const group = db.multiKeyGroups[std.quality] || (db.multiKeyGroups[std.quality] = { key: null, count: 0 });
+  const validKey = group.key && KEY_BY_ID[group.key] && KEY_BY_ID[group.key].quality === std.quality;
+  if(!validKey || group.count >= sessionLen) {
+    group.key = pickKeyForQuality(db, std.quality, null);
+    group.count = 0;
+  }
+  group.count++;
+  // Practicing a song in its own standard key isn't multi-key practice — give that one
+  // song a one-off alternate without disturbing the shared group's key or count.
+  if(group.key === std.id) return pickKeyForQuality(db, std.quality, std.id);
+  return group.key;
 }
 // A practice key holds steady across days while a song stays in the review queue —
 // it only rolls over once a passing review has closed out the cycle it was assigned for.
@@ -955,7 +977,7 @@ function ensurePracticeKey(db, sg) {
     const closedOut = (sg.reviews||[]).some(r=>r.date>=pk.date && r.passed);
     if(!closedOut) return false;
   }
-  sg.practiceKey = { date: todayInt(), key: pickPracticeKey(db, sg) };
+  sg.practiceKey = { date: todayInt(), key: assignGroupKey(db, std) };
   return true;
 }
 function keySelectOptions(selected) {
@@ -1160,6 +1182,7 @@ function openReviewSettings() {
   const db = getDB();
   document.getElementById('review-max-input').value = db.reviewMax || 1;
   document.getElementById('review-mode-input').value = db.reviewQueueMode || 'all';
+  document.getElementById('multikey-session-input').value = db.multiKeySessionLength || 3;
   document.getElementById('review-settings-modal').classList.add('open');
   setTimeout(()=>document.getElementById('review-max-input').focus(), 50);
 }
@@ -1169,9 +1192,12 @@ function submitReviewSettings() {
   const val = parseInt(document.getElementById('review-max-input').value, 10);
   if(!val || val < 1) return;
   const mode = document.getElementById('review-mode-input').value;
+  const sessionLen = parseInt(document.getElementById('multikey-session-input').value, 10);
+  if(!sessionLen || sessionLen < 1) return;
   const db = getDB();
   db.reviewMax = val;
   db.reviewQueueMode = mode;
+  db.multiKeySessionLength = sessionLen;
   saveDB(db); closeReviewSettings(); renderAll();
   toast(`Max reviews per day set to ${val}.`);
 }
