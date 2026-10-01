@@ -44,7 +44,7 @@
   .toggle-switch input:checked + .toggle-slider { background: var(--gold-dim); border-color: rgba(201,168,76,0.35); }
   .toggle-switch input:checked + .toggle-slider::before { transform: translateX(16px); background: var(--gold); }
   .main { flex: 1; overflow-y: auto; background: var(--bg); }
-  .panel { display: none; padding: 36px 40px; max-width: 800px; }
+  .panel { display: none; padding: 36px 40px; max-width: 1100px; }
   .panel.active { display: block; }
   .panel-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
   .panel-sub { font-size: 12px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 28px; }
@@ -87,6 +87,8 @@
   .btn-primary { background: var(--gold-dim); border: 1px solid rgba(201,168,76,0.3); color: var(--gold2); font-size: 12px; font-family: 'IBM Plex Sans', sans-serif; padding: 5px 14px; border-radius: var(--radius); cursor: pointer; transition: all 0.15s; }
   .btn-primary:hover { background: rgba(201,168,76,0.2); }
   #reviews-body .song-row { padding-left: 24px; padding-right: 24px; }
+  #reviews-body .song-name-group { min-width: 0; container-type: inline-size; }
+  #reviews-body .song-name { min-width: 0; flex-shrink: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: clamp(10px, 9cqw, 14px); }
   #panel-today .btn-pass, #panel-today .btn-done { width: 112px; }
   #panel-today .btn-fail, #panel-today .btn-primary { width: 164px; }
   #panel-today .btn-pass, #panel-today .btn-done, #panel-today .btn-fail, #panel-today .btn-primary { text-align: center; flex-shrink: 0; }
@@ -260,7 +262,7 @@
       <div id="voicing-today-wrap"></div>
       <div id="vocab-today-wrap"></div>
       <div class="section" id="review-section">
-        <div class="section-head"><h2>Review</h2><div class="section-menu-wrap"><button class="btn-dots" onclick="toggleReviewMenu(event)">···</button><div class="dropdown" id="review-menu"><div class="dropdown-item" onclick="openReviewSettings()">Edit review settings</div></div></div></div>
+        <div class="section-head"><h2>Review</h2><span class="count" id="review-budget"></span><div class="section-menu-wrap"><button class="btn-dots" onclick="toggleReviewMenu(event)">···</button><div class="dropdown" id="review-menu"><div class="dropdown-item" onclick="openReviewSettings()">Edit review settings</div></div></div></div>
         <div id="reviews-body"></div>
       </div>
     </div>
@@ -309,7 +311,7 @@
       <div class="panel-sub">Spaced repetition schedule · intervals: 1 · 3 · 7 · 21 · 60 · 180 days</div>
       <div class="filter-row">
         <input type="text" id="q-search" placeholder="Search queue..." oninput="renderQueue()">
-        <select id="q-sort" onchange="renderQueue()"><option value="due">Sort by due date</option><option value="name">Sort by title</option></select>
+        <select id="q-sort" onchange="renderQueue()"><option value="due">Sort by staleness</option><option value="name">Sort by title</option></select>
       </div>
       <div class="section"><div id="queue-body"></div></div>
     </div>
@@ -713,11 +715,19 @@
   <div class="modal">
     <div class="modal-title">Review settings</div>
     <div class="field">
+      <label>Reviews per week</label>
+      <input type="number" id="reviews-week-input" min="1" max="100">
+    </div>
+    <div class="field">
       <label>Max songs per day</label>
       <input type="number" id="review-max-input" min="1" max="20">
     </div>
     <div class="field">
-      <label>Review queue includes</label>
+      <label>Songs in rotation</label>
+      <input type="number" id="rotation-max-input" min="1" max="100">
+    </div>
+    <div class="field">
+      <label>Rotation draws from</label>
       <select id="review-mode-input">
         <option value="all">All songs with 2+ ratings</option>
         <option value="learnedOnly">Only recently learned songs</option>
@@ -783,7 +793,12 @@
 <script>
 // ALL_SONGS and PRIORITY_ORDER are loaded from jazz_data.js
 
+// INTERVALS are a song's spacing in days — how long it can sit before it needs another
+// look. They rank the queue rather than stamping due dates on the calendar.
 const INTERVALS = [1,3,7,21,60,180];
+const ROTATION_MAX_DEFAULT = 12;
+const REVIEWS_PER_WEEK_DEFAULT = 7;
+const REVIEWS_PER_DAY_DEFAULT = 3;
 const STORAGE_KEY = 'jazz_sr_v3';
 
 function todayInt() {
@@ -798,6 +813,11 @@ function addDays(dateInt, n) {
 function daysBetween(from, to) {
   const p = d => new Date(Math.floor(d/10000), Math.floor((d%10000)/100)-1, d%100);
   return Math.round((p(to)-p(from))/(86400000));
+}
+function weekStartInt(dateInt) {
+  const d = new Date(Math.floor(dateInt/10000), Math.floor((dateInt%10000)/100)-1, dateInt%100);
+  d.setDate(d.getDate() - ((d.getDay()+6) % 7));
+  return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();
 }
 function toast(msg) {
   const t = document.getElementById('toast');
@@ -853,7 +873,6 @@ function initDB() {
         baseLevel:0, currentLevel:0,
         status:'untouched',
         intervalIdx:-1,
-        nextReview:null,
         learnedDate:null,
         reviews:[],
         standardKey:standardKey||null,
@@ -881,7 +900,7 @@ function initDB() {
   }
   if(!db.keyCenters) db.keyCenters = {};
   KEY_CENTERS.forEach(k=>{ if(!db.keyCenters[k.id]) db.keyCenters[k.id] = { familiarity: 0 }; });
-  if(db.reviewMax === undefined) db.reviewMax = 1;
+  if(db.reviewMax === undefined) db.reviewMax = REVIEWS_PER_DAY_DEFAULT;
   if(db.reviewQueueMode === undefined) db.reviewQueueMode = 'all';
   if(db.multiKeySessionLength === undefined) db.multiKeySessionLength = 3;
   if(!db.multiKeyGroups) db.multiKeyGroups = { major: { key: null, count: 0 }, minor: { key: null, count: 0 } };
@@ -889,6 +908,22 @@ function initDB() {
   if(!db.todaySections) db.todaySections = { learning:true, repertoire:true, voicing:true, vocabulary:true, review:true };
   if(db.todaySections.vocabulary === undefined) { db.todaySections.vocabulary = true; saveDB(db); }
   let needsSave = false;
+  // Cadence v2 replaced per-song due dates with a staleness-ranked queue, a weekly budget
+  // and a capped rotation. The old dates rewrote themselves on every skipped day, so they
+  // carry no usable history — drop them rather than migrate them.
+  if(!db.cadenceVersion) {
+    db.reviewMax = Math.max(db.reviewMax || 1, REVIEWS_PER_DAY_DEFAULT);
+    db.reviewsPerWeek = REVIEWS_PER_WEEK_DEFAULT;
+    db.rotationMax = ROTATION_MAX_DEFAULT;
+    Object.values(db.songs).forEach(sg => {
+      delete sg.nextReview;
+      if(sg.status === 'active' && !sg.learnedDate) sg.learnedDate = todayInt();
+    });
+    db.cadenceVersion = 2;
+    needsSave = true;
+  }
+  if(db.reviewsPerWeek === undefined) { db.reviewsPerWeek = REVIEWS_PER_WEEK_DEFAULT; needsSave = true; }
+  if(db.rotationMax === undefined) { db.rotationMax = ROTATION_MAX_DEFAULT; needsSave = true; }
   const seedMap = new Map(ALL_SONGS.map(([name,style,composer,year,standardKey])=>[name,{style,composer,year,standardKey}]));
   const seedBallads = !db.balladStylesSeeded;
   if(seedBallads) { db.balladStylesSeeded = true; needsSave = true; }
@@ -1072,11 +1107,11 @@ function markLearned(name) {
   db.songs[name].currentLevel = Math.max(db.songs[name].currentLevel, 2);
   db.songs[name].intervalIdx = 0;
   db.songs[name].learnedDate = todayInt();
-  db.songs[name].nextReview = addDays(todayInt(), INTERVALS[0]);
   db.currentNewSong = null;
   logActivity(db, 'learned', { name });
   updateStreak(db); saveDB(db); renderAll();
-  toast(`${name} → Level 2. Review scheduled for tomorrow.`);
+  const inRotation = rotationSongs(db).some(s=>s.name===name);
+  toast(inRotation ? `${name} → Level 2. It's in your review rotation.` : `${name} → Level 2. Rotation is full — it'll join as a slot frees up.`);
 }
 function doReview(name, passed) {
   const db = getDB();
@@ -1087,13 +1122,11 @@ function doReview(name, passed) {
   if(passed) {
     const nextIdx = Math.min(sg.intervalIdx+1, INTERVALS.length-1);
     sg.intervalIdx = nextIdx;
-    sg.nextReview = addDays(todayInt(), INTERVALS[nextIdx]);
-    if(nextIdx >= INTERVALS.length-1) { sg.status='graduated'; sg.currentLevel=3; toast(`${name} graduated! Level 3.`); }
-    else { toast(`Reviewed — next review in ${INTERVALS[nextIdx]} days`); }
+    if(nextIdx >= INTERVALS.length-1) { sg.status='graduated'; sg.currentLevel=3; toast(`${name} graduated! Level 3 — frees a rotation slot.`); }
+    else { toast(`Reviewed — now holds for ${INTERVALS[nextIdx]} days`); }
   } else {
     sg.intervalIdx = 0;
-    sg.nextReview = addDays(todayInt(), INTERVALS[0]);
-    toast(`Continue tomorrow — back in 1 day`);
+    toast(`Back to the front of the rotation`);
   }
   updateStreak(db); saveDB(db); renderAll();
 }
@@ -1138,12 +1171,24 @@ function getNextSong(db) {
   return Object.values(db.songs).find(s=>s.status==='untouched')||null;
 }
 
-function scoreSong(sg, tod) {
-  const overdue = Math.max(0, daysBetween(sg.nextReview, tod));
-  const fragility = (INTERVALS.length - 1) - Math.max(0, sg.intervalIdx);
-  const recent = (sg.reviews || []).slice(-5);
-  const failRate = recent.length > 0 ? recent.filter(r => !r.passed).length / recent.length : 0;
-  return overdue * 0.5 + fragility * 10 + failRate * 20;
+function lastSeenInt(sg) {
+  const rs = sg.reviews || [];
+  return Math.max(rs.length ? rs[rs.length-1].date : 0, sg.learnedDate || 0) || null;
+}
+function songSpacing(sg) {
+  return INTERVALS[Math.max(0, Math.min(sg.intervalIdx, INTERVALS.length-1))];
+}
+// How far a song has drifted past its own spacing: 1.0 means exactly due, 2.0 means twice
+// as long as it should have sat. A ratio rather than a date, so it degrades gracefully
+// across a gap of any length and never needs a backlog.
+function staleness(sg, tod) {
+  const seen = lastSeenInt(sg);
+  if(seen === null) return Infinity;
+  return daysBetween(seen, tod) / songSpacing(sg);
+}
+function compareStaleness(a, b, tod) {
+  const sa = staleness(a, tod), sb = staleness(b, tod);
+  return sa !== sb ? sb - sa : a.sortSeed - b.sortSeed;
 }
 function isLearnedSong(db, name) {
   return (db.activity||[]).some(e=>e.type==='learned'&&e.name===name);
@@ -1154,23 +1199,44 @@ function reviewEligible(db, sg) {
 function queueVisible(db, sg) {
   return (sg.status==='active'||sg.status==='graduated') && (db.reviewQueueMode!=='learnedOnly' || isLearnedSong(db, sg.name));
 }
-function normalizeReviewQueue(db) {
-  const tod = todayInt();
-  const max = (db.reviewMax || 1) + getExtraReviewCount(db);
-  const active = Object.values(db.songs)
-    .filter(s=>reviewEligible(db,s)&&s.nextReview)
-    .sort((a,b)=>{ const d=scoreSong(b,tod)-scoreSong(a,tod); return d!==0?d:a.sortSeed-b.sortSeed; });
-  const due = active.filter(s=>s.nextReview<=tod && !(s.reviews||[]).some(r=>r.date===tod));
-  const reviewedCount = active.filter(s=>(s.reviews||[]).some(r=>r.date===tod)).length;
-  const slotsUsed = due.length + reviewedCount;
-  let changed = false;
-  if(due.length > max - reviewedCount) {
-    due.slice(max - reviewedCount).forEach((sg,i)=>{ sg.nextReview = addDays(tod, i+1); changed = true; });
-  } else if(slotsUsed < max && reviewedCount === 0) {
-    const upcoming = active.filter(s=>s.nextReview>tod && !(s.reviews||[]).some(r=>r.date===tod));
-    upcoming.slice(0, max - slotsUsed).forEach(sg=>{ sg.nextReview = tod; changed = true; });
-  }
-  return changed;
+// The rotation: the songs actually in play. Capped, because a pool larger than the weekly
+// budget can cycle stretches each song's wait to months. A slot only frees up when a song
+// graduates out, so songs already in flight keep theirs ahead of newly learned ones.
+function rotationSongs(db) {
+  const cap = Math.max(1, db.rotationMax || ROTATION_MAX_DEFAULT);
+  return Object.values(db.songs)
+    .filter(s=>reviewEligible(db,s))
+    .sort((a,b)=>{
+      const ai = (a.reviews||[]).length > 0, bi = (b.reviews||[]).length > 0;
+      if(ai !== bi) return ai ? -1 : 1;
+      return (a.learnedDate||0) - (b.learnedDate||0) || a.sortSeed - b.sortSeed;
+    })
+    .slice(0, cap);
+}
+function reviewsOnDate(db, dateInt) {
+  return Object.values(db.songs).reduce((n,s)=>n+(s.reviews||[]).filter(r=>r.date===dateInt).length, 0);
+}
+// Budget is weekly, not daily, so a skipped morning costs nothing — the allowance is still
+// there on Friday. The daily cap just keeps one session from eating the whole week.
+function reviewsThisWeek(db, tod) {
+  const ws = weekStartInt(tod);
+  return Object.values(db.songs).reduce((n,s)=>n+(s.reviews||[]).filter(r=>r.date>=ws&&r.date<=tod).length, 0);
+}
+function weeklyBudget(db) { return Math.max(1, db.reviewsPerWeek || REVIEWS_PER_WEEK_DEFAULT); }
+function weeklyRemaining(db, tod) { return Math.max(0, weeklyBudget(db) - reviewsThisWeek(db, tod)); }
+function reviewAllowanceToday(db, tod) {
+  const dailyLeft = Math.max(1, db.reviewMax || REVIEWS_PER_DAY_DEFAULT) - reviewsOnDate(db, tod);
+  return Math.min(dailyLeft, weeklyRemaining(db, tod)) + getExtraReviewCount(db);
+}
+// Today's queue: the stalest songs in rotation, as many as the allowance permits. No due
+// dates, so there is never a backlog to clear and never an empty day while work remains.
+function reviewQueue(db, tod) {
+  const n = reviewAllowanceToday(db, tod);
+  if(n <= 0) return [];
+  return rotationSongs(db)
+    .filter(s=>lastSeenInt(s) !== tod)
+    .sort((a,b)=>compareStaleness(a, b, tod))
+    .slice(0, n);
 }
 function toggleReviewMenu(e) {
   e.stopPropagation();
@@ -1180,38 +1246,41 @@ function closeReviewMenu() { document.getElementById('review-menu').classList.re
 function openReviewSettings() {
   closeReviewMenu();
   const db = getDB();
-  document.getElementById('review-max-input').value = db.reviewMax || 1;
+  document.getElementById('reviews-week-input').value = weeklyBudget(db);
+  document.getElementById('review-max-input').value = db.reviewMax || REVIEWS_PER_DAY_DEFAULT;
+  document.getElementById('rotation-max-input').value = db.rotationMax || ROTATION_MAX_DEFAULT;
   document.getElementById('review-mode-input').value = db.reviewQueueMode || 'all';
   document.getElementById('multikey-session-input').value = db.multiKeySessionLength || 3;
   document.getElementById('review-settings-modal').classList.add('open');
-  setTimeout(()=>document.getElementById('review-max-input').focus(), 50);
+  setTimeout(()=>document.getElementById('reviews-week-input').focus(), 50);
 }
 function closeReviewSettings() { document.getElementById('review-settings-modal').classList.remove('open'); }
 function handleReviewSettingsBackdropClick(e) { if(e.target===document.getElementById('review-settings-modal')) closeReviewSettings(); }
 function submitReviewSettings() {
+  const perWeek = parseInt(document.getElementById('reviews-week-input').value, 10);
   const val = parseInt(document.getElementById('review-max-input').value, 10);
-  if(!val || val < 1) return;
-  const mode = document.getElementById('review-mode-input').value;
+  const rotation = parseInt(document.getElementById('rotation-max-input').value, 10);
   const sessionLen = parseInt(document.getElementById('multikey-session-input').value, 10);
-  if(!sessionLen || sessionLen < 1) return;
+  if(!perWeek || perWeek < 1 || !val || val < 1 || !rotation || rotation < 1 || !sessionLen || sessionLen < 1) return;
   const db = getDB();
+  db.reviewsPerWeek = perWeek;
   db.reviewMax = val;
-  db.reviewQueueMode = mode;
+  db.rotationMax = rotation;
+  db.reviewQueueMode = document.getElementById('review-mode-input').value;
   db.multiKeySessionLength = sessionLen;
   saveDB(db); closeReviewSettings(); renderAll();
-  toast(`Max reviews per day set to ${val}.`);
+  toast(`${perWeek} reviews/week across ${rotation} songs in rotation.`);
 }
 function getExtraReviewCount(db) {
   if(!db.extraReviewsToday || db.extraReviewsToday.date !== todayInt()) return 0;
   return db.extraReviewsToday.count || 0;
 }
+// Deliberate overdraft: spends past today's allowance without touching the weekly budget's
+// accounting, so a long session can keep going when there is appetite for it.
 function reviewAnotherSong() {
   const db = getDB(), tod = todayInt();
-  const upcoming = Object.values(db.songs)
-    .filter(s=>reviewEligible(db,s)&&s.nextReview&&s.nextReview>tod&&!(s.reviews||[]).some(r=>r.date===tod))
-    .sort((a,b)=>{ const d=scoreSong(b,tod)-scoreSong(a,tod); return d!==0?d:a.sortSeed-b.sortSeed; });
-  if(!upcoming.length){ toast('No more songs available to review.'); return; }
-  upcoming[0].nextReview = tod;
+  const available = rotationSongs(db).filter(s=>lastSeenInt(s) !== tod);
+  if(!available.length){ toast('Everything in rotation has been through today.'); return; }
   if(!db.extraReviewsToday || db.extraReviewsToday.date !== tod) {
     db.extraReviewsToday = { date: tod, count: 1 };
   } else {
@@ -1221,8 +1290,7 @@ function reviewAnotherSong() {
 }
 function renderToday() {
   const db = getDB(), tod = todayInt();
-  if(normalizeReviewQueue(db)) saveDB(db);
-  const due = Object.values(db.songs).filter(s=>reviewEligible(db,s)&&s.nextReview&&s.nextReview<=tod&&!(s.reviews||[]).some(r=>r.date===tod)).sort((a,b)=>scoreSong(b,tod)-scoreSong(a,tod));
+  const due = reviewQueue(db, tod);
   const active = Object.values(db.songs).filter(s=>s.status==='active'||s.status==='graduated');
   const grad = Object.values(db.songs).filter(s=>s.currentLevel>=2);
   document.getElementById('today-date').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
@@ -1305,19 +1373,29 @@ function renderToday() {
   }
   if(due.map(sg=>ensurePracticeKey(db, sg)).some(Boolean)) saveDB(db);
   const rb = document.getElementById('reviews-body');
-  const reviewedToday = Object.values(db.songs).some(s=>(s.reviews||[]).some(r=>r.date===tod));
-  const hasUpcoming = Object.values(db.songs).some(s=>reviewEligible(db,s)&&s.nextReview&&s.nextReview>tod&&!(s.reviews||[]).some(r=>r.date===tod));
+  const budget = weeklyBudget(db), usedThisWeek = reviewsThisWeek(db, tod);
+  const weekLeft = Math.max(0, budget - usedThisWeek);
+  const rotation = rotationSongs(db);
+  const untouchedToday = rotation.filter(s=>lastSeenInt(s) !== tod);
+  document.getElementById('review-budget').textContent = rotation.length
+    ? `${weekLeft} of ${budget} left this week · ${rotation.length} in rotation`
+    : 'nothing in rotation';
   rb.innerHTML = due.length===0
-    ? (reviewedToday
-        ? `<div class="all-clear"><div class="big">Reviews done</div><div style="font-size:12px;margin-top:4px">Nothing left to review today · check back tomorrow</div>${hasUpcoming?`<button class="btn-action" style="margin-top:14px;font-size:12px" onclick="reviewAnotherSong()">Review another song</button>`:''}</div>`
-        : `<div class="all-clear"><div class="big">All clear</div><div style="font-size:12px;margin-top:4px">Check back tomorrow · or start a new song above</div></div>`)
+    ? (!rotation.length
+        ? `<div class="all-clear"><div class="big">Nothing in rotation</div><div style="font-size:12px;margin-top:4px">Learn a song above, or widen the rotation in review settings</div></div>`
+        : !untouchedToday.length
+          ? `<div class="all-clear"><div class="big">Whole rotation done today</div><div style="font-size:12px;margin-top:4px">${usedThisWeek} of ${budget} reviews this week</div></div>`
+          : weekLeft===0
+            ? `<div class="all-clear"><div class="big">Week's reviews done</div><div style="font-size:12px;margin-top:4px">${usedThisWeek} of ${budget} this week · resets Monday</div><button class="btn-action" style="margin-top:14px;font-size:12px" onclick="reviewAnotherSong()">Review another anyway</button></div>`
+            : `<div class="all-clear"><div class="big">Today's reviews done</div><div style="font-size:12px;margin-top:4px">${weekLeft} of ${budget} still available this week</div><button class="btn-action" style="margin-top:14px;font-size:12px" onclick="reviewAnotherSong()">Review another song</button></div>`)
 
     : due.map(sg=>{
-        const intLabel = sg.intervalIdx>=0 ? `<span style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${INTERVALS[sg.intervalIdx]}d interval</span>` : '';
+        const seenAt = lastSeenInt(sg);
+        const intLabel = sg.intervalIdx>=0 ? `<span style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace" title="Holds for ${songSpacing(sg)} day${songSpacing(sg)===1?'':'s'}">${seenAt?daysBetween(seenAt,tod)+'d ago':'not yet reviewed'}</span>` : '';
         const safeN = sg.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
         const pk = sg.multiKey && sg.standardKey && sg.practiceKey && KEY_BY_ID[sg.practiceKey.key] ? sg.practiceKey.key : null;
         const keyChip = pk ? `<span class="key-chip" title="Multi-key practice · standard key ${keyLabel(sg.standardKey)}">in ${keyLabel(pk)}</span>` : '';
-        return `<div class="song-row clickable" onclick="showSongDetail('${safeN}')">${lvlBadge(sg.currentLevel)}<div class="song-name-group"><span class="song-name">${sg.name}</span>${styleBadge(sg.style)}${keyChip}</div>${intLabel}<button class="btn-pass" onclick="doReview('${safeN}',true);event.stopPropagation()">Reviewed</button><button class="btn-fail" onclick="doReview('${safeN}',false);event.stopPropagation()">Continue tomorrow</button></div>`;
+        return `<div class="song-row clickable" onclick="showSongDetail('${safeN}')">${lvlBadge(sg.currentLevel)}<div class="song-name-group"><span class="song-name">${sg.name}</span>${styleBadge(sg.style)}${keyChip}</div>${intLabel}<button class="btn-pass" onclick="doReview('${safeN}',true);event.stopPropagation()">Reviewed</button><button class="btn-fail" onclick="doReview('${safeN}',false);event.stopPropagation()">Needs work</button></div>`;
       }).join('');
 }
 
@@ -1354,7 +1432,7 @@ function renderQueue() {
   const sortBy = document.getElementById('q-sort').value;
   let songs = Object.values(db.songs).filter(s=>queueVisible(db,s));
   if(q) songs = songs.filter(s=>s.name.toLowerCase().includes(q));
-  songs.sort((a,b)=>sortBy==='name'?a.name.localeCompare(b.name):(a.nextReview||99999999)-(b.nextReview||99999999));
+  songs.sort((a,b)=>sortBy==='name'?a.name.localeCompare(b.name):compareStaleness(a,b,tod));
   const qb = document.getElementById('queue-body');
   if(!songs.length){ qb.innerHTML='<div class="empty">No songs in the review queue yet.</div>'; return; }
   qb.innerHTML = songs.map(sg=>{
@@ -1567,11 +1645,19 @@ function renderSongDetail(name) {
   const pills = sg.intervalIdx>=0
     ? `<div style="margin-top:10px"><div class="interval-track">${INTERVALS.map((iv,i)=>`<span class="int-pill ${i<sg.intervalIdx?'done':i===sg.intervalIdx?'next':''}">${iv}d</span>`).join('')}</div></div>`
     : '';
-  const nextReview = sg.nextReview
-    ? (()=>{ const d=new Date(Math.floor(sg.nextReview/10000),Math.floor((sg.nextReview%10000)/100)-1,sg.nextReview%100); return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); })()
-    : '—';
+  const seen = lastSeenInt(sg);
+  const lastSeenLabel = seen ? formatIntDate(seen) : '—';
+  const inRotation = rotationSongs(db).some(s=>s.name===sg.name);
+  const spacing = `${songSpacing(sg)}-day spacing`;
+  const standing = sg.status!=='active'
+    ? '—'
+    : !inRotation
+      ? 'Waiting for a rotation slot'
+      : seen
+        ? `${daysBetween(seen, tod)} days ago · ${spacing}`
+        : `Not yet reviewed · ${spacing}`;
   const safeName = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-  const header = `<div class="detail-header"><div class="detail-header-top"><span class="detail-title">${sg.name}</span>${styleBadge(sg.style)}${lvlBadge(sg.currentLevel)}${statusBadge}</div>${pills}<div class="detail-meta-grid"><div class="detail-meta-field"><div class="label">Next review</div><div class="value">${nextReview}</div></div><div class="detail-meta-field"><div class="label">Composer</div><div class="value${sg.composer?'':' placeholder'}">${sg.composer||'—'}</div></div><div class="detail-meta-field"><div class="label">Year</div><div class="value${sg.year?'':' placeholder'}">${sg.year||'—'}</div></div><div class="detail-meta-field"><div class="label">Standard key</div><div class="value${sg.standardKey?'':' placeholder'}">${sg.standardKey?keyLabel(sg.standardKey):'Not set'}</div></div><div class="detail-meta-field"><div class="label">Multi-key practice</div><div style="display:flex;align-items:center;gap:8px"><label class="toggle-switch"><input type="checkbox"${sg.multiKey?' checked':''} onchange="toggleMultiKey('${safeName}',this.checked)"><span class="toggle-slider"></span></label>${sg.multiKey&&!sg.standardKey?'<span class="key-stat">needs standard key</span>':''}</div></div></div><div class="notes-actions"><button class="btn-action" onclick="openEditSong('${safeName}')">Edit</button></div></div>`;
+  const header = `<div class="detail-header"><div class="detail-header-top"><span class="detail-title">${sg.name}</span>${styleBadge(sg.style)}${lvlBadge(sg.currentLevel)}${statusBadge}</div>${pills}<div class="detail-meta-grid"><div class="detail-meta-field"><div class="label">Last reviewed</div><div class="value${seen?'':' placeholder'}">${lastSeenLabel}</div></div><div class="detail-meta-field"><div class="label">Standing</div><div class="value">${standing}</div></div><div class="detail-meta-field"><div class="label">Composer</div><div class="value${sg.composer?'':' placeholder'}">${sg.composer||'—'}</div></div><div class="detail-meta-field"><div class="label">Year</div><div class="value${sg.year?'':' placeholder'}">${sg.year||'—'}</div></div><div class="detail-meta-field"><div class="label">Standard key</div><div class="value${sg.standardKey?'':' placeholder'}">${sg.standardKey?keyLabel(sg.standardKey):'Not set'}</div></div><div class="detail-meta-field"><div class="label">Multi-key practice</div><div style="display:flex;align-items:center;gap:8px"><label class="toggle-switch"><input type="checkbox"${sg.multiKey?' checked':''} onchange="toggleMultiKey('${safeName}',this.checked)"><span class="toggle-slider"></span></label>${sg.multiKey&&!sg.standardKey?'<span class="key-stat">needs standard key</span>':''}</div></div></div><div class="notes-actions"><button class="btn-action" onclick="openEditSong('${safeName}')">Edit</button></div></div>`;
   const entries = (db.activity||[]).filter(e=>e.name===name||e.oldName===name).sort((a,b)=>b.ts-a.ts);
   const timeline = entries.length===0
     ? '<div class="empty">No activity for this song yet.</div>'
@@ -1705,7 +1791,6 @@ function submitAddSong() {
   db.songs[name] = { name, style, baseLevel:lvl, currentLevel:lvl,
     status: lvl>=2 ? 'active' : 'untouched',
     intervalIdx: lvl>=2 ? 0 : -1,
-    nextReview: lvl>=2 ? addDays(todayInt(),1) : null,
     learnedDate: lvl>=2 ? todayInt() : null, reviews:[], standardKey:null, multiKey:false };
   logActivity(db, 'song_added', { name, style, level: lvl });
   saveDB(db); closeAddSong(); renderAll();
@@ -2430,7 +2515,6 @@ function rankerFinish() {
     sg.baseLevel = lvl; sg.currentLevel = lvl;
     sg.status = lvl >= 2 ? 'active' : 'untouched';
     sg.intervalIdx = lvl >= 2 ? 0 : -1;
-    sg.nextReview = lvl >= 2 ? addDays(todayInt(), 1) : null;
     sg.learnedDate = lvl >= 2 ? (sg.learnedDate || todayInt()) : null;
   });
   db.onboardingComplete = true;
