@@ -265,6 +265,10 @@
         <div class="section-head"><h2>Review</h2><span class="count" id="review-budget"></span><div class="section-menu-wrap"><button class="btn-dots" onclick="toggleReviewMenu(event)">···</button><div class="dropdown" id="review-menu"><div class="dropdown-item" onclick="openReviewSettings()">Edit review settings</div></div></div></div>
         <div id="reviews-body"></div>
       </div>
+      <div class="section" id="multikey-section">
+        <div class="section-head"><h2>Multi-key review</h2><span class="count" id="multikey-budget"></span></div>
+        <div id="multikey-body"></div>
+      </div>
     </div>
     <div id="panel-library" class="panel">
       <div class="panel-title">Library</div>
@@ -381,6 +385,10 @@
         <div class="settings-row">
           <div><div class="label">Review</div><div class="sub">Songs due for spaced-repetition review</div></div>
           <label class="toggle-switch"><input type="checkbox" id="section-toggle-review" onchange="toggleTodaySection('review')"><span class="toggle-slider"></span></label>
+        </div>
+        <div class="settings-row">
+          <div><div class="label">Multi-key review</div><div class="sub">Known songs practiced in unfamiliar keys</div></div>
+          <label class="toggle-switch"><input type="checkbox" id="section-toggle-multikey" onchange="toggleTodaySection('multikey')"><span class="toggle-slider"></span></label>
         </div>
       </div>
       <div class="section">
@@ -739,6 +747,14 @@
       </select>
     </div>
     <div class="field">
+      <label>Multi-key reviews per week</label>
+      <input type="number" id="multikey-week-input" min="1" max="50">
+    </div>
+    <div class="field">
+      <label>Max multi-key songs per day</label>
+      <input type="number" id="multikey-day-input" min="1" max="20">
+    </div>
+    <div class="field">
       <label>Multi-key sessions per key center</label>
       <input type="number" id="multikey-session-input" min="1" max="20">
     </div>
@@ -806,6 +822,8 @@ const STAGE_COUNT = STAGE_WEIGHTS.length;
 const ROTATION_MAX_DEFAULT = 12;
 const REVIEWS_PER_WEEK_DEFAULT = 7;
 const REVIEWS_PER_DAY_DEFAULT = 3;
+const MULTIKEY_PER_WEEK_DEFAULT = 3;
+const MULTIKEY_PER_DAY_DEFAULT = 1;
 const STORAGE_KEY = 'jazz_sr_v3';
 
 function todayInt() {
@@ -910,10 +928,13 @@ function initDB() {
   if(db.reviewMax === undefined) db.reviewMax = REVIEWS_PER_DAY_DEFAULT;
   if(db.reviewQueueMode === undefined) db.reviewQueueMode = 'all';
   if(db.multiKeySessionLength === undefined) db.multiKeySessionLength = 3;
+  if(db.multiKeyPerWeek === undefined) db.multiKeyPerWeek = MULTIKEY_PER_WEEK_DEFAULT;
+  if(db.multiKeyMaxPerDay === undefined) db.multiKeyMaxPerDay = MULTIKEY_PER_DAY_DEFAULT;
   if(!db.multiKeyGroups) db.multiKeyGroups = { major: { key: null, count: 0 }, minor: { key: null, count: 0 } };
   if(db.onboardingComplete === undefined) db.onboardingComplete = true;
-  if(!db.todaySections) db.todaySections = { learning:true, repertoire:true, voicing:true, vocabulary:true, review:true };
+  if(!db.todaySections) db.todaySections = { learning:true, repertoire:true, voicing:true, vocabulary:true, review:true, multikey:true };
   if(db.todaySections.vocabulary === undefined) { db.todaySections.vocabulary = true; saveDB(db); }
+  if(db.todaySections.multikey === undefined) { db.todaySections.multikey = true; saveDB(db); }
   let needsSave = false;
   // Cadence v2 replaced per-song due dates with a staleness-ranked queue, a weekly budget
   // and a capped rotation. The old dates rewrote themselves on every skipped day, so they
@@ -991,23 +1012,24 @@ const KEY_FAM_DESCS = ['Very unfamiliar','Somewhat unfamiliar','Somewhat familia
 function keyRootLabel(root) { return root.replace('b','♭').replace('#','♯'); }
 function keyLabel(id) { const k = KEY_BY_ID[id]; return k ? `${keyRootLabel(k.root)} ${k.quality}` : ''; }
 function keyFamiliarity(db, id) { return ((db.keyCenters||{})[id]||{}).familiarity||0; }
-// Key a review counts toward: the song's current multi-key assignment, else its standard key
-function reviewKeyFor(sg, date) {
-  if(sg.multiKey && sg.practiceKey && KEY_BY_ID[sg.practiceKey.key]) return sg.practiceKey.key;
-  return sg.standardKey || null;
-}
-// One session per song per day; reviews recorded without a key fall back to the song's standard key
+// One session per song per day per track. Graduation reviews always count toward the
+// song's standard key; multi-key sessions count toward whatever key they were assigned.
+// Older graduation reviews carry their own key from when the two tracks were combined.
 function keyCenterCounts(db) {
   const counts = {};
-  Object.values(db.songs).forEach(sg=>{
+  const tally = (entries, fallback) => {
     const seenDates = new Set();
-    (sg.reviews||[]).forEach(r=>{
+    (entries||[]).forEach(r=>{
       if(seenDates.has(r.date)) return;
-      const key = r.key || sg.standardKey;
+      const key = r.key || fallback;
       if(!key || !KEY_BY_ID[key]) return;
       seenDates.add(r.date);
       counts[key] = (counts[key]||0) + 1;
     });
+  };
+  Object.values(db.songs).forEach(sg=>{
+    tally(sg.reviews, sg.standardKey);
+    tally(sg.keyReviews, sg.standardKey);
   });
   return counts;
 }
@@ -1037,14 +1059,15 @@ function assignGroupKey(db, std) {
   if(group.key === std.id) return pickKeyForQuality(db, std.quality, std.id);
   return group.key;
 }
-// A practice key holds steady across days while a song stays in the review queue —
-// it only rolls over once a passing review has closed out the cycle it was assigned for.
+// A practice key holds steady across sessions — it only rolls over once a passing
+// multi-key session has closed out the cycle it was assigned for, so an unfamiliar key
+// stays put until you can actually play it.
 // Returns true if the assignment changed (caller saves)
 function ensurePracticeKey(db, sg) {
   if(!sg.multiKey || !KEY_BY_ID[sg.standardKey]) return false;
   const pk = sg.practiceKey, std = KEY_BY_ID[sg.standardKey];
   if(pk && KEY_BY_ID[pk.key] && KEY_BY_ID[pk.key].quality===std.quality && pk.key!==std.id) {
-    const closedOut = (sg.reviews||[]).some(r=>r.date>=pk.date && r.passed);
+    const closedOut = (sg.keyReviews||[]).some(r=>r.date>=pk.date && r.passed);
     if(!closedOut) return false;
   }
   sg.practiceKey = { date: todayInt(), key: assignGroupKey(db, std) };
@@ -1148,10 +1171,13 @@ function markLearned(name) {
   const inRotation = rotationSongs(db).some(s=>s.name===name);
   toast(inRotation ? `${name} → Level 2. It's in your review rotation.` : `${name} → Level 2. Rotation is full — it'll join as a slot frees up.`);
 }
+// Graduation reviews are always in the song's standard key. Playing a tune in a key you
+// barely know is a different skill, so a stumble there must not cost progress here —
+// that work lives in the multi-key track instead.
 function doReview(name, passed) {
   const db = getDB();
   const sg = db.songs[name];
-  const key = reviewKeyFor(sg, todayInt());
+  const key = sg.standardKey || null;
   sg.reviews.push(key ? {date:todayInt(), passed, key} : {date:todayInt(), passed});
   logActivity(db, 'review', key ? { name, passed, key } : { name, passed });
   if(passed) {
@@ -1301,6 +1327,51 @@ function reviewAllowanceToday(db, tod) {
   const dailyLeft = Math.max(1, db.reviewMax || REVIEWS_PER_DAY_DEFAULT) - reviewsOnDate(db, tod);
   return Math.min(dailyLeft, weeklyRemaining(db, tod)) + getExtraReviewCount(db);
 }
+// The multi-key track runs alongside graduation, not inside it: any song you know well
+// enough (level 2 or 3) with the toggle on is fair game, whether or not it is in the
+// rotation, and its results never touch a stage.
+function multiKeyEligible(sg) {
+  return !!sg.multiKey && sg.currentLevel >= 2 && !!KEY_BY_ID[sg.standardKey];
+}
+function multiKeyPool(db) {
+  return Object.values(db.songs).filter(multiKeyEligible);
+}
+function lastKeyReviewInt(sg) {
+  const ks = sg.keyReviews || [];
+  return ks.length ? ks[ks.length-1].date : 0;
+}
+function keyReviewsThisWeek(db, tod) {
+  const ws = weekStartInt(tod);
+  return Object.values(db.songs).reduce((n,s)=>n+(s.keyReviews||[]).filter(r=>r.date>=ws&&r.date<=tod).length, 0);
+}
+function keyReviewsOnDate(db, dateInt) {
+  return Object.values(db.songs).reduce((n,s)=>n+(s.keyReviews||[]).filter(r=>r.date===dateInt).length, 0);
+}
+function multiKeyBudget(db) { return Math.max(1, db.multiKeyPerWeek || MULTIKEY_PER_WEEK_DEFAULT); }
+function multiKeyRemaining(db, tod) { return Math.max(0, multiKeyBudget(db) - keyReviewsThisWeek(db, tod)); }
+function multiKeyAllowanceToday(db, tod) {
+  const dailyLeft = Math.max(1, db.multiKeyMaxPerDay || MULTIKEY_PER_DAY_DEFAULT) - keyReviewsOnDate(db, tod);
+  return Math.min(dailyLeft, multiKeyRemaining(db, tod));
+}
+// Longest since its last key session goes first, so the pool cycles evenly.
+function multiKeyQueue(db, tod) {
+  const n = multiKeyAllowanceToday(db, tod);
+  if(n <= 0) return [];
+  return multiKeyPool(db)
+    .filter(s=>lastKeyReviewInt(s) !== tod)
+    .sort((a,b)=>(lastKeyReviewInt(a)-lastKeyReviewInt(b)) || a.sortSeed-b.sortSeed)
+    .slice(0, n);
+}
+function doKeyReview(name, passed) {
+  const db = getDB();
+  const sg = db.songs[name];
+  const key = sg.practiceKey && KEY_BY_ID[sg.practiceKey.key] ? sg.practiceKey.key : sg.standardKey;
+  if(!sg.keyReviews) sg.keyReviews = [];
+  sg.keyReviews.push({ date: todayInt(), passed, key });
+  logActivity(db, 'key_review', { name, passed, key });
+  updateStreak(db); saveDB(db); renderAll();
+  toast(passed ? `${name} in ${keyLabel(key)} — cleared` : `Staying in ${keyLabel(key)} until it's solid`);
+}
 // Today's queue: the stalest songs in rotation, as many as the allowance permits. No due
 // dates, so there is never a backlog to clear and never an empty day while work remains.
 function reviewQueue(db, tod) {
@@ -1323,6 +1394,8 @@ function openReviewSettings() {
   document.getElementById('review-max-input').value = db.reviewMax || REVIEWS_PER_DAY_DEFAULT;
   document.getElementById('rotation-max-input').value = db.rotationMax || ROTATION_MAX_DEFAULT;
   document.getElementById('review-mode-input').value = db.reviewQueueMode || 'all';
+  document.getElementById('multikey-week-input').value = multiKeyBudget(db);
+  document.getElementById('multikey-day-input').value = db.multiKeyMaxPerDay || MULTIKEY_PER_DAY_DEFAULT;
   document.getElementById('multikey-session-input').value = db.multiKeySessionLength || 3;
   document.getElementById('review-settings-modal').classList.add('open');
   setTimeout(()=>document.getElementById('reviews-week-input').focus(), 50);
@@ -1334,13 +1407,18 @@ function submitReviewSettings() {
   const val = parseInt(document.getElementById('review-max-input').value, 10);
   const rotation = parseInt(document.getElementById('rotation-max-input').value, 10);
   const sessionLen = parseInt(document.getElementById('multikey-session-input').value, 10);
+  const mkWeek = parseInt(document.getElementById('multikey-week-input').value, 10);
+  const mkDay = parseInt(document.getElementById('multikey-day-input').value, 10);
   if(!perWeek || perWeek < 1 || !val || val < 1 || !rotation || rotation < 1 || !sessionLen || sessionLen < 1) return;
+  if(!mkWeek || mkWeek < 1 || !mkDay || mkDay < 1) return;
   const db = getDB();
   db.reviewsPerWeek = perWeek;
   db.reviewMax = val;
   db.rotationMax = rotation;
   db.reviewQueueMode = document.getElementById('review-mode-input').value;
   db.multiKeySessionLength = sessionLen;
+  db.multiKeyPerWeek = mkWeek;
+  db.multiKeyMaxPerDay = mkDay;
   saveDB(db); closeReviewSettings(); renderAll();
   toast(`${perWeek} reviews/week across ${rotation} songs in rotation.`);
 }
@@ -1375,6 +1453,7 @@ function renderToday() {
   document.getElementById('voicing-today-wrap').style.display = sections.voicing ? '' : 'none';
   document.getElementById('vocab-today-wrap').style.display = sections.vocabulary ? '' : 'none';
   document.getElementById('review-section').style.display = sections.review ? '' : 'none';
+  document.getElementById('multikey-section').style.display = sections.multikey ? '' : 'none';
   const csw = document.getElementById('current-song-wrap');
   if(db.currentNewSong && db.songs[db.currentNewSong]) {
     const sg = db.songs[db.currentNewSong];
@@ -1444,7 +1523,6 @@ function renderToday() {
   } else {
     cvw.innerHTML = '';
   }
-  if(due.map(sg=>ensurePracticeKey(db, sg)).some(Boolean)) saveDB(db);
   const rb = document.getElementById('reviews-body');
   const budget = weeklyBudget(db), usedThisWeek = reviewsThisWeek(db, tod);
   const weekLeft = Math.max(0, budget - usedThisWeek);
@@ -1466,10 +1544,34 @@ function renderToday() {
         const seenAt = lastSeenInt(sg);
         const intLabel = sg.intervalIdx>=0 ? `<span style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace" title="Stage ${stageOf(sg)} of ${STAGE_COUNT}">${seenAt?daysBetween(seenAt,tod)+'d ago':'not yet reviewed'} · stage ${stageOf(sg)}</span>` : '';
         const safeN = sg.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-        const pk = sg.multiKey && sg.standardKey && sg.practiceKey && KEY_BY_ID[sg.practiceKey.key] ? sg.practiceKey.key : null;
-        const keyChip = pk ? `<span class="key-chip" title="Multi-key practice · standard key ${keyLabel(sg.standardKey)}">in ${keyLabel(pk)}</span>` : '';
-        return `<div class="song-row clickable" onclick="showSongDetail('${safeN}')">${lvlBadge(sg.currentLevel)}<div class="song-name-group"><span class="song-name">${sg.name}</span>${styleBadge(sg.style)}${keyChip}</div>${intLabel}<button class="btn-pass" onclick="doReview('${safeN}',true);event.stopPropagation()">Reviewed</button><button class="btn-fail" onclick="doReview('${safeN}',false);event.stopPropagation()">Needs work</button></div>`;
+        return `<div class="song-row clickable" onclick="showSongDetail('${safeN}')">${lvlBadge(sg.currentLevel)}<div class="song-name-group"><span class="song-name">${sg.name}</span></div>${intLabel}<button class="btn-pass" onclick="doReview('${safeN}',true);event.stopPropagation()">Reviewed</button><button class="btn-fail" onclick="doReview('${safeN}',false);event.stopPropagation()">Needs work</button></div>`;
       }).join('');
+  renderMultiKeyToday(db, tod);
+}
+function renderMultiKeyToday(db, tod) {
+  const queue = multiKeyQueue(db, tod);
+  if(queue.map(sg=>ensurePracticeKey(db, sg)).some(Boolean)) saveDB(db);
+  const pool = multiKeyPool(db);
+  const budget = multiKeyBudget(db), used = keyReviewsThisWeek(db, tod);
+  const left = Math.max(0, budget - used);
+  document.getElementById('multikey-budget').textContent = pool.length
+    ? `${left} of ${budget} left this week · ${pool.length} song${pool.length===1?'':'s'} enrolled`
+    : 'no songs enrolled';
+  const body = document.getElementById('multikey-body');
+  if(!queue.length) {
+    body.innerHTML = !pool.length
+      ? `<div class="all-clear"><div class="big">No songs enrolled</div><div style="font-size:12px;margin-top:4px">Turn on multi-key practice for any song at level 2 or 3 with a standard key set</div></div>`
+      : left===0
+        ? `<div class="all-clear"><div class="big">Week's keys done</div><div style="font-size:12px;margin-top:4px">${used} of ${budget} this week · resets Monday</div></div>`
+        : `<div class="all-clear"><div class="big">Today's key done</div><div style="font-size:12px;margin-top:4px">${left} of ${budget} still available this week</div></div>`;
+    return;
+  }
+  body.innerHTML = queue.map(sg=>{
+    const safeN = sg.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    const key = sg.practiceKey && KEY_BY_ID[sg.practiceKey.key] ? sg.practiceKey.key : sg.standardKey;
+    const chip = `<span class="key-chip" title="Standard key ${keyLabel(sg.standardKey)}">in ${keyLabel(key)}</span>`;
+    return `<div class="song-row clickable" onclick="showSongDetail('${safeN}')">${lvlBadge(sg.currentLevel)}<div class="song-name-group"><span class="song-name">${sg.name}</span>${chip}</div><button class="btn-pass" onclick="doKeyReview('${safeN}',true);event.stopPropagation()">Got it</button><button class="btn-fail" onclick="doKeyReview('${safeN}',false);event.stopPropagation()">Keep this key</button></div>`;
+  }).join('');
 }
 
 function renderLibrary() {
@@ -1579,6 +1681,7 @@ function formatActivityEntry(entry) {
     case 'practiced':        return { dot:'gold',  label:'Practiced',                detail:entry.name };
     case 'learned':          return { dot:'green', label:'Marked as Level 2',        detail:entry.name };
     case 'review':           return { dot:entry.passed?'green':'gold', label:(entry.passed?'Reviewed':'Continued')+(entry.key?` in ${keyLabel(entry.key)}`:''), detail:entry.name };
+    case 'key_review':       return { dot:entry.passed?'green':'gold', label:(entry.passed?'Multi-key cleared':'Multi-key continued')+(entry.key?` in ${keyLabel(entry.key)}`:''), detail:entry.name };
     case 'song_added':       return { dot:'blue',  label:'Added to library',         detail:entry.name };
     case 'song_edited':      return { dot:'dim',   label:(entry.oldLevel!==undefined&&entry.oldLevel!==entry.level)?`Familiarity updated to Level ${entry.level}`:'Song details updated', detail:entry.name||entry.oldName };
     case 'stopped_learning': return { dot:'dim',   label:'Stopped learning',         detail:entry.name };
@@ -1928,10 +2031,11 @@ function renderSettings() {
   document.getElementById('section-toggle-voicing').checked = !!sections.voicing;
   document.getElementById('section-toggle-vocabulary').checked = !!sections.vocabulary;
   document.getElementById('section-toggle-review').checked = !!sections.review;
+  document.getElementById('section-toggle-multikey').checked = !!sections.multikey;
 }
 function toggleTodaySection(key) {
   const db = getDB();
-  if(!db.todaySections) db.todaySections = { learning:true, repertoire:true, voicing:true, vocabulary:true, review:true };
+  if(!db.todaySections) db.todaySections = { learning:true, repertoire:true, voicing:true, vocabulary:true, review:true, multikey:true };
   db.todaySections[key] = document.getElementById('section-toggle-'+key).checked;
   saveDB(db);
   renderToday();
