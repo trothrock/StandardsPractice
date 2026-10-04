@@ -268,7 +268,7 @@
         <div id="reviews-body"></div>
       </div>
       <div class="section" id="multikey-section">
-        <div class="section-head"><h2>Multi-key review</h2><span class="count" id="multikey-budget"></span></div>
+        <div class="section-head"><h2>Multi-key review</h2><span class="count" id="multikey-budget"></span><div class="section-menu-wrap"><button class="btn-dots" onclick="toggleMultiKeyMenu(event)">···</button><div class="dropdown" id="multikey-menu"><div class="dropdown-item" onclick="rerollWeekKeyCenter()">Pick a new key center</div><div class="dropdown-item" onclick="openReviewSettings()">Edit review settings</div></div></div></div>
         <div id="multikey-body"></div>
       </div>
     </div>
@@ -759,10 +759,6 @@
       <label>Multi-key reviews per week</label>
       <input type="number" id="multikey-week-input" min="1" max="50">
     </div>
-    <div class="field">
-      <label>Multi-key sessions per key center</label>
-      <input type="number" id="multikey-session-input" min="1" max="20">
-    </div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeReviewSettings()">Cancel</button>
       <button class="btn-confirm" onclick="submitReviewSettings()">Save</button>
@@ -929,9 +925,7 @@ function initDB() {
   if(!db.keyCenters) db.keyCenters = {};
   KEY_CENTERS.forEach(k=>{ if(!db.keyCenters[k.id]) db.keyCenters[k.id] = { familiarity: 0 }; });
   if(db.reviewQueueMode === undefined) db.reviewQueueMode = 'all';
-  if(db.multiKeySessionLength === undefined) db.multiKeySessionLength = 3;
   if(db.multiKeyPerWeek === undefined) db.multiKeyPerWeek = MULTIKEY_PER_WEEK_DEFAULT;
-  if(!db.multiKeyGroups) db.multiKeyGroups = { major: { key: null, count: 0 }, minor: { key: null, count: 0 } };
   if(db.onboardingComplete === undefined) db.onboardingComplete = true;
   if(!db.todaySections) db.todaySections = { learning:true, repertoire:true, voicing:true, vocabulary:true, review:true, multikey:true };
   if(db.todaySections.vocabulary === undefined) { db.todaySections.vocabulary = true; saveDB(db); }
@@ -982,6 +976,15 @@ function initDB() {
     delete db.reviewMax;
     delete db.multiKeyMaxPerDay;
     db.cadenceVersion = 6;
+    needsSave = true;
+  }
+  // One key center per week replaced the per-quality rolling groups, and practice keys that
+  // predate it can be in any key — clear them so this week's center assigns cleanly.
+  if(db.cadenceVersion < 7) {
+    delete db.multiKeyGroups;
+    delete db.multiKeySessionLength;
+    Object.values(db.songs).forEach(sg => { delete sg.practiceKey; });
+    db.cadenceVersion = 7;
     needsSave = true;
   }
   if(db.reviewsPerWeek === undefined) { db.reviewsPerWeek = REVIEWS_PER_WEEK_DEFAULT; needsSave = true; }
@@ -1039,44 +1042,56 @@ function keyCenterCounts(db) {
   });
   return counts;
 }
-// Weighted pick among keys of a given quality (optionally excluding one); less familiar keys weigh more (16/9/4/1)
-function pickKeyForQuality(db, quality, excludeId) {
-  const pool = KEY_CENTERS.filter(k=>k.quality===quality && k.id!==excludeId);
-  const weights = pool.map(k=>Math.pow(4 - keyFamiliarity(db, k.id), 2));
+// Relative minor of each major key, by id. A week's key center is this pair: majors are
+// practiced in the major key, minors in its relative minor, so the whole week sits in one
+// tonal home rather than scattering across unrelated keys.
+const RELATIVE_MINOR = { C:'Am', Db:'Bbm', D:'Bm', Eb:'Cm', E:'C#m', F:'Dm', Gb:'Ebm', G:'Em', Ab:'Fm', A:'F#m', Bb:'Gm', B:'G#m' };
+// Weighted pick among key centers, strongly favoring unfamiliar ground: a pair weighs by
+// its *more familiar* key, so a well-worn major can't ride in on an unknown relative minor,
+// and the 0-3 scale is cubed (64/27/8/1) so the least familiar centers dominate the draw.
+// Last week's center is excluded so the key always moves on Monday.
+function pairFamiliarity(db, majorId) {
+  return Math.max(keyFamiliarity(db, majorId), keyFamiliarity(db, RELATIVE_MINOR[majorId]));
+}
+function pickWeekKeyCenter(db, excludeId) {
+  const pool = KEY_ROOTS_MAJOR.filter(id=>id!==excludeId);
+  const weights = pool.map(id=>Math.pow(4 - pairFamiliarity(db, id), 3));
   let r = Math.random() * weights.reduce((a,b)=>a+b, 0);
-  for(let i=0;i<pool.length;i++){ r -= weights[i]; if(r<0) return pool[i].id; }
-  return pool[pool.length-1].id;
+  for(let i=0;i<pool.length;i++){ r -= weights[i]; if(r<0) return pool[i]; }
+  return pool[pool.length-1];
 }
-// Major and minor each hold one shared "current" practice key, reused for the next N
-// multi-key-eligible songs (N = db.multiKeySessionLength) that enter the review queue in
-// that quality, then roll over to a new weighted pick. Tracked independently per quality.
-function assignGroupKey(db, std) {
-  const sessionLen = Math.max(1, parseInt(db.multiKeySessionLength, 10) || 1);
-  if(!db.multiKeyGroups) db.multiKeyGroups = { major: { key: null, count: 0 }, minor: { key: null, count: 0 } };
-  const group = db.multiKeyGroups[std.quality] || (db.multiKeyGroups[std.quality] = { key: null, count: 0 });
-  const validKey = group.key && KEY_BY_ID[group.key] && KEY_BY_ID[group.key].quality === std.quality;
-  if(!validKey || group.count >= sessionLen) {
-    group.key = pickKeyForQuality(db, std.quality, null);
-    group.count = 0;
-  }
-  group.count++;
-  // Practicing a song in its own standard key isn't multi-key practice — give that one
-  // song a one-off alternate without disturbing the shared group's key or count.
-  if(group.key === std.id) return pickKeyForQuality(db, std.quality, std.id);
-  return group.key;
+// The week's key center, held in db.multiKeyWeek as the major id (the minor is derived).
+// Rolls over on Monday, with the rest of the week's sessions following it.
+// Returns true if the center changed (caller saves)
+function ensureWeekKeyCenter(db, tod) {
+  const ws = weekStartInt(tod);
+  const cur = db.multiKeyWeek;
+  if(cur && cur.weekStart === ws && RELATIVE_MINOR[cur.key]) return false;
+  db.multiKeyWeek = { weekStart: ws, key: pickWeekKeyCenter(db, cur ? cur.key : null) };
+  return true;
 }
-// A practice key holds steady across sessions — it only rolls over once a passing
-// multi-key session has closed out the cycle it was assigned for, so an unfamiliar key
-// stays put until you can actually play it.
+function weekKeyFor(db, quality) {
+  const major = db.multiKeyWeek && RELATIVE_MINOR[db.multiKeyWeek.key] ? db.multiKeyWeek.key : 'C';
+  return quality === 'minor' ? RELATIVE_MINOR[major] : major;
+}
+function weekKeyCenterLabel(db) {
+  const major = weekKeyFor(db, 'major');
+  return `${keyRootLabel(KEY_BY_ID[major].root)} major / ${keyRootLabel(KEY_BY_ID[RELATIVE_MINOR[major]].root)} minor`;
+}
+// A song whose standard key is already the week's key has nothing to transpose, so it sits
+// the week out rather than breaking the one-key-center rule with an alternate of its own.
+function ownKeyThisWeek(db, sg) {
+  const std = KEY_BY_ID[sg.standardKey];
+  return !!std && weekKeyFor(db, std.quality) === std.id;
+}
+// Every enrolled song takes the week's key for its own quality, however its last session
+// went: an unfamiliar key gets a whole week rather than being held until it is passed.
 // Returns true if the assignment changed (caller saves)
 function ensurePracticeKey(db, sg) {
   if(!sg.multiKey || !KEY_BY_ID[sg.standardKey]) return false;
-  const pk = sg.practiceKey, std = KEY_BY_ID[sg.standardKey];
-  if(pk && KEY_BY_ID[pk.key] && KEY_BY_ID[pk.key].quality===std.quality && pk.key!==std.id) {
-    const closedOut = (sg.keyReviews||[]).some(r=>r.date>=pk.date && r.passed);
-    if(!closedOut) return false;
-  }
-  sg.practiceKey = { date: todayInt(), key: assignGroupKey(db, std) };
+  const want = weekKeyFor(db, KEY_BY_ID[sg.standardKey].quality);
+  if(sg.practiceKey && sg.practiceKey.key === want) return false;
+  sg.practiceKey = { date: todayInt(), key: want };
   return true;
 }
 function keySelectOptions(selected) {
@@ -1353,19 +1368,22 @@ function multiKeyQueue(db, tod) {
   const n = multiKeyRemaining(db, tod);
   if(n <= 0) return [];
   return multiKeyPool(db)
-    .filter(s=>lastKeyReviewInt(s) !== tod)
+    .filter(s=>lastKeyReviewInt(s) !== tod && !ownKeyThisWeek(db, s))
     .sort((a,b)=>(lastKeyReviewInt(a)-lastKeyReviewInt(b)) || a.sortSeed-b.sortSeed)
     .slice(0, n);
 }
-function doKeyReview(name, passed) {
+// A multi-key session is best effort: playing it through in the week's key is the whole
+// point, so there is no pass or fail to record and nothing to repeat. Sessions logged before
+// this carry a `passed` flag; new ones simply happened.
+function doKeyReview(name) {
   const db = getDB();
   const sg = db.songs[name];
   const key = sg.practiceKey && KEY_BY_ID[sg.practiceKey.key] ? sg.practiceKey.key : sg.standardKey;
   if(!sg.keyReviews) sg.keyReviews = [];
-  sg.keyReviews.push({ date: todayInt(), passed, key });
-  logActivity(db, 'key_review', { name, passed, key });
+  sg.keyReviews.push({ date: todayInt(), key });
+  logActivity(db, 'key_review', { name, key });
   updateStreak(db); saveDB(db); renderAll();
-  toast(passed ? `${name} in ${keyLabel(key)} — cleared` : `Staying in ${keyLabel(key)} until it's solid`);
+  toast(`${name} in ${keyLabel(key)} — reviewed`);
 }
 // The week's queue: the stalest songs in rotation, as many as the week has left to spend.
 // No due dates, so there is never a backlog to clear and never an empty day while work
@@ -1383,14 +1401,28 @@ function toggleReviewMenu(e) {
   document.getElementById('review-menu').classList.toggle('open');
 }
 function closeReviewMenu() { document.getElementById('review-menu').classList.remove('open'); }
+function toggleMultiKeyMenu(e) {
+  e.stopPropagation();
+  document.getElementById('multikey-menu').classList.toggle('open');
+}
+function closeMultiKeyMenu() { document.getElementById('multikey-menu').classList.remove('open'); }
+// The week's center is pinned until Monday, which is the point of it — but a draw that lands
+// on familiar ground shouldn't cost a whole week. Re-picks excluding the current center.
+function rerollWeekKeyCenter() {
+  closeMultiKeyMenu();
+  const db = getDB(), tod = todayInt();
+  const cur = db.multiKeyWeek && RELATIVE_MINOR[db.multiKeyWeek.key] ? db.multiKeyWeek.key : null;
+  db.multiKeyWeek = { weekStart: weekStartInt(tod), key: pickWeekKeyCenter(db, cur) };
+  saveDB(db); renderAll();
+  toast(`${weekKeyCenterLabel(db)} for the rest of the week.`);
+}
 function openReviewSettings() {
-  closeReviewMenu();
+  closeReviewMenu(); closeMultiKeyMenu();
   const db = getDB();
   document.getElementById('reviews-week-input').value = weeklyBudget(db);
   document.getElementById('rotation-max-input').value = db.rotationMax || ROTATION_MAX_DEFAULT;
   document.getElementById('review-mode-input').value = db.reviewQueueMode || 'all';
   document.getElementById('multikey-week-input').value = multiKeyBudget(db);
-  document.getElementById('multikey-session-input').value = db.multiKeySessionLength || 3;
   document.getElementById('review-settings-modal').classList.add('open');
   setTimeout(()=>document.getElementById('reviews-week-input').focus(), 50);
 }
@@ -1399,15 +1431,13 @@ function handleReviewSettingsBackdropClick(e) { if(e.target===document.getElemen
 function submitReviewSettings() {
   const perWeek = parseInt(document.getElementById('reviews-week-input').value, 10);
   const rotation = parseInt(document.getElementById('rotation-max-input').value, 10);
-  const sessionLen = parseInt(document.getElementById('multikey-session-input').value, 10);
   const mkWeek = parseInt(document.getElementById('multikey-week-input').value, 10);
-  if(!perWeek || perWeek < 1 || !rotation || rotation < 1 || !sessionLen || sessionLen < 1) return;
+  if(!perWeek || perWeek < 1 || !rotation || rotation < 1) return;
   if(!mkWeek || mkWeek < 1) return;
   const db = getDB();
   db.reviewsPerWeek = perWeek;
   db.rotationMax = rotation;
   db.reviewQueueMode = document.getElementById('review-mode-input').value;
-  db.multiKeySessionLength = sessionLen;
   db.multiKeyPerWeek = mkWeek;
   saveDB(db); closeReviewSettings(); renderAll();
   toast(`${perWeek} reviews/week across ${rotation} songs in rotation.`);
@@ -1538,28 +1568,35 @@ function renderToday() {
   renderMultiKeyToday(db, tod);
 }
 function renderMultiKeyToday(db, tod) {
+  // The week's key center has to be settled before the queue is built — it decides which
+  // songs are practicing their own key and so sit the week out.
+  let dirty = ensureWeekKeyCenter(db, tod);
   const queue = multiKeyQueue(db, tod);
-  if(queue.map(sg=>ensurePracticeKey(db, sg)).some(Boolean)) saveDB(db);
+  if(queue.map(sg=>ensurePracticeKey(db, sg)).some(Boolean)) dirty = true;
+  if(dirty) saveDB(db);
   const pool = multiKeyPool(db);
+  const sittingOut = pool.filter(s=>ownKeyThisWeek(db, s)).length;
   const budget = multiKeyBudget(db), used = keyReviewsThisWeek(db, tod);
   const left = Math.max(0, budget - used);
   document.getElementById('multikey-budget').textContent = pool.length
-    ? `${queue.length ? queue.length+' queued · ' : ''}${left} of ${budget} left this week · ${pool.length} song${pool.length===1?'':'s'} enrolled`
+    ? `${weekKeyCenterLabel(db)} this week · ${queue.length ? queue.length+' queued · ' : ''}${left} of ${budget} left${sittingOut ? ` · ${sittingOut} already in this key` : ''}`
     : 'no songs enrolled';
   const body = document.getElementById('multikey-body');
   if(!queue.length) {
     body.innerHTML = !pool.length
       ? `<div class="all-clear"><div class="big">No songs enrolled</div><div style="font-size:12px;margin-top:4px">Turn on multi-key practice for any song at level 2 or 3 with a standard key set</div></div>`
       : left===0
-        ? `<div class="all-clear"><div class="big">Week's keys done</div><div style="font-size:12px;margin-top:4px">${used} of ${budget} this week · resets Monday</div></div>`
-        : `<div class="all-clear"><div class="big">Every key done today</div><div style="font-size:12px;margin-top:4px">${left} of ${budget} still available this week</div></div>`;
+        ? `<div class="all-clear"><div class="big">Week's keys done</div><div style="font-size:12px;margin-top:4px">${used} of ${budget} in ${weekKeyCenterLabel(db)} · new key center Monday</div></div>`
+        : sittingOut === pool.length
+          ? `<div class="all-clear"><div class="big">Nothing to transpose</div><div style="font-size:12px;margin-top:4px">Every enrolled song is already in ${weekKeyCenterLabel(db)} · new key center Monday</div></div>`
+          : `<div class="all-clear"><div class="big">Every key done today</div><div style="font-size:12px;margin-top:4px">${left} of ${budget} still available in ${weekKeyCenterLabel(db)}</div></div>`;
     return;
   }
   body.innerHTML = queue.map(sg=>{
     const safeN = sg.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
     const key = sg.practiceKey && KEY_BY_ID[sg.practiceKey.key] ? sg.practiceKey.key : sg.standardKey;
     const chip = `<span class="key-chip" title="Standard key ${keyLabel(sg.standardKey)}">in ${keyLabel(key)}</span>`;
-    return `<div class="song-row clickable" onclick="showSongDetail('${safeN}')">${lvlBadge(sg.currentLevel)}<div class="song-name-group"><span class="song-name">${sg.name}</span>${chip}</div><button class="btn-pass" onclick="doKeyReview('${safeN}',true);event.stopPropagation()">Got it</button><button class="btn-fail" onclick="doKeyReview('${safeN}',false);event.stopPropagation()">Keep this key</button></div>`;
+    return `<div class="song-row clickable" onclick="showSongDetail('${safeN}')">${lvlBadge(sg.currentLevel)}<div class="song-name-group"><span class="song-name">${sg.name}</span>${chip}</div><button class="btn-pass" onclick="doKeyReview('${safeN}');event.stopPropagation()">Reviewed</button></div>`;
   }).join('');
 }
 
@@ -1670,7 +1707,7 @@ function formatActivityEntry(entry) {
     case 'practiced':        return { dot:'gold',  label:'Practiced',                detail:entry.name };
     case 'learned':          return { dot:'green', label:'Marked as Level 2',        detail:entry.name };
     case 'review':           return { dot:entry.passed?'green':'gold', label:(entry.passed?'Reviewed':'Continued')+(entry.key?` in ${keyLabel(entry.key)}`:''), detail:entry.name };
-    case 'key_review':       return { dot:entry.passed?'green':'gold', label:(entry.passed?'Multi-key cleared':'Multi-key continued')+(entry.key?` in ${keyLabel(entry.key)}`:''), detail:entry.name };
+    case 'key_review':       return { dot:entry.passed===false?'gold':'green', label:(entry.passed===undefined?'Multi-key session':entry.passed?'Multi-key cleared':'Multi-key continued')+(entry.key?` in ${keyLabel(entry.key)}`:''), detail:entry.name };
     case 'song_added':       return { dot:'blue',  label:'Added to library',         detail:entry.name };
     case 'song_edited':      return { dot:'dim',   label:(entry.oldLevel!==undefined&&entry.oldLevel!==entry.level)?`Familiarity updated to Level ${entry.level}`:'Song details updated', detail:entry.name||entry.oldName };
     case 'stopped_learning': return { dot:'dim',   label:'Stopped learning',         detail:entry.name };
@@ -2072,8 +2109,8 @@ function openRowMenu(e, name) {
   menu.classList.add('open');
 }
 function closeRowMenu() { document.getElementById('row-menu').classList.remove('open'); }
-document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeAddSong(); closeEditSong(); closeReviewSettings(); closeReviewMenu(); closeRowMenu(); closeRemoveSong(); closeResetConfirm(); closeAddRepertoire(); closeEditRep(); closeRemoveRep(); closeAddVoicing(); closeEditVoicing(); closeRemoveVoicing(); closeAddVocab(); closeEditVocab(); closeRemoveVocab(); } });
-document.addEventListener('click', ()=>{ closeReviewMenu(); closeRowMenu(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeAddSong(); closeEditSong(); closeReviewSettings(); closeReviewMenu(); closeMultiKeyMenu(); closeRowMenu(); closeRemoveSong(); closeResetConfirm(); closeAddRepertoire(); closeEditRep(); closeRemoveRep(); closeAddVoicing(); closeEditVoicing(); closeRemoveVoicing(); closeAddVocab(); closeEditVocab(); closeRemoveVocab(); } });
+document.addEventListener('click', ()=>{ closeReviewMenu(); closeMultiKeyMenu(); closeRowMenu(); });
 
 let editOriginalName = null;
 let editSelectedLevel = 0;
