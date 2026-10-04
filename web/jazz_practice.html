@@ -37,6 +37,8 @@
   .settings-row:last-child { border-bottom: none; }
   .settings-row .label { font-size: 13px; color: var(--text); }
   .settings-row .sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .settings-row input[type="number"] { width: 64px; flex-shrink: 0; text-align: center; background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius); color: var(--text); font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; padding: 6px 8px; outline: none; transition: border-color 0.15s; }
+  .settings-row input[type="number"]:focus { border-color: var(--gold); }
   .toggle-switch { position: relative; width: 36px; height: 20px; flex-shrink: 0; }
   .toggle-switch input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
   .toggle-slider { position: absolute; inset: 0; background: var(--bg3); border: 1px solid var(--border2); border-radius: 999px; transition: all 0.15s; pointer-events: none; }
@@ -391,6 +393,17 @@
           <label class="toggle-switch"><input type="checkbox" id="section-toggle-multikey" onchange="toggleTodaySection('multikey')"><span class="toggle-slider"></span></label>
         </div>
       </div>
+      <div class="section" style="margin-bottom:20px">
+        <div class="section-head"><h2>Queue size</h2></div>
+        <div class="settings-row">
+          <div><div class="label">Review songs per week</div><div class="sub">How many songs the Review queue offers each week</div></div>
+          <input type="number" id="queue-size-review" min="1" max="100" onchange="setQueueSize('review')">
+        </div>
+        <div class="settings-row">
+          <div><div class="label">Multi-key songs per week</div><div class="sub">How many songs the Multi-key review queue offers each week</div></div>
+          <input type="number" id="queue-size-multikey" min="1" max="50" onchange="setQueueSize('multikey')">
+        </div>
+      </div>
       <div class="section">
         <div class="section-head"><h2>Manage data</h2></div>
         <div style="padding:20px;display:flex;flex-direction:column;gap:10px;max-width:280px">
@@ -732,10 +745,6 @@
       <input type="number" id="reviews-week-input" min="1" max="100">
     </div>
     <div class="field">
-      <label>Max songs per day</label>
-      <input type="number" id="review-max-input" min="1" max="20">
-    </div>
-    <div class="field">
       <label>Songs in rotation</label>
       <input type="number" id="rotation-max-input" min="1" max="100">
     </div>
@@ -749,10 +758,6 @@
     <div class="field">
       <label>Multi-key reviews per week</label>
       <input type="number" id="multikey-week-input" min="1" max="50">
-    </div>
-    <div class="field">
-      <label>Max multi-key songs per day</label>
-      <input type="number" id="multikey-day-input" min="1" max="20">
     </div>
     <div class="field">
       <label>Multi-key sessions per key center</label>
@@ -821,9 +826,7 @@ const STAGE_WEIGHTS = [1,3,7,21,60,180];
 const STAGE_COUNT = STAGE_WEIGHTS.length;
 const ROTATION_MAX_DEFAULT = 12;
 const REVIEWS_PER_WEEK_DEFAULT = 7;
-const REVIEWS_PER_DAY_DEFAULT = 3;
 const MULTIKEY_PER_WEEK_DEFAULT = 3;
-const MULTIKEY_PER_DAY_DEFAULT = 1;
 const STORAGE_KEY = 'jazz_sr_v3';
 
 function todayInt() {
@@ -925,11 +928,9 @@ function initDB() {
   }
   if(!db.keyCenters) db.keyCenters = {};
   KEY_CENTERS.forEach(k=>{ if(!db.keyCenters[k.id]) db.keyCenters[k.id] = { familiarity: 0 }; });
-  if(db.reviewMax === undefined) db.reviewMax = REVIEWS_PER_DAY_DEFAULT;
   if(db.reviewQueueMode === undefined) db.reviewQueueMode = 'all';
   if(db.multiKeySessionLength === undefined) db.multiKeySessionLength = 3;
   if(db.multiKeyPerWeek === undefined) db.multiKeyPerWeek = MULTIKEY_PER_WEEK_DEFAULT;
-  if(db.multiKeyMaxPerDay === undefined) db.multiKeyMaxPerDay = MULTIKEY_PER_DAY_DEFAULT;
   if(!db.multiKeyGroups) db.multiKeyGroups = { major: { key: null, count: 0 }, minor: { key: null, count: 0 } };
   if(db.onboardingComplete === undefined) db.onboardingComplete = true;
   if(!db.todaySections) db.todaySections = { learning:true, repertoire:true, voicing:true, vocabulary:true, review:true, multikey:true };
@@ -940,7 +941,6 @@ function initDB() {
   // and a capped rotation. The old dates rewrote themselves on every skipped day, so they
   // carry no usable history — drop them rather than migrate them.
   if(!db.cadenceVersion) {
-    db.reviewMax = Math.max(db.reviewMax || 1, REVIEWS_PER_DAY_DEFAULT);
     db.reviewsPerWeek = REVIEWS_PER_WEEK_DEFAULT;
     db.rotationMax = ROTATION_MAX_DEFAULT;
     Object.values(db.songs).forEach(sg => {
@@ -976,6 +976,12 @@ function initDB() {
       if(sg.status === 'active') sg.staleFrom = todayInt();
     });
     db.cadenceVersion = 5;
+    needsSave = true;
+  }
+  if(db.cadenceVersion < 6) {
+    delete db.reviewMax;
+    delete db.multiKeyMaxPerDay;
+    db.cadenceVersion = 6;
     needsSave = true;
   }
   if(db.reviewsPerWeek === undefined) { db.reviewsPerWeek = REVIEWS_PER_WEEK_DEFAULT; needsSave = true; }
@@ -1312,20 +1318,16 @@ function rotationSplit(db) {
   return { rotation: ordered.slice(0, cap), waiting: ordered.slice(cap) };
 }
 function rotationSongs(db) { return rotationSplit(db).rotation; }
-function reviewsOnDate(db, dateInt) {
-  return Object.values(db.songs).reduce((n,s)=>n+(s.reviews||[]).filter(r=>r.date===dateInt).length, 0);
-}
 // Budget is weekly, not daily, so a skipped morning costs nothing — the allowance is still
-// there on Friday. The daily cap just keeps one session from eating the whole week.
+// there on Friday, and the whole of what is left shows on Today rather than a day's slice.
 function reviewsThisWeek(db, tod) {
   const ws = weekStartInt(tod);
   return Object.values(db.songs).reduce((n,s)=>n+(s.reviews||[]).filter(r=>r.date>=ws&&r.date<=tod).length, 0);
 }
 function weeklyBudget(db) { return Math.max(1, db.reviewsPerWeek || REVIEWS_PER_WEEK_DEFAULT); }
 function weeklyRemaining(db, tod) { return Math.max(0, weeklyBudget(db) - reviewsThisWeek(db, tod)); }
-function reviewAllowanceToday(db, tod) {
-  const dailyLeft = Math.max(1, db.reviewMax || REVIEWS_PER_DAY_DEFAULT) - reviewsOnDate(db, tod);
-  return Math.min(dailyLeft, weeklyRemaining(db, tod)) + getExtraReviewCount(db);
+function reviewAllowance(db, tod) {
+  return weeklyRemaining(db, tod) + getExtraReviewCount(db);
 }
 // The multi-key track runs alongside graduation, not inside it: any song you know well
 // enough (level 2 or 3) with the toggle on is fair game, whether or not it is in the
@@ -1344,18 +1346,11 @@ function keyReviewsThisWeek(db, tod) {
   const ws = weekStartInt(tod);
   return Object.values(db.songs).reduce((n,s)=>n+(s.keyReviews||[]).filter(r=>r.date>=ws&&r.date<=tod).length, 0);
 }
-function keyReviewsOnDate(db, dateInt) {
-  return Object.values(db.songs).reduce((n,s)=>n+(s.keyReviews||[]).filter(r=>r.date===dateInt).length, 0);
-}
 function multiKeyBudget(db) { return Math.max(1, db.multiKeyPerWeek || MULTIKEY_PER_WEEK_DEFAULT); }
 function multiKeyRemaining(db, tod) { return Math.max(0, multiKeyBudget(db) - keyReviewsThisWeek(db, tod)); }
-function multiKeyAllowanceToday(db, tod) {
-  const dailyLeft = Math.max(1, db.multiKeyMaxPerDay || MULTIKEY_PER_DAY_DEFAULT) - keyReviewsOnDate(db, tod);
-  return Math.min(dailyLeft, multiKeyRemaining(db, tod));
-}
 // Longest since its last key session goes first, so the pool cycles evenly.
 function multiKeyQueue(db, tod) {
-  const n = multiKeyAllowanceToday(db, tod);
+  const n = multiKeyRemaining(db, tod);
   if(n <= 0) return [];
   return multiKeyPool(db)
     .filter(s=>lastKeyReviewInt(s) !== tod)
@@ -1372,10 +1367,11 @@ function doKeyReview(name, passed) {
   updateStreak(db); saveDB(db); renderAll();
   toast(passed ? `${name} in ${keyLabel(key)} — cleared` : `Staying in ${keyLabel(key)} until it's solid`);
 }
-// Today's queue: the stalest songs in rotation, as many as the allowance permits. No due
-// dates, so there is never a backlog to clear and never an empty day while work remains.
+// The week's queue: the stalest songs in rotation, as many as the week has left to spend.
+// No due dates, so there is never a backlog to clear and never an empty day while work
+// remains — and the whole week is in view, to work through at whatever pace suits.
 function reviewQueue(db, tod) {
-  const n = reviewAllowanceToday(db, tod);
+  const n = reviewAllowance(db, tod);
   if(n <= 0) return [];
   return rotationSongs(db)
     .filter(s=>lastSeenInt(s) !== tod)
@@ -1391,11 +1387,9 @@ function openReviewSettings() {
   closeReviewMenu();
   const db = getDB();
   document.getElementById('reviews-week-input').value = weeklyBudget(db);
-  document.getElementById('review-max-input').value = db.reviewMax || REVIEWS_PER_DAY_DEFAULT;
   document.getElementById('rotation-max-input').value = db.rotationMax || ROTATION_MAX_DEFAULT;
   document.getElementById('review-mode-input').value = db.reviewQueueMode || 'all';
   document.getElementById('multikey-week-input').value = multiKeyBudget(db);
-  document.getElementById('multikey-day-input').value = db.multiKeyMaxPerDay || MULTIKEY_PER_DAY_DEFAULT;
   document.getElementById('multikey-session-input').value = db.multiKeySessionLength || 3;
   document.getElementById('review-settings-modal').classList.add('open');
   setTimeout(()=>document.getElementById('reviews-week-input').focus(), 50);
@@ -1404,21 +1398,17 @@ function closeReviewSettings() { document.getElementById('review-settings-modal'
 function handleReviewSettingsBackdropClick(e) { if(e.target===document.getElementById('review-settings-modal')) closeReviewSettings(); }
 function submitReviewSettings() {
   const perWeek = parseInt(document.getElementById('reviews-week-input').value, 10);
-  const val = parseInt(document.getElementById('review-max-input').value, 10);
   const rotation = parseInt(document.getElementById('rotation-max-input').value, 10);
   const sessionLen = parseInt(document.getElementById('multikey-session-input').value, 10);
   const mkWeek = parseInt(document.getElementById('multikey-week-input').value, 10);
-  const mkDay = parseInt(document.getElementById('multikey-day-input').value, 10);
-  if(!perWeek || perWeek < 1 || !val || val < 1 || !rotation || rotation < 1 || !sessionLen || sessionLen < 1) return;
-  if(!mkWeek || mkWeek < 1 || !mkDay || mkDay < 1) return;
+  if(!perWeek || perWeek < 1 || !rotation || rotation < 1 || !sessionLen || sessionLen < 1) return;
+  if(!mkWeek || mkWeek < 1) return;
   const db = getDB();
   db.reviewsPerWeek = perWeek;
-  db.reviewMax = val;
   db.rotationMax = rotation;
   db.reviewQueueMode = document.getElementById('review-mode-input').value;
   db.multiKeySessionLength = sessionLen;
   db.multiKeyPerWeek = mkWeek;
-  db.multiKeyMaxPerDay = mkDay;
   saveDB(db); closeReviewSettings(); renderAll();
   toast(`${perWeek} reviews/week across ${rotation} songs in rotation.`);
 }
@@ -1426,8 +1416,9 @@ function getExtraReviewCount(db) {
   if(!db.extraReviewsToday || db.extraReviewsToday.date !== todayInt()) return 0;
   return db.extraReviewsToday.count || 0;
 }
-// Deliberate overdraft: spends past today's allowance without touching the weekly budget's
-// accounting, so a long session can keep going when there is appetite for it.
+// Deliberate overdraft: spends past the week's budget without touching its accounting, so a
+// long session can keep going when there is appetite for it. Today only — tomorrow starts
+// back at whatever the week has left.
 function reviewAnotherSong() {
   const db = getDB(), tod = todayInt();
   const available = rotationSongs(db).filter(s=>lastSeenInt(s) !== tod);
@@ -1441,7 +1432,7 @@ function reviewAnotherSong() {
 }
 function renderToday() {
   const db = getDB(), tod = todayInt();
-  const due = reviewQueue(db, tod);
+  const due = reviewQueue(db, tod);   // the whole week's queue, not just today's share
   const active = Object.values(db.songs).filter(s=>s.status==='active'||s.status==='graduated');
   const grad = Object.values(db.songs).filter(s=>s.currentLevel>=2);
   document.getElementById('today-date').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
@@ -1529,16 +1520,14 @@ function renderToday() {
   const rotation = rotationSongs(db);
   const untouchedToday = rotation.filter(s=>lastSeenInt(s) !== tod);
   document.getElementById('review-budget').textContent = rotation.length
-    ? `${weekLeft} of ${budget} left this week · ${rotation.length} in rotation`
+    ? `${due.length ? due.length+' queued · ' : ''}${weekLeft} of ${budget} left this week · ${rotation.length} in rotation`
     : 'nothing in rotation';
   rb.innerHTML = due.length===0
     ? (!rotation.length
         ? `<div class="all-clear"><div class="big">Nothing in rotation</div><div style="font-size:12px;margin-top:4px">Learn a song above, or widen the rotation in review settings</div></div>`
         : !untouchedToday.length
           ? `<div class="all-clear"><div class="big">Whole rotation done today</div><div style="font-size:12px;margin-top:4px">${usedThisWeek} of ${budget} reviews this week</div></div>`
-          : weekLeft===0
-            ? `<div class="all-clear"><div class="big">Week's reviews done</div><div style="font-size:12px;margin-top:4px">${usedThisWeek} of ${budget} this week · resets Monday</div><button class="btn-action" style="margin-top:14px;font-size:12px" onclick="reviewAnotherSong()">Review another anyway</button></div>`
-            : `<div class="all-clear"><div class="big">Today's reviews done</div><div style="font-size:12px;margin-top:4px">${weekLeft} of ${budget} still available this week</div><button class="btn-action" style="margin-top:14px;font-size:12px" onclick="reviewAnotherSong()">Review another song</button></div>`)
+          : `<div class="all-clear"><div class="big">Week's reviews done</div><div style="font-size:12px;margin-top:4px">${usedThisWeek} of ${budget} this week · resets Monday</div><button class="btn-action" style="margin-top:14px;font-size:12px" onclick="reviewAnotherSong()">Review another anyway</button></div>`)
 
     : due.map(sg=>{
         const seenAt = lastSeenInt(sg);
@@ -1555,7 +1544,7 @@ function renderMultiKeyToday(db, tod) {
   const budget = multiKeyBudget(db), used = keyReviewsThisWeek(db, tod);
   const left = Math.max(0, budget - used);
   document.getElementById('multikey-budget').textContent = pool.length
-    ? `${left} of ${budget} left this week · ${pool.length} song${pool.length===1?'':'s'} enrolled`
+    ? `${queue.length ? queue.length+' queued · ' : ''}${left} of ${budget} left this week · ${pool.length} song${pool.length===1?'':'s'} enrolled`
     : 'no songs enrolled';
   const body = document.getElementById('multikey-body');
   if(!queue.length) {
@@ -1563,7 +1552,7 @@ function renderMultiKeyToday(db, tod) {
       ? `<div class="all-clear"><div class="big">No songs enrolled</div><div style="font-size:12px;margin-top:4px">Turn on multi-key practice for any song at level 2 or 3 with a standard key set</div></div>`
       : left===0
         ? `<div class="all-clear"><div class="big">Week's keys done</div><div style="font-size:12px;margin-top:4px">${used} of ${budget} this week · resets Monday</div></div>`
-        : `<div class="all-clear"><div class="big">Today's key done</div><div style="font-size:12px;margin-top:4px">${left} of ${budget} still available this week</div></div>`;
+        : `<div class="all-clear"><div class="big">Every key done today</div><div style="font-size:12px;margin-top:4px">${left} of ${budget} still available this week</div></div>`;
     return;
   }
   body.innerHTML = queue.map(sg=>{
@@ -2032,6 +2021,22 @@ function renderSettings() {
   document.getElementById('section-toggle-vocabulary').checked = !!sections.vocabulary;
   document.getElementById('section-toggle-review').checked = !!sections.review;
   document.getElementById('section-toggle-multikey').checked = !!sections.multikey;
+  document.getElementById('queue-size-review').value = weeklyBudget(db);
+  document.getElementById('queue-size-multikey').value = multiKeyBudget(db);
+}
+// The same weekly budgets the review settings modal writes, surfaced here too; a blank or
+// out-of-range entry snaps back to the stored value rather than saving something unusable.
+function setQueueSize(which) {
+  const db = getDB();
+  const field = which === 'review'
+    ? { el: 'queue-size-review', key: 'reviewsPerWeek', max: 100, fallback: REVIEWS_PER_WEEK_DEFAULT, noun: 'review' }
+    : { el: 'queue-size-multikey', key: 'multiKeyPerWeek', max: 50, fallback: MULTIKEY_PER_WEEK_DEFAULT, noun: 'multi-key' };
+  const input = document.getElementById(field.el);
+  const n = parseInt(input.value, 10);
+  if(!n || n < 1 || n > field.max) { input.value = db[field.key] || field.fallback; return; }
+  db[field.key] = n;
+  saveDB(db); renderAll();
+  toast(`${n} ${field.noun} ${n===1?'song':'songs'} per week.`);
 }
 function toggleTodaySection(key) {
   const db = getDB();
