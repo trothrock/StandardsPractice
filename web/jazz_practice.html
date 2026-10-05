@@ -112,6 +112,25 @@
   .current-song-info .label { font-size: 11px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
   .current-song-info .name { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--text); }
   .current-song-info .sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
+  .learning-wrap { background: var(--bg2); border: 1px solid rgba(201,168,76,0.25); border-radius: var(--radius-lg); margin-bottom: 20px; overflow: hidden; }
+  .learning-wrap .current-song-card { background: transparent; border: none; border-radius: 0; margin-bottom: 0; }
+  .exit-toggle { display: flex; align-items: center; gap: 8px; width: 100%; padding: 10px 24px; background: transparent; border: none; border-top: 1px solid var(--border); cursor: pointer; font-family: 'IBM Plex Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3); text-align: left; transition: color 0.15s; }
+  .exit-toggle:hover { color: var(--text2); }
+  .exit-chev { font-size: 9px; width: 9px; flex-shrink: 0; }
+  .exit-count { margin-left: auto; letter-spacing: 0.04em; }
+  .exit-count.complete { color: var(--gold2); }
+  .exit-row { display: flex; align-items: center; gap: 10px; padding: 9px 24px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text2); cursor: pointer; user-select: none; transition: background 0.1s; }
+  .exit-row:hover { background: var(--bg3); }
+  .exit-head { cursor: pointer; }
+  .exit-head.collapsed { border-bottom: none; }
+  .exit-head:hover h2 { color: var(--text); }
+  .exit-right { display: flex; align-items: center; gap: 8px; }
+  .section .exit-row { padding-left: 20px; padding-right: 20px; }
+  .section .exit-row:first-of-type { border-top: none; }
+  .exit-row.done span { color: var(--text3); text-decoration: line-through; }
+  input[type="checkbox"].chk { appearance: none; -webkit-appearance: none; position: relative; width: 15px; height: 15px; flex-shrink: 0; margin: 0; background: var(--bg3); border: 1px solid var(--border2); border-radius: 3px; cursor: pointer; transition: all 0.15s; }
+  input[type="checkbox"].chk:checked { background: var(--gold-dim); border-color: rgba(201,168,76,0.45); }
+  input[type="checkbox"].chk:checked::after { content: '\2713'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; line-height: 1; color: var(--gold2); }
   .all-clear { padding: 20px; text-align: center; color: var(--text3); }
   .all-clear .big { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--text2); margin-bottom: 4px; }
   #toast { position: fixed; bottom: 24px; right: 24px; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius-lg); padding: 12px 18px; font-size: 13px; color: var(--text); opacity: 0; transform: translateY(8px); transition: all 0.25s; pointer-events: none; z-index: 100; max-width: 280px; }
@@ -1157,6 +1176,63 @@ function seedVoicings() {
 function normTopNote(s) { return String(s).trim().replace(/b/gi,'♭').replace(/#/g,'♯'); }
 function topNoteSort(t) { const n = parseInt(String(t==null?'':t).replace(/[^0-9]/g,''),10); return isNaN(n)?999:n; }
 
+// Exit criteria for a new song: the work that has to be done before it's worth marking
+// level 2. Ids are stored per song, so relabelling a step keeps the checkmarks it earned.
+const LEARNING_STEPS = [
+  ['recording',        'Choose recording'],
+  ['melody-shell',     'RH melody + LH shell voicings'],
+  ['bass-track',       'Record bass track'],
+  ['melody-rootless',  'RH melody + LH rootless voicing'],
+  ['intro-outro',      'Intro/outro/shout chorus'],
+  ['comping',          'Comping'],
+  ['substitutions',    'Chord substitutions'],
+  ['points',           'Points of interest'],
+  ['lyrics',           'Lyrics'],
+];
+function learningStepsDone(sg) {
+  const steps = sg.learningSteps || {};
+  return LEARNING_STEPS.filter(([id]) => steps[id]).length;
+}
+function toggleLearningStep(name, id) {
+  const db = getDB(), sg = db.songs[name];
+  if(!sg) return;
+  if(!sg.learningSteps) sg.learningSteps = {};
+  sg.learningSteps[id] = !sg.learningSteps[id];
+  saveDB(db); renderAll();
+}
+// The Today card and the song detail each remember their own collapsed state, so opening
+// the list on one song's page doesn't reshuffle the card you work from every day.
+function toggleExitChecklist() {
+  const db = getDB();
+  db.exitChecklistOpen = !db.exitChecklistOpen;
+  saveDB(db); renderAll();
+}
+function toggleExitChecklistDetail() {
+  const db = getDB();
+  db.exitChecklistDetailOpen = !db.exitChecklistDetailOpen;
+  saveDB(db); renderAll();
+}
+function exitCountHTML(sg) {
+  const done = learningStepsDone(sg);
+  return `<span class="exit-count${done===LEARNING_STEPS.length?' complete':''}">${done} / ${LEARNING_STEPS.length}</span>`;
+}
+function exitChecklistRows(sg, safeName) {
+  const steps = sg.learningSteps || {};
+  return LEARNING_STEPS.map(([id,label]) =>
+    `<label class="exit-row${steps[id]?' done':''}"><input type="checkbox" class="chk"${steps[id]?' checked':''} onchange="toggleLearningStep('${safeName}','${id}')"><span>${label}</span></label>`
+  ).join('');
+}
+function learningChecklistHTML(db, sg, safeName) {
+  const open = !!db.exitChecklistOpen;
+  const header = `<button class="exit-toggle" onclick="toggleExitChecklist()"><span class="exit-chev">${open?'&#9662;':'&#9656;'}</span>Exit criteria${exitCountHTML(sg)}</button>`;
+  return open ? header + exitChecklistRows(sg, safeName) : header;
+}
+function detailChecklistHTML(db, sg, safeName) {
+  const open = !!db.exitChecklistDetailOpen;
+  const head = `<div class="section-head exit-head${open?'':' collapsed'}" onclick="toggleExitChecklistDetail()"><h2>Exit criteria</h2><div class="exit-right">${exitCountHTML(sg)}<span class="exit-chev">${open?'&#9662;':'&#9656;'}</span></div></div>`;
+  return `<div class="section">${head}${open?exitChecklistRows(sg, safeName):''}</div>`;
+}
+
 function startLearning(name) {
   const db = getDB();
   if(db.currentNewSong && db.currentNewSong !== name) {
@@ -1483,7 +1559,7 @@ function renderToday() {
     const practiceBtn = alreadyPracticed
       ? `<button class="btn-action btn-done" style="color:var(--green);border-color:rgba(39,174,96,0.3)" disabled>&#x2713; Practiced</button>`
       : `<button class="btn-pass" onclick="markPracticed('${safeName}')">Practiced</button>`;
-    csw.innerHTML = `<div class="current-song-card"><div class="current-song-dot"></div><div class="current-song-info" style="cursor:pointer" onclick="showSongDetail('${safeName}')"><div class="label">Currently learning</div><div class="name">${sg.name}</div><div class="sub">${sg.style||'Standard'} · Work on this all week</div></div>${lvlBadge(sg.baseLevel)}${practiceBtn}<button class="btn-primary" onclick="markLearned('${safeName}')">Mark as level 2</button></div>`;
+    csw.innerHTML = `<div class="learning-wrap"><div class="current-song-card"><div class="current-song-dot"></div><div class="current-song-info" style="cursor:pointer" onclick="showSongDetail('${safeName}')"><div class="label">Currently learning</div><div class="name">${sg.name}</div><div class="sub">${sg.style||'Standard'} · Work on this all week</div></div>${lvlBadge(sg.baseLevel)}${practiceBtn}<button class="btn-primary" onclick="markLearned('${safeName}')">Mark as level 2</button></div>${learningChecklistHTML(db, sg, safeName)}</div>`;
   } else {
     const next = getNextSong(db);
     csw.innerHTML = next ? `<div class="current-song-card"><div class="current-song-dot" style="background:var(--text3);animation:none"></div><div class="current-song-info"><div class="label">Next suggested song</div><div class="name">${next.name}</div><div class="sub">${next.style||'Standard'} · ${next.baseLevel===1?'Already at level 1 — push to 2':'Starting from level 0'}</div></div>${lvlBadge(next.baseLevel)}<button class="btn-action" onclick="startLearning('${next.name.replace(/'/g,"\\'")}')">Start learning</button></div>` : '';
@@ -1903,7 +1979,7 @@ function renderSongDetail(name) {
         return `<div class="timeline-entry"><div class="timeline-dot ${dot}"></div><div><div class="timeline-label">${label}</div><div class="timeline-meta">${dateStr} · ${timeStr}</div></div></div>`;
       }).join('');
   const notesSection = `<div class="section"><div class="section-head"><h2>Notes</h2></div><div class="notes-body" id="notes-body"></div></div>`;
-  container.innerHTML = header + notesSection + `<div class="section"><div class="section-head"><h2>Activity</h2></div>${timeline}</div>`;
+  container.innerHTML = header + detailChecklistHTML(db, sg, safeName) + notesSection + `<div class="section"><div class="section-head"><h2>Activity</h2></div>${timeline}</div>`;
   renderNotesView('song', name);
 }
 function getDetailEntity(type, db, name) {
