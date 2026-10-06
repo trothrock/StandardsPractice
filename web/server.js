@@ -50,7 +50,7 @@ function buildNoteBody(songs) {
     if (!group.length) continue;
     html += `<div><h2>Level ${level} (${group.length})</h2></div><ul>`;
     for (const s of group) {
-      const meta = [s.style, s.composer].filter(Boolean).map(escapeHtml).join(' · ');
+      const meta = [(s.tags || [s.style]).filter(Boolean).join(' / '), s.composer].filter(Boolean).map(escapeHtml).join(' · ');
       html += `<li><b>${escapeHtml(s.name)}</b>${meta ? ` — ${meta}` : ''}</li>`;
     }
     html += '</ul><div><br></div>';

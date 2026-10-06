@@ -160,6 +160,10 @@
   .field label { display: block; font-size: 11px; font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3); margin-bottom: 6px; }
   .field input[type="text"], .field select { width: 100%; flex: none; }
   .level-picker { display: flex; gap: 8px; }
+  .tag-picker { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag-btn { padding: 5px 12px; font-size: 12px; font-family: 'IBM Plex Sans', sans-serif; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius); color: var(--text3); cursor: pointer; transition: all 0.15s; }
+  .tag-btn:hover { border-color: var(--text3); color: var(--text2); }
+  .tag-btn.sel { background: var(--gold-dim); border-color: rgba(201,168,76,0.4); color: var(--gold2); }
   .level-btn { flex: 1; padding: 8px 0; font-size: 13px; font-family: 'IBM Plex Mono', monospace; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius); color: var(--text3); cursor: pointer; transition: all 0.15s; text-align: center; }
   .level-btn:hover { border-color: var(--text3); color: var(--text2); }
   .level-btn.sel-0 { background: #222; border-color: #555; color: var(--text2); }
@@ -307,7 +311,7 @@
         <input type="text" id="lib-search" placeholder="Search by title..." oninput="renderLibrary()">
         <select id="lib-level" onchange="renderLibrary()"><option value="">All levels</option><option value="0">Level 0</option><option value="1">Level 1</option><option value="2">Level 2</option><option value="3">Level 3</option></select>
         <select id="lib-status" onchange="renderLibrary()"><option value="">All statuses</option><option value="untouched">Not started</option><option value="learning">In progress</option><option value="active">In review</option><option value="graduated">Graduated</option></select>
-        <select id="lib-style" onchange="renderLibrary()"><option value="">All styles</option><option value="Ballad">Ballad</option><option value="Bop">Bop</option><option value="Blues">Blues</option><option value="Bossa">Bossa</option><option value="Modal">Modal</option><option value="Trad">Trad</option></select>
+        <select id="lib-tag" onchange="renderLibrary()"><option value="">All tags</option></select>
       </div>
       <div class="section"><div id="library-body"></div></div>
     </div>
@@ -745,8 +749,8 @@
       <div class="field-error" id="add-error">A song with this title already exists in your library.</div>
     </div>
     <div class="field">
-      <label>Style <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
-      <select id="add-style"><option value="">None</option><option value="Ballad">Ballad</option><option value="Bop">Bop</option><option value="Blues">Blues</option><option value="Bossa">Bossa</option><option value="Modal">Modal</option><option value="Trad">Trad</option></select>
+      <label>Tags <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <div class="tag-picker" id="add-tags"></div>
     </div>
     <div class="field">
       <label>Familiarity level</label>
@@ -803,8 +807,8 @@
       <div class="field-error" id="edit-error">A song with this title already exists in your library.</div>
     </div>
     <div class="field">
-      <label>Style <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
-      <select id="edit-style"><option value="">None</option><option value="Ballad">Ballad</option><option value="Bop">Bop</option><option value="Blues">Blues</option><option value="Bossa">Bossa</option><option value="Modal">Modal</option><option value="Trad">Trad</option></select>
+      <label>Tags <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <div class="tag-picker" id="edit-tags"></div>
     </div>
     <div class="field">
       <label>Composer <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
@@ -888,7 +892,7 @@ function notesSyncPayload() {
   const db = loadDB();
   if(!db) return [];
   return Object.values(db.songs).filter(s=>s.currentLevel>=2)
-    .map(s=>({ name:s.name, level:s.currentLevel, style:s.style||'', composer:s.composer||'' }))
+    .map(s=>({ name:s.name, level:s.currentLevel, tags:sortTags(s.tags||[]), composer:s.composer||'' }))
     .sort((a,b)=>a.name.localeCompare(b.name));
 }
 function scheduleNotesSync() {
@@ -919,9 +923,9 @@ function initDB() {
   let db = loadDB();
   if(!db) {
     db = { songs:{}, currentNewSong:null, streak:0, lastPracticeDay:null, activity:[], onboardingComplete:false };
-    ALL_SONGS.forEach(([name,style,composer,year,standardKey])=>{
+    ALL_SONGS.forEach(([name,tags,composer,year,standardKey])=>{
       db.songs[name] = {
-        name, style, composer, year,
+        name, tags: [...tags], composer, year,
         baseLevel:0, currentLevel:0,
         status:'untouched',
         intervalIdx:-1,
@@ -1037,15 +1041,21 @@ function initDB() {
   }
   if(db.reviewsPerWeek === undefined) { db.reviewsPerWeek = REVIEWS_PER_WEEK_DEFAULT; needsSave = true; }
   if(db.rotationMax === undefined) { db.rotationMax = ROTATION_MAX_DEFAULT; needsSave = true; }
-  const seedMap = new Map(ALL_SONGS.map(([name,style,composer,year,standardKey])=>[name,{style,composer,year,standardKey}]));
-  const seedBallads = !db.balladStylesSeeded;
-  if(seedBallads) { db.balladStylesSeeded = true; needsSave = true; }
+  const seedMap = new Map(ALL_SONGS.map(([name,tags,composer,year,standardKey])=>[name,{tags,composer,year,standardKey}]));
+  // The library's tags were rebuilt from six styles into a fuller set. Library songs take the
+  // curated tags outright (matched loosely, so a retitled song still finds its entry); songs
+  // you added yourself keep theirs.
+  const curatedTags = !(db.tagsVersion >= 2);
+  const seedByNorm = curatedTags ? new Map(ALL_SONGS.map(([name,tags])=>[normSongTitle(name),tags])) : null;
+  if(curatedTags) { db.tagsVersion = 2; delete db.balladStylesSeeded; needsSave = true; }
   const seedKeys = !db.standardKeysSeeded;
   if(seedKeys) { db.standardKeysSeeded = true; needsSave = true; }
   Object.values(db.songs).forEach(sg => {
     if(sg.sortSeed === undefined) { sg.sortSeed = Math.random(); needsSave = true; }
     const seed = seedMap.get(sg.name);
-    if(seedBallads && seed && seed.style === 'Ballad' && !sg.style) sg.style = 'Ballad';
+    // Style was a single value; tags let a song be, say, both Blues and Bop.
+    if(!Array.isArray(sg.tags)) { sg.tags = sg.style ? [sg.style] : []; delete sg.style; needsSave = true; }
+    if(curatedTags && seedByNorm.has(normSongTitle(sg.name))) sg.tags = [...seedByNorm.get(normSongTitle(sg.name))];
     if(seed && sg.composer === undefined) { sg.composer = seed.composer; needsSave = true; }
     if(seed && sg.year === undefined) { sg.year = seed.year; needsSave = true; }
     if(sg.standardKey === undefined) { sg.standardKey = null; needsSave = true; }
@@ -1339,7 +1349,18 @@ function importData(e) {
   reader.readAsText(file);
 }
 function lvlBadge(l) { return `<span class="badge badge-${Math.min(l,3)}">${l}</span>`; }
-function styleBadge(s) { return s ? `<span class="badge badge-style">${s}</span>` : ''; }
+// Era/feel first, then form/harmony, then meter — the order pickers and badges follow.
+const SONG_TAGS = ['Trad','Swing','Songbook','Bop','Hard bop','Modal','Post-bop','Ballad','Bossa','Latin','Monk',
+  'Blues','Rhythm changes','Contrafact','Minor','Waltz','Odd meter'];
+function tagBadges(sg) { return sortTags(sg.tags||[]).map(t=>`<span class="badge badge-style">${t}</span>`).join(''); }
+function sortTags(tags) { return [...tags].sort((a,b)=>SONG_TAGS.indexOf(a)-SONG_TAGS.indexOf(b)); }
+function renderTagPicker(id, selected) {
+  document.getElementById(id).innerHTML = SONG_TAGS.map(t =>
+    `<button type="button" class="tag-btn${selected.includes(t)?' sel':''}" data-tag="${t}" onclick="this.classList.toggle('sel')">${t}</button>`).join('');
+}
+function readTagPicker(id) {
+  return [...document.querySelectorAll(`#${id} .tag-btn.sel`)].map(b=>b.dataset.tag);
+}
 function getNextSong(db) {
   for(const name of PRIORITY_ORDER) {
     if(db.songs[name] && db.songs[name].status==='untouched') return db.songs[name];
@@ -1577,7 +1598,7 @@ function renderToday() {
     const practiceBtn = alreadyPracticed
       ? `<button class="btn-action btn-done" style="color:var(--green);border-color:rgba(39,174,96,0.3)" disabled>&#x2713; Practiced</button>`
       : `<button class="btn-pass" onclick="markPracticed('${safeName}')">Practiced</button>`;
-    csw.innerHTML = `<div class="learning-wrap"><div class="current-song-card"><div class="current-song-dot"></div><div class="current-song-info" style="cursor:pointer" onclick="showSongDetail('${safeName}')"><div class="label">Currently learning</div><div class="name">${sg.name}</div><div class="sub">${sg.style||'Standard'} · Work on this all week</div></div>${lvlBadge(sg.baseLevel)}${practiceBtn}<button class="btn-primary" onclick="markLearned('${safeName}')">Mark as level 2</button></div>${learningChecklistHTML(db, sg, safeName)}</div>`;
+    csw.innerHTML = `<div class="learning-wrap"><div class="current-song-card"><div class="current-song-dot"></div><div class="current-song-info" style="cursor:pointer" onclick="showSongDetail('${safeName}')"><div class="label">Currently learning</div><div class="name">${sg.name}</div><div class="sub">${sortTags(sg.tags||[]).join(' / ')||'Standard'} · Work on this all week</div></div>${lvlBadge(sg.baseLevel)}${practiceBtn}<button class="btn-primary" onclick="markLearned('${safeName}')">Mark as level 2</button></div>${learningChecklistHTML(db, sg, safeName)}</div>`;
   } else {
     const next = getNextSong(db);
     csw.innerHTML = next ? `<div class="current-song-card"><div class="current-song-dot" style="background:var(--text3);animation:none"></div><div class="current-song-info"><div class="label">Next suggested song</div><div class="name">${next.name}</div><div class="sub">${next.style||'Standard'} · ${next.baseLevel===1?'Already at level 1 — push to 2':'Starting from level 0'}</div></div>${lvlBadge(next.baseLevel)}<button class="btn-action" onclick="startLearning('${next.name.replace(/'/g,"\\'")}')">Start learning</button></div>` : '';
@@ -1699,7 +1720,9 @@ function renderLibrary() {
   const q = (document.getElementById('lib-search').value||'').toLowerCase();
   const lf = document.getElementById('lib-level').value;
   const sf = document.getElementById('lib-status').value;
-  const stf = document.getElementById('lib-style').value;
+  const tagSel = document.getElementById('lib-tag');
+  if(tagSel.options.length===1) tagSel.insertAdjacentHTML('beforeend', SONG_TAGS.map(t=>`<option value="${t}">${t}</option>`).join(''));
+  const tagf = tagSel.value;
   let songs = ALL_SONGS.map(([name])=>db.songs[name]).filter(Boolean);
   // Also include user-added songs not in ALL_SONGS
   const seeded = new Set(ALL_SONGS.map(([n])=>n));
@@ -1708,7 +1731,7 @@ function renderLibrary() {
   if(q) songs = songs.filter(s=>s.name.toLowerCase().includes(q));
   if(lf!=='') songs = songs.filter(s=>s.baseLevel==lf);
   if(sf!=='') songs = songs.filter(s=>s.status===sf);
-  if(stf!=='') songs = songs.filter(s=>s.style===stf);
+  if(tagf!=='') songs = songs.filter(s=>(s.tags||[]).includes(tagf));
   const lb = document.getElementById('library-body');
   if(!songs.length){ lb.innerHTML='<div class="empty">No songs match.</div>'; return; }
   lb.innerHTML = songs.map(sg=>{
@@ -1717,7 +1740,7 @@ function renderLibrary() {
     else if(sg.status==='active') statusBadge='<span class="badge badge-active">In review</span>';
     else if(sg.status==='learning') statusBadge='<span class="badge badge-learning">Learning</span>';
     const safeName = sg.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-    return `<div class="song-row clickable" onclick="showSongDetail('${safeName}')">${lvlBadge(sg.currentLevel)}<div class="song-name-group"><span class="song-name">${sg.name}</span>${styleBadge(sg.style)}</div>${statusBadge}<button class="btn-dots" onclick="openRowMenu(event,'${safeName}')">···</button></div>`;
+    return `<div class="song-row clickable" onclick="showSongDetail('${safeName}')">${lvlBadge(sg.currentLevel)}<div class="song-name-group"><span class="song-name">${sg.name}</span>${tagBadges(sg)}</div>${statusBadge}<button class="btn-dots" onclick="openRowMenu(event,'${safeName}')">···</button></div>`;
   }).join('');
 }
 
@@ -1790,7 +1813,7 @@ function renderProgress() {
       const dateLabel = formatIntDate(e.date);
       if(!sg) return `<div class="song-row"><div class="song-name-group"><span class="song-name">${e.name}</span></div><span class="song-meta">${dateLabel}</span></div>`;
       const statusBadge = sg.status==='graduated' ? '<span class="badge badge-graduated">Graduated</span>' : '';
-      return `<div class="song-row clickable" onclick="showSongDetail('${safeName}')">${lvlBadge(sg.currentLevel)}<div class="song-name-group"><span class="song-name">${sg.name}</span>${styleBadge(sg.style)}</div>${statusBadge}<span class="song-meta">${dateLabel}</span><button class="btn-dots" onclick="openRowMenu(event,'${safeName}')">···</button></div>`;
+      return `<div class="song-row clickable" onclick="showSongDetail('${safeName}')">${lvlBadge(sg.currentLevel)}<div class="song-name-group"><span class="song-name">${sg.name}</span>${tagBadges(sg)}</div>${statusBadge}<span class="song-meta">${dateLabel}</span><button class="btn-dots" onclick="openRowMenu(event,'${safeName}')">···</button></div>`;
     }).join('');
   }
 }
@@ -1997,7 +2020,7 @@ function renderSongDetail(name) {
         : `Not yet reviewed · ${spacing}`;
   const books = transcriptionBooksFor(sg.name);
   const safeName = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-  const header = `<div class="detail-header"><div class="detail-header-top"><span class="detail-title">${sg.name}</span>${styleBadge(sg.style)}${lvlBadge(sg.currentLevel)}${statusBadge}</div>${pills}<div class="detail-meta-grid"><div class="detail-meta-field"><div class="label">Last reviewed</div><div class="value${seen?'':' placeholder'}">${lastSeenLabel}</div></div><div class="detail-meta-field"><div class="label">Standing</div><div class="value">${standing}</div></div><div class="detail-meta-field"><div class="label">Composer</div><div class="value${sg.composer?'':' placeholder'}">${sg.composer||'—'}</div></div><div class="detail-meta-field"><div class="label">Year</div><div class="value${sg.year?'':' placeholder'}">${sg.year||'—'}</div></div><div class="detail-meta-field"><div class="label">Standard key</div><div class="value${sg.standardKey?'':' placeholder'}">${sg.standardKey?keyLabel(sg.standardKey):'Not set'}</div></div><div class="detail-meta-field"><div class="label">Multi-key practice</div><div style="display:flex;align-items:center;gap:8px"><label class="toggle-switch"><input type="checkbox"${sg.multiKey?' checked':''} onchange="toggleMultiKey('${safeName}',this.checked)"><span class="toggle-slider"></span></label>${sg.multiKey&&!sg.standardKey?'<span class="key-stat">needs standard key</span>':''}</div></div>${books.length?`<div class="detail-meta-field" style="grid-column:1/-1"><div class="label">Transcriptions</div><div class="value">${books.join(' · ')}</div></div>`:''}</div><div class="notes-actions"><button class="btn-action" onclick="openEditSong('${safeName}')">Edit</button></div></div>`;
+  const header = `<div class="detail-header"><div class="detail-header-top"><span class="detail-title">${sg.name}</span>${tagBadges(sg)}${lvlBadge(sg.currentLevel)}${statusBadge}</div>${pills}<div class="detail-meta-grid"><div class="detail-meta-field"><div class="label">Last reviewed</div><div class="value${seen?'':' placeholder'}">${lastSeenLabel}</div></div><div class="detail-meta-field"><div class="label">Standing</div><div class="value">${standing}</div></div><div class="detail-meta-field"><div class="label">Composer</div><div class="value${sg.composer?'':' placeholder'}">${sg.composer||'—'}</div></div><div class="detail-meta-field"><div class="label">Year</div><div class="value${sg.year?'':' placeholder'}">${sg.year||'—'}</div></div><div class="detail-meta-field"><div class="label">Standard key</div><div class="value${sg.standardKey?'':' placeholder'}">${sg.standardKey?keyLabel(sg.standardKey):'Not set'}</div></div><div class="detail-meta-field"><div class="label">Multi-key practice</div><div style="display:flex;align-items:center;gap:8px"><label class="toggle-switch"><input type="checkbox"${sg.multiKey?' checked':''} onchange="toggleMultiKey('${safeName}',this.checked)"><span class="toggle-slider"></span></label>${sg.multiKey&&!sg.standardKey?'<span class="key-stat">needs standard key</span>':''}</div></div>${books.length?`<div class="detail-meta-field" style="grid-column:1/-1"><div class="label">Transcriptions</div><div class="value">${books.join(' · ')}</div></div>`:''}</div><div class="notes-actions"><button class="btn-action" onclick="openEditSong('${safeName}')">Edit</button></div></div>`;
   const entries = (db.activity||[]).filter(e=>e.name===name||e.oldName===name).sort((a,b)=>b.ts-a.ts);
   const timeline = entries.length===0
     ? '<div class="empty">No activity for this song yet.</div>'
@@ -2150,7 +2173,7 @@ let selectedLevel = 0;
 function openAddSong() {
   selectedLevel = 0;
   document.getElementById('add-name').value = '';
-  document.getElementById('add-style').value = '';
+  renderTagPicker('add-tags', []);
   document.getElementById('add-error').style.display = 'none';
   document.querySelectorAll('.level-btn').forEach(b=>b.className='level-btn');
   document.querySelector('.level-btn[data-lvl="0"]').classList.add('sel-0');
@@ -2169,7 +2192,7 @@ function selectLevel(lvl) {
 function clearError() { document.getElementById('add-error').style.display = 'none'; }
 function submitAddSong() {
   const name = document.getElementById('add-name').value.trim();
-  const style = document.getElementById('add-style').value;
+  const tags = readTagPicker('add-tags');
   const lvl = selectedLevel;
   if(!name) { document.getElementById('add-name').focus(); return; }
   const db = getDB();
@@ -2178,11 +2201,11 @@ function submitAddSong() {
     document.getElementById('add-name').focus(); return;
   }
   const intake = intakeState(lvl);
-  db.songs[name] = { name, style, baseLevel:lvl, currentLevel:lvl,
+  db.songs[name] = { name, tags, baseLevel:lvl, currentLevel:lvl,
     status: intake.status,
     intervalIdx: intake.intervalIdx,
     learnedDate: lvl>=2 ? todayInt() : null, reviews:[], standardKey:null, multiKey:false };
-  logActivity(db, 'song_added', { name, style, level: lvl });
+  logActivity(db, 'song_added', { name, tags, level: lvl });
   saveDB(db); closeAddSong(); renderAll();
   const dest = lvl>=3 ? 'graduated — already learned' : lvl>=2 ? 'the review rotation' : 'the backlog';
   toast(`"${name}" added to ${dest}.`);
@@ -2276,7 +2299,7 @@ function openEditSong(name) {
   editOriginalName = name;
   editSelectedLevel = sg.baseLevel;
   document.getElementById('edit-name').value = sg.name;
-  document.getElementById('edit-style').value = sg.style || '';
+  renderTagPicker('edit-tags', sg.tags||[]);
   document.getElementById('edit-composer').value = sg.composer || '';
   document.getElementById('edit-year').value = sg.year || '';
   document.getElementById('edit-standard-key').innerHTML = keySelectOptions(sg.standardKey);
@@ -2299,7 +2322,7 @@ function selectEditLevel(lvl) {
 function clearEditError() { document.getElementById('edit-error').style.display = 'none'; }
 function submitEditSong() {
   const newName = document.getElementById('edit-name').value.trim();
-  const style = document.getElementById('edit-style').value;
+  const tags = readTagPicker('edit-tags');
   const composer = document.getElementById('edit-composer').value.trim() || null;
   const yearRaw = document.getElementById('edit-year').value.trim();
   const year = yearRaw ? parseInt(yearRaw, 10) : null;
@@ -2316,7 +2339,7 @@ function submitEditSong() {
   const sg = db.songs[editOriginalName];
   const oldLevel = sg.baseLevel;
   sg.name = newName;
-  sg.style = style;
+  sg.tags = tags;
   sg.composer = composer;
   sg.year = year;
   sg.standardKey = standardKey;
@@ -2328,7 +2351,7 @@ function submitEditSong() {
     if(db.currentNewSong === editOriginalName) db.currentNewSong = newName;
     if(currentDetailName === editOriginalName) currentDetailName = newName;
   }
-  logActivity(db, 'song_edited', { oldName: editOriginalName, name: newName, style, level: lvl, oldLevel });
+  logActivity(db, 'song_edited', { oldName: editOriginalName, name: newName, tags, level: lvl, oldLevel });
   saveDB(db); closeEditSong(); renderAll();
   toast(`"${newName}" updated.`);
 }
@@ -2887,11 +2910,11 @@ function openRanker() {
 function rankerRender() {
   const name = rankerSongs[rankerIndex];
   const entry = ALL_SONGS.find(([n])=>n===name);
-  const [,style,composer,year] = entry;
+  const [,tags,composer,year] = entry;
   const lvl = rankerLevels[name] ?? 0;
   document.getElementById('ranker-idx').textContent = rankerIndex + 1;
   document.getElementById('ranker-song-name').textContent = name;
-  const meta = [composer, year, style||''].filter(v=>v!=='').join(' · ');
+  const meta = [composer, year, tags.join(' / ')].filter(v=>v!=='').join(' · ');
   document.getElementById('ranker-song-meta').textContent = meta;
   document.getElementById('ranker-prog-bar').style.width = `${((rankerIndex + 1) / rankerSongs.length) * 100}%`;
   document.querySelectorAll('[data-ranker-lvl]').forEach(b=>{
