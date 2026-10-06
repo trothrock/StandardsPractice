@@ -157,6 +157,23 @@
   .viz-scale em { font-style: normal; margin: 0 4px; }
   .viz-log-head { display: flex; align-items: baseline; justify-content: space-between; margin: 32px 0 12px; }
   .viz-log-head h2 { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text2); }
+  .kw-wrap { display: flex; align-items: center; gap: 28px; padding: 18px 20px; }
+  .kw-wrap svg { width: 360px; max-width: 100%; height: auto; flex-shrink: 0; display: block; }
+  .kw-seg { stroke: var(--bg2); stroke-width: 2; }
+  .kw-seg:hover { stroke: var(--text); stroke-width: 1.5; }
+  .kw-side { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 18px; font-size: 12px; color: var(--text2); }
+  .kw-side h3 { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); margin-bottom: 6px; }
+  .kw-dots { display: flex; flex-direction: column; gap: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text3); }
+  .kw-dots div { display: flex; align-items: center; gap: 8px; }
+  .kw-dots i { width: 11px; height: 11px; border-radius: 2px; display: inline-block; }
+  .kw-list { line-height: 1.6; }
+  .kw-bar { padding: 14px 20px 0; }
+  .kw-toggle { display: inline-flex; border: 1px solid var(--border2); border-radius: var(--radius); overflow: hidden; }
+  .kw-toggle button { background: transparent; border: none; border-left: 1px solid var(--border2); color: var(--text3); font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; padding: 5px 12px; cursor: pointer; transition: all 0.15s; }
+  .kw-toggle button:first-child { border-left: none; }
+  .kw-toggle button:hover { color: var(--text2); }
+  .kw-toggle button.sel { background: var(--gold-dim); color: var(--gold2); }
+  @media (max-width: 760px) { .kw-wrap { flex-direction: column; align-items: stretch; } .kw-wrap svg { margin: 0 auto; } }
   #viz-tip { position: fixed; z-index: 120; pointer-events: none; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius); padding: 7px 10px; font-size: 12px; line-height: 1.5; color: var(--text2); white-space: pre-line; max-width: 260px; opacity: 0; transition: opacity 0.1s; }
   #viz-tip b { color: var(--text); font-weight: 500; }
   #toast { position: fixed; bottom: 24px; right: 24px; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius-lg); padding: 12px 18px; font-size: 13px; color: var(--text); opacity: 0; transform: translateY(8px); transition: all 0.25s; pointer-events: none; z-index: 100; max-width: 280px; }
@@ -1196,9 +1213,81 @@ function keySelectOptions(selected) {
   const opt = k => `<option value="${k.id}"${k.id===selected?' selected':''}>${keyLabel(k.id)}</option>`;
   return `<option value="">Not set</option><optgroup label="Major">${KEY_CENTERS.filter(k=>k.quality==='major').map(opt).join('')}</optgroup><optgroup label="Minor">${KEY_CENTERS.filter(k=>k.quality==='minor').map(opt).join('')}</optgroup>`;
 }
+// Circle of fifths with each major key over its relative minor. The heat toggle colors it by
+// familiarity, by review sessions, or by where the two together say a key needs work.
+const KEY_FAM_FILLS = ['#222222','#5a4a25','#977b3b','#e8c97a'];
+const KEY_GAP_FILLS = ['#222222','#5c3526','#ec835a'];
+const KEY_FEW_SESSIONS = 2;
+const KEY_WHEEL_MODES = [['familiarity','Familiarity'],['sessions','Review sessions'],['gaps','Needs attention']];
+const FIFTHS_MAJOR = ['C','G','D','A','E','B','Gb','Db','Ab','Eb','Bb','F'];
+const FIFTHS_MINOR = ['Am','Em','Bm','F#m','C#m','G#m','Ebm','Bbm','Fm','Cm','Gm','Dm'];
+// 2 = low familiarity (0–1) and few sessions; 1 = only one of the two; 0 = neither.
+function keyGapLevel(fam, n) { return (fam <= 1 ? 1 : 0) + (n <= KEY_FEW_SESSIONS ? 1 : 0); }
+function setKeyWheelMode(mode) {
+  const db = getDB();
+  db.keyWheelMode = mode;
+  saveDB(db); renderKeyCenters();
+}
+function keyWheelHTML(db, counts) {
+  const mode = KEY_WHEEL_MODES.some(([m]) => m === db.keyWheelMode) ? db.keyWheelMode : 'familiarity';
+  const cx = 180, cy = 180, max = Math.max(1, ...Object.values(counts));
+  const sessLevel = n => n ? Math.max(1, Math.ceil(n / max * 4)) : 0;
+  const shade = (fam, n) =>
+    mode === 'sessions' ? { fill: VIZ_HEAT[sessLevel(n)], light: sessLevel(n) >= 3 }
+    : mode === 'gaps' ? { fill: KEY_GAP_FILLS[keyGapLevel(fam, n)], light: keyGapLevel(fam, n) === 2 }
+    : { fill: KEY_FAM_FILLS[fam], light: fam >= 2 };
+  const pt = (r, deg) => { const a = (deg - 90) * Math.PI / 180; return [cx + r*Math.cos(a), cy + r*Math.sin(a)]; };
+  const sector = (r0, r1, a0, a1) => {
+    const [x0,y0] = pt(r1,a0), [x1,y1] = pt(r1,a1), [x2,y2] = pt(r0,a1), [x3,y3] = pt(r0,a0);
+    return `M${x0},${y0} A${r1},${r1} 0 0 1 ${x1},${y1} L${x2},${y2} A${r0},${r0} 0 0 0 ${x3},${y3} Z`;
+  };
+  // The small line under each key carries whatever the fill isn't showing.
+  const sub = (fam, n) => mode === 'sessions' ? '●'.repeat(fam) + '○'.repeat(3-fam) : mode === 'gaps' ? `${fam} · ${n}` : (n || '–');
+  const ring = (ids, r0, r1, rLabel, size) => ids.map((id, i) => {
+    const k = KEY_BY_ID[id], n = counts[id]||0, fam = keyFamiliarity(db, id), sh = shade(fam, n);
+    const label = keyRootLabel(k.root) + (k.quality==='minor' ? 'm' : '');
+    const ink = sh.light ? '#161616' : 'var(--text)', subInk = sh.light ? 'rgba(22,22,22,0.72)' : 'var(--text2)';
+    const [lx, ly] = pt(rLabel, i*30);
+    const tip = `${keyLabel(id)}\n${n} review session${n===1?'':'s'}\nFamiliarity ${fam} · ${KEY_FAM_DESCS[fam]}`;
+    return `<path class="kw-seg" d="${sector(r0, r1, i*30-15, i*30+15)}" fill="${sh.fill}" data-tip="${vizEsc(tip)}"/>`
+      + `<text x="${lx}" y="${ly + 1}" text-anchor="middle" font-size="${size}" style="fill:${ink};font-family:'IBM Plex Sans',sans-serif;pointer-events:none">${label}</text>`
+      + `<text x="${lx}" y="${ly + size*0.55 + 7}" text-anchor="middle" font-size="${size*0.62}" style="fill:${subInk};pointer-events:none">${sub(fam, n)}</text>`;
+  }).join('');
+  const total = Object.values(counts).reduce((a,b)=>a+b, 0);
+  const svg = `<svg viewBox="0 0 360 360" role="img" aria-label="Key centers around the circle of fifths, colored by ${mode}">`
+    + ring(FIFTHS_MAJOR, 116, 178, 148, 15) + ring(FIFTHS_MINOR, 60, 114, 87, 12)
+    + `<text x="${cx}" y="${cy+2}" text-anchor="middle" font-size="22" style="fill:var(--text);font-family:'IBM Plex Sans',sans-serif">${total}</text>`
+    + `<text x="${cx}" y="${cy+18}" text-anchor="middle" font-size="9" style="fill:var(--text3);font-family:'IBM Plex Mono',monospace;letter-spacing:0.06em">SESSIONS</text></svg>`;
+  const ranked = KEY_CENTERS.map(k => ({ id:k.id, n:counts[k.id]||0, fam:keyFamiliarity(db,k.id) }));
+  const swatch = (color, text) => `<div><i style="background:${color}"></i>${text}</div>`;
+  let legend;
+  if(mode === 'sessions') {
+    const bins = [swatch(VIZ_HEAT[0], 'None')];
+    for(let lv=1; lv<=4; lv++) {
+      const lo = Math.floor((lv-1) * max / 4) + 1, hi = Math.floor(lv * max / 4);
+      if(lo <= hi) bins.push(swatch(VIZ_HEAT[lv], lo === hi ? `${lo}` : `${lo}–${hi}`));
+    }
+    legend = `<div><h3>Review sessions</h3><div class="kw-dots">${bins.join('')}</div></div>
+      <div><h3>Under each key</h3><div class="kw-list">Familiarity, ●●○ = 2</div></div>`;
+  } else if(mode === 'gaps') {
+    legend = `<div><h3>Needs attention</h3><div class="kw-dots">${[
+      swatch(KEY_GAP_FILLS[2], `Familiarity 0–1 and ${KEY_FEW_SESSIONS} or fewer sessions`),
+      swatch(KEY_GAP_FILLS[1], 'One of the two'),
+      swatch(KEY_GAP_FILLS[0], 'Neither')].join('')}</div></div>
+      <div><h3>Under each key</h3><div class="kw-list">Familiarity · sessions</div></div>`;
+  } else {
+    legend = `<div><h3>Familiarity</h3><div class="kw-dots">${[0,1,2,3].map(f => swatch(KEY_FAM_FILLS[f], `${f} · ${KEY_FAM_DESCS[f]}`)).join('')}</div></div>
+      <div><h3>Under each key</h3><div class="kw-list">Review sessions</div></div>`;
+  }
+  const side = `<div class="kw-side">${legend}</div>`;
+  const toggle = `<div class="kw-toggle">${KEY_WHEEL_MODES.map(([m,l]) => `<button class="${m===mode?'sel':''}" onclick="setKeyWheelMode('${m}')">${l}</button>`).join('')}</div>`;
+  const reviewed = ranked.filter(k=>k.n).length;
+  return `<div class="section"><div class="section-head"><h2>Key coverage</h2><span class="count">${reviewed} of 24 keys reviewed</span></div><div class="kw-bar">${toggle}</div><div class="kw-wrap">${svg}${side}</div></div>`;
+}
 function renderKeyCenters() {
   const db = getDB();
   const counts = keyCenterCounts(db);
+  vizTipInit();
   const songCounts = {};
   Object.values(db.songs).forEach(sg=>{ if(sg.standardKey) songCounts[sg.standardKey] = (songCounts[sg.standardKey]||0) + 1; });
   const html = ['major','minor'].map(q=>{
@@ -1212,7 +1301,7 @@ function renderKeyCenters() {
     }).join('');
     return `<div class="section"><div class="section-head"><h2>${q==='major'?'Major':'Minor'}</h2><span class="count">${total} session${total===1?'':'s'}</span></div>${rows}</div>`;
   }).join('');
-  document.getElementById('keys-body').innerHTML = html;
+  document.getElementById('keys-body').innerHTML = keyWheelHTML(db, counts) + html;
 }
 function setKeyFamiliarity(id, lvl) {
   const db = getDB();
@@ -2082,9 +2171,8 @@ function vizTipInit() {
   const tip = document.createElement('div');
   tip.id = 'viz-tip';
   document.body.appendChild(tip);
-  const box = document.getElementById('activity-viz');
-  box.addEventListener('mousemove', e => {
-    const t = e.target.closest('[data-tip]');
+  document.addEventListener('mousemove', e => {
+    const t = e.target.closest && e.target.closest('[data-tip]');
     if(!t) { tip.style.opacity = 0; return; }
     const [head, ...rest] = t.getAttribute('data-tip').split('\n');
     tip.innerHTML = `<b>${escHTML(head)}</b>${rest.length ? '\n' + escHTML(rest.join('\n')) : ''}`;
@@ -2093,7 +2181,6 @@ function vizTipInit() {
     const topY = e.clientY + 16 + r.height > window.innerHeight ? e.clientY - r.height - 10 : e.clientY + 16;
     tip.style.left = left + 'px'; tip.style.top = topY + 'px'; tip.style.opacity = 1;
   });
-  box.addEventListener('mouseleave', () => { tip.style.opacity = 0; });
 }
 
 function renderActivity() {
