@@ -142,6 +142,23 @@
   input[type="checkbox"].chk:checked::after { content: '\2713'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; line-height: 1; color: var(--gold2); }
   .all-clear { padding: 20px; text-align: center; color: var(--text3); }
   .all-clear .big { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--text2); margin-bottom: 4px; }
+  .viz-body { padding: 16px 20px 18px; }
+  .viz-body svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .viz-body text { font-family: 'IBM Plex Mono', monospace; fill: var(--text3); }
+  .viz-cell { stroke: transparent; stroke-width: 1.5; }
+  .viz-cell:hover { stroke: var(--text); }
+  .viz-hit { fill: transparent; }
+  .viz-hit:hover { fill: rgba(255,255,255,0.04); }
+  .viz-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-bottom: 14px; font-size: 12px; color: var(--text2); }
+  .viz-legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .viz-legend i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+  .viz-scale { display: flex; align-items: center; justify-content: flex-end; gap: 4px; margin-top: 10px; font-size: 11px; font-family: 'IBM Plex Mono', monospace; color: var(--text3); }
+  .viz-scale i { width: 11px; height: 11px; border-radius: 2px; display: inline-block; }
+  .viz-scale em { font-style: normal; margin: 0 4px; }
+  .viz-log-head { display: flex; align-items: baseline; justify-content: space-between; margin: 32px 0 12px; }
+  .viz-log-head h2 { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text2); }
+  #viz-tip { position: fixed; z-index: 120; pointer-events: none; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius); padding: 7px 10px; font-size: 12px; line-height: 1.5; color: var(--text2); white-space: pre-line; max-width: 260px; opacity: 0; transition: opacity 0.1s; }
+  #viz-tip b { color: var(--text); font-weight: 500; }
   #toast { position: fixed; bottom: 24px; right: 24px; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius-lg); padding: 12px 18px; font-size: 13px; color: var(--text); opacity: 0; transform: translateY(8px); transition: all 0.25s; pointer-events: none; z-index: 100; max-width: 280px; }
   #toast.show { opacity: 1; transform: translateY(0); }
   .prog-wrap { background: var(--bg3); border-radius: 2px; height: 4px; margin-top: 8px; }
@@ -380,15 +397,17 @@
       </div>
     </div>
     <div id="panel-activity" class="panel">
-      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px">
-        <div class="panel-title">Activity</div>
+      <div class="panel-title">Activity</div>
+      <div class="panel-sub">All actions across your library</div>
+      <div id="activity-viz"></div>
+      <div class="viz-log-head">
+        <h2>History</h2>
         <select id="activity-group" onchange="renderActivity()" style="font-size:12px;padding:5px 8px">
           <option value="day">By day</option>
           <option value="week" selected>By week</option>
           <option value="month">By month</option>
         </select>
       </div>
-      <div class="panel-sub">All actions across your library</div>
       <div id="activity-body"></div>
     </div>
     <div id="panel-detail" class="panel">
@@ -1885,8 +1904,202 @@ function activityGroupKey(ts, period) {
   const fmt = (dt) => dt.toLocaleDateString('en-US', {month:'short', day:'numeric'});
   return `${fmt(monday)} – ${fmt(sunday)}, ${sunday.getFullYear()}`;
 }
+// ── Activity charts ──────────────────────────────────────────────────────────
+// Practice items only: adding, editing, removing and deferring are bookkeeping, not practice.
+// Colors are the validated dark-mode categorical slots, checked on the section surface.
+const VIZ_CATS = [
+  { id:'review',  label:'Song reviews', color:'#3987e5', types:['review'] },
+  { id:'learn',   label:'New song',     color:'#d95926', types:['practiced','learned'] },
+  { id:'rep',     label:'Repertoire',   color:'#199e70', types:['repertoire_reviewed'] },
+  { id:'voicing', label:'Voicings',     color:'#c98500', types:['voicing_practiced'] },
+  { id:'vocab',   label:'Vocabulary',   color:'#d55181', types:['vocab_practiced'] },
+  { id:'keys',    label:'Multi-key',    color:'#9085e9', types:['key_review'] },
+];
+const VIZ_HEAT = ['#222222','#4a3d1f','#7a6430','#a98a42','#e8c97a'];
+const VIZ_WEEKS = 26, VIZ_W = 740, VIZ_LEFT = 34;
+function vizCat(type) { return VIZ_CATS.find(c => c.types.includes(type)); }
+function vizDate(dateInt) { return new Date(Math.floor(dateInt/10000), Math.floor((dateInt%10000)/100)-1, dateInt%100); }
+function vizEsc(t) { return escHTML(t).replace(/\n/g,'&#10;'); }
+function vizBreakdown(counts) {
+  return VIZ_CATS.filter(c => counts[c.id]).map(c => `${counts[c.id]} ${c.label.toLowerCase()}`).join('\n');
+}
+function practiceByDay(db) {
+  const days = new Map();
+  (db.activity||[]).forEach(e => {
+    const cat = vizCat(e.type);
+    if(!cat) return;
+    const d = days.get(e.date) || { total:0 };
+    d[cat.id] = (d[cat.id]||0) + 1;
+    d.total++;
+    days.set(e.date, d);
+  });
+  return days;
+}
+function vizStreaks(days, tod) {
+  const sorted = [...days.keys()].sort((a,b)=>a-b);
+  let longest = 0, run = 0, prev = null;
+  sorted.forEach(d => { run = prev && addDays(prev,1)===d ? run+1 : 1; longest = Math.max(longest, run); prev = d; });
+  let current = 0, d = days.has(tod) ? tod : addDays(tod,-1);
+  while(days.has(d)) { current++; d = addDays(d,-1); }
+  return { longest, current };
+}
+// Columns are Monday-start weeks shared by the calendar and the weekly bars, so a week
+// lines up across both charts.
+function vizWeekX(i) { return VIZ_LEFT + i * (VIZ_W - VIZ_LEFT) / VIZ_WEEKS; }
+function vizMonthTicks(firstWeek) {
+  const ticks = [];
+  for(let i=0;i<VIZ_WEEKS;i++) {
+    const wk = addDays(firstWeek, i*7);
+    const prev = i ? addDays(firstWeek, (i-1)*7) : null;
+    if(!prev || Math.floor(wk/100)%100 !== Math.floor(prev/100)%100) ticks.push({ i, label: vizDate(wk).toLocaleDateString('en-US',{month:'short'}) });
+  }
+  return ticks;
+}
+function practiceCalendarHTML(days, firstWeek, tod) {
+  const step = (VIZ_W - VIZ_LEFT) / VIZ_WEEKS, cell = step - 4, top = 20;
+  const level = n => n===0 ? 0 : n<=2 ? 1 : n<=4 ? 2 : n<=7 ? 3 : 4;
+  let svg = '';
+  vizMonthTicks(firstWeek).forEach(t => { svg += `<text x="${vizWeekX(t.i)}" y="11" font-size="11">${t.label}</text>`; });
+  ['Mon','','Wed','','Fri','',''].forEach((l,r) => { if(l) svg += `<text x="0" y="${top + r*step + cell/2 + 4}" font-size="10">${l}</text>`; });
+  for(let i=0;i<VIZ_WEEKS;i++) for(let r=0;r<7;r++) {
+    const d = addDays(firstWeek, i*7 + r);
+    if(d > tod) continue;
+    const c = days.get(d) || { total:0 };
+    const when = vizDate(d).toLocaleDateString('en-US',{weekday:'short', month:'short', day:'numeric'});
+    const tip = c.total ? `${when} · ${c.total} item${c.total===1?'':'s'}\n${vizBreakdown(c)}` : `${when} · no practice`;
+    svg += `<rect class="viz-cell" x="${vizWeekX(i)}" y="${top + r*step}" width="${cell}" height="${cell}" rx="3" fill="${VIZ_HEAT[level(c.total)]}" data-tip="${vizEsc(tip)}"/>`;
+  }
+  const h = top + 7*step;
+  const scale = VIZ_HEAT.map(c => `<i style="background:${c}"></i>`).join('');
+  return `<svg viewBox="0 0 ${VIZ_W} ${h}" role="img" aria-label="Practice calendar, last ${VIZ_WEEKS} weeks">${svg}</svg><div class="viz-scale"><em>Less</em>${scale}<em>More</em></div>`;
+}
+function weeklyMixHTML(days, firstWeek) {
+  const weeks = Array.from({length:VIZ_WEEKS}, (_,i) => {
+    const w = { start: addDays(firstWeek, i*7), total:0 };
+    for(let r=0;r<7;r++) {
+      const c = days.get(addDays(w.start, r));
+      if(!c) continue;
+      VIZ_CATS.forEach(cat => { if(c[cat.id]) { w[cat.id] = (w[cat.id]||0) + c[cat.id]; } });
+      w.total += c.total;
+    }
+    return w;
+  });
+  const max = Math.max(4, ...weeks.map(w=>w.total));
+  const tickStep = max <= 8 ? 2 : max <= 20 ? 5 : max <= 50 ? 10 : 20;
+  const yMax = Math.ceil(max / tickStep) * tickStep;
+  const top = 6, plotH = 150, base = top + plotH;
+  const step = (VIZ_W - VIZ_LEFT) / VIZ_WEEKS, bw = step - 6;
+  const y = v => base - v / yMax * plotH;
+  let svg = '';
+  for(let v=0; v<=yMax; v+=tickStep) {
+    svg += `<line x1="${VIZ_LEFT}" x2="${VIZ_W}" y1="${y(v)}" y2="${y(v)}" stroke="${v?'#232323':'#333'}" stroke-width="1"/>`;
+    svg += `<text x="${VIZ_LEFT-8}" y="${y(v)+4}" font-size="10" text-anchor="end">${v}</text>`;
+  }
+  weeks.forEach((w,i) => {
+    const x = vizWeekX(i);
+    let acc = 0;
+    const segs = VIZ_CATS.filter(c => w[c.id]);
+    segs.forEach((c,k) => {
+      const y0 = y(acc), y1 = y(acc + w[c.id]);
+      acc += w[c.id];
+      const hgt = Math.max(0, y0 - y1 - (k ? 2 : 0)), yTop = y1;
+      if(k === segs.length-1) {
+        const r = Math.min(3, hgt, bw/2);
+        svg += `<path d="M${x},${yTop+hgt} V${yTop+r} Q${x},${yTop} ${x+r},${yTop} H${x+bw-r} Q${x+bw},${yTop} ${x+bw},${yTop+r} V${yTop+hgt} Z" fill="${c.color}"/>`;
+      } else {
+        svg += `<rect x="${x}" y="${yTop}" width="${bw}" height="${hgt}" fill="${c.color}"/>`;
+      }
+    });
+    const end = addDays(w.start, 6);
+    const tip = `Week of ${vizDate(w.start).toLocaleDateString('en-US',{month:'short',day:'numeric'})} · ${w.total} item${w.total===1?'':'s'}` + (w.total ? `\n${vizBreakdown(w)}` : '');
+    svg += `<rect class="viz-hit" x="${x-3}" y="${top}" width="${step}" height="${plotH}" data-tip="${vizEsc(tip)}"/>`;
+  });
+  vizMonthTicks(firstWeek).forEach(t => { svg += `<text x="${vizWeekX(t.i)}" y="${base+16}" font-size="11">${t.label}</text>`; });
+  const legend = VIZ_CATS.map(c => `<span><i style="background:${c.color}"></i>${c.label}</span>`).join('');
+  return `<div class="viz-legend">${legend}</div><svg viewBox="0 0 ${VIZ_W} ${base+22}" role="img" aria-label="Practice items per week by area">${svg}</svg>`;
+}
+// Pairs each "started learning" with the "marked level 2" that follows it; a switch away
+// (stopped learning) drops the open stint. The song still in progress gets an open bar.
+function learningStints(db, tod) {
+  const open = new Map(), stints = [];
+  [...(db.activity||[])].sort((a,b)=>a.ts-b.ts).forEach(e => {
+    if(e.type==='started_learning') open.set(e.name, e.date);
+    else if(e.type==='stopped_learning') open.delete(e.name);
+    else if(e.type==='learned' && open.has(e.name)) { stints.push({ name:e.name, start:open.get(e.name), end:e.date, done:true }); open.delete(e.name); }
+  });
+  if(db.currentNewSong && open.has(db.currentNewSong)) stints.push({ name:db.currentNewSong, start:open.get(db.currentNewSong), end:tod, done:false });
+  return stints;
+}
+function learningTimelineHTML(db, tod) {
+  const stints = learningStints(db, tod);
+  if(!stints.length) return '<div class="empty">No songs learned yet.</div>';
+  const label = 170, right = 70, rowH = 26, top = 22;
+  const t0 = addDays(stints[0].start, -3), span = Math.max(14, daysBetween(t0, addDays(tod, 3)));
+  const x = d => label + daysBetween(t0, d) / span * (VIZ_W - label - right);
+  const h = top + stints.length * rowH;
+  let svg = '';
+  // Month gridlines
+  let m = vizDate(t0); m.setDate(1); m.setMonth(m.getMonth()+1);
+  while(true) {
+    const mi = m.getFullYear()*10000+(m.getMonth()+1)*100+1;
+    if(mi > tod) break;
+    const mx = x(mi);
+    svg += `<line x1="${mx}" x2="${mx}" y1="${top-4}" y2="${h}" stroke="#232323"/><text x="${mx+4}" y="12" font-size="11">${m.toLocaleDateString('en-US',{month:'short'})}</text>`;
+    m.setMonth(m.getMonth()+1);
+  }
+  stints.forEach((st,i) => {
+    const yy = top + i*rowH, x0 = x(st.start), x1 = Math.max(x(st.end), x0 + 6);
+    const days = daysBetween(st.start, st.end);
+    const name = st.name.length > 24 ? st.name.slice(0,23)+'…' : st.name;
+    const dur = st.done ? `${days}d` : `${days}d so far`;
+    svg += `<text x="${label-10}" y="${yy+rowH/2+4}" font-size="11" text-anchor="end" style="fill:var(--text2);font-family:'IBM Plex Sans',sans-serif">${escHTML(name)}</text>`;
+    svg += st.done
+      ? `<rect x="${x0}" y="${yy+6}" width="${x1-x0}" height="${rowH-12}" rx="3" fill="#c9a84c"/>`
+      : `<rect x="${x0}" y="${yy+6.5}" width="${x1-x0}" height="${rowH-13}" rx="3" fill="rgba(201,168,76,0.18)" stroke="#c9a84c" stroke-dasharray="3 2"/>`;
+    svg += `<text x="${x1+6}" y="${yy+rowH/2+4}" font-size="10">${dur}</text>`;
+    const tip = `${st.name}\n${formatIntDate(st.start)} → ${st.done ? formatIntDate(st.end) : 'in progress'}\n${days} day${days===1?'':'s'}${st.done?'':' so far'}`;
+    svg += `<rect class="viz-hit" x="0" y="${yy}" width="${VIZ_W}" height="${rowH}" data-tip="${vizEsc(tip)}"/>`;
+  });
+  return `<svg viewBox="0 0 ${VIZ_W} ${h}" role="img" aria-label="Time from starting each song to level 2">${svg}</svg>`;
+}
+function renderActivityViz(db) {
+  const box = document.getElementById('activity-viz');
+  if(!box) return;
+  const tod = todayInt(), days = practiceByDay(db);
+  const firstWeek = weekStartInt(addDays(tod, -7*(VIZ_WEEKS-1)));
+  const { longest, current } = vizStreaks(days, tod);
+  const active = [...days.keys()].filter(d => d >= firstWeek).length;
+  const stints = learningStints(db, tod).filter(s=>s.done);
+  const avg = stints.length ? Math.round(stints.reduce((n,s)=>n+daysBetween(s.start,s.end),0)/stints.length) : null;
+  const sec = (title, meta, body) => `<div class="section"><div class="section-head"><h2>${title}</h2><span class="count">${meta}</span></div><div class="viz-body">${body}</div></div>`;
+  box.innerHTML =
+    sec('Practice calendar', `${active} active days · ${current}-day streak · longest ${longest}`, practiceCalendarHTML(days, firstWeek, tod)) +
+    sec('Weekly mix', `practice items per week · last ${VIZ_WEEKS} weeks`, weeklyMixHTML(days, firstWeek)) +
+    sec('Learning timeline', avg!==null ? `${stints.length} songs to level 2 · ${avg} days on average` : '', learningTimelineHTML(db, tod));
+}
+function vizTipInit() {
+  if(document.getElementById('viz-tip')) return;
+  const tip = document.createElement('div');
+  tip.id = 'viz-tip';
+  document.body.appendChild(tip);
+  const box = document.getElementById('activity-viz');
+  box.addEventListener('mousemove', e => {
+    const t = e.target.closest('[data-tip]');
+    if(!t) { tip.style.opacity = 0; return; }
+    const [head, ...rest] = t.getAttribute('data-tip').split('\n');
+    tip.innerHTML = `<b>${escHTML(head)}</b>${rest.length ? '\n' + escHTML(rest.join('\n')) : ''}`;
+    const r = tip.getBoundingClientRect();
+    const left = Math.min(e.clientX + 14, window.innerWidth - r.width - 8);
+    const topY = e.clientY + 16 + r.height > window.innerHeight ? e.clientY - r.height - 10 : e.clientY + 16;
+    tip.style.left = left + 'px'; tip.style.top = topY + 'px'; tip.style.opacity = 1;
+  });
+  box.addEventListener('mouseleave', () => { tip.style.opacity = 0; });
+}
+
 function renderActivity() {
   const db = getDB();
+  renderActivityViz(db);
+  vizTipInit();
   const ab = document.getElementById('activity-body');
   if(!db.activity||!db.activity.length){ ab.innerHTML='<div class="empty">No activity yet.</div>'; return; }
   const period = (document.getElementById('activity-group')||{}).value || 'week';
