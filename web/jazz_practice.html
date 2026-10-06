@@ -86,6 +86,7 @@
   .btn-fail:hover { background: rgba(201,168,76,0.2); }
   .btn-action { background: transparent; border-color: var(--border2); color: var(--text2); }
   .btn-action:hover { border-color: var(--gold); color: var(--gold); }
+  .btn-action:disabled { opacity: 0.4; cursor: default; border-color: var(--border2); color: var(--text2); }
   .btn-primary { background: var(--gold-dim); border: 1px solid rgba(201,168,76,0.3); color: var(--gold2); font-size: 12px; font-family: 'IBM Plex Sans', sans-serif; padding: 5px 14px; border-radius: var(--radius); cursor: pointer; transition: all 0.15s; }
   .btn-primary:hover { background: rgba(201,168,76,0.2); }
   #reviews-body .song-row { padding-left: 24px; padding-right: 24px; }
@@ -121,13 +122,21 @@
   .exit-count.complete { color: var(--gold2); }
   .exit-row { display: flex; align-items: center; gap: 10px; padding: 9px 24px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text2); cursor: pointer; user-select: none; transition: background 0.1s; }
   .exit-row:hover { background: var(--bg3); }
-  .exit-head { cursor: pointer; }
-  .exit-head.collapsed { border-bottom: none; }
-  .exit-head:hover h2 { color: var(--text); }
-  .exit-right { display: flex; align-items: center; gap: 8px; }
   .section .exit-row { padding-left: 20px; padding-right: 20px; }
   .section .exit-row:first-of-type { border-top: none; }
   .exit-row.done span { color: var(--text3); text-decoration: line-through; }
+  .focus-right { display: flex; align-items: center; gap: 10px; }
+  .focus-row { display: flex; align-items: center; border-top: 1px solid var(--border); }
+  .focus-row:first-child { border-top: none; }
+  .focus-row .exit-row { flex: 1; min-width: 0; border-top: none; }
+  .focus-del { background: transparent; border: none; color: var(--text3); font-size: 15px; line-height: 1; padding: 6px 20px 6px 8px; cursor: pointer; opacity: 0; transition: opacity 0.15s, color 0.15s; }
+  .focus-row:hover .focus-del, .focus-del:focus { opacity: 1; }
+  .focus-del:hover { color: var(--text); }
+  @media (hover: none) { .focus-del { opacity: 1; } }
+  .focus-empty { padding: 12px 20px; font-size: 13px; color: var(--text3); font-style: italic; }
+  .focus-add { display: flex; gap: 8px; padding: 12px 20px; border-top: 1px solid var(--border); }
+  .focus-input { flex: 1; min-width: 0; background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius); color: var(--text); font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; padding: 6px 10px; outline: none; transition: border-color 0.15s; }
+  .focus-input:focus { border-color: var(--gold); }
   input[type="checkbox"].chk { appearance: none; -webkit-appearance: none; position: relative; width: 15px; height: 15px; flex-shrink: 0; margin: 0; background: var(--bg3); border: 1px solid var(--border2); border-radius: 3px; cursor: pointer; transition: all 0.15s; }
   input[type="checkbox"].chk:checked { background: var(--gold-dim); border-color: rgba(201,168,76,0.45); }
   input[type="checkbox"].chk:checked::after { content: '\2713'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; line-height: 1; color: var(--gold2); }
@@ -1006,6 +1015,26 @@ function initDB() {
     db.cadenceVersion = 7;
     needsSave = true;
   }
+  // Practice focus used to live in a song's notes as a "Practice focus:" heading over a
+  // bulleted list. Lift those bullets into the checklist and leave the rest of the notes.
+  const liftPracticeFocus = entity => {
+    if(!entity.notes) return;
+    const m = entity.notes.match(/(^|\n)[ \t]*Practice focus:?[ \t]*\n((?:[ \t]*[-*•][^\n]*(?:\n|$))+)/i);
+    if(!m) return;
+    const items = m[2].split('\n').map(l => l.replace(/^[ \t]*[-*•][ \t]*/,'').trim()).filter(Boolean);
+    entity.practiceFocus = (entity.practiceFocus||[]).concat(items.map(text => ({ text, done:false })));
+    entity.notes = (entity.notes.slice(0, m.index) + m[1] + entity.notes.slice(m.index + m[0].length)).replace(/\n{3,}/g,'\n\n').trim();
+  };
+  if(!db.practiceFocusMigrated) {
+    Object.values(db.songs).forEach(liftPracticeFocus);
+    db.practiceFocusMigrated = true;
+    needsSave = true;
+  }
+  if(!db.repertoireFocusMigrated) {
+    db.repertoire.forEach(liftPracticeFocus);
+    db.repertoireFocusMigrated = true;
+    needsSave = true;
+  }
   if(db.reviewsPerWeek === undefined) { db.reviewsPerWeek = REVIEWS_PER_WEEK_DEFAULT; needsSave = true; }
   if(db.rotationMax === undefined) { db.rotationMax = ROTATION_MAX_DEFAULT; needsSave = true; }
   const seedMap = new Map(ALL_SONGS.map(([name,style,composer,year,standardKey])=>[name,{style,composer,year,standardKey}]));
@@ -1201,16 +1230,9 @@ function toggleLearningStep(name, id) {
   sg.learningSteps[id] = !sg.learningSteps[id];
   saveDB(db); renderAll();
 }
-// The Today card and the song detail each remember their own collapsed state, so opening
-// the list on one song's page doesn't reshuffle the card you work from every day.
 function toggleExitChecklist() {
   const db = getDB();
   db.exitChecklistOpen = !db.exitChecklistOpen;
-  saveDB(db); renderAll();
-}
-function toggleExitChecklistDetail() {
-  const db = getDB();
-  db.exitChecklistDetailOpen = !db.exitChecklistDetailOpen;
   saveDB(db); renderAll();
 }
 function exitCountHTML(sg) {
@@ -1227,11 +1249,6 @@ function learningChecklistHTML(db, sg, safeName) {
   const open = !!db.exitChecklistOpen;
   const header = `<button class="exit-toggle" onclick="toggleExitChecklist()"><span class="exit-chev">${open?'&#9662;':'&#9656;'}</span>Exit criteria${exitCountHTML(sg)}</button>`;
   return open ? header + exitChecklistRows(sg, safeName) : header;
-}
-function detailChecklistHTML(db, sg, safeName) {
-  const open = !!db.exitChecklistDetailOpen;
-  const head = `<div class="section-head exit-head${open?'':' collapsed'}" onclick="toggleExitChecklistDetail()"><h2>Exit criteria</h2><div class="exit-right">${exitCountHTML(sg)}<span class="exit-chev">${open?'&#9662;':'&#9656;'}</span></div></div>`;
-  return `<div class="section">${head}${open?exitChecklistRows(sg, safeName):''}</div>`;
 }
 
 function startLearning(name) {
@@ -1882,7 +1899,8 @@ function renderRepertoireDetail(name) {
         return `<div class="timeline-entry"><div class="timeline-dot ${dot}"></div><div><div class="timeline-label">${label}</div><div class="timeline-meta">${dateStr} · ${timeStr}</div></div></div>`;
       }).join('');
   const notesSection = `<div class="section"><div class="section-head"><h2>Notes</h2></div><div class="notes-body" id="notes-body"></div></div>`;
-  container.innerHTML = header + notesSection + `<div class="section"><div class="section-head"><h2>Activity</h2></div>${timeline}</div>`;
+  container.innerHTML = header + practiceFocusSectionHTML('repertoire', name) + notesSection + `<div class="section"><div class="section-head"><h2>Activity</h2></div>${timeline}</div>`;
+  renderPracticeFocus('repertoire', name);
   renderNotesView('repertoire', name);
 }
 function showVoicingDetail(name) {
@@ -1991,8 +2009,57 @@ function renderSongDetail(name) {
         return `<div class="timeline-entry"><div class="timeline-dot ${dot}"></div><div><div class="timeline-label">${label}</div><div class="timeline-meta">${dateStr} · ${timeStr}</div></div></div>`;
       }).join('');
   const notesSection = `<div class="section"><div class="section-head"><h2>Notes</h2></div><div class="notes-body" id="notes-body"></div></div>`;
-  container.innerHTML = header + detailChecklistHTML(db, sg, safeName) + notesSection + `<div class="section"><div class="section-head"><h2>Activity</h2></div>${timeline}</div>`;
+  container.innerHTML = header + practiceFocusSectionHTML('song', name) + notesSection + `<div class="section"><div class="section-head"><h2>Activity</h2></div>${timeline}</div>`;
+  renderPracticeFocus('song', name);
   renderNotesView('song', name);
+}
+function escHTML(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+// Practice focus is a reusable checklist: checks mark progress through one session, and
+// Reset clears them for the next. Only the list redraws, so an open notes edit survives.
+function practiceFocusSectionHTML(type, name) {
+  const safeName = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  return `<div class="section"><div class="section-head"><h2>Practice focus</h2><div class="focus-right" id="focus-right"></div></div><div id="focus-body"></div><div class="focus-add"><input class="focus-input" id="focus-input" placeholder="Add a focus item..." onkeydown="if(event.key==='Enter')addPracticeFocus('${type}','${safeName}')"><button class="btn-action" onclick="addPracticeFocus('${type}','${safeName}')">Add</button></div></div>`;
+}
+function renderPracticeFocus(type, name) {
+  const entity = getDetailEntity(type, getDB(), name);
+  const body = document.getElementById('focus-body'), right = document.getElementById('focus-right');
+  if(!entity || !body || !right) return;
+  const items = entity.practiceFocus || [];
+  const safeName = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  const done = items.filter(it => it.done).length;
+  right.innerHTML = items.length
+    ? `<span class="exit-count${done===items.length?' complete':''}">${done} / ${items.length}</span><button class="btn-action" onclick="resetPracticeFocus('${type}','${safeName}')"${done?'':' disabled'}>Reset</button>`
+    : '';
+  body.innerHTML = items.length
+    ? items.map((it,i) => `<div class="focus-row"><label class="exit-row${it.done?' done':''}"><input type="checkbox" class="chk"${it.done?' checked':''} onchange="togglePracticeFocus('${type}','${safeName}',${i})"><span>${escHTML(it.text)}</span></label><button class="focus-del" title="Remove" onclick="removePracticeFocus('${type}','${safeName}',${i})">&times;</button></div>`).join('')
+    : '<div class="focus-empty">Nothing to focus on yet.</div>';
+}
+function updatePracticeFocus(type, name, fn) {
+  const db = getDB(), entity = getDetailEntity(type, db, name);
+  if(!entity) return;
+  if(!entity.practiceFocus) entity.practiceFocus = [];
+  fn(entity.practiceFocus);
+  saveDB(db);
+  renderPracticeFocus(type, name);
+}
+function addPracticeFocus(type, name) {
+  const input = document.getElementById('focus-input');
+  const text = input.value.trim();
+  if(!text) return;
+  updatePracticeFocus(type, name, items => items.push({ text, done:false }));
+  input.value = '';
+  input.focus();
+}
+function togglePracticeFocus(type, name, i) {
+  updatePracticeFocus(type, name, items => { if(items[i]) items[i].done = !items[i].done; });
+}
+function removePracticeFocus(type, name, i) {
+  updatePracticeFocus(type, name, items => items.splice(i, 1));
+}
+function resetPracticeFocus(type, name) {
+  updatePracticeFocus(type, name, items => items.forEach(it => { it.done = false; }));
 }
 function getDetailEntity(type, db, name) {
   if(type==='repertoire') return (db.repertoire||[]).find(p=>p.name===name);
