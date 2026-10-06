@@ -106,6 +106,17 @@
   select { background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius); color: var(--text); font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; padding: 7px 10px; outline: none; cursor: pointer; }
   select:focus { border-color: var(--gold); }
   .empty { padding: 24px 20px; color: var(--text3); font-size: 13px; font-style: italic; text-align: center; }
+  /* Timer buttons close out each Today cell. Every cell has the same right padding and the
+     play/pause button is always the last one, so they line up in one column; stop appears
+     to its left while a session is open. */
+  #panel-today .song-row { padding-right: 24px; }
+  .timer { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+  .timer-clock { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--gold2); min-width: 40px; text-align: right; font-variant-numeric: tabular-nums; flex-shrink: 0; }
+  .timer-clock.paused { color: var(--text2); }
+  .btn-timer { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--border2); background: transparent; color: var(--text2); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 0; transition: all 0.15s; flex-shrink: 0; }
+  .btn-timer svg { width: 11px; height: 11px; fill: currentColor; }
+  .btn-timer:hover { border-color: var(--gold); color: var(--gold); }
+  .timer.running .btn-timer, .timer.paused .btn-timer:last-child { border-color: rgba(201,168,76,0.4); color: var(--gold2); }
   .current-song-card { background: var(--bg2); border: 1px solid rgba(201,168,76,0.25); border-radius: var(--radius-lg); padding: 20px 24px; margin-bottom: 20px; display: flex; align-items: center; gap: 16px; }
   .current-song-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); flex-shrink: 0; animation: pulse 2s infinite; }
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
@@ -955,6 +966,85 @@ function logActivity(db, type, data) {
   if(!db.activity) db.activity = [];
   db.activity.push({ ts: Date.now(), date: todayInt(), type, ...data });
 }
+
+// ── Practice timer ───────────────────────────────────────────────────────────
+// One timer at a time, kept in the db as timestamps so it survives reloads and keeps
+// counting while another tab is open. A finished session is logged as a 'practice_time'
+// entry dated to the day it started; the Activity charts use those minutes from then on.
+const TIMER_MIN_SECS = 5;   // shorter sessions are a stray click, not practice
+function dateIntOf(ts) { const d = new Date(ts); return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate(); }
+function timerElapsedMs(t) { return t ? t.accMs + (t.runStart ? Date.now() - t.runStart : 0) : 0; }
+function timerIs(db, area, name) { return !!db.timer && db.timer.area===area && db.timer.name===name; }
+function formatClock(ms) {
+  const s = Math.floor(ms/1000), h = Math.floor(s/3600), m = Math.floor(s/60)%60, ss = String(s%60).padStart(2,'0');
+  return h ? `${h}:${String(m).padStart(2,'0')}:${ss}` : `${m}:${ss}`;
+}
+function formatMinutes(mins) {
+  const m = Math.round(mins);
+  if(m < 1) return '<1 min';
+  return m < 60 ? `${m} min` : `${Math.floor(m/60)}h${m%60 ? ' '+(m%60)+'m' : ''}`;
+}
+function finishTimer(db) {
+  const t = db.timer;
+  if(!t) return false;
+  delete db.timer;
+  const secs = Math.round(timerElapsedMs(t)/1000);
+  if(secs < TIMER_MIN_SECS) return false;
+  if(!db.activity) db.activity = [];
+  db.activity.push({ ts: Date.now(), date: dateIntOf(t.start), type: 'practice_time', area: t.area, name: t.name, secs });
+  toast(`${formatMinutes(secs/60)} on ${t.name}`);
+  return true;
+}
+// Marking an item done (or continuing tomorrow) ends its session.
+function stopTimerFor(db, area, name) { if(timerIs(db, area, name)) finishTimer(db); }
+function timerStart(area, name) {
+  const db = getDB();
+  if(timerIs(db, area, name)) {
+    if(!db.timer.runStart) db.timer.runStart = Date.now();
+  } else {
+    finishTimer(db);
+    const now = Date.now();
+    db.timer = { area, name, start: now, runStart: now, accMs: 0 };
+  }
+  saveDB(db); renderToday();
+}
+function timerPause() {
+  const db = getDB(), t = db.timer;
+  if(!t || !t.runStart) return;
+  t.accMs += Date.now() - t.runStart;
+  t.runStart = null;
+  saveDB(db); renderToday();
+}
+function timerStop() {
+  const db = getDB();
+  if(finishTimer(db)) updateStreak(db);
+  saveDB(db); renderToday();
+  if(document.getElementById('panel-activity').classList.contains('active')) renderActivity();
+}
+function timerControlsHTML(db, area, name) {
+  const a = `'${area}'`, n = `'${name.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}'`;
+  if(!timerIs(db, area, name)) {
+    return `<div class="timer"><button class="btn-timer" title="Start timing" aria-label="Start timing" onclick="timerStart(${a},${n});event.stopPropagation()"><svg viewBox="0 0 12 12"><path d="M3 1.8v8.4L10 6z"/></svg></button></div>`;
+  }
+  const running = !!db.timer.runStart;
+  const toggle = running
+    ? `<button class="btn-timer" title="Pause" aria-label="Pause" onclick="timerPause();event.stopPropagation()"><svg viewBox="0 0 12 12"><rect x="2.5" y="2" width="2.6" height="8" rx=".5"/><rect x="6.9" y="2" width="2.6" height="8" rx=".5"/></svg></button>`
+    : `<button class="btn-timer" title="Resume" aria-label="Resume" onclick="timerStart(${a},${n});event.stopPropagation()"><svg viewBox="0 0 12 12"><path d="M3 1.8v8.4L10 6z"/></svg></button>`;
+  return `<div class="timer ${running?'running':'paused'}"><button class="btn-timer" title="Stop and log" aria-label="Stop and log" onclick="timerStop();event.stopPropagation()"><svg viewBox="0 0 12 12"><rect x="2.5" y="2.5" width="7" height="7" rx="1"/></svg></button>${toggle}</div>`;
+}
+function timerClockHTML(db, area, name) {
+  if(!timerIs(db, area, name)) return '';
+  return `<span class="timer-clock${db.timer.runStart?'':' paused'}" data-timer-clock>${formatClock(timerElapsedMs(db.timer))}</span>`;
+}
+function minutesOn(db, dateInt) {
+  return (db.activity||[]).reduce((n,e)=>n + (e.type==='practice_time' && e.date===dateInt ? e.secs/60 : 0), 0);
+}
+setInterval(() => {
+  const els = document.querySelectorAll('[data-timer-clock]');
+  if(!els.length) return;
+  const t = (loadDB()||{}).timer;
+  els.forEach(el => { el.textContent = formatClock(timerElapsedMs(t)); });
+}, 1000);
 function initDB() {
   let db = loadDB();
   if(!db) {
@@ -1395,6 +1485,7 @@ function startLearning(name) {
   if(db.currentNewSong && db.currentNewSong !== name) {
     if(!confirm(`You're currently working on "${db.currentNewSong}". Switch to "${name}"?`)) return;
     db.songs[db.currentNewSong].status = 'untouched';
+    stopTimerFor(db, 'learn', db.currentNewSong);
     logActivity(db, 'stopped_learning', { name: db.currentNewSong });
   }
   db.songs[name].status = 'learning';
@@ -1409,6 +1500,7 @@ function practicedToday(db, name) {
 function markPracticed(name) {
   const db = getDB();
   if(practicedToday(db, name)) return;
+  stopTimerFor(db, 'learn', name);
   logActivity(db, 'practiced', { name });
   updateStreak(db); saveDB(db); renderAll();
   toast(`Practiced: ${name}`);
@@ -1420,6 +1512,7 @@ function markLearned(name) {
   db.songs[name].intervalIdx = 0;
   db.songs[name].learnedDate = todayInt();
   db.currentNewSong = null;
+  stopTimerFor(db, 'learn', name);
   logActivity(db, 'learned', { name });
   updateStreak(db); saveDB(db); renderAll();
   const inRotation = rotationSongs(db).some(s=>s.name===name);
@@ -1433,6 +1526,7 @@ function doReview(name, passed) {
   const sg = db.songs[name];
   const key = sg.standardKey || null;
   sg.reviews.push(key ? {date:todayInt(), passed, key} : {date:todayInt(), passed});
+  stopTimerFor(db, 'review', name);
   logActivity(db, 'review', key ? { name, passed, key } : { name, passed });
   if(passed) {
     const nextIdx = Math.min(sg.intervalIdx+1, STAGE_COUNT-1);
@@ -1625,6 +1719,7 @@ function doKeyReview(name) {
   const key = sg.practiceKey && KEY_BY_ID[sg.practiceKey.key] ? sg.practiceKey.key : sg.standardKey;
   if(!sg.keyReviews) sg.keyReviews = [];
   sg.keyReviews.push({ date: todayInt(), key });
+  stopTimerFor(db, 'keys', name);
   logActivity(db, 'key_review', { name, key });
   updateStreak(db); saveDB(db); renderAll();
   toast(`${name} in ${keyLabel(key)} — reviewed`);
@@ -1711,7 +1806,8 @@ function renderToday() {
   const grad = Object.values(db.songs).filter(s=>s.currentLevel>=2);
   document.getElementById('today-date').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
   const streak = db.streak||0;
-  document.getElementById('today-sub').textContent = `${streak} day streak`;
+  const minsToday = minutesOn(db, tod);
+  document.getElementById('today-sub').textContent = `${streak} day streak${minsToday >= 1 ? ` · ${formatMinutes(minsToday)} timed today` : ''}`;
   const sections = db.todaySections || { learning:true, repertoire:true, voicing:true, vocabulary:true, review:true };
   document.getElementById('current-song-wrap').style.display = sections.learning ? '' : 'none';
   document.getElementById('rep-today-wrap').style.display = sections.repertoire ? '' : 'none';
@@ -1727,7 +1823,7 @@ function renderToday() {
     const practiceBtn = alreadyPracticed
       ? `<button class="btn-action btn-done" style="color:var(--green);border-color:rgba(39,174,96,0.3)" disabled>&#x2713; Practiced</button>`
       : `<button class="btn-pass" onclick="markPracticed('${safeName}')">Practiced</button>`;
-    csw.innerHTML = `<div class="learning-wrap"><div class="current-song-card"><div class="current-song-dot"></div><div class="current-song-info" style="cursor:pointer" onclick="showSongDetail('${safeName}')"><div class="label">Currently learning</div><div class="name">${sg.name}</div><div class="sub">${sortTags(sg.tags||[]).join(' / ')||'Standard'} · Work on this all week</div></div>${lvlBadge(sg.baseLevel)}${practiceBtn}<button class="btn-primary" onclick="markLearned('${safeName}')">Mark as level 2</button></div>${learningChecklistHTML(db, sg, safeName)}</div>`;
+    csw.innerHTML = `<div class="learning-wrap"><div class="current-song-card"><div class="current-song-dot"></div><div class="current-song-info" style="cursor:pointer" onclick="showSongDetail('${safeName}')"><div class="label">Currently learning</div><div class="name">${sg.name}</div><div class="sub">${sortTags(sg.tags||[]).join(' / ')||'Standard'} · Work on this all week</div></div>${timerClockHTML(db, 'learn', sg.name)}${lvlBadge(sg.baseLevel)}${practiceBtn}<button class="btn-primary" onclick="markLearned('${safeName}')">Mark as level 2</button>${timerControlsHTML(db, 'learn', sg.name)}</div>${learningChecklistHTML(db, sg, safeName)}</div>`;
   } else {
     const next = getNextSong(db);
     csw.innerHTML = next ? `<div class="current-song-card"><div class="current-song-dot" style="background:var(--text3);animation:none"></div><div class="current-song-info"><div class="label">Next suggested song</div><div class="name">${next.name}</div><div class="sub">${next.style||'Standard'} · ${next.baseLevel===1?'Already at level 1 — push to 2':'Starting from level 0'}</div></div>${lvlBadge(next.baseLevel)}<button class="btn-action" onclick="startLearning('${next.name.replace(/'/g,"\\'")}')">Start learning</button></div>` : '';
@@ -1747,7 +1843,7 @@ function renderToday() {
       : deferredToday
         ? `<button class="btn-fail" style="opacity:0.6;cursor:default" disabled>Continuing tomorrow</button>`
         : `<button class="btn-fail" onclick="repertoireContinueTomorrow('${safe}')">Continue tomorrow</button>`;
-    rtw.innerHTML = `<div class="current-song-card"><div class="current-song-dot" style="background:var(--gold2)"></div><div class="current-song-info" style="cursor:pointer" onclick="showRepertoireDetail('${safe}')"><div class="label">Today's repertoire piece</div><div class="name">${featured.name}</div>${meta?`<div class="sub">${meta}</div>`:''}</div>${reviewBtn}${continueBtn}</div>`;
+    rtw.innerHTML = `<div class="current-song-card"><div class="current-song-dot" style="background:var(--gold2)"></div><div class="current-song-info" style="cursor:pointer" onclick="showRepertoireDetail('${safe}')"><div class="label">Today's repertoire piece</div><div class="name">${featured.name}</div>${meta?`<div class="sub">${meta}</div>`:''}</div>${timerClockHTML(db, 'rep', featured.name)}${reviewBtn}${continueBtn}${timerControlsHTML(db, 'rep', featured.name)}</div>`;
   } else {
     rtw.innerHTML = '';
   }
@@ -1766,7 +1862,7 @@ function renderToday() {
       : vDeferredToday
         ? `<button class="btn-fail" style="opacity:0.6;cursor:default" disabled>Continuing tomorrow</button>`
         : `<button class="btn-fail" onclick="voicingContinueTomorrow('${vsafe}')">Continue tomorrow</button>`;
-    vtw.innerHTML = `<div class="current-song-card"><div class="current-song-dot" style="background:var(--blue)"></div><div class="current-song-info" style="cursor:pointer" onclick="showVoicingDetail('${vsafe}')"><div class="label">Today's voicing</div><div class="name">${featuredVoicing.name}</div>${vmeta?`<div class="sub">${vmeta}</div>`:''}</div>${lvlBadge(featuredVoicing.familiarity||0)}${practiceBtnV}${continueBtnV}</div>`;
+    vtw.innerHTML = `<div class="current-song-card"><div class="current-song-dot" style="background:var(--blue)"></div><div class="current-song-info" style="cursor:pointer" onclick="showVoicingDetail('${vsafe}')"><div class="label">Today's voicing</div><div class="name">${featuredVoicing.name}</div>${vmeta?`<div class="sub">${vmeta}</div>`:''}</div>${timerClockHTML(db, 'voicing', featuredVoicing.name)}${lvlBadge(featuredVoicing.familiarity||0)}${practiceBtnV}${continueBtnV}${timerControlsHTML(db, 'voicing', featuredVoicing.name)}</div>`;
   } else {
     vtw.innerHTML = '';
   }
@@ -1784,7 +1880,7 @@ function renderToday() {
       : cDeferredToday
         ? `<button class="btn-fail" style="opacity:0.6;cursor:default" disabled>Continuing tomorrow</button>`
         : `<button class="btn-fail" onclick="vocabContinueTomorrow('${csafe}')">Continue tomorrow</button>`;
-    cvw.innerHTML = `<div class="current-song-card"><div class="current-song-dot" style="background:var(--green)"></div><div class="current-song-info" style="cursor:pointer" onclick="showVocabDetail('${csafe}')"><div class="label">Today's vocabulary</div><div class="name">${featuredVocab.name}</div></div>${lvlBadge(featuredVocab.familiarity||0)}${practiceBtnC}${continueBtnC}</div>`;
+    cvw.innerHTML = `<div class="current-song-card"><div class="current-song-dot" style="background:var(--green)"></div><div class="current-song-info" style="cursor:pointer" onclick="showVocabDetail('${csafe}')"><div class="label">Today's vocabulary</div><div class="name">${featuredVocab.name}</div></div>${timerClockHTML(db, 'vocab', featuredVocab.name)}${lvlBadge(featuredVocab.familiarity||0)}${practiceBtnC}${continueBtnC}${timerControlsHTML(db, 'vocab', featuredVocab.name)}</div>`;
   } else {
     cvw.innerHTML = '';
   }
@@ -1807,7 +1903,7 @@ function renderToday() {
         const seenAt = lastSeenInt(sg);
         const intLabel = sg.intervalIdx>=0 ? `<span style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace" title="Stage ${stageOf(sg)} of ${STAGE_COUNT}">${seenAt?daysBetween(seenAt,tod)+'d ago':'not yet reviewed'} · stage ${stageOf(sg)}</span>` : '';
         const safeN = sg.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-        return `<div class="song-row clickable" onclick="showSongDetail('${safeN}')">${lvlBadge(sg.currentLevel)}<div class="song-name-group"><span class="song-name">${sg.name}</span></div>${intLabel}<button class="btn-pass" onclick="doReview('${safeN}',true);event.stopPropagation()">Reviewed</button><button class="btn-fail" onclick="doReview('${safeN}',false);event.stopPropagation()">Needs work</button></div>`;
+        return `<div class="song-row clickable" onclick="showSongDetail('${safeN}')">${lvlBadge(sg.currentLevel)}<div class="song-name-group"><span class="song-name">${sg.name}</span></div>${intLabel}${timerClockHTML(db, 'review', sg.name)}<button class="btn-pass" onclick="doReview('${safeN}',true);event.stopPropagation()">Reviewed</button><button class="btn-fail" onclick="doReview('${safeN}',false);event.stopPropagation()">Needs work</button>${timerControlsHTML(db, 'review', sg.name)}</div>`;
       }).join('');
   renderMultiKeyToday(db, tod);
 }
@@ -1840,7 +1936,7 @@ function renderMultiKeyToday(db, tod) {
     const safeN = sg.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
     const key = sg.practiceKey && KEY_BY_ID[sg.practiceKey.key] ? sg.practiceKey.key : sg.standardKey;
     const chip = `<span class="key-chip" title="Standard key ${keyLabel(sg.standardKey)}">in ${keyLabel(key)}</span>`;
-    return `<div class="song-row clickable" onclick="showSongDetail('${safeN}')">${lvlBadge(sg.currentLevel)}<div class="song-name-group"><span class="song-name">${sg.name}</span>${chip}</div><button class="btn-pass" onclick="doKeyReview('${safeN}');event.stopPropagation()">Reviewed</button></div>`;
+    return `<div class="song-row clickable" onclick="showSongDetail('${safeN}')">${lvlBadge(sg.currentLevel)}<div class="song-name-group"><span class="song-name">${sg.name}</span>${chip}</div>${timerClockHTML(db, 'keys', sg.name)}<button class="btn-pass" onclick="doKeyReview('${safeN}');event.stopPropagation()">Reviewed</button>${timerControlsHTML(db, 'keys', sg.name)}</div>`;
   }).join('');
 }
 
@@ -1973,6 +2069,7 @@ function formatActivityEntry(entry) {
     case 'vocab_practiced':    return { dot:'green', label:entry.familiarity>=2?'Vocabulary mastered':`Vocabulary practiced — familiarity ${entry.familiarity}`, detail:entry.name };
     case 'vocab_deferred':     return { dot:'gold',  label:'Vocabulary continued',       detail:entry.name };
     case 'vocab_removed':      return { dot:'red',   label:'Vocabulary removed',         detail:entry.name };
+    case 'practice_time':      return { dot:'gold',  label:`Practiced for ${formatMinutes(entry.secs/60)}`, detail:entry.name };
     default:                   return { dot:'dim',   label:entry.type,                   detail:entry.name||'' };
   }
 }
@@ -2005,24 +2102,34 @@ const VIZ_CATS = [
   { id:'keys',    label:'Multi-key',    color:'#9085e9', types:['key_review'] },
 ];
 const VIZ_HEAT = ['#222222','#4a3d1f','#7a6430','#a98a42','#e8c97a'];
-const VIZ_WEEKS = 26, VIZ_W = 740, VIZ_LEFT = 34;
+const VIZ_WEEKS = 26, VIZ_W = 740, VIZ_LEFT = 34, VIZ_RIGHT = 34;
 function vizCat(type) { return VIZ_CATS.find(c => c.types.includes(type)); }
 function vizDate(dateInt) { return new Date(Math.floor(dateInt/10000), Math.floor((dateInt%10000)/100)-1, dateInt%100); }
 function vizEsc(t) { return escHTML(t).replace(/\n/g,'&#10;'); }
-function vizBreakdown(counts) {
-  return VIZ_CATS.filter(c => counts[c.id]).map(c => `${counts[c.id]} ${c.label.toLowerCase()}`).join('\n');
+function vizBreakdown(c, timed) {
+  const by = timed ? c.t : c.n;
+  return VIZ_CATS.filter(k => by[k.id]).map(k => timed ? `${formatMinutes(by[k.id])} ${k.label.toLowerCase()}` : `${by[k.id]} ${k.label.toLowerCase()}`).join('\n');
 }
+// Per day: n = discrete practice items by area, t = timed minutes by area.
+function vizDay() { return { total:0, mins:0, n:{}, t:{} }; }
 function practiceByDay(db) {
   const days = new Map();
   (db.activity||[]).forEach(e => {
-    const cat = vizCat(e.type);
+    const timed = e.type==='practice_time';
+    const cat = timed ? VIZ_CATS.find(c => c.id===e.area) : vizCat(e.type);
     if(!cat) return;
-    const d = days.get(e.date) || { total:0 };
-    d[cat.id] = (d[cat.id]||0) + 1;
-    d.total++;
+    const d = days.get(e.date) || vizDay();
+    if(timed) { d.t[cat.id] = (d.t[cat.id]||0) + e.secs/60; d.mins += e.secs/60; }
+    else { d.n[cat.id] = (d.n[cat.id]||0) + 1; d.total++; }
     days.set(e.date, d);
   });
   return days;
+}
+// Charts count discrete items up to the week timing began and timed minutes from then on.
+// The switch lands on a week boundary so no bar mixes the two units.
+function vizTimedSince(db) {
+  const first = (db.activity||[]).reduce((m,e) => e.type==='practice_time' && (!m || e.date < m) ? e.date : m, null);
+  return first ? weekStartInt(first) : null;
 }
 function vizStreaks(days, tod) {
   const sorted = [...days.keys()].sort((a,b)=>a-b);
@@ -2044,53 +2151,88 @@ function vizMonthTicks(firstWeek) {
   }
   return ticks;
 }
-function practiceCalendarHTML(days, firstWeek, tod) {
+function practiceCalendarHTML(days, firstWeek, tod, since) {
   const step = (VIZ_W - VIZ_LEFT) / VIZ_WEEKS, cell = step - 4, top = 20;
-  const level = n => n===0 ? 0 : n<=2 ? 1 : n<=4 ? 2 : n<=7 ? 3 : 4;
+  const countLevel = n => n===0 ? 0 : n<=2 ? 1 : n<=4 ? 2 : n<=7 ? 3 : 4;
+  const minLevel = m => m<=15 ? 1 : m<=30 ? 2 : m<=60 ? 3 : 4;
   let svg = '';
   vizMonthTicks(firstWeek).forEach(t => { svg += `<text x="${vizWeekX(t.i)}" y="11" font-size="11">${t.label}</text>`; });
   ['Mon','','Wed','','Fri','',''].forEach((l,r) => { if(l) svg += `<text x="0" y="${top + r*step + cell/2 + 4}" font-size="10">${l}</text>`; });
   for(let i=0;i<VIZ_WEEKS;i++) for(let r=0;r<7;r++) {
     const d = addDays(firstWeek, i*7 + r);
     if(d > tod) continue;
-    const c = days.get(d) || { total:0 };
+    const c = days.get(d) || vizDay();
     const when = vizDate(d).toLocaleDateString('en-US',{weekday:'short', month:'short', day:'numeric'});
-    const tip = c.total ? `${when} · ${c.total} item${c.total===1?'':'s'}\n${vizBreakdown(c)}` : `${when} · no practice`;
-    svg += `<rect class="viz-cell" x="${vizWeekX(i)}" y="${top + r*step}" width="${cell}" height="${cell}" rx="3" fill="${VIZ_HEAT[level(c.total)]}" data-tip="${vizEsc(tip)}"/>`;
+    const items = `${c.total} item${c.total===1?'':'s'}`;
+    let tip, lvl;
+    if(since && d >= since) {
+      // A day with items logged but no timer still counts as practiced, at the lowest shade.
+      lvl = c.mins ? minLevel(c.mins) : c.total ? 1 : 0;
+      tip = c.mins ? `${when} · ${formatMinutes(c.mins)}\n${vizBreakdown(c, true)}` : c.total ? `${when} · ${items}, untimed` : `${when} · no practice`;
+    } else {
+      lvl = countLevel(c.total);
+      tip = c.total ? `${when} · ${items}\n${vizBreakdown(c)}` : `${when} · no practice`;
+    }
+    svg += `<rect class="viz-cell" x="${vizWeekX(i)}" y="${top + r*step}" width="${cell}" height="${cell}" rx="3" fill="${VIZ_HEAT[lvl]}" data-tip="${vizEsc(tip)}"/>`;
   }
+  if(since && since > firstWeek) svg += vizDividerSVG(since, firstWeek, top - 4, top + 7*step);
   const h = top + 7*step;
   const scale = VIZ_HEAT.map(c => `<i style="background:${c}"></i>`).join('');
-  return `<svg viewBox="0 0 ${VIZ_W} ${h}" role="img" aria-label="Practice calendar, last ${VIZ_WEEKS} weeks">${svg}</svg><div class="viz-scale"><em>Less</em>${scale}<em>More</em></div>`;
+  return `<svg viewBox="0 0 ${VIZ_W + VIZ_RIGHT} ${h}" role="img" aria-label="Practice calendar, last ${VIZ_WEEKS} weeks">${svg}</svg><div class="viz-scale"><em>Less</em>${scale}<em>More</em></div>`;
 }
-function weeklyMixHTML(days, firstWeek) {
+function vizDividerSVG(since, firstWeek, y0, y1) {
+  const x = vizWeekX(daysBetween(firstWeek, since) / 7) - 2;
+  return `<line x1="${x}" x2="${x}" y1="${y0}" y2="${y1}" stroke="#555" stroke-dasharray="3 3"/>`;
+}
+function vizScale(max, steps) {
+  const step = steps.find(([lim]) => max <= lim)[1];
+  return { step, top: Math.ceil(max / step) * step };
+}
+const VIZ_ITEM_STEPS = [[8,2],[20,5],[50,10],[Infinity,20]];
+const VIZ_MIN_STEPS = [[60,15],[180,30],[480,60],[Infinity,120]];
+const vizMinLabel = v => v < 60 ? `${v}m` : `${+(v/60).toFixed(1)}h`;
+function weeklyMixHTML(days, firstWeek, since) {
   const weeks = Array.from({length:VIZ_WEEKS}, (_,i) => {
-    const w = { start: addDays(firstWeek, i*7), total:0 };
+    const w = { start: addDays(firstWeek, i*7), timed: !!since && addDays(firstWeek, i*7) >= since, v:{}, total:0, n:{}, t:{}, mins:0 };
     for(let r=0;r<7;r++) {
       const c = days.get(addDays(w.start, r));
       if(!c) continue;
-      VIZ_CATS.forEach(cat => { if(c[cat.id]) { w[cat.id] = (w[cat.id]||0) + c[cat.id]; } });
-      w.total += c.total;
+      VIZ_CATS.forEach(cat => {
+        if(c.n[cat.id]) w.n[cat.id] = (w.n[cat.id]||0) + c.n[cat.id];
+        if(c.t[cat.id]) w.t[cat.id] = (w.t[cat.id]||0) + c.t[cat.id];
+      });
+      w.total += c.total; w.mins += c.mins;
     }
+    w.v = w.timed ? w.t : w.n;
+    w.value = w.timed ? w.mins : w.total;
     return w;
   });
-  const max = Math.max(4, ...weeks.map(w=>w.total));
-  const tickStep = max <= 8 ? 2 : max <= 20 ? 5 : max <= 50 ? 10 : 20;
-  const yMax = Math.ceil(max / tickStep) * tickStep;
+  const counted = weeks.filter(w=>!w.timed), timed = weeks.filter(w=>w.timed);
   const top = 6, plotH = 150, base = top + plotH;
   const step = (VIZ_W - VIZ_LEFT) / VIZ_WEEKS, bw = step - 6;
-  const y = v => base - v / yMax * plotH;
+  // Items and minutes each get their own scale: items on the left axis, minutes on the right
+  // (or on the left once the item weeks have scrolled out of view).
+  const cutX = timed.length ? vizWeekX(weeks.indexOf(timed[0])) - 2 : VIZ_W;
+  const itemScale = counted.length ? vizScale(Math.max(4, ...counted.map(w=>w.value)), VIZ_ITEM_STEPS) : null;
+  const minScale = timed.length ? vizScale(Math.max(60, ...timed.map(w=>w.value)), VIZ_MIN_STEPS) : null;
+  const yOf = (sc, v) => base - v / sc.top * plotH;
   let svg = '';
-  for(let v=0; v<=yMax; v+=tickStep) {
-    svg += `<line x1="${VIZ_LEFT}" x2="${VIZ_W}" y1="${y(v)}" y2="${y(v)}" stroke="${v?'#232323':'#333'}" stroke-width="1"/>`;
-    svg += `<text x="${VIZ_LEFT-8}" y="${y(v)+4}" font-size="10" text-anchor="end">${v}</text>`;
-  }
+  const axis = (sc, x1, x2, labelX, anchor, fmt) => {
+    for(let v=0; v<=sc.top; v+=sc.step) {
+      svg += `<line x1="${x1}" x2="${x2}" y1="${yOf(sc,v)}" y2="${yOf(sc,v)}" stroke="${v?'#232323':'#333'}" stroke-width="1"/>`;
+      svg += `<text x="${labelX}" y="${yOf(sc,v)+4}" font-size="10" text-anchor="${anchor}">${fmt(v)}</text>`;
+    }
+  };
+  if(itemScale) axis(itemScale, VIZ_LEFT, cutX, VIZ_LEFT-8, 'end', v=>v);
+  if(minScale) itemScale ? axis(minScale, cutX, VIZ_W, VIZ_W+6, 'start', vizMinLabel) : axis(minScale, VIZ_LEFT, VIZ_W, VIZ_LEFT-8, 'end', vizMinLabel);
+  if(itemScale && minScale) svg += vizDividerSVG(timed[0].start, firstWeek, top - 6, base);
   weeks.forEach((w,i) => {
-    const x = vizWeekX(i);
+    const x = vizWeekX(i), sc = w.timed ? minScale : itemScale;
     let acc = 0;
-    const segs = VIZ_CATS.filter(c => w[c.id]);
+    const segs = VIZ_CATS.filter(c => w.v[c.id]);
     segs.forEach((c,k) => {
-      const y0 = y(acc), y1 = y(acc + w[c.id]);
-      acc += w[c.id];
+      const y0 = yOf(sc, acc), y1 = yOf(sc, acc + w.v[c.id]);
+      acc += w.v[c.id];
       const hgt = Math.max(0, y0 - y1 - (k ? 2 : 0)), yTop = y1;
       if(k === segs.length-1) {
         const r = Math.min(3, hgt, bw/2);
@@ -2099,13 +2241,15 @@ function weeklyMixHTML(days, firstWeek) {
         svg += `<rect x="${x}" y="${yTop}" width="${bw}" height="${hgt}" fill="${c.color}"/>`;
       }
     });
-    const end = addDays(w.start, 6);
-    const tip = `Week of ${vizDate(w.start).toLocaleDateString('en-US',{month:'short',day:'numeric'})} · ${w.total} item${w.total===1?'':'s'}` + (w.total ? `\n${vizBreakdown(w)}` : '');
+    const head = `Week of ${vizDate(w.start).toLocaleDateString('en-US',{month:'short',day:'numeric'})}`;
+    const tip = w.timed
+      ? `${head} · ${w.mins ? formatMinutes(w.mins) : 'no timed practice'}` + (w.mins ? `\n${vizBreakdown(w, true)}` : '') + (w.total && !w.mins ? `\n${w.total} untimed item${w.total===1?'':'s'}` : '')
+      : `${head} · ${w.total} item${w.total===1?'':'s'}` + (w.total ? `\n${vizBreakdown(w)}` : '');
     svg += `<rect class="viz-hit" x="${x-3}" y="${top}" width="${step}" height="${plotH}" data-tip="${vizEsc(tip)}"/>`;
   });
   vizMonthTicks(firstWeek).forEach(t => { svg += `<text x="${vizWeekX(t.i)}" y="${base+16}" font-size="11">${t.label}</text>`; });
   const legend = VIZ_CATS.map(c => `<span><i style="background:${c.color}"></i>${c.label}</span>`).join('');
-  return `<div class="viz-legend">${legend}</div><svg viewBox="0 0 ${VIZ_W} ${base+22}" role="img" aria-label="Practice items per week by area">${svg}</svg>`;
+  return `<div class="viz-legend">${legend}</div><svg viewBox="0 0 ${VIZ_W + VIZ_RIGHT} ${base+22}" role="img" aria-label="Practice per week by area">${svg}</svg>`;
 }
 // Pairs each "started learning" with the "marked level 2" that follows it; a switch away
 // (stopped learning) drops the open stint. The song still in progress gets an open bar.
@@ -2154,16 +2298,20 @@ function learningTimelineHTML(db, tod) {
 function renderActivityViz(db) {
   const box = document.getElementById('activity-viz');
   if(!box) return;
-  const tod = todayInt(), days = practiceByDay(db);
+  const tod = todayInt(), days = practiceByDay(db), since = vizTimedSince(db);
   const firstWeek = weekStartInt(addDays(tod, -7*(VIZ_WEEKS-1)));
+  const sinceLabel = since && vizDate(since).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  const mixMeta = !since ? `practice items per week · last ${VIZ_WEEKS} weeks`
+    : since <= firstWeek ? `minutes per week · last ${VIZ_WEEKS} weeks`
+    : `items per week, minutes from ${sinceLabel} · last ${VIZ_WEEKS} weeks`;
   const { longest, current } = vizStreaks(days, tod);
   const active = [...days.keys()].filter(d => d >= firstWeek).length;
   const stints = learningStints(db, tod).filter(s=>s.done);
   const avg = stints.length ? Math.round(stints.reduce((n,s)=>n+daysBetween(s.start,s.end),0)/stints.length) : null;
   const sec = (title, meta, body) => `<div class="section"><div class="section-head"><h2>${title}</h2><span class="count">${meta}</span></div><div class="viz-body">${body}</div></div>`;
   box.innerHTML =
-    sec('Practice calendar', `${active} active days · ${current}-day streak · longest ${longest}`, practiceCalendarHTML(days, firstWeek, tod)) +
-    sec('Weekly mix', `practice items per week · last ${VIZ_WEEKS} weeks`, weeklyMixHTML(days, firstWeek)) +
+    sec('Practice calendar', `${active} active days · ${current}-day streak · longest ${longest}`, practiceCalendarHTML(days, firstWeek, tod, since)) +
+    sec('Weekly mix', mixMeta, weeklyMixHTML(days, firstWeek, since)) +
     sec('Learning timeline', avg!==null ? `${stints.length} songs to level 2 · ${avg} days on average` : '', learningTimelineHTML(db, tod));
 }
 function vizTipInit() {
@@ -2726,6 +2874,7 @@ function markRepertoireReviewed(name) {
   p.lastReviewed = todayInt();
   delete p.pinnedDate;
   delete p.deferredDate;
+  stopTimerFor(db, 'rep', name);
   logActivity(db, 'repertoire_reviewed', { name });
   saveDB(db); renderAll();
   toast(`"${name}" marked as reviewed.`);
@@ -2747,6 +2896,7 @@ function repertoireContinueTomorrow(name) {
   if(!p) return;
   p.pinnedDate = addDays(todayInt(), 1);
   p.deferredDate = todayInt();
+  stopTimerFor(db, 'rep', name);
   logActivity(db, 'repertoire_deferred', { name });
   saveDB(db); renderAll();
   toast(`"${name}" queued for tomorrow.`);
@@ -2775,6 +2925,7 @@ function markVoicingPracticed(name) {
   v.lastPracticed = todayInt();
   delete v.pinnedDate;
   delete v.deferredDate;
+  stopTimerFor(db, 'voicing', name);
   logActivity(db, 'voicing_practiced', { name, familiarity: v.familiarity||0 });
   saveDB(db); renderAll();
   toast(`"${name}" marked as practiced.`);
@@ -2795,6 +2946,7 @@ function voicingContinueTomorrow(name) {
   if(!v) return;
   v.pinnedDate = addDays(todayInt(), 1);
   v.deferredDate = todayInt();
+  stopTimerFor(db, 'voicing', name);
   logActivity(db, 'voicing_deferred', { name });
   saveDB(db); renderAll();
   toast(`"${name}" queued for tomorrow.`);
@@ -3052,6 +3204,7 @@ function markVocabPracticed(name) {
   c.lastPracticed = todayInt();
   delete c.pinnedDate;
   delete c.deferredDate;
+  stopTimerFor(db, 'vocab', name);
   logActivity(db, 'vocab_practiced', { name, familiarity: c.familiarity||0 });
   saveDB(db); renderAll();
   toast(`"${name}" marked as practiced.`);
@@ -3072,6 +3225,7 @@ function vocabContinueTomorrow(name) {
   if(!c) return;
   c.pinnedDate = addDays(todayInt(), 1);
   c.deferredDate = todayInt();
+  stopTimerFor(db, 'vocab', name);
   logActivity(db, 'vocab_deferred', { name });
   saveDB(db); renderAll();
   toast(`"${name}" queued for tomorrow.`);
