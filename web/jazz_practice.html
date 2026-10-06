@@ -1944,6 +1944,16 @@ function renderVocabDetail(name) {
   container.innerHTML = header + notesSection + `<div class="section"><div class="section-head"><h2>Activity</h2></div>${timeline}</div>`;
   renderNotesView('vocab', name);
 }
+// Book titles are matched loosely (case, punctuation, articles, parentheticals) so
+// "Take the \"A\" Train" finds "Take the A Train".
+function normSongTitle(t) {
+  return t.toLowerCase().replace(/\(.*?\)/g,'').replace(/[^a-z0-9 ]/g,'').replace(/\b(the|a|an)\b/g,'').replace(/\s+/g,' ').trim();
+}
+function transcriptionBooksFor(name) {
+  const key = normSongTitle(name);
+  return (typeof TRANSCRIPTION_BOOKS==='undefined'?[]:TRANSCRIPTION_BOOKS)
+    .filter(b=>b.songs.some(t=>normSongTitle(t)===key)).map(b=>b.title);
+}
 function renderSongDetail(name) {
   const db = getDB(), tod = todayInt();
   const sg = db.songs[name];
@@ -1967,8 +1977,9 @@ function renderSongDetail(name) {
       : seen
         ? `${daysBetween(seen, tod)} days ago · ${spacing}`
         : `Not yet reviewed · ${spacing}`;
+  const books = transcriptionBooksFor(sg.name);
   const safeName = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-  const header = `<div class="detail-header"><div class="detail-header-top"><span class="detail-title">${sg.name}</span>${styleBadge(sg.style)}${lvlBadge(sg.currentLevel)}${statusBadge}</div>${pills}<div class="detail-meta-grid"><div class="detail-meta-field"><div class="label">Last reviewed</div><div class="value${seen?'':' placeholder'}">${lastSeenLabel}</div></div><div class="detail-meta-field"><div class="label">Standing</div><div class="value">${standing}</div></div><div class="detail-meta-field"><div class="label">Composer</div><div class="value${sg.composer?'':' placeholder'}">${sg.composer||'—'}</div></div><div class="detail-meta-field"><div class="label">Year</div><div class="value${sg.year?'':' placeholder'}">${sg.year||'—'}</div></div><div class="detail-meta-field"><div class="label">Standard key</div><div class="value${sg.standardKey?'':' placeholder'}">${sg.standardKey?keyLabel(sg.standardKey):'Not set'}</div></div><div class="detail-meta-field"><div class="label">Multi-key practice</div><div style="display:flex;align-items:center;gap:8px"><label class="toggle-switch"><input type="checkbox"${sg.multiKey?' checked':''} onchange="toggleMultiKey('${safeName}',this.checked)"><span class="toggle-slider"></span></label>${sg.multiKey&&!sg.standardKey?'<span class="key-stat">needs standard key</span>':''}</div></div></div><div class="notes-actions"><button class="btn-action" onclick="openEditSong('${safeName}')">Edit</button></div></div>`;
+  const header = `<div class="detail-header"><div class="detail-header-top"><span class="detail-title">${sg.name}</span>${styleBadge(sg.style)}${lvlBadge(sg.currentLevel)}${statusBadge}</div>${pills}<div class="detail-meta-grid"><div class="detail-meta-field"><div class="label">Last reviewed</div><div class="value${seen?'':' placeholder'}">${lastSeenLabel}</div></div><div class="detail-meta-field"><div class="label">Standing</div><div class="value">${standing}</div></div><div class="detail-meta-field"><div class="label">Composer</div><div class="value${sg.composer?'':' placeholder'}">${sg.composer||'—'}</div></div><div class="detail-meta-field"><div class="label">Year</div><div class="value${sg.year?'':' placeholder'}">${sg.year||'—'}</div></div><div class="detail-meta-field"><div class="label">Standard key</div><div class="value${sg.standardKey?'':' placeholder'}">${sg.standardKey?keyLabel(sg.standardKey):'Not set'}</div></div><div class="detail-meta-field"><div class="label">Multi-key practice</div><div style="display:flex;align-items:center;gap:8px"><label class="toggle-switch"><input type="checkbox"${sg.multiKey?' checked':''} onchange="toggleMultiKey('${safeName}',this.checked)"><span class="toggle-slider"></span></label>${sg.multiKey&&!sg.standardKey?'<span class="key-stat">needs standard key</span>':''}</div></div>${books.length?`<div class="detail-meta-field" style="grid-column:1/-1"><div class="label">Transcriptions</div><div class="value">${books.join(' · ')}</div></div>`:''}</div><div class="notes-actions"><button class="btn-action" onclick="openEditSong('${safeName}')">Edit</button></div></div>`;
   const entries = (db.activity||[]).filter(e=>e.name===name||e.oldName===name).sort((a,b)=>b.ts-a.ts);
   const timeline = entries.length===0
     ? '<div class="empty">No activity for this song yet.</div>'
