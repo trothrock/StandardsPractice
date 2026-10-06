@@ -1,0 +1,7363 @@
+{
+  "songs": {
+    "A Child Is Born": {
+      "name": "A Child Is Born",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.0253985339997036,
+      "composer": "Thad Jones",
+      "year": 1969,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "tags": [
+        "Ballad",
+        "Waltz"
+      ]
+    },
+    "A Foggy Day": {
+      "name": "A Foggy Day",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.3300831776567432,
+      "composer": "George Gershwin",
+      "year": 1937,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "After You've Gone": {
+      "name": "After You've Gone",
+      "baseLevel": 2,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 1,
+      "learnedDate": 20260419,
+      "reviews": [
+        {
+          "date": 20260425,
+          "passed": true
+        }
+      ],
+      "sortSeed": 0.653581928917298,
+      "composer": "Turner Layton",
+      "year": 1918,
+      "standardKey": "Bb",
+      "multiKey": true,
+      "staleFrom": 20261002,
+      "tags": [
+        "Trad"
+      ]
+    },
+    "Ain't Misbehavin'": {
+      "name": "Ain't Misbehavin'",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.6761944656811192,
+      "composer": "Fats Waller",
+      "year": 1929,
+      "standardKey": "C",
+      "multiKey": false,
+      "tags": [
+        "Swing"
+      ]
+    },
+    "Airegin": {
+      "name": "Airegin",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.5568620746117053,
+      "composer": "Sonny Rollins",
+      "year": 1954,
+      "standardKey": "Fm",
+      "multiKey": false,
+      "tags": [
+        "Hard bop",
+        "Minor"
+      ]
+    },
+    "Alfie": {
+      "name": "Alfie",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.7103481091931431,
+      "composer": "Burt Bacharach",
+      "year": 1966,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "All Blues": {
+      "name": "All Blues",
+      "baseLevel": 3,
+      "currentLevel": 3,
+      "status": "graduated",
+      "intervalIdx": 5,
+      "learnedDate": 20260419,
+      "reviews": [],
+      "sortSeed": 0.6412290881755707,
+      "composer": "Miles Davis",
+      "year": 1959,
+      "standardKey": "G",
+      "multiKey": false,
+      "tags": [
+        "Modal",
+        "Blues",
+        "Waltz",
+        "Jam"
+      ]
+    },
+    "All of Me": {
+      "name": "All of Me",
+      "baseLevel": 3,
+      "currentLevel": 3,
+      "status": "graduated",
+      "intervalIdx": 5,
+      "learnedDate": 20260419,
+      "reviews": [],
+      "sortSeed": 0.7507997402561986,
+      "composer": "Gerald Marks",
+      "year": 1931,
+      "standardKey": "C",
+      "multiKey": true,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "All of You": {
+      "name": "All of You",
+      "baseLevel": 2,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 2,
+      "learnedDate": 20260419,
+      "reviews": [
+        {
+          "date": 20260713,
+          "passed": false
+        },
+        {
+          "date": 20260714,
+          "passed": false
+        },
+        {
+          "date": 20260722,
+          "passed": true
+        },
+        {
+          "date": 20260724,
+          "passed": true
+        }
+      ],
+      "sortSeed": 0.15187667815847483,
+      "composer": "Cole Porter",
+      "year": 1954,
+      "standardKey": "Eb",
+      "multiKey": true,
+      "staleFrom": 20261002,
+      "keyReviews": [
+        {
+          "date": 20261004,
+          "passed": true,
+          "key": "Ab"
+        }
+      ],
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "All the Things You Are": {
+      "name": "All the Things You Are",
+      "baseLevel": 2,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 0,
+      "learnedDate": 20260419,
+      "reviews": [],
+      "sortSeed": 0.9526234622596486,
+      "composer": "Jerome Kern",
+      "year": 1939,
+      "standardKey": "Ab",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "tags": [
+        "Songbook",
+        "Jam"
+      ]
+    },
+    "Almost Like Being in Love": {
+      "name": "Almost Like Being in Love",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.8557607374673135,
+      "composer": "Frederick Loewe",
+      "year": 1947,
+      "standardKey": "Ab",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Alone Together": {
+      "name": "Alone Together",
+      "baseLevel": 2,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 2,
+      "learnedDate": 20260419,
+      "reviews": [
+        {
+          "date": 20260504,
+          "passed": true
+        },
+        {
+          "date": 20261005,
+          "passed": true,
+          "key": "Dm"
+        }
+      ],
+      "sortSeed": 0.16899825906875265,
+      "composer": "Arthur Schwartz",
+      "year": 1932,
+      "standardKey": "Dm",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "tags": [
+        "Songbook",
+        "Minor",
+        "Jam"
+      ]
+    },
+    "Along Came Betty": {
+      "name": "Along Came Betty",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.9384476174771059,
+      "composer": "Benny Golson",
+      "year": 1958,
+      "standardKey": "Ab",
+      "multiKey": false,
+      "tags": [
+        "Hard bop"
+      ]
+    },
+    "Angel Eyes": {
+      "name": "Angel Eyes",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.8727107704823638,
+      "composer": "Matt Dennis",
+      "year": 1946,
+      "standardKey": "Cm",
+      "multiKey": false,
+      "tags": [
+        "Ballad",
+        "Minor"
+      ]
+    },
+    "Anthropology": {
+      "name": "Anthropology",
+      "baseLevel": 1,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 2,
+      "learnedDate": 20260429,
+      "reviews": [
+        {
+          "date": 20260502,
+          "passed": true
+        },
+        {
+          "date": 20260929,
+          "passed": true,
+          "key": "Bb"
+        }
+      ],
+      "sortSeed": 0.07570114660199945,
+      "composer": "Charlie Parker",
+      "year": 1946,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "tags": [
+        "Bop",
+        "Rhythm changes",
+        "Jam"
+      ]
+    },
+    "April in Paris": {
+      "name": "April in Paris",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.1480112314080052,
+      "composer": "Vernon Duke",
+      "year": 1932,
+      "standardKey": "C",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Autumn in New York": {
+      "name": "Autumn in New York",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.17069856536996297,
+      "composer": "Vernon Duke",
+      "year": 1934,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Autumn Leaves": {
+      "name": "Autumn Leaves",
+      "baseLevel": 3,
+      "currentLevel": 3,
+      "status": "graduated",
+      "intervalIdx": 5,
+      "learnedDate": 20260419,
+      "reviews": [],
+      "sortSeed": 0.7871579164607367,
+      "composer": "Joseph Kosma",
+      "year": 1945,
+      "standardKey": "Gm",
+      "multiKey": true,
+      "tags": [
+        "Songbook",
+        "Minor",
+        "Jam"
+      ]
+    },
+    "Bags' Groove": {
+      "name": "Bags' Groove",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.19115092350199903,
+      "composer": "Milt Jackson",
+      "year": 1952,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Bop",
+        "Blues",
+        "Jam"
+      ]
+    },
+    "Basin Street Blues": {
+      "name": "Basin Street Blues",
+      "baseLevel": 2,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 1,
+      "learnedDate": 20260419,
+      "reviews": [
+        {
+          "date": 20260502,
+          "passed": true
+        },
+        {
+          "date": 20261003,
+          "passed": false,
+          "key": "Bb"
+        },
+        {
+          "date": 20261005,
+          "passed": true,
+          "key": "Bb"
+        }
+      ],
+      "sortSeed": 0.07817612644370597,
+      "composer": "Spencer Williams",
+      "year": 1926,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "tags": [
+        "Trad"
+      ]
+    },
+    "Beale Street Blues": {
+      "name": "Beale Street Blues",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.4329602636464235,
+      "composer": "W.C. Handy",
+      "year": 1916,
+      "standardKey": null,
+      "multiKey": false,
+      "tags": [
+        "Trad",
+        "Blues"
+      ]
+    },
+    "Bemsha Swing": {
+      "name": "Bemsha Swing",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.23675387422060568,
+      "composer": "Thelonious Monk",
+      "year": 1952,
+      "standardKey": "C",
+      "multiKey": false,
+      "tags": [
+        "Bop",
+        "Monk"
+      ]
+    },
+    "Billie's Bounce": {
+      "name": "Billie's Bounce",
+      "baseLevel": 2,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 0,
+      "learnedDate": 20260419,
+      "reviews": [],
+      "sortSeed": 0.8689578862379846,
+      "composer": "Charlie Parker",
+      "year": 1945,
+      "standardKey": "F",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "tags": [
+        "Bop",
+        "Blues",
+        "Jam"
+      ]
+    },
+    "Birdland": {
+      "name": "Birdland",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.5113419488958311,
+      "composer": "Joe Zawinul",
+      "year": 1977,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Post-bop"
+      ]
+    },
+    "Blue Bossa": {
+      "name": "Blue Bossa",
+      "baseLevel": 3,
+      "currentLevel": 3,
+      "status": "graduated",
+      "intervalIdx": 5,
+      "learnedDate": 20260419,
+      "reviews": [],
+      "sortSeed": 0.7238606993915523,
+      "composer": "Kenny Dorham",
+      "year": 1963,
+      "standardKey": "Cm",
+      "multiKey": false,
+      "tags": [
+        "Bossa",
+        "Minor",
+        "Jam"
+      ]
+    },
+    "Blue in Green": {
+      "name": "Blue in Green",
+      "baseLevel": 2,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 0,
+      "learnedDate": 20260419,
+      "reviews": [],
+      "sortSeed": 0.8177289376778429,
+      "composer": "Miles Davis",
+      "year": 1959,
+      "standardKey": "Dm",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "tags": [
+        "Modal",
+        "Ballad"
+      ]
+    },
+    "Blue Monk": {
+      "name": "Blue Monk",
+      "baseLevel": 3,
+      "currentLevel": 3,
+      "status": "graduated",
+      "intervalIdx": 5,
+      "learnedDate": 20260419,
+      "reviews": [
+        {
+          "date": 20260805,
+          "passed": true
+        }
+      ],
+      "sortSeed": 0.565598268130208,
+      "composer": "Thelonious Monk",
+      "year": 1954,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "tags": [
+        "Bop",
+        "Monk",
+        "Blues",
+        "Jam"
+      ]
+    },
+    "Blue Moon": {
+      "name": "Blue Moon",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.24470567567602863,
+      "composer": "Richard Rodgers",
+      "year": 1934,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Blue Skies": {
+      "name": "Blue Skies",
+      "baseLevel": 2,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 1,
+      "learnedDate": 20260419,
+      "reviews": [
+        {
+          "date": 20260827,
+          "passed": true
+        }
+      ],
+      "sortSeed": 0.525638453491605,
+      "composer": "Irving Berlin",
+      "year": 1926,
+      "standardKey": "C",
+      "multiKey": true,
+      "staleFrom": 20261002,
+      "practiceKey": {
+        "date": 20261005,
+        "key": "Gb"
+      },
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Blues for Alice": {
+      "name": "Blues for Alice",
+      "baseLevel": 1,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 1,
+      "learnedDate": 20260508,
+      "reviews": [
+        {
+          "date": 20260912,
+          "passed": true
+        }
+      ],
+      "sortSeed": 0.8950004661134651,
+      "composer": "Charlie Parker",
+      "year": 1951,
+      "notes": "",
+      "standardKey": "F",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "practiceFocus": [
+        {
+          "text": "Intro",
+          "done": false
+        },
+        {
+          "text": "Comping",
+          "done": false
+        }
+      ],
+      "tags": [
+        "Bop",
+        "Blues",
+        "Jam"
+      ]
+    },
+    "Blues in the Night": {
+      "name": "Blues in the Night",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.22370998989154722,
+      "composer": "Harold Arlen",
+      "year": 1941,
+      "standardKey": "G",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Bluesette": {
+      "name": "Bluesette",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.6444194118131167,
+      "composer": "Toots Thielemans",
+      "year": 1962,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "tags": [
+        "Blues",
+        "Waltz"
+      ]
+    },
+    "Body and Soul": {
+      "name": "Body and Soul",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.5755033978082765,
+      "composer": "Johnny Green",
+      "year": 1930,
+      "standardKey": "Db",
+      "multiKey": false,
+      "tags": [
+        "Ballad",
+        "Jam"
+      ]
+    },
+    "But Beautiful": {
+      "name": "But Beautiful",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.6344595988822201,
+      "composer": "Jimmy Van Heusen",
+      "year": 1947,
+      "standardKey": "G",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "But Not for Me": {
+      "name": "But Not for Me",
+      "baseLevel": 2,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 0,
+      "learnedDate": 20260419,
+      "reviews": [],
+      "sortSeed": 0.8994108453688485,
+      "composer": "George Gershwin",
+      "year": 1930,
+      "standardKey": "Eb",
+      "multiKey": true,
+      "staleFrom": 20261002,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Bye Bye Blackbird": {
+      "name": "Bye Bye Blackbird",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "learning",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.13183891424433314,
+      "composer": "Ray Henderson",
+      "year": 1926,
+      "standardKey": "F",
+      "multiKey": true,
+      "learningSteps": {
+        "history": true,
+        "recording": true,
+        "melody-shell": true,
+        "bass-track": true,
+        "intro-outro": true
+      },
+      "tags": [
+        "Songbook",
+        "Jam"
+      ]
+    },
+    "C Jam Blues": {
+      "name": "C Jam Blues",
+      "baseLevel": 3,
+      "currentLevel": 3,
+      "status": "graduated",
+      "intervalIdx": 5,
+      "learnedDate": 20260419,
+      "reviews": [],
+      "sortSeed": 0.8423924938507181,
+      "composer": "Duke Ellington",
+      "year": 1942,
+      "standardKey": "C",
+      "multiKey": false,
+      "tags": [
+        "Swing",
+        "Blues",
+        "Jam"
+      ]
+    },
+    "Cantaloupe Island": {
+      "name": "Cantaloupe Island",
+      "baseLevel": 2,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 0,
+      "learnedDate": 20260419,
+      "reviews": [],
+      "sortSeed": 0.863295005003085,
+      "composer": "Herbie Hancock",
+      "year": 1964,
+      "standardKey": "Fm",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "tags": [
+        "Hard bop",
+        "Modal",
+        "Jam"
+      ]
+    },
+    "Caravan": {
+      "name": "Caravan",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.6717100593933927,
+      "composer": "Juan Tizol",
+      "year": 1937,
+      "standardKey": "Fm",
+      "multiKey": false,
+      "tags": [
+        "Swing",
+        "Latin",
+        "Minor",
+        "Jam"
+      ]
+    },
+    "Chelsea Bridge": {
+      "name": "Chelsea Bridge",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.9371251736613919,
+      "composer": "Billy Strayhorn",
+      "year": 1941,
+      "standardKey": "Db",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Cherokee": {
+      "name": "Cherokee",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.645897028689952,
+      "composer": "Ray Noble",
+      "year": 1938,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "tags": [
+        "Bop",
+        "Jam"
+      ]
+    },
+    "Come Rain or Come Shine": {
+      "name": "Come Rain or Come Shine",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.41556286551968424,
+      "composer": "Harold Arlen",
+      "year": 1946,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Come Sunday": {
+      "name": "Come Sunday",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.6862017398280538,
+      "composer": "Duke Ellington",
+      "year": 1943,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Con Alma": {
+      "name": "Con Alma",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.010105939288297616,
+      "composer": "Dizzy Gillespie",
+      "year": 1954,
+      "standardKey": "E",
+      "multiKey": false,
+      "tags": [
+        "Bop",
+        "Latin"
+      ]
+    },
+    "Confirmation": {
+      "name": "Confirmation",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.7260307677703703,
+      "composer": "Charlie Parker",
+      "year": 1945,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Bop",
+        "Jam"
+      ]
+    },
+    "Corcovado": {
+      "name": "Corcovado",
+      "baseLevel": 0,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 1,
+      "learnedDate": 20260813,
+      "reviews": [
+        {
+          "date": 20260923,
+          "passed": false,
+          "key": "Bm"
+        },
+        {
+          "date": 20260927,
+          "passed": true,
+          "key": "Cm"
+        }
+      ],
+      "sortSeed": 0.9843887098398352,
+      "composer": "Antônio Carlos Jobim",
+      "year": 1960,
+      "standardKey": "Am",
+      "multiKey": true,
+      "staleFrom": 20261002,
+      "tags": [
+        "Bossa"
+      ]
+    },
+    "Cotton Tail": {
+      "name": "Cotton Tail",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.5890619259090268,
+      "composer": "Duke Ellington",
+      "year": 1940,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "tags": [
+        "Swing",
+        "Rhythm changes"
+      ]
+    },
+    "Darn That Dream": {
+      "name": "Darn That Dream",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.21428405355859703,
+      "composer": "Jimmy Van Heusen",
+      "year": 1939,
+      "standardKey": "G",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Days of Wine and Roses": {
+      "name": "Days of Wine and Roses",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.5375968639595051,
+      "composer": "Henry Mancini",
+      "year": 1962,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Desafinado": {
+      "name": "Desafinado",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.005262484340758378,
+      "composer": "Antônio Carlos Jobim",
+      "year": 1958,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Bossa"
+      ]
+    },
+    "Dinah": {
+      "name": "Dinah",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.7223494475519163,
+      "composer": "Harry Akst",
+      "year": 1925,
+      "standardKey": "G",
+      "multiKey": false,
+      "tags": [
+        "Trad"
+      ]
+    },
+    "Django": {
+      "name": "Django",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.8612874466352898,
+      "composer": "John Lewis",
+      "year": 1954,
+      "standardKey": "Fm",
+      "multiKey": false,
+      "tags": [
+        "Ballad",
+        "Minor"
+      ]
+    },
+    "Do Nothin' Till You Hear from Me": {
+      "name": "Do Nothin' Till You Hear from Me",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.5076748100176218,
+      "composer": "Duke Ellington",
+      "year": 1943,
+      "standardKey": null,
+      "multiKey": false,
+      "tags": [
+        "Swing"
+      ]
+    },
+    "Do You Know What It Means": {
+      "name": "Do You Know What It Means",
+      "baseLevel": 2,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 1,
+      "learnedDate": 20260419,
+      "reviews": [
+        {
+          "date": 20260707,
+          "passed": false
+        },
+        {
+          "date": 20260713,
+          "passed": true
+        }
+      ],
+      "sortSeed": 0.8081911354324869,
+      "composer": "Louis Alter",
+      "year": 1947,
+      "standardKey": "C",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "tags": [
+        "Trad"
+      ]
+    },
+    "Dolphin Dance": {
+      "name": "Dolphin Dance",
+      "baseLevel": 0,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 0,
+      "learnedDate": 20260822,
+      "reviews": [
+        {
+          "date": 20260827,
+          "passed": true
+        },
+        {
+          "date": 20261002,
+          "passed": false,
+          "key": "Eb"
+        }
+      ],
+      "sortSeed": 0.3337723339745905,
+      "composer": "Herbie Hancock",
+      "year": 1965,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "tags": [
+        "Post-bop"
+      ]
+    },
+    "Don't Blame Me": {
+      "name": "Don't Blame Me",
+      "baseLevel": 0,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 1,
+      "learnedDate": 20260927,
+      "reviews": [
+        {
+          "date": 20260928,
+          "passed": true,
+          "key": "Eb"
+        }
+      ],
+      "sortSeed": 0.9033086847748873,
+      "composer": "Jimmy McHugh",
+      "year": 1932,
+      "notes": "Listening:\n2:28 Teddy Wilson (w/ Coleman Hawkins)",
+      "standardKey": "C",
+      "multiKey": true,
+      "staleFrom": 20261002,
+      "practiceFocus": [
+        {
+          "text": "Comping behind melody",
+          "done": false
+        },
+        {
+          "text": "Bridge comping",
+          "done": false
+        }
+      ],
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Don't Get Around Much Anymore": {
+      "name": "Don't Get Around Much Anymore",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.2215717364950135,
+      "composer": "Duke Ellington",
+      "year": 1942,
+      "standardKey": "C",
+      "multiKey": false,
+      "tags": [
+        "Swing"
+      ]
+    },
+    "Donna Lee": {
+      "name": "Donna Lee",
+      "baseLevel": 2,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 2,
+      "learnedDate": 20260419,
+      "reviews": [
+        {
+          "date": 20260505,
+          "passed": false
+        },
+        {
+          "date": 20260506,
+          "passed": false
+        },
+        {
+          "date": 20260508,
+          "passed": false
+        },
+        {
+          "date": 20260514,
+          "passed": true
+        },
+        {
+          "date": 20260528,
+          "passed": false
+        },
+        {
+          "date": 20260529,
+          "passed": true
+        },
+        {
+          "date": 20260702,
+          "passed": true
+        }
+      ],
+      "sortSeed": 0.1035655254316945,
+      "composer": "Charlie Parker",
+      "year": 1947,
+      "standardKey": "Ab",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "tags": [
+        "Bop",
+        "Contrafact",
+        "Jam"
+      ]
+    },
+    "East of the Sun": {
+      "name": "East of the Sun",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.12164061111194946,
+      "composer": "Brooks Bowman",
+      "year": 1934,
+      "standardKey": "G",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Easy Living": {
+      "name": "Easy Living",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.864789548910065,
+      "composer": "Ralph Rainger",
+      "year": 1937,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Easy to Love": {
+      "name": "Easy to Love",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.2063527134556844,
+      "composer": "Cole Porter",
+      "year": 1936,
+      "standardKey": "G",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Embraceable You": {
+      "name": "Embraceable You",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.9893028303160549,
+      "composer": "George Gershwin",
+      "year": 1930,
+      "standardKey": "G",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Emily": {
+      "name": "Emily",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.8028262187094317,
+      "composer": "Johnny Mandel",
+      "year": 1964,
+      "standardKey": "G",
+      "multiKey": false,
+      "tags": [
+        "Ballad",
+        "Waltz"
+      ]
+    },
+    "Epistrophy": {
+      "name": "Epistrophy",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.9318812996219528,
+      "composer": "Thelonious Monk",
+      "year": 1942,
+      "standardKey": "Db",
+      "multiKey": false,
+      "tags": [
+        "Bop",
+        "Monk"
+      ]
+    },
+    "Eternal Triangle": {
+      "name": "Eternal Triangle",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.6866611651839494,
+      "composer": "Sonny Stitt",
+      "year": 1957,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "tags": [
+        "Bop",
+        "Rhythm changes"
+      ]
+    },
+    "Ev'ry Time We Say Goodbye": {
+      "name": "Ev'ry Time We Say Goodbye",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.8098318664358818,
+      "composer": "Cole Porter",
+      "year": 1944,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Everything Happens to Me": {
+      "name": "Everything Happens to Me",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.40626895602033897,
+      "composer": "Matt Dennis",
+      "year": 1940,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Evidence": {
+      "name": "Evidence",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.2159235195213327,
+      "composer": "Thelonious Monk",
+      "year": 1948,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Bop",
+        "Monk",
+        "Contrafact"
+      ]
+    },
+    "Exactly Like You": {
+      "name": "Exactly Like You",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.743272362643961,
+      "composer": "Jimmy McHugh",
+      "year": 1930,
+      "standardKey": "C",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Falling in Love with Love": {
+      "name": "Falling in Love with Love",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.2739255609562744,
+      "composer": "Richard Rodgers",
+      "year": 1938,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Fascinating Rhythm": {
+      "name": "Fascinating Rhythm",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.014681675544435113,
+      "composer": "George Gershwin",
+      "year": 1924,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Fly Me to the Moon": {
+      "name": "Fly Me to the Moon",
+      "baseLevel": 1,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 2,
+      "learnedDate": 20260529,
+      "reviews": [
+        {
+          "date": 20260906,
+          "passed": false
+        },
+        {
+          "date": 20260910,
+          "passed": true
+        },
+        {
+          "date": 20260914,
+          "passed": true
+        }
+      ],
+      "sortSeed": 0.8633675201611779,
+      "composer": "Bart Howard",
+      "year": 1954,
+      "notes": "",
+      "standardKey": "C",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "practiceFocus": [
+        {
+          "text": "Comp through all keys: Db",
+          "done": false
+        }
+      ],
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Footprints": {
+      "name": "Footprints",
+      "baseLevel": 1,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 2,
+      "learnedDate": 20260723,
+      "reviews": [
+        {
+          "date": 20260921,
+          "passed": false
+        },
+        {
+          "date": 20260922,
+          "passed": false,
+          "key": "Cm"
+        },
+        {
+          "date": 20260923,
+          "passed": false,
+          "key": "Cm"
+        },
+        {
+          "date": 20260927,
+          "passed": true,
+          "key": "Cm"
+        },
+        {
+          "date": 20261001,
+          "passed": true,
+          "key": "Cm"
+        }
+      ],
+      "sortSeed": 0.9246325068264573,
+      "composer": "Wayne Shorter",
+      "year": 1966,
+      "notes": "",
+      "standardKey": "Cm",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "practiceFocus": [
+        {
+          "text": "Herbie voicings",
+          "done": false
+        },
+        {
+          "text": "Turnaround voicings (LH and LH + RH)",
+          "done": false
+        }
+      ],
+      "tags": [
+        "Post-bop",
+        "Blues",
+        "Minor",
+        "Jam"
+      ]
+    },
+    "Gee Baby Ain't I Good to You": {
+      "name": "Gee Baby Ain't I Good to You",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.8766224935342107,
+      "composer": "Don Redman",
+      "year": 1929,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Swing"
+      ]
+    },
+    "Georgia on My Mind": {
+      "name": "Georgia on My Mind",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.5713643977798671,
+      "composer": "Hoagy Carmichael",
+      "year": 1930,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Ghost of a Chance": {
+      "name": "Ghost of a Chance",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.22167567126540055,
+      "composer": "Victor Young",
+      "year": 1932,
+      "standardKey": "C",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Giant Steps": {
+      "name": "Giant Steps",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.6271731585680831,
+      "composer": "John Coltrane",
+      "year": 1960,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Post-bop"
+      ]
+    },
+    "God Bless the Child": {
+      "name": "God Bless the Child",
+      "baseLevel": 2,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 1,
+      "learnedDate": 20260419,
+      "reviews": [
+        {
+          "date": 20260816,
+          "passed": true
+        }
+      ],
+      "sortSeed": 0.4436192033222478,
+      "composer": "Billie Holiday",
+      "year": 1941,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Gone with the Wind": {
+      "name": "Gone with the Wind",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.48671977115139586,
+      "composer": "Allie Wrubel",
+      "year": 1937,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Good Morning Heartache": {
+      "name": "Good Morning Heartache",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.44945005926964876,
+      "composer": "Irene Higginbotham",
+      "year": 1945,
+      "standardKey": "Cm",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Goodbye Pork Pie Hat": {
+      "name": "Goodbye Pork Pie Hat",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.338336208029863,
+      "composer": "Charles Mingus",
+      "year": 1959,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Ballad",
+        "Blues"
+      ]
+    },
+    "Groovin' High": {
+      "name": "Groovin' High",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.5104622442066732,
+      "composer": "Dizzy Gillespie",
+      "year": 1945,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Bop",
+        "Contrafact",
+        "Jam"
+      ]
+    },
+    "Have You Met Miss Jones?": {
+      "name": "Have You Met Miss Jones?",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.3679961659377111,
+      "composer": "Richard Rodgers",
+      "year": 1937,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Songbook",
+        "Jam"
+      ]
+    },
+    "Here's That Rainy Day": {
+      "name": "Here's That Rainy Day",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.5253793967743968,
+      "composer": "Jimmy Van Heusen",
+      "year": 1953,
+      "standardKey": "G",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Honeysuckle Rose": {
+      "name": "Honeysuckle Rose",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.06602619114040365,
+      "composer": "Fats Waller",
+      "year": 1929,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Swing"
+      ]
+    },
+    "Hot House": {
+      "name": "Hot House",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.2250949767678897,
+      "composer": "Tadd Dameron",
+      "year": 1945,
+      "standardKey": "C",
+      "multiKey": false,
+      "tags": [
+        "Bop",
+        "Contrafact"
+      ]
+    },
+    "How Deep Is the Ocean?": {
+      "name": "How Deep Is the Ocean?",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.012269098806728884,
+      "composer": "Irving Berlin",
+      "year": 1932,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Songbook",
+        "Minor"
+      ]
+    },
+    "How High the Moon": {
+      "name": "How High the Moon",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.7769670228670962,
+      "composer": "Morgan Lewis",
+      "year": 1940,
+      "standardKey": "G",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "How Insensitive": {
+      "name": "How Insensitive",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.6098368182863384,
+      "composer": "Antônio Carlos Jobim",
+      "year": 1963,
+      "standardKey": "Dm",
+      "multiKey": false,
+      "tags": [
+        "Bossa",
+        "Minor"
+      ]
+    },
+    "How Long Has This Been Going On?": {
+      "name": "How Long Has This Been Going On?",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.8619957442680715,
+      "composer": "George Gershwin",
+      "year": 1927,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "I Can't Get Started": {
+      "name": "I Can't Get Started",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.01122539256286037,
+      "composer": "Vernon Duke",
+      "year": 1935,
+      "standardKey": "C",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "I Can't Give You Anything but Love": {
+      "name": "I Can't Give You Anything but Love",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.2740387610730829,
+      "composer": "Jimmy McHugh",
+      "year": 1928,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "I Cover the Waterfront": {
+      "name": "I Cover the Waterfront",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.9022407511206431,
+      "composer": "Johnny Green",
+      "year": 1933,
+      "standardKey": "G",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "I Didn't Know What Time It Was": {
+      "name": "I Didn't Know What Time It Was",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.9332958843578765,
+      "composer": "Richard Rodgers",
+      "year": 1939,
+      "standardKey": "G",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "I Fall in Love Too Easily": {
+      "name": "I Fall in Love Too Easily",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.017517862639178206,
+      "composer": "Jule Styne",
+      "year": 1944,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "I Got It Bad": {
+      "name": "I Got It Bad",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.7961447599067807,
+      "composer": "Duke Ellington",
+      "year": 1941,
+      "standardKey": "G",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "I Got Rhythm": {
+      "name": "I Got Rhythm",
+      "baseLevel": 1,
+      "currentLevel": 1,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.26607959526075264,
+      "composer": "George Gershwin",
+      "year": 1930,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "tags": [
+        "Songbook",
+        "Rhythm changes"
+      ]
+    },
+    "I Hear a Rhapsody": {
+      "name": "I Hear a Rhapsody",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.6560177308955755,
+      "composer": "George Fragos",
+      "year": 1940,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Songbook",
+        "Minor"
+      ]
+    },
+    "I Let a Song Go Out of My Heart": {
+      "name": "I Let a Song Go Out of My Heart",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.4603788672055641,
+      "composer": "Duke Ellington",
+      "year": 1938,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Swing"
+      ]
+    },
+    "I Love You": {
+      "name": "I Love You",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.5694167451853857,
+      "composer": "Cole Porter",
+      "year": 1943,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "I Mean You": {
+      "name": "I Mean You",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.973764094879406,
+      "composer": "Thelonious Monk",
+      "year": 1947,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Bop",
+        "Monk"
+      ]
+    },
+    "I Only Have Eyes for You": {
+      "name": "I Only Have Eyes for You",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.48429743166646333,
+      "composer": "Harry Warren",
+      "year": 1934,
+      "standardKey": "C",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "I Remember Clifford": {
+      "name": "I Remember Clifford",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.23625817737520693,
+      "composer": "Benny Golson",
+      "year": 1957,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "I Should Care": {
+      "name": "I Should Care",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.32641674085689776,
+      "composer": "Axel Stordahl",
+      "year": 1944,
+      "standardKey": "C",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "I Surrender Dear": {
+      "name": "I Surrender Dear",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.5189279037275644,
+      "composer": "Harry Barris",
+      "year": 1931,
+      "standardKey": "C",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "I Thought about You": {
+      "name": "I Thought about You",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.6651298804416543,
+      "composer": "Jimmy Van Heusen",
+      "year": 1939,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "I Want to Be Happy": {
+      "name": "I Want to Be Happy",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.37709458483121605,
+      "composer": "Vincent Youmans",
+      "year": 1924,
+      "standardKey": "C",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "I'll Remember April": {
+      "name": "I'll Remember April",
+      "baseLevel": 2,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 1,
+      "learnedDate": 20260419,
+      "reviews": [
+        {
+          "date": 20260801,
+          "passed": true
+        }
+      ],
+      "sortSeed": 0.297975853158443,
+      "composer": "Gene de Paul",
+      "year": 1941,
+      "standardKey": "G",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "tags": [
+        "Songbook",
+        "Latin",
+        "Jam"
+      ]
+    },
+    "I'm in the Mood for Love": {
+      "name": "I'm in the Mood for Love",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.7078979016858215,
+      "composer": "Jimmy McHugh",
+      "year": 1935,
+      "standardKey": "C",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "I've Found a New Baby": {
+      "name": "I've Found a New Baby",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.5406144970336489,
+      "composer": "Jack Palmer",
+      "year": 1926,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Trad",
+        "Minor"
+      ]
+    },
+    "If I Should Lose You": {
+      "name": "If I Should Lose You",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.8283429367677612,
+      "composer": "Ralph Rainger",
+      "year": 1935,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "If You Could See Me Now": {
+      "name": "If You Could See Me Now",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.086145845139188,
+      "composer": "Tadd Dameron",
+      "year": 1946,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Impressions": {
+      "name": "Impressions",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.4995649352957229,
+      "composer": "John Coltrane",
+      "year": 1961,
+      "standardKey": "Dm",
+      "multiKey": false,
+      "tags": [
+        "Modal",
+        "Jam"
+      ]
+    },
+    "In a Mellow Tone": {
+      "name": "In a Mellow Tone",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.1647550148828386,
+      "composer": "Duke Ellington",
+      "year": 1940,
+      "standardKey": "Ab",
+      "multiKey": false,
+      "tags": [
+        "Swing"
+      ]
+    },
+    "In a Sentimental Mood": {
+      "name": "In a Sentimental Mood",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.22872215572990362,
+      "composer": "Duke Ellington",
+      "year": 1935,
+      "standardKey": "Dm",
+      "multiKey": false,
+      "tags": [
+        "Ballad",
+        "Minor",
+        "Jam"
+      ]
+    },
+    "In Your Own Sweet Way": {
+      "name": "In Your Own Sweet Way",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.7394710945314659,
+      "composer": "Dave Brubeck",
+      "year": 1954,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Hard bop"
+      ]
+    },
+    "Indiana": {
+      "name": "Indiana",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.018175543236075842,
+      "composer": "James F. Hanley",
+      "year": 1917,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Trad"
+      ]
+    },
+    "Invitation": {
+      "name": "Invitation",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.45424576969013153,
+      "composer": "Bronisław Kaper",
+      "year": 1952,
+      "standardKey": "Cm",
+      "multiKey": false,
+      "tags": [
+        "Songbook",
+        "Latin",
+        "Minor",
+        "Jam"
+      ]
+    },
+    "It Could Happen to You": {
+      "name": "It Could Happen to You",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.06545462407564695,
+      "composer": "Jimmy Van Heusen",
+      "year": 1944,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "It Don't Mean a Thing": {
+      "name": "It Don't Mean a Thing",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.9116991290296479,
+      "composer": "Duke Ellington",
+      "year": 1931,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "tags": [
+        "Swing",
+        "Minor"
+      ]
+    },
+    "It Had to Be You": {
+      "name": "It Had to Be You",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.9586355073929035,
+      "composer": "Isham Jones",
+      "year": 1924,
+      "standardKey": "G",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "It Might as Well Be Spring": {
+      "name": "It Might as Well Be Spring",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.5540473683665594,
+      "composer": "Richard Rodgers",
+      "year": 1945,
+      "standardKey": "G",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "It Never Entered My Mind": {
+      "name": "It Never Entered My Mind",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.08084244250285078,
+      "composer": "Richard Rodgers",
+      "year": 1940,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "It's Easy to Remember": {
+      "name": "It's Easy to Remember",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.21695426494593073,
+      "composer": "Richard Rodgers",
+      "year": 1934,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Joy Spring": {
+      "name": "Joy Spring",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.1158961007322743,
+      "composer": "Clifford Brown",
+      "year": 1954,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Hard bop"
+      ]
+    },
+    "Just Friends": {
+      "name": "Just Friends",
+      "baseLevel": 3,
+      "currentLevel": 3,
+      "status": "graduated",
+      "intervalIdx": 5,
+      "learnedDate": 20260419,
+      "reviews": [],
+      "sortSeed": 0.677097954561664,
+      "composer": "John Klenner",
+      "year": 1931,
+      "standardKey": "G",
+      "multiKey": true,
+      "tags": [
+        "Songbook",
+        "Jam"
+      ]
+    },
+    "Just One of Those Things": {
+      "name": "Just One of Those Things",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.5584830035849336,
+      "composer": "Cole Porter",
+      "year": 1935,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Just You Just Me": {
+      "name": "Just You Just Me",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.682546815316007,
+      "composer": "Jesse Greer",
+      "year": 1929,
+      "standardKey": "C",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "King Porter Stomp": {
+      "name": "King Porter Stomp",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.1296193689231414,
+      "composer": "Jelly Roll Morton",
+      "year": 1906,
+      "standardKey": "Ab",
+      "multiKey": false,
+      "tags": [
+        "Trad"
+      ]
+    },
+    "Lady Bird": {
+      "name": "Lady Bird",
+      "baseLevel": 2,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 2,
+      "learnedDate": 20260419,
+      "reviews": [
+        {
+          "date": 20260427,
+          "passed": false
+        },
+        {
+          "date": 20260428,
+          "passed": false
+        },
+        {
+          "date": 20260429,
+          "passed": false
+        },
+        {
+          "date": 20260501,
+          "passed": true
+        },
+        {
+          "date": 20260502,
+          "passed": true
+        }
+      ],
+      "sortSeed": 0.06964188975717078,
+      "composer": "Tadd Dameron",
+      "year": 1947,
+      "standardKey": "C",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "tags": [
+        "Bop",
+        "Jam"
+      ]
+    },
+    "Lament": {
+      "name": "Lament",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.9586407691911554,
+      "composer": "J.J. Johnson",
+      "year": 1955,
+      "standardKey": "Fm",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Laura": {
+      "name": "Laura",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.22479152179862172,
+      "composer": "David Raksin",
+      "year": 1945,
+      "standardKey": "C",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Lester Leaps In": {
+      "name": "Lester Leaps In",
+      "baseLevel": 2,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 0,
+      "learnedDate": 20260419,
+      "reviews": [],
+      "sortSeed": 0.8939146708135747,
+      "composer": "Lester Young",
+      "year": 1939,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "tags": [
+        "Swing",
+        "Rhythm changes",
+        "Jam"
+      ]
+    },
+    "Like Someone in Love": {
+      "name": "Like Someone in Love",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.28339836850411737,
+      "composer": "Jimmy Van Heusen",
+      "year": 1944,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Limehouse Blues": {
+      "name": "Limehouse Blues",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.13454555032976145,
+      "composer": "Philip Braham",
+      "year": 1921,
+      "standardKey": "Ab",
+      "multiKey": false,
+      "tags": [
+        "Trad"
+      ]
+    },
+    "Liza": {
+      "name": "Liza",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.6719015868398126,
+      "composer": "George Gershwin",
+      "year": 1929,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Lonely Woman": {
+      "name": "Lonely Woman",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.29305416907936277,
+      "composer": "Ornette Coleman",
+      "year": 1960,
+      "standardKey": "Dm",
+      "multiKey": false,
+      "tags": [
+        "Post-bop",
+        "Minor"
+      ]
+    },
+    "Lotus Blossom": {
+      "name": "Lotus Blossom",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.6102505807503311,
+      "composer": "Billy Strayhorn",
+      "year": 1946,
+      "standardKey": null,
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Love for Sale": {
+      "name": "Love for Sale",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.49175959454409635,
+      "composer": "Cole Porter",
+      "year": 1930,
+      "standardKey": "Bbm",
+      "multiKey": false,
+      "tags": [
+        "Songbook",
+        "Latin"
+      ]
+    },
+    "Love Is Here to Stay": {
+      "name": "Love Is Here to Stay",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.6670060696619652,
+      "composer": "George Gershwin",
+      "year": 1938,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Lover": {
+      "name": "Lover",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.775783711239322,
+      "composer": "Richard Rodgers",
+      "year": 1932,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Lover Man": {
+      "name": "Lover Man",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.3174796592315916,
+      "composer": "Jimmy Davis",
+      "year": 1941,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Lover Come Back to Me": {
+      "name": "Lover Come Back to Me",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.9699480684000501,
+      "composer": "Sigmund Romberg",
+      "year": 1928,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Lullaby of Birdland": {
+      "name": "Lullaby of Birdland",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.30333596814766983,
+      "composer": "George Shearing",
+      "year": 1952,
+      "standardKey": "Ab",
+      "multiKey": false,
+      "tags": [
+        "Bop",
+        "Minor"
+      ]
+    },
+    "Lush Life": {
+      "name": "Lush Life",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.7325903439217103,
+      "composer": "Billy Strayhorn",
+      "year": 1949,
+      "standardKey": "Db",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Mack the Knife": {
+      "name": "Mack the Knife",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.953717047702119,
+      "composer": "Kurt Weill",
+      "year": 1928,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Maiden Voyage": {
+      "name": "Maiden Voyage",
+      "baseLevel": 0,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 2,
+      "learnedDate": 20260831,
+      "reviews": [
+        {
+          "date": 20260904,
+          "passed": true
+        },
+        {
+          "date": 20260929,
+          "passed": true,
+          "key": "D"
+        }
+      ],
+      "sortSeed": 0.49898824098673644,
+      "composer": "Herbie Hancock",
+      "year": 1965,
+      "notes": "",
+      "standardKey": "D",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "practiceFocus": [
+        {
+          "text": "Melody in RH octaves",
+          "done": false
+        },
+        {
+          "text": "Comping strategies",
+          "done": false
+        }
+      ],
+      "tags": [
+        "Modal",
+        "Jam"
+      ]
+    },
+    "Manhã de Carnaval": {
+      "name": "Manhã de Carnaval",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.10841126930074729,
+      "composer": "Luiz Bonfá",
+      "year": 1959,
+      "standardKey": "Am",
+      "multiKey": false,
+      "tags": [
+        "Bossa",
+        "Minor"
+      ]
+    },
+    "Mean to Me": {
+      "name": "Mean to Me",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.3577087121334285,
+      "composer": "Fred E. Ahlert",
+      "year": 1929,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Meditation": {
+      "name": "Meditation",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.2222389744248504,
+      "composer": "Antônio Carlos Jobim",
+      "year": 1962,
+      "standardKey": "C",
+      "multiKey": false,
+      "tags": [
+        "Bossa"
+      ]
+    },
+    "Memories of You": {
+      "name": "Memories of You",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.45227612697183783,
+      "composer": "Eubie Blake",
+      "year": 1930,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Milestones": {
+      "name": "Milestones",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.8601742280255904,
+      "composer": "Miles Davis",
+      "year": 1958,
+      "standardKey": "Gm",
+      "multiKey": false,
+      "tags": [
+        "Modal"
+      ]
+    },
+    "Misterioso": {
+      "name": "Misterioso",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.7934375870887659,
+      "composer": "Thelonious Monk",
+      "year": 1948,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "tags": [
+        "Bop",
+        "Monk",
+        "Blues"
+      ]
+    },
+    "Misty": {
+      "name": "Misty",
+      "baseLevel": 1,
+      "currentLevel": 1,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.27946670290093734,
+      "composer": "Erroll Garner",
+      "year": 1954,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Moanin'": {
+      "name": "Moanin'",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.27946178955880774,
+      "composer": "Bobby Timmons",
+      "year": 1958,
+      "standardKey": "Fm",
+      "multiKey": false,
+      "tags": [
+        "Hard bop",
+        "Minor",
+        "Jam"
+      ]
+    },
+    "Moment's Notice": {
+      "name": "Moment's Notice",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.8764817956951639,
+      "composer": "John Coltrane",
+      "year": 1957,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Post-bop"
+      ]
+    },
+    "Mood Indigo": {
+      "name": "Mood Indigo",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.9459084865301549,
+      "composer": "Duke Ellington",
+      "year": 1930,
+      "standardKey": "Ab",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Moonlight in Vermont": {
+      "name": "Moonlight in Vermont",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.04886587170001888,
+      "composer": "Karl Suessdorf",
+      "year": 1944,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Moose the Mooche": {
+      "name": "Moose the Mooche",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.5976076222887052,
+      "composer": "Charlie Parker",
+      "year": 1946,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "tags": [
+        "Bop",
+        "Rhythm changes"
+      ]
+    },
+    "More Than You Know": {
+      "name": "More Than You Know",
+      "baseLevel": 0,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 0,
+      "learnedDate": 20261005,
+      "reviews": [],
+      "sortSeed": 0.42746147795665823,
+      "composer": "Vincent Youmans",
+      "year": 1929,
+      "standardKey": "Ab",
+      "multiKey": true,
+      "learningSteps": {
+        "recording": true,
+        "melody-shell": true,
+        "bass-track": true,
+        "melody-rootless": true,
+        "comping": true,
+        "substitutions": true
+      },
+      "practiceKey": {
+        "date": 20261005,
+        "key": "Gb"
+      },
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Muskrat Ramble": {
+      "name": "Muskrat Ramble",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.41376504237331113,
+      "composer": "Kid Ory",
+      "year": 1926,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "tags": [
+        "Trad"
+      ]
+    },
+    "My Favorite Things": {
+      "name": "My Favorite Things",
+      "baseLevel": 2,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 1,
+      "learnedDate": 20260419,
+      "reviews": [
+        {
+          "date": 20260801,
+          "passed": true
+        }
+      ],
+      "sortSeed": 0.2842877483214954,
+      "composer": "Richard Rodgers",
+      "year": 1959,
+      "standardKey": "Em",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "tags": [
+        "Modal",
+        "Waltz"
+      ]
+    },
+    "My Foolish Heart": {
+      "name": "My Foolish Heart",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.6437272055069252,
+      "composer": "Victor Young",
+      "year": 1949,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "My Funny Valentine": {
+      "name": "My Funny Valentine",
+      "baseLevel": 1,
+      "currentLevel": 1,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.8973962090263247,
+      "composer": "Richard Rodgers",
+      "year": 1937,
+      "standardKey": "Cm",
+      "multiKey": false,
+      "tags": [
+        "Ballad",
+        "Minor"
+      ]
+    },
+    "My Heart Stood Still": {
+      "name": "My Heart Stood Still",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.566458245709446,
+      "composer": "Richard Rodgers",
+      "year": 1927,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "My Old Flame": {
+      "name": "My Old Flame",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.5211130451125164,
+      "composer": "Arthur Johnston",
+      "year": 1934,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "My One and Only Love": {
+      "name": "My One and Only Love",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.7484917759770457,
+      "composer": "Guy Wood",
+      "year": 1952,
+      "standardKey": "C",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "My Romance": {
+      "name": "My Romance",
+      "baseLevel": 3,
+      "currentLevel": 3,
+      "status": "graduated",
+      "intervalIdx": 5,
+      "learnedDate": 20260419,
+      "reviews": [
+        {
+          "date": 20260714,
+          "passed": true
+        }
+      ],
+      "sortSeed": 0.1785265660176243,
+      "composer": "Richard Rodgers",
+      "year": 1935,
+      "standardKey": "C",
+      "multiKey": true,
+      "practiceKey": {
+        "date": 20261005,
+        "key": "Gb"
+      },
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Naima": {
+      "name": "Naima",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.5861534896781252,
+      "composer": "John Coltrane",
+      "year": 1959,
+      "standardKey": "Ab",
+      "multiKey": false,
+      "tags": [
+        "Post-bop",
+        "Ballad"
+      ]
+    },
+    "Nardis": {
+      "name": "Nardis",
+      "baseLevel": 3,
+      "currentLevel": 3,
+      "status": "graduated",
+      "intervalIdx": 5,
+      "learnedDate": 20260419,
+      "reviews": [
+        {
+          "date": 20260731,
+          "passed": true
+        }
+      ],
+      "sortSeed": 0.4464818996745087,
+      "composer": "Miles Davis",
+      "year": 1958,
+      "standardKey": "Em",
+      "multiKey": false,
+      "tags": [
+        "Modal",
+        "Minor"
+      ]
+    },
+    "Nature Boy": {
+      "name": "Nature Boy",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.3483300641588436,
+      "composer": "Eden Ahbez",
+      "year": 1947,
+      "standardKey": "Dm",
+      "multiKey": false,
+      "tags": [
+        "Songbook",
+        "Minor"
+      ]
+    },
+    "Nice Work If You Can Get It": {
+      "name": "Nice Work If You Can Get It",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.7569414521928374,
+      "composer": "George Gershwin",
+      "year": 1937,
+      "standardKey": "G",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Night and Day": {
+      "name": "Night and Day",
+      "baseLevel": 3,
+      "currentLevel": 3,
+      "status": "graduated",
+      "intervalIdx": 5,
+      "learnedDate": 20260419,
+      "reviews": [
+        {
+          "date": 20260724,
+          "passed": true
+        }
+      ],
+      "sortSeed": 0.26925524265212397,
+      "composer": "Cole Porter",
+      "year": 1932,
+      "standardKey": "C",
+      "multiKey": true,
+      "practiceKey": {
+        "date": 20261005,
+        "key": "Gb"
+      },
+      "tags": [
+        "Songbook",
+        "Latin"
+      ]
+    },
+    "Night in Tunisia": {
+      "name": "Night in Tunisia",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.6631978975687559,
+      "composer": "Dizzy Gillespie",
+      "year": 1942,
+      "standardKey": "Dm",
+      "multiKey": false,
+      "tags": [
+        "Bop",
+        "Latin",
+        "Minor",
+        "Jam"
+      ]
+    },
+    "Night Train": {
+      "name": "Night Train",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.8256117164670507,
+      "composer": "Jimmy Forrest",
+      "year": 1951,
+      "standardKey": null,
+      "multiKey": false,
+      "tags": [
+        "Swing",
+        "Blues"
+      ]
+    },
+    "Now's the Time": {
+      "name": "Now's the Time",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.22645009123958437,
+      "composer": "Charlie Parker",
+      "year": 1945,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Bop",
+        "Blues",
+        "Jam"
+      ]
+    },
+    "Nuages": {
+      "name": "Nuages",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.5058364097862615,
+      "composer": "Django Reinhardt",
+      "year": 1940,
+      "standardKey": "G",
+      "multiKey": false,
+      "tags": [
+        "Swing"
+      ]
+    },
+    "Oh Lady Be Good": {
+      "name": "Oh Lady Be Good",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.32398173911874206,
+      "composer": "George Gershwin",
+      "year": 1924,
+      "standardKey": "G",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Old Folks": {
+      "name": "Old Folks",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.9333894758817184,
+      "composer": "Willard Robison",
+      "year": 1938,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Oleo": {
+      "name": "Oleo",
+      "baseLevel": 2,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 2,
+      "learnedDate": 20260419,
+      "reviews": [
+        {
+          "date": 20260427,
+          "passed": true
+        },
+        {
+          "date": 20261003,
+          "passed": true,
+          "key": "Bb"
+        }
+      ],
+      "sortSeed": 0.05083342077208053,
+      "composer": "Sonny Rollins",
+      "year": 1954,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "tags": [
+        "Bop",
+        "Rhythm changes",
+        "Jam"
+      ]
+    },
+    "On a Clear Day": {
+      "name": "On a Clear Day",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.18757463347426995,
+      "composer": "Burton Lane",
+      "year": 1965,
+      "standardKey": "G",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "On Green Dolphin Street": {
+      "name": "On Green Dolphin Street",
+      "baseLevel": 2,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 0,
+      "learnedDate": 20260419,
+      "reviews": [],
+      "sortSeed": 0.7490787542521508,
+      "composer": "Bronisław Kaper",
+      "year": 1947,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "tags": [
+        "Songbook",
+        "Latin",
+        "Jam"
+      ]
+    },
+    "On the Sunny Side of the Street": {
+      "name": "On the Sunny Side of the Street",
+      "baseLevel": 2,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 1,
+      "learnedDate": 20260419,
+      "reviews": [
+        {
+          "date": 20260818,
+          "passed": true
+        }
+      ],
+      "sortSeed": 0.4911698413673723,
+      "composer": "Jimmy McHugh",
+      "year": 1930,
+      "standardKey": "C",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "tags": [
+        "Swing"
+      ]
+    },
+    "Once I Loved": {
+      "name": "Once I Loved",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.4531799204506617,
+      "composer": "Antônio Carlos Jobim",
+      "year": 1965,
+      "standardKey": "Dm",
+      "multiKey": false,
+      "tags": [
+        "Bossa"
+      ]
+    },
+    "One Note Samba": {
+      "name": "One Note Samba",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.20028194888322826,
+      "composer": "Antônio Carlos Jobim",
+      "year": 1960,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "tags": [
+        "Bossa"
+      ]
+    },
+    "One O'Clock Jump": {
+      "name": "One O'Clock Jump",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.5923228632627221,
+      "composer": "Count Basie",
+      "year": 1937,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Swing",
+        "Blues"
+      ]
+    },
+    "Ornithology": {
+      "name": "Ornithology",
+      "baseLevel": 1,
+      "currentLevel": 1,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.3811896800351551,
+      "composer": "Charlie Parker",
+      "year": 1946,
+      "standardKey": "G",
+      "multiKey": false,
+      "tags": [
+        "Bop",
+        "Contrafact"
+      ]
+    },
+    "Out of Nowhere": {
+      "name": "Out of Nowhere",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.13603747378234565,
+      "composer": "Johnny Green",
+      "year": 1931,
+      "standardKey": "G",
+      "multiKey": false,
+      "tags": [
+        "Songbook",
+        "Jam"
+      ]
+    },
+    "Over the Rainbow": {
+      "name": "Over the Rainbow",
+      "baseLevel": 1,
+      "currentLevel": 1,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.4262872314334424,
+      "composer": "Harold Arlen",
+      "year": 1939,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Peace": {
+      "name": "Peace",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.3656567213163562,
+      "composer": "Horace Silver",
+      "year": 1959,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "tags": [
+        "Post-bop",
+        "Ballad"
+      ]
+    },
+    "Pennies from Heaven": {
+      "name": "Pennies from Heaven",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.4445551076821598,
+      "composer": "Arthur Johnston",
+      "year": 1936,
+      "standardKey": "C",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Perdido": {
+      "name": "Perdido",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.9328018304716139,
+      "composer": "Juan Tizol",
+      "year": 1941,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "tags": [
+        "Swing",
+        "Jam"
+      ]
+    },
+    "Poinciana": {
+      "name": "Poinciana",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.9928716721081488,
+      "composer": "Nat Simon",
+      "year": 1936,
+      "standardKey": "D",
+      "multiKey": false,
+      "tags": [
+        "Songbook",
+        "Latin"
+      ]
+    },
+    "Polka Dots and Moonbeams": {
+      "name": "Polka Dots and Moonbeams",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.950054495434189,
+      "composer": "Jimmy Van Heusen",
+      "year": 1940,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Prelude to a Kiss": {
+      "name": "Prelude to a Kiss",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.6057487061765954,
+      "composer": "Duke Ellington",
+      "year": 1938,
+      "standardKey": "C",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Rhythm-a-ning": {
+      "name": "Rhythm-a-ning",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.7409584813528363,
+      "composer": "Thelonious Monk",
+      "year": 1957,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "tags": [
+        "Bop",
+        "Monk",
+        "Rhythm changes",
+        "Jam"
+      ]
+    },
+    "Round Midnight": {
+      "name": "Round Midnight",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.3722409854999291,
+      "composer": "Thelonious Monk",
+      "year": 1944,
+      "standardKey": "Ebm",
+      "multiKey": false,
+      "tags": [
+        "Ballad",
+        "Monk",
+        "Minor",
+        "Jam"
+      ]
+    },
+    "Royal Garden Blues": {
+      "name": "Royal Garden Blues",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.8839144851602958,
+      "composer": "Spencer Williams",
+      "year": 1919,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Trad"
+      ]
+    },
+    "Ruby My Dear": {
+      "name": "Ruby My Dear",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.23657115225233516,
+      "composer": "Thelonious Monk",
+      "year": 1947,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Ballad",
+        "Monk"
+      ]
+    },
+    "S Wonderful": {
+      "name": "S Wonderful",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.9740123813196344,
+      "composer": "George Gershwin",
+      "year": 1927,
+      "standardKey": null,
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Satin Doll": {
+      "name": "Satin Doll",
+      "baseLevel": 1,
+      "currentLevel": 1,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.24904883306966208,
+      "composer": "Duke Ellington",
+      "year": 1953,
+      "standardKey": "C",
+      "multiKey": false,
+      "tags": [
+        "Swing",
+        "Jam"
+      ]
+    },
+    "Scrapple from the Apple": {
+      "name": "Scrapple from the Apple",
+      "baseLevel": 1,
+      "currentLevel": 1,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.23411105018238787,
+      "composer": "Charlie Parker",
+      "year": 1947,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Bop",
+        "Contrafact",
+        "Jam"
+      ]
+    },
+    "Secret Love": {
+      "name": "Secret Love",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.5384477507920341,
+      "composer": "Sammy Fain",
+      "year": 1953,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Skylark": {
+      "name": "Skylark",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.022438589773608242,
+      "composer": "Hoagy Carmichael",
+      "year": 1941,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "A Sleepin Bee": {
+      "name": "A Sleepin Bee",
+      "baseLevel": 2,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 0,
+      "learnedDate": 20260419,
+      "reviews": [],
+      "sortSeed": 0.5934359283806033,
+      "composer": "Harold Arlen",
+      "year": 1954,
+      "standardKey": "Ab",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Smile": {
+      "name": "Smile",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.684713852354822,
+      "composer": "Charlie Chaplin",
+      "year": 1936,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Smoke Gets in Your Eyes": {
+      "name": "Smoke Gets in Your Eyes",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.9794220977230094,
+      "composer": "Jerome Kern",
+      "year": 1933,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "So What": {
+      "name": "So What",
+      "baseLevel": 3,
+      "currentLevel": 3,
+      "status": "graduated",
+      "intervalIdx": 5,
+      "learnedDate": 20260419,
+      "reviews": [
+        {
+          "date": 20260723,
+          "passed": true
+        }
+      ],
+      "sortSeed": 0.2007807719577993,
+      "composer": "Miles Davis",
+      "year": 1959,
+      "standardKey": "Dm",
+      "multiKey": false,
+      "tags": [
+        "Modal",
+        "Jam"
+      ]
+    },
+    "Softly as in a Morning Sunrise": {
+      "name": "Softly as in a Morning Sunrise",
+      "baseLevel": 3,
+      "currentLevel": 3,
+      "status": "graduated",
+      "intervalIdx": 5,
+      "learnedDate": 20260419,
+      "reviews": [
+        {
+          "date": 20260724,
+          "passed": true
+        }
+      ],
+      "sortSeed": 0.24826179081155608,
+      "composer": "Sigmund Romberg",
+      "year": 1928,
+      "standardKey": "Cm",
+      "multiKey": false,
+      "tags": [
+        "Songbook",
+        "Latin",
+        "Minor",
+        "Jam"
+      ]
+    },
+    "Solar": {
+      "name": "Solar",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.35840510328123054,
+      "composer": "Miles Davis",
+      "year": 1954,
+      "standardKey": "Cm",
+      "multiKey": false,
+      "tags": [
+        "Hard bop",
+        "Minor",
+        "Jam"
+      ]
+    },
+    "Solitude": {
+      "name": "Solitude",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.40927275114995865,
+      "composer": "Duke Ellington",
+      "year": 1934,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Some of These Days": {
+      "name": "Some of These Days",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.4439476361699718,
+      "composer": "Shelton Brooks",
+      "year": 1910,
+      "standardKey": null,
+      "multiKey": false,
+      "tags": [
+        "Trad"
+      ]
+    },
+    "Someday My Prince Will Come": {
+      "name": "Someday My Prince Will Come",
+      "baseLevel": 2,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 0,
+      "learnedDate": 20260419,
+      "reviews": [],
+      "sortSeed": 0.733829159765421,
+      "composer": "Frank Churchill",
+      "year": 1937,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "tags": [
+        "Songbook",
+        "Waltz"
+      ]
+    },
+    "Someone to Watch over Me": {
+      "name": "Someone to Watch over Me",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.10399255544605635,
+      "composer": "George Gershwin",
+      "year": 1926,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Song for My Father": {
+      "name": "Song for My Father",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.6535325241410506,
+      "composer": "Horace Silver",
+      "year": 1964,
+      "standardKey": "Fm",
+      "multiKey": false,
+      "tags": [
+        "Hard bop",
+        "Latin",
+        "Minor",
+        "Jam"
+      ]
+    },
+    "Sophisticated Lady": {
+      "name": "Sophisticated Lady",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.8050367648641203,
+      "composer": "Duke Ellington",
+      "year": 1932,
+      "standardKey": "Ab",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Soul Eyes": {
+      "name": "Soul Eyes",
+      "baseLevel": 1,
+      "currentLevel": 1,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.5388481744989319,
+      "composer": "Mal Waldron",
+      "year": 1957,
+      "standardKey": "Cm",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Speak Low": {
+      "name": "Speak Low",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.8328519595262172,
+      "composer": "Kurt Weill",
+      "year": 1943,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Songbook",
+        "Latin"
+      ]
+    },
+    "Spring Can Really Hang You Up the Most": {
+      "name": "Spring Can Really Hang You Up the Most",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.468078726066271,
+      "composer": "Tommy Wolf",
+      "year": 1955,
+      "standardKey": "C",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Spring Is Here": {
+      "name": "Spring Is Here",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.060998709790529015,
+      "composer": "Richard Rodgers",
+      "year": 1938,
+      "standardKey": "Ab",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "St. James Infirmary Blues": {
+      "name": "St. James Infirmary Blues",
+      "baseLevel": 2,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 0,
+      "learnedDate": 20260419,
+      "reviews": [],
+      "sortSeed": 0.5844271866329788,
+      "composer": "Traditional",
+      "year": 1928,
+      "standardKey": "Fm",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "tags": [
+        "Trad",
+        "Minor"
+      ]
+    },
+    "St. Louis Blues": {
+      "name": "St. Louis Blues",
+      "baseLevel": 3,
+      "currentLevel": 3,
+      "status": "graduated",
+      "intervalIdx": 5,
+      "learnedDate": 20260419,
+      "reviews": [],
+      "sortSeed": 0.8204088856419884,
+      "composer": "W.C. Handy",
+      "year": 1914,
+      "standardKey": "G",
+      "multiKey": false,
+      "tags": [
+        "Trad",
+        "Blues"
+      ]
+    },
+    "St. Thomas": {
+      "name": "St. Thomas",
+      "baseLevel": 1,
+      "currentLevel": 1,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.48425528838683096,
+      "composer": "Sonny Rollins",
+      "year": 1956,
+      "standardKey": "C",
+      "multiKey": false,
+      "tags": [
+        "Hard bop",
+        "Latin",
+        "Jam"
+      ]
+    },
+    "Star Dust": {
+      "name": "Star Dust",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.6382050282940233,
+      "composer": "Hoagy Carmichael",
+      "year": 1927,
+      "standardKey": "Db",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Star Eyes": {
+      "name": "Star Eyes",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.0945987498702281,
+      "composer": "Gene de Paul",
+      "year": 1943,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Songbook",
+        "Latin"
+      ]
+    },
+    "Stella by Starlight": {
+      "name": "Stella by Starlight",
+      "baseLevel": 2,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 1,
+      "learnedDate": 20260419,
+      "reviews": [
+        {
+          "date": 20260814,
+          "passed": true
+        }
+      ],
+      "sortSeed": 0.3964490508077809,
+      "composer": "Victor Young",
+      "year": 1944,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "tags": [
+        "Songbook",
+        "Jam"
+      ]
+    },
+    "Steeplechase": {
+      "name": "Steeplechase",
+      "baseLevel": 2,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 1,
+      "learnedDate": 20260419,
+      "reviews": [
+        {
+          "date": 20260702,
+          "passed": true
+        }
+      ],
+      "sortSeed": 0.10835812157149116,
+      "composer": "Charlie Parker",
+      "year": 1945,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "tags": [
+        "Bop",
+        "Rhythm changes"
+      ]
+    },
+    "Stolen Moments": {
+      "name": "Stolen Moments",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.3117165570968047,
+      "composer": "Oliver Nelson",
+      "year": 1961,
+      "standardKey": "Cm",
+      "multiKey": false,
+      "tags": [
+        "Hard bop",
+        "Minor"
+      ]
+    },
+    "Stompin' at the Savoy": {
+      "name": "Stompin' at the Savoy",
+      "baseLevel": 0,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 2,
+      "learnedDate": 20260908,
+      "reviews": [
+        {
+          "date": 20260910,
+          "passed": false
+        },
+        {
+          "date": 20260911,
+          "passed": true
+        },
+        {
+          "date": 20260916,
+          "passed": true
+        }
+      ],
+      "sortSeed": 0.39974994820867993,
+      "composer": "Edgar Sampson",
+      "year": 1934,
+      "notes": "",
+      "standardKey": "Db",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "practiceFocus": [
+        {
+          "text": "Intro",
+          "done": false
+        },
+        {
+          "text": "Comping",
+          "done": false
+        },
+        {
+          "text": "Bridge improvisation",
+          "done": false
+        },
+        {
+          "text": "LH melody in first A transitioning to second A",
+          "done": false
+        },
+        {
+          "text": "Basie ending",
+          "done": false
+        }
+      ],
+      "tags": [
+        "Swing"
+      ]
+    },
+    "Stormy Weather": {
+      "name": "Stormy Weather",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.09826419071150139,
+      "composer": "Harold Arlen",
+      "year": 1933,
+      "standardKey": "G",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Straight No Chaser": {
+      "name": "Straight No Chaser",
+      "baseLevel": 3,
+      "currentLevel": 3,
+      "status": "graduated",
+      "intervalIdx": 5,
+      "learnedDate": 20260419,
+      "reviews": [],
+      "sortSeed": 0.6055445287444101,
+      "composer": "Thelonious Monk",
+      "year": 1951,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "tags": [
+        "Bop",
+        "Monk",
+        "Blues",
+        "Jam"
+      ]
+    },
+    "Struttin' with Some Barbecue": {
+      "name": "Struttin' with Some Barbecue",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.22687467220669977,
+      "composer": "Lil Hardin Armstrong",
+      "year": 1927,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Trad"
+      ]
+    },
+    "Summertime": {
+      "name": "Summertime",
+      "baseLevel": 1,
+      "currentLevel": 1,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.31994279496622546,
+      "composer": "George Gershwin",
+      "year": 1935,
+      "standardKey": "Am",
+      "multiKey": false,
+      "tags": [
+        "Songbook",
+        "Minor"
+      ]
+    },
+    "Sweet Georgia Brown": {
+      "name": "Sweet Georgia Brown",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.30226380645256945,
+      "composer": "Ben Bernie",
+      "year": 1925,
+      "standardKey": "Ab",
+      "multiKey": false,
+      "tags": [
+        "Trad",
+        "Jam"
+      ]
+    },
+    "Take Five": {
+      "name": "Take Five",
+      "baseLevel": 2,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 1,
+      "learnedDate": 20260419,
+      "reviews": [
+        {
+          "date": 20260815,
+          "passed": true
+        }
+      ],
+      "sortSeed": 0.42038250619026074,
+      "composer": "Paul Desmond",
+      "year": 1959,
+      "standardKey": "Ebm",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "tags": [
+        "Minor",
+        "Odd meter"
+      ]
+    },
+    "Take the A Train": {
+      "name": "Take the A Train",
+      "baseLevel": 2,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 0,
+      "learnedDate": 20260419,
+      "reviews": [],
+      "sortSeed": 0.7799592323617012,
+      "composer": "Billy Strayhorn",
+      "year": 1941,
+      "standardKey": "C",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "tags": [
+        "Swing",
+        "Jam"
+      ]
+    },
+    "Tea for Two": {
+      "name": "Tea for Two",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.0615945551830922,
+      "composer": "Vincent Youmans",
+      "year": 1924,
+      "standardKey": "Ab",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Tenderly": {
+      "name": "Tenderly",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.5412876050366032,
+      "composer": "Walter Gross",
+      "year": 1946,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "The Girl from Ipanema": {
+      "name": "The Girl from Ipanema",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.36186318831657927,
+      "composer": "Antônio Carlos Jobim",
+      "year": 1962,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Bossa"
+      ]
+    },
+    "The Jitterbug Waltz": {
+      "name": "The Jitterbug Waltz",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.10983167487029077,
+      "composer": "Fats Waller",
+      "year": 1942,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Swing",
+        "Waltz"
+      ]
+    },
+    "The Lady Is a Tramp": {
+      "name": "The Lady Is a Tramp",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.6308061675418584,
+      "composer": "Richard Rodgers",
+      "year": 1937,
+      "standardKey": "C",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "The Man I Love": {
+      "name": "The Man I Love",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.8898804334846652,
+      "composer": "George Gershwin",
+      "year": 1924,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "The Nearness of You": {
+      "name": "The Nearness of You",
+      "baseLevel": 2,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 0,
+      "learnedDate": 20260419,
+      "reviews": [],
+      "sortSeed": 0.9076194332650785,
+      "composer": "Hoagy Carmichael",
+      "year": 1937,
+      "standardKey": "F",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "The Peacocks": {
+      "name": "The Peacocks",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.3385411985968454,
+      "composer": "Jimmy Rowles",
+      "year": 1975,
+      "standardKey": "Bbm",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "The Shadow of Your Smile": {
+      "name": "The Shadow of Your Smile",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.1907843121813696,
+      "composer": "Johnny Mandel",
+      "year": 1965,
+      "standardKey": "G",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "The Song Is You": {
+      "name": "The Song Is You",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.8634446609003449,
+      "composer": "Jerome Kern",
+      "year": 1932,
+      "standardKey": "C",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "The Very Thought of You": {
+      "name": "The Very Thought of You",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.48124352548109006,
+      "composer": "Ray Noble",
+      "year": 1934,
+      "standardKey": "Ab",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "The Way You Look Tonight": {
+      "name": "The Way You Look Tonight",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.45827030976987526,
+      "composer": "Jerome Kern",
+      "year": 1936,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "There Is No Greater Love": {
+      "name": "There Is No Greater Love",
+      "baseLevel": 3,
+      "currentLevel": 3,
+      "status": "graduated",
+      "intervalIdx": 5,
+      "learnedDate": 20260419,
+      "reviews": [],
+      "sortSeed": 0.8214995417926545,
+      "composer": "Isham Jones",
+      "year": 1936,
+      "standardKey": "Bb",
+      "multiKey": true,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "There Will Never Be Another You": {
+      "name": "There Will Never Be Another You",
+      "baseLevel": 1,
+      "currentLevel": 1,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.7684142853202659,
+      "composer": "Harry Warren",
+      "year": 1942,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Songbook",
+        "Jam"
+      ]
+    },
+    "These Foolish Things": {
+      "name": "These Foolish Things",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.8198891710086921,
+      "composer": "Jack Strachey",
+      "year": 1936,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "They Can't Take That Away from Me": {
+      "name": "They Can't Take That Away from Me",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.9600049246397102,
+      "composer": "George Gershwin",
+      "year": 1937,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Things Ain't What They Used to Be": {
+      "name": "Things Ain't What They Used to Be",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.170798216462118,
+      "composer": "Mercer Ellington",
+      "year": 1941,
+      "standardKey": "Db",
+      "multiKey": false,
+      "tags": [
+        "Swing",
+        "Blues"
+      ]
+    },
+    "Tiger Rag": {
+      "name": "Tiger Rag",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.4492925879263573,
+      "composer": "ODJB",
+      "year": 1917,
+      "standardKey": null,
+      "multiKey": false,
+      "tags": [
+        "Trad"
+      ]
+    },
+    "Time after Time": {
+      "name": "Time after Time",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.9991456064957653,
+      "composer": "Jule Styne",
+      "year": 1947,
+      "standardKey": "C",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "Tin Roof Blues": {
+      "name": "Tin Roof Blues",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.614305809454091,
+      "composer": "New Orleans Rhythm Kings",
+      "year": 1923,
+      "standardKey": "Bb",
+      "multiKey": false,
+      "tags": [
+        "Trad",
+        "Blues"
+      ]
+    },
+    "Waltz for Debby": {
+      "name": "Waltz for Debby",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.47430696192361954,
+      "composer": "Bill Evans",
+      "year": 1955,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Post-bop",
+        "Waltz"
+      ]
+    },
+    "Watermelon Man": {
+      "name": "Watermelon Man",
+      "baseLevel": 0,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 1,
+      "learnedDate": 20260913,
+      "reviews": [
+        {
+          "date": 20260915,
+          "passed": true
+        }
+      ],
+      "sortSeed": 0.2362384710338169,
+      "composer": "Herbie Hancock",
+      "year": 1962,
+      "notes": "Listening:\nTakin' Off, Herbie Hancock\n- 2:03 trumpet lick\n- 3:43 comping pattern",
+      "standardKey": "F",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "practiceFocus": [
+        {
+          "text": "Transition to turnaround",
+          "done": false
+        }
+      ],
+      "tags": [
+        "Hard bop",
+        "Jam"
+      ]
+    },
+    "Wave": {
+      "name": "Wave",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.8836299225636546,
+      "composer": "Antônio Carlos Jobim",
+      "year": 1967,
+      "standardKey": "D",
+      "multiKey": false,
+      "tags": [
+        "Bossa"
+      ]
+    },
+    "Well You Needn't": {
+      "name": "Well You Needn't",
+      "baseLevel": 1,
+      "currentLevel": 1,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.7610499451820588,
+      "composer": "Thelonious Monk",
+      "year": 1944,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Bop",
+        "Monk"
+      ]
+    },
+    "What Is This Thing Called Love?": {
+      "name": "What Is This Thing Called Love?",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.3977112388247709,
+      "composer": "Cole Porter",
+      "year": 1929,
+      "standardKey": "C",
+      "multiKey": false,
+      "tags": [
+        "Songbook",
+        "Jam"
+      ]
+    },
+    "What's New?": {
+      "name": "What's New?",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.7737782971732174,
+      "composer": "Bob Haggart",
+      "year": 1939,
+      "standardKey": "C",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "When the Saints Go Marching In": {
+      "name": "When the Saints Go Marching In",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.24714717274569065,
+      "composer": "Traditional",
+      "year": 1896,
+      "standardKey": "F",
+      "multiKey": false,
+      "tags": [
+        "Trad"
+      ]
+    },
+    "Whisper Not": {
+      "name": "Whisper Not",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.28511904593490234,
+      "composer": "Benny Golson",
+      "year": 1956,
+      "standardKey": "Cm",
+      "multiKey": false,
+      "tags": [
+        "Hard bop",
+        "Minor"
+      ]
+    },
+    "Who Can I Turn To?": {
+      "name": "Who Can I Turn To?",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.7887724437921573,
+      "composer": "Anthony Newley",
+      "year": 1964,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Willow Weep for Me": {
+      "name": "Willow Weep for Me",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.9788429679256346,
+      "composer": "Ann Ronell",
+      "year": 1932,
+      "standardKey": "G",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "Yardbird Suite": {
+      "name": "Yardbird Suite",
+      "baseLevel": 2,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 1,
+      "learnedDate": 20260419,
+      "reviews": [
+        {
+          "date": 20260801,
+          "passed": true
+        }
+      ],
+      "sortSeed": 0.3298126231904581,
+      "composer": "Charlie Parker",
+      "year": 1946,
+      "standardKey": "C",
+      "multiKey": false,
+      "staleFrom": 20261002,
+      "tags": [
+        "Bop",
+        "Jam"
+      ]
+    },
+    "Yesterdays": {
+      "name": "Yesterdays",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.40675191696367097,
+      "composer": "Jerome Kern",
+      "year": 1933,
+      "standardKey": "Dm",
+      "multiKey": false,
+      "tags": [
+        "Songbook",
+        "Minor"
+      ]
+    },
+    "You Don't Know What Love Is": {
+      "name": "You Don't Know What Love Is",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.2111621147253877,
+      "composer": "Gene de Paul",
+      "year": 1941,
+      "standardKey": "Fm",
+      "multiKey": false,
+      "tags": [
+        "Ballad",
+        "Minor"
+      ]
+    },
+    "You Go to My Head": {
+      "name": "You Go to My Head",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.3820156083896993,
+      "composer": "J. Fred Coots",
+      "year": 1938,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
+    },
+    "You Stepped Out of a Dream": {
+      "name": "You Stepped Out of a Dream",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.9694297551190924,
+      "composer": "Nacio Herb Brown",
+      "year": 1940,
+      "standardKey": "C",
+      "multiKey": false,
+      "tags": [
+        "Songbook"
+      ]
+    },
+    "You'd Be So Nice to Come Home To": {
+      "name": "You'd Be So Nice to Come Home To",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.4014468741254361,
+      "composer": "Cole Porter",
+      "year": 1942,
+      "standardKey": "Am",
+      "multiKey": false,
+      "tags": [
+        "Songbook",
+        "Minor"
+      ]
+    },
+    "Tenor Madness": {
+      "name": "Tenor Madness",
+      "tags": [
+        "Hard bop",
+        "Blues",
+        "Jam"
+      ],
+      "composer": "Sonny Rollins",
+      "year": 1956,
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "standardKey": "Bb",
+      "multiKey": false,
+      "sortSeed": 0.9894086155856125
+    },
+    "Mr. P.C.": {
+      "name": "Mr. P.C.",
+      "tags": [
+        "Hard bop",
+        "Blues",
+        "Minor",
+        "Jam"
+      ],
+      "composer": "John Coltrane",
+      "year": 1959,
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "standardKey": "Cm",
+      "multiKey": false,
+      "sortSeed": 0.2791514311726754
+    },
+    "Four": {
+      "name": "Four",
+      "tags": [
+        "Hard bop",
+        "Jam"
+      ],
+      "composer": "Miles Davis",
+      "year": 1954,
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "standardKey": "Eb",
+      "multiKey": false,
+      "sortSeed": 0.8009756672202606
+    },
+    "Recorda Me": {
+      "name": "Recorda Me",
+      "tags": [
+        "Hard bop",
+        "Latin",
+        "Minor",
+        "Jam"
+      ],
+      "composer": "Joe Henderson",
+      "year": 1963,
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "standardKey": "Am",
+      "multiKey": false,
+      "sortSeed": 0.4284324173722325
+    },
+    "Doxy": {
+      "name": "Doxy",
+      "tags": [
+        "Hard bop",
+        "Jam"
+      ],
+      "composer": "Sonny Rollins",
+      "year": 1954,
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "standardKey": "Bb",
+      "multiKey": false,
+      "sortSeed": 0.7403636142004597
+    }
+  },
+  "currentNewSong": "Bye Bye Blackbird",
+  "streak": 10,
+  "lastPracticeDay": 20261006,
+  "activity": [
+    {
+      "ts": 1776634938073,
+      "date": 20260419,
+      "type": "practiced",
+      "name": "Anthropology"
+    },
+    {
+      "ts": 1777146197123,
+      "date": 20260425,
+      "type": "practiced",
+      "name": "Anthropology"
+    },
+    {
+      "ts": 1777146251858,
+      "date": 20260425,
+      "type": "review",
+      "name": "After You've Gone",
+      "passed": true
+    },
+    {
+      "ts": 1777292630756,
+      "date": 20260427,
+      "type": "review",
+      "name": "Oleo",
+      "passed": true
+    },
+    {
+      "ts": 1777300434983,
+      "date": 20260427,
+      "type": "practiced",
+      "name": "Anthropology"
+    },
+    {
+      "ts": 1777300436775,
+      "date": 20260427,
+      "type": "review",
+      "name": "Lady Bird",
+      "passed": false
+    },
+    {
+      "ts": 1777392895534,
+      "date": 20260428,
+      "type": "practiced",
+      "name": "Anthropology"
+    },
+    {
+      "ts": 1777392897652,
+      "date": 20260428,
+      "type": "review",
+      "name": "Lady Bird",
+      "passed": false
+    },
+    {
+      "ts": 1777474351642,
+      "date": 20260429,
+      "type": "review",
+      "name": "Lady Bird",
+      "passed": false
+    },
+    {
+      "ts": 1777474353693,
+      "date": 20260429,
+      "type": "learned",
+      "name": "Anthropology"
+    },
+    {
+      "ts": 1777474456642,
+      "date": 20260429,
+      "type": "started_learning",
+      "name": "Blues for Alice"
+    },
+    {
+      "ts": 1777646225118,
+      "date": 20260501,
+      "type": "practiced",
+      "name": "Blues for Alice"
+    },
+    {
+      "ts": 1777647079379,
+      "date": 20260501,
+      "type": "review",
+      "name": "Lady Bird",
+      "passed": true
+    },
+    {
+      "ts": 1777728165807,
+      "date": 20260502,
+      "type": "review",
+      "name": "Anthropology",
+      "passed": true
+    },
+    {
+      "ts": 1777749769150,
+      "date": 20260502,
+      "type": "practiced",
+      "name": "Blues for Alice"
+    },
+    {
+      "ts": 1777749779914,
+      "date": 20260502,
+      "type": "review",
+      "name": "Lady Bird",
+      "passed": true
+    },
+    {
+      "ts": 1777750283259,
+      "date": 20260502,
+      "type": "repertoire_added",
+      "name": "Dorothy"
+    },
+    {
+      "ts": 1777750630866,
+      "date": 20260502,
+      "type": "repertoire_added",
+      "name": "Me and the Blues"
+    },
+    {
+      "ts": 1777750676560,
+      "date": 20260502,
+      "type": "repertoire_added",
+      "name": "Memphis Stomp"
+    },
+    {
+      "ts": 1777750705525,
+      "date": 20260502,
+      "type": "repertoire_added",
+      "name": "St. Louis Blues"
+    },
+    {
+      "ts": 1777750724029,
+      "date": 20260502,
+      "type": "repertoire_added",
+      "name": "St. Charles"
+    },
+    {
+      "ts": 1777750754038,
+      "date": 20260502,
+      "type": "repertoire_added",
+      "name": "Basin Street Blues"
+    },
+    {
+      "ts": 1777750781277,
+      "date": 20260502,
+      "type": "repertoire_added",
+      "name": "A Sleepin' Bee"
+    },
+    {
+      "ts": 1777750835290,
+      "date": 20260502,
+      "type": "repertoire_added",
+      "name": "Do You Know What It Means (To Miss New Orleans)"
+    },
+    {
+      "ts": 1777750843516,
+      "date": 20260502,
+      "type": "repertoire_reviewed",
+      "name": "Dorothy"
+    },
+    {
+      "ts": 1777751074125,
+      "date": 20260502,
+      "type": "repertoire_added",
+      "name": "Softly As In A Morning Sunrise"
+    },
+    {
+      "ts": 1777751089518,
+      "date": 20260502,
+      "type": "repertoire_added",
+      "name": "Champagne Stomp"
+    },
+    {
+      "ts": 1777751114266,
+      "date": 20260502,
+      "type": "repertoire_added",
+      "name": "Tipitina and Me"
+    },
+    {
+      "ts": 1777751125500,
+      "date": 20260502,
+      "type": "repertoire_added",
+      "name": "Simple"
+    },
+    {
+      "ts": 1777751202242,
+      "date": 20260502,
+      "type": "repertoire_added",
+      "name": "The Nearness of You"
+    },
+    {
+      "ts": 1777751569331,
+      "date": 20260502,
+      "type": "repertoire_added",
+      "name": "Pine Top Boogie"
+    },
+    {
+      "ts": 1777751579461,
+      "date": 20260502,
+      "type": "repertoire_added",
+      "name": "Southern Nights"
+    },
+    {
+      "ts": 1777751716862,
+      "date": 20260502,
+      "type": "repertoire_added",
+      "name": "The Crave"
+    },
+    {
+      "ts": 1777751966471,
+      "date": 20260502,
+      "type": "repertoire_added",
+      "name": "Prairie Blues"
+    },
+    {
+      "ts": 1777752336263,
+      "date": 20260502,
+      "type": "repertoire_added",
+      "name": "Claire de lune"
+    },
+    {
+      "ts": 1777752418799,
+      "date": 20260502,
+      "type": "repertoire_added",
+      "name": "Deux Arabesques I"
+    },
+    {
+      "ts": 1777752476752,
+      "date": 20260502,
+      "type": "repertoire_added",
+      "name": "Valse Op. 64 No. 2"
+    },
+    {
+      "ts": 1777752577274,
+      "date": 20260502,
+      "type": "repertoire_added",
+      "name": "Nocturne Op. 9 No. 2"
+    },
+    {
+      "ts": 1777752639653,
+      "date": 20260502,
+      "type": "repertoire_added",
+      "name": "Mamma"
+    },
+    {
+      "ts": 1777752682590,
+      "date": 20260502,
+      "type": "repertoire_added",
+      "name": "Sonata Pathetique II"
+    },
+    {
+      "ts": 1777753208104,
+      "date": 20260502,
+      "type": "song_edited",
+      "oldName": "King Porter Stomp",
+      "name": "King Porter Stomp",
+      "style": "Trad",
+      "level": 0,
+      "oldLevel": 0
+    },
+    {
+      "ts": 1777753256629,
+      "date": 20260502,
+      "type": "song_edited",
+      "oldName": "When the Saints Go Marching In",
+      "name": "When the Saints Go Marching In",
+      "style": "Trad",
+      "level": 0,
+      "oldLevel": 0
+    },
+    {
+      "ts": 1777754050198,
+      "date": 20260502,
+      "type": "review",
+      "name": "Basin Street Blues",
+      "passed": true
+    },
+    {
+      "ts": 1777906839026,
+      "date": 20260504,
+      "type": "review",
+      "name": "Alone Together",
+      "passed": true
+    },
+    {
+      "ts": 1777906840851,
+      "date": 20260504,
+      "type": "practiced",
+      "name": "Blues for Alice"
+    },
+    {
+      "ts": 1777906841656,
+      "date": 20260504,
+      "type": "repertoire_deferred",
+      "name": "Me and the Blues"
+    },
+    {
+      "ts": 1777991275245,
+      "date": 20260505,
+      "type": "practiced",
+      "name": "Blues for Alice"
+    },
+    {
+      "ts": 1778032486866,
+      "date": 20260505,
+      "type": "review",
+      "name": "Donna Lee",
+      "passed": false
+    },
+    {
+      "ts": 1778078056767,
+      "date": 20260506,
+      "type": "practiced",
+      "name": "Blues for Alice"
+    },
+    {
+      "ts": 1778080074493,
+      "date": 20260506,
+      "type": "review",
+      "name": "Donna Lee",
+      "passed": false
+    },
+    {
+      "ts": 1778250840424,
+      "date": 20260508,
+      "type": "learned",
+      "name": "Blues for Alice"
+    },
+    {
+      "ts": 1778252651734,
+      "date": 20260508,
+      "type": "review",
+      "name": "Donna Lee",
+      "passed": false
+    },
+    {
+      "ts": 1778510882938,
+      "date": 20260511,
+      "type": "started_learning",
+      "name": "Fly Me to the Moon"
+    },
+    {
+      "ts": 1778510884046,
+      "date": 20260511,
+      "type": "practiced",
+      "name": "Fly Me to the Moon"
+    },
+    {
+      "ts": 1778637581712,
+      "date": 20260512,
+      "type": "practiced",
+      "name": "Fly Me to the Moon"
+    },
+    {
+      "ts": 1778768343325,
+      "date": 20260514,
+      "type": "practiced",
+      "name": "Fly Me to the Moon"
+    },
+    {
+      "ts": 1778768344650,
+      "date": 20260514,
+      "type": "review",
+      "name": "Donna Lee",
+      "passed": true
+    },
+    {
+      "ts": 1778771426849,
+      "date": 20260514,
+      "type": "repertoire_deferred",
+      "name": "Me and the Blues"
+    },
+    {
+      "ts": 1778855860536,
+      "date": 20260515,
+      "type": "repertoire_deferred",
+      "name": "Me and the Blues"
+    },
+    {
+      "ts": 1779891425975,
+      "date": 20260527,
+      "type": "practiced",
+      "name": "Fly Me to the Moon"
+    },
+    {
+      "ts": 1779980949731,
+      "date": 20260528,
+      "type": "repertoire_deferred",
+      "name": "Me and the Blues"
+    },
+    {
+      "ts": 1779980951273,
+      "date": 20260528,
+      "type": "review",
+      "name": "Donna Lee",
+      "passed": false
+    },
+    {
+      "ts": 1780064748267,
+      "date": 20260529,
+      "type": "learned",
+      "name": "Fly Me to the Moon"
+    },
+    {
+      "ts": 1780064753159,
+      "date": 20260529,
+      "type": "review",
+      "name": "Donna Lee",
+      "passed": true
+    },
+    {
+      "ts": 1782817416241,
+      "date": 20260630,
+      "type": "started_learning",
+      "name": "Footprints"
+    },
+    {
+      "ts": 1782820830133,
+      "date": 20260630,
+      "type": "repertoire_deferred",
+      "name": "Me and the Blues"
+    },
+    {
+      "ts": 1782820832069,
+      "date": 20260630,
+      "type": "practiced",
+      "name": "Footprints"
+    },
+    {
+      "ts": 1782992498124,
+      "date": 20260702,
+      "type": "review",
+      "name": "Donna Lee",
+      "passed": true
+    },
+    {
+      "ts": 1782992728648,
+      "date": 20260702,
+      "type": "review",
+      "name": "Steeplechase",
+      "passed": true
+    },
+    {
+      "ts": 1782994173082,
+      "date": 20260702,
+      "type": "repertoire_deferred",
+      "name": "Me and the Blues"
+    },
+    {
+      "ts": 1783425886767,
+      "date": 20260707,
+      "type": "practiced",
+      "name": "Footprints"
+    },
+    {
+      "ts": 1783425889278,
+      "date": 20260707,
+      "type": "repertoire_deferred",
+      "name": "Me and the Blues"
+    },
+    {
+      "ts": 1783426558942,
+      "date": 20260707,
+      "type": "review",
+      "name": "Do You Know What It Means",
+      "passed": false
+    },
+    {
+      "ts": 1783942112727,
+      "date": 20260713,
+      "type": "review",
+      "name": "Do You Know What It Means",
+      "passed": true
+    },
+    {
+      "ts": 1783944688472,
+      "date": 20260713,
+      "type": "review",
+      "name": "All of You",
+      "passed": false
+    },
+    {
+      "ts": 1783944692248,
+      "date": 20260713,
+      "type": "practiced",
+      "name": "Footprints"
+    },
+    {
+      "ts": 1784028096294,
+      "date": 20260714,
+      "type": "review",
+      "name": "All of You",
+      "passed": false
+    },
+    {
+      "ts": 1784028343199,
+      "date": 20260714,
+      "type": "repertoire_deferred",
+      "name": "Me and the Blues"
+    },
+    {
+      "ts": 1784029630764,
+      "date": 20260714,
+      "type": "review",
+      "name": "My Romance",
+      "passed": true
+    },
+    {
+      "ts": 1784718632923,
+      "date": 20260722,
+      "type": "review",
+      "name": "All of You",
+      "passed": true
+    },
+    {
+      "ts": 1784804767161,
+      "date": 20260723,
+      "type": "learned",
+      "name": "Footprints"
+    },
+    {
+      "ts": 1784804851086,
+      "date": 20260723,
+      "type": "review",
+      "name": "So What",
+      "passed": true
+    },
+    {
+      "ts": 1784806842630,
+      "date": 20260723,
+      "type": "started_learning",
+      "name": "Corcovado"
+    },
+    {
+      "ts": 1784891948059,
+      "date": 20260724,
+      "type": "review",
+      "name": "All of You",
+      "passed": true
+    },
+    {
+      "ts": 1784894902353,
+      "date": 20260724,
+      "type": "review",
+      "name": "Softly as in a Morning Sunrise",
+      "passed": true
+    },
+    {
+      "ts": 1784895644298,
+      "date": 20260724,
+      "type": "repertoire_deferred",
+      "name": "Me and the Blues"
+    },
+    {
+      "ts": 1784895645571,
+      "date": 20260724,
+      "type": "practiced",
+      "name": "Corcovado"
+    },
+    {
+      "ts": 1784895652734,
+      "date": 20260724,
+      "type": "review",
+      "name": "Night and Day",
+      "passed": true
+    },
+    {
+      "ts": 1785499894637,
+      "date": 20260731,
+      "type": "review",
+      "name": "Nardis",
+      "passed": true
+    },
+    {
+      "ts": 1785499895923,
+      "date": 20260731,
+      "type": "practiced",
+      "name": "Corcovado"
+    },
+    {
+      "ts": 1785616292475,
+      "date": 20260801,
+      "type": "review",
+      "name": "My Favorite Things",
+      "passed": true
+    },
+    {
+      "ts": 1785617880242,
+      "date": 20260801,
+      "type": "review",
+      "name": "I'll Remember April",
+      "passed": true
+    },
+    {
+      "ts": 1785619187008,
+      "date": 20260801,
+      "type": "repertoire_deferred",
+      "name": "Me and the Blues"
+    },
+    {
+      "ts": 1785619188558,
+      "date": 20260801,
+      "type": "practiced",
+      "name": "Corcovado"
+    },
+    {
+      "ts": 1785619192759,
+      "date": 20260801,
+      "type": "review",
+      "name": "Yardbird Suite",
+      "passed": true
+    },
+    {
+      "ts": 1785672066760,
+      "date": 20260802,
+      "type": "practiced",
+      "name": "Corcovado"
+    },
+    {
+      "ts": 1785930891508,
+      "date": 20260805,
+      "type": "practiced",
+      "name": "Corcovado"
+    },
+    {
+      "ts": 1785930894389,
+      "date": 20260805,
+      "type": "repertoire_deferred",
+      "name": "Me and the Blues"
+    },
+    {
+      "ts": 1785930895402,
+      "date": 20260805,
+      "type": "review",
+      "name": "Blue Monk",
+      "passed": true
+    },
+    {
+      "ts": 1786674804663,
+      "date": 20260813,
+      "type": "learned",
+      "name": "Corcovado"
+    },
+    {
+      "ts": 1786674818495,
+      "date": 20260813,
+      "type": "started_learning",
+      "name": "Dolphin Dance"
+    },
+    {
+      "ts": 1786674828438,
+      "date": 20260813,
+      "type": "repertoire_reviewed",
+      "name": "Me and the Blues"
+    },
+    {
+      "ts": 1786708620605,
+      "date": 20260814,
+      "type": "review",
+      "name": "Stella by Starlight",
+      "passed": true
+    },
+    {
+      "ts": 1786792922075,
+      "date": 20260815,
+      "type": "practiced",
+      "name": "Dolphin Dance"
+    },
+    {
+      "ts": 1786792927892,
+      "date": 20260815,
+      "type": "review",
+      "name": "Take Five",
+      "passed": true
+    },
+    {
+      "ts": 1786884076562,
+      "date": 20260816,
+      "type": "review",
+      "name": "God Bless the Child",
+      "passed": true
+    },
+    {
+      "ts": 1787053992152,
+      "date": 20260818,
+      "type": "practiced",
+      "name": "Dolphin Dance"
+    },
+    {
+      "ts": 1787055092456,
+      "date": 20260818,
+      "type": "review",
+      "name": "On the Sunny Side of the Street",
+      "passed": true
+    },
+    {
+      "ts": 1787399197231,
+      "date": 20260822,
+      "type": "learned",
+      "name": "Dolphin Dance"
+    },
+    {
+      "ts": 1787400113579,
+      "date": 20260822,
+      "type": "started_learning",
+      "name": "Maiden Voyage"
+    },
+    {
+      "ts": 1787832557629,
+      "date": 20260827,
+      "type": "review",
+      "name": "Blue Skies",
+      "passed": true
+    },
+    {
+      "ts": 1787834598146,
+      "date": 20260827,
+      "type": "review",
+      "name": "Dolphin Dance",
+      "passed": true
+    },
+    {
+      "ts": 1788176654473,
+      "date": 20260831,
+      "type": "learned",
+      "name": "Maiden Voyage"
+    },
+    {
+      "ts": 1788261308578,
+      "date": 20260901,
+      "type": "started_learning",
+      "name": "Stompin' at the Savoy"
+    },
+    {
+      "ts": 1788264873328,
+      "date": 20260901,
+      "type": "practiced",
+      "name": "Stompin' at the Savoy"
+    },
+    {
+      "ts": 1788348822819,
+      "date": 20260902,
+      "type": "practiced",
+      "name": "Stompin' at the Savoy"
+    },
+    {
+      "ts": 1788522047870,
+      "date": 20260904,
+      "type": "practiced",
+      "name": "Stompin' at the Savoy"
+    },
+    {
+      "ts": 1788523802092,
+      "date": 20260904,
+      "type": "repertoire_reviewed",
+      "name": "Memphis Stomp"
+    },
+    {
+      "ts": 1788524617414,
+      "date": 20260904,
+      "type": "review",
+      "name": "Maiden Voyage",
+      "passed": true
+    },
+    {
+      "ts": 1788694231093,
+      "date": 20260906,
+      "type": "practiced",
+      "name": "Stompin' at the Savoy"
+    },
+    {
+      "ts": 1788694631634,
+      "date": 20260906,
+      "type": "repertoire_start_reviewing",
+      "name": "Memphis Stomp"
+    },
+    {
+      "ts": 1788698246062,
+      "date": 20260906,
+      "type": "voicing_added",
+      "name": "ii-V-I"
+    },
+    {
+      "ts": 1788698264594,
+      "date": 20260906,
+      "type": "voicing_removed",
+      "name": "Major triad"
+    },
+    {
+      "ts": 1788698267965,
+      "date": 20260906,
+      "type": "voicing_removed",
+      "name": "Major 6/9"
+    },
+    {
+      "ts": 1788698270168,
+      "date": 20260906,
+      "type": "voicing_removed",
+      "name": "Major 7"
+    },
+    {
+      "ts": 1788698272457,
+      "date": 20260906,
+      "type": "voicing_removed",
+      "name": "Major 9"
+    },
+    {
+      "ts": 1788698274436,
+      "date": 20260906,
+      "type": "voicing_removed",
+      "name": "Minor 6"
+    },
+    {
+      "ts": 1788698276923,
+      "date": 20260906,
+      "type": "voicing_removed",
+      "name": "Minor 7"
+    },
+    {
+      "ts": 1788698279067,
+      "date": 20260906,
+      "type": "voicing_removed",
+      "name": "Minor 9"
+    },
+    {
+      "ts": 1788698280915,
+      "date": 20260906,
+      "type": "voicing_removed",
+      "name": "Minor 11"
+    },
+    {
+      "ts": 1788698291384,
+      "date": 20260906,
+      "type": "voicing_removed",
+      "name": "Dominant 7"
+    },
+    {
+      "ts": 1788698293509,
+      "date": 20260906,
+      "type": "voicing_removed",
+      "name": "Dominant 7♭9"
+    },
+    {
+      "ts": 1788698295513,
+      "date": 20260906,
+      "type": "voicing_removed",
+      "name": "Dominant 9"
+    },
+    {
+      "ts": 1788698297583,
+      "date": 20260906,
+      "type": "voicing_removed",
+      "name": "Dominant 13"
+    },
+    {
+      "ts": 1788698299867,
+      "date": 20260906,
+      "type": "voicing_removed",
+      "name": "Diminished triad"
+    },
+    {
+      "ts": 1788698302364,
+      "date": 20260906,
+      "type": "voicing_removed",
+      "name": "Half-diminished"
+    },
+    {
+      "ts": 1788698304447,
+      "date": 20260906,
+      "type": "voicing_removed",
+      "name": "Half-diminished 7"
+    },
+    {
+      "ts": 1788698306442,
+      "date": 20260906,
+      "type": "voicing_removed",
+      "name": "Diminished 7"
+    },
+    {
+      "ts": 1788700443080,
+      "date": 20260906,
+      "type": "repertoire_deferred",
+      "name": "Memphis Stomp"
+    },
+    {
+      "ts": 1788700453919,
+      "date": 20260906,
+      "type": "review",
+      "name": "Fly Me to the Moon",
+      "passed": false
+    },
+    {
+      "ts": 1788702634656,
+      "date": 20260906,
+      "type": "repertoire_deferred",
+      "name": "St. Louis Blues"
+    },
+    {
+      "ts": 1788702659583,
+      "date": 20260906,
+      "type": "repertoire_start_reviewing",
+      "name": "Memphis Stomp"
+    },
+    {
+      "ts": 1788703002790,
+      "date": 20260906,
+      "type": "song_edited",
+      "oldName": "Stompin' at the Savoy",
+      "name": "Stompin' at the Savoy",
+      "style": "Trad",
+      "level": 0,
+      "oldLevel": 0
+    },
+    {
+      "ts": 1788745867964,
+      "date": 20260906,
+      "type": "repertoire_deferred",
+      "name": "Memphis Stomp"
+    },
+    {
+      "ts": 1788781563773,
+      "date": 20260907,
+      "type": "practiced",
+      "name": "Stompin' at the Savoy"
+    },
+    {
+      "ts": 1788865973009,
+      "date": 20260908,
+      "type": "voicing_added",
+      "name": "[1] Minor ii-V-i"
+    },
+    {
+      "ts": 1788865992748,
+      "date": 20260908,
+      "type": "voicing_practiced",
+      "name": "[A] Major ii-V-I",
+      "familiarity": 1
+    },
+    {
+      "ts": 1788866026163,
+      "date": 20260908,
+      "type": "repertoire_start_reviewing",
+      "name": "Memphis Stomp"
+    },
+    {
+      "ts": 1788868724723,
+      "date": 20260908,
+      "type": "learned",
+      "name": "Stompin' at the Savoy"
+    },
+    {
+      "ts": 1788868743044,
+      "date": 20260908,
+      "type": "started_learning",
+      "name": "Watermelon Man"
+    },
+    {
+      "ts": 1788868745754,
+      "date": 20260908,
+      "type": "practiced",
+      "name": "Watermelon Man"
+    },
+    {
+      "ts": 1788869723600,
+      "date": 20260908,
+      "type": "voicing_practiced",
+      "name": "[1] Minor ii-V-i",
+      "familiarity": 1
+    },
+    {
+      "ts": 1788955590422,
+      "date": 20260909,
+      "type": "practiced",
+      "name": "Watermelon Man"
+    },
+    {
+      "ts": 1788955592799,
+      "date": 20260909,
+      "type": "repertoire_deferred",
+      "name": "Memphis Stomp"
+    },
+    {
+      "ts": 1788955597209,
+      "date": 20260909,
+      "type": "voicing_deferred",
+      "name": "[A] Major ii-V-I"
+    },
+    {
+      "ts": 1789039491080,
+      "date": 20260910,
+      "type": "voicing_added",
+      "name": "[2] Minro ii-V-i"
+    },
+    {
+      "ts": 1789040676894,
+      "date": 20260910,
+      "type": "voicing_deferred",
+      "name": "[2] Minor ii-V-i"
+    },
+    {
+      "ts": 1789042272633,
+      "date": 20260910,
+      "type": "practiced",
+      "name": "Watermelon Man"
+    },
+    {
+      "ts": 1789042732019,
+      "date": 20260910,
+      "type": "repertoire_deferred",
+      "name": "Memphis Stomp"
+    },
+    {
+      "ts": 1789043265288,
+      "date": 20260910,
+      "type": "review",
+      "name": "Fly Me to the Moon",
+      "passed": true
+    },
+    {
+      "ts": 1789043656222,
+      "date": 20260910,
+      "type": "review",
+      "name": "Stompin' at the Savoy",
+      "passed": false
+    },
+    {
+      "ts": 1789125895224,
+      "date": 20260911,
+      "type": "review",
+      "name": "Stompin' at the Savoy",
+      "passed": true
+    },
+    {
+      "ts": 1789127265052,
+      "date": 20260911,
+      "type": "voicing_practiced",
+      "name": "[2] Minor ii-V-i",
+      "familiarity": 1
+    },
+    {
+      "ts": 1789127275510,
+      "date": 20260911,
+      "type": "repertoire_deferred",
+      "name": "Memphis Stomp"
+    },
+    {
+      "ts": 1789130283444,
+      "date": 20260911,
+      "type": "practiced",
+      "name": "Watermelon Man"
+    },
+    {
+      "ts": 1789212891436,
+      "date": 20260912,
+      "type": "review",
+      "name": "Blues for Alice",
+      "passed": true
+    },
+    {
+      "ts": 1789213097962,
+      "date": 20260912,
+      "type": "voicing_added",
+      "name": "[5] Major ii-V-I"
+    },
+    {
+      "ts": 1789213546115,
+      "date": 20260912,
+      "type": "voicing_practiced",
+      "name": "[5] Major ii-V-I",
+      "familiarity": 0
+    },
+    {
+      "ts": 1789215304727,
+      "date": 20260912,
+      "type": "repertoire_deferred",
+      "name": "Memphis Stomp"
+    },
+    {
+      "ts": 1789215306643,
+      "date": 20260912,
+      "type": "practiced",
+      "name": "Watermelon Man"
+    },
+    {
+      "ts": 1789299889337,
+      "date": 20260913,
+      "type": "learned",
+      "name": "Watermelon Man"
+    },
+    {
+      "ts": 1789299900310,
+      "date": 20260913,
+      "type": "started_learning",
+      "name": "Don't Blame Me"
+    },
+    {
+      "ts": 1789302747964,
+      "date": 20260913,
+      "type": "practiced",
+      "name": "Don't Blame Me"
+    },
+    {
+      "ts": 1789303324214,
+      "date": 20260913,
+      "type": "voicing_practiced",
+      "name": "[5] Major ii-V-I",
+      "familiarity": 0
+    },
+    {
+      "ts": 1789306665737,
+      "date": 20260913,
+      "type": "repertoire_reviewed",
+      "name": "Memphis Stomp"
+    },
+    {
+      "ts": 1789386233525,
+      "date": 20260914,
+      "type": "review",
+      "name": "Fly Me to the Moon",
+      "passed": true
+    },
+    {
+      "ts": 1789386703758,
+      "date": 20260914,
+      "type": "voicing_added",
+      "name": "[3] Minor ii-V-1"
+    },
+    {
+      "ts": 1789387366900,
+      "date": 20260914,
+      "type": "practiced",
+      "name": "Don't Blame Me"
+    },
+    {
+      "ts": 1789387369426,
+      "date": 20260914,
+      "type": "voicing_practiced",
+      "name": "[3] Minor ii-V-1",
+      "familiarity": 0
+    },
+    {
+      "ts": 1789474424917,
+      "date": 20260915,
+      "type": "practiced",
+      "name": "Don't Blame Me"
+    },
+    {
+      "ts": 1789487584603,
+      "date": 20260915,
+      "type": "review",
+      "name": "Watermelon Man",
+      "passed": true
+    },
+    {
+      "ts": 1789487591349,
+      "date": 20260915,
+      "type": "voicing_deferred",
+      "name": "[3] Minor ii-V-1"
+    },
+    {
+      "ts": 1789559290649,
+      "date": 20260916,
+      "type": "song_edited",
+      "oldName": "Don't Blame Me",
+      "name": "Don't Blame Me",
+      "style": "Ballad",
+      "level": 0,
+      "oldLevel": 0
+    },
+    {
+      "ts": 1789559611359,
+      "date": 20260916,
+      "type": "practiced",
+      "name": "Don't Blame Me"
+    },
+    {
+      "ts": 1789561373526,
+      "date": 20260916,
+      "type": "review",
+      "name": "Stompin' at the Savoy",
+      "passed": true
+    },
+    {
+      "ts": 1789561729673,
+      "date": 20260916,
+      "type": "repertoire_reviewed",
+      "name": "St. Louis Blues"
+    },
+    {
+      "ts": 1789992997094,
+      "date": 20260921,
+      "type": "review",
+      "name": "Footprints",
+      "passed": false
+    },
+    {
+      "ts": 1789993000061,
+      "date": 20260921,
+      "type": "practiced",
+      "name": "Don't Blame Me"
+    },
+    {
+      "ts": 1790075506095,
+      "date": 20260922,
+      "type": "song_edited",
+      "oldName": "Footprints",
+      "name": "Footprints",
+      "style": "Modal",
+      "level": 1,
+      "oldLevel": 1
+    },
+    {
+      "ts": 1790076365171,
+      "date": 20260922,
+      "type": "song_edited",
+      "oldName": "Corcovado",
+      "name": "Corcovado",
+      "style": "",
+      "level": 0,
+      "oldLevel": 0
+    },
+    {
+      "ts": 1790077614563,
+      "date": 20260922,
+      "type": "repertoire_deferred",
+      "name": "St. Charles"
+    },
+    {
+      "ts": 1790077628815,
+      "date": 20260922,
+      "type": "voicing_practiced",
+      "name": "[3] Minor ii-V-1",
+      "familiarity": 0
+    },
+    {
+      "ts": 1790078682021,
+      "date": 20260922,
+      "type": "practiced",
+      "name": "Don't Blame Me"
+    },
+    {
+      "ts": 1790078686769,
+      "date": 20260922,
+      "type": "review",
+      "name": "Footprints",
+      "passed": false,
+      "key": "Cm"
+    },
+    {
+      "ts": 1790162989495,
+      "date": 20260923,
+      "type": "review",
+      "name": "Footprints",
+      "passed": false,
+      "key": "Cm"
+    },
+    {
+      "ts": 1790164708526,
+      "date": 20260923,
+      "type": "practiced",
+      "name": "Don't Blame Me"
+    },
+    {
+      "ts": 1790165251451,
+      "date": 20260923,
+      "type": "voicing_practiced",
+      "name": "[1] Major ii-V-I",
+      "familiarity": 1
+    },
+    {
+      "ts": 1790166029553,
+      "date": 20260923,
+      "type": "review",
+      "name": "Corcovado",
+      "passed": false,
+      "key": "Bm"
+    },
+    {
+      "ts": 1790166645281,
+      "date": 20260923,
+      "type": "repertoire_deferred",
+      "name": "St. Charles"
+    },
+    {
+      "ts": 1790511883295,
+      "date": 20260927,
+      "type": "learned",
+      "name": "Don't Blame Me"
+    },
+    {
+      "ts": 1790512150990,
+      "date": 20260927,
+      "type": "started_learning",
+      "name": "More Than You Know"
+    },
+    {
+      "ts": 1790513805693,
+      "date": 20260927,
+      "type": "song_edited",
+      "oldName": "More Than You Know",
+      "name": "More Than You Know",
+      "style": "Ballad",
+      "level": 0,
+      "oldLevel": 0
+    },
+    {
+      "ts": 1790515224996,
+      "date": 20260927,
+      "type": "practiced",
+      "name": "More Than You Know"
+    },
+    {
+      "ts": 1790516106440,
+      "date": 20260927,
+      "type": "review",
+      "name": "Footprints",
+      "passed": true,
+      "key": "Cm"
+    },
+    {
+      "ts": 1790516493669,
+      "date": 20260927,
+      "type": "review",
+      "name": "Corcovado",
+      "passed": true,
+      "key": "Cm"
+    },
+    {
+      "ts": 1790594616077,
+      "date": 20260928,
+      "type": "repertoire_deferred",
+      "name": "St. Charles"
+    },
+    {
+      "ts": 1790595404861,
+      "date": 20260928,
+      "type": "voicing_deferred",
+      "name": "[1] Minor ii-V-i"
+    },
+    {
+      "ts": 1790596600978,
+      "date": 20260928,
+      "type": "review",
+      "name": "Don't Blame Me",
+      "passed": true,
+      "key": "Eb"
+    },
+    {
+      "ts": 1790681058150,
+      "date": 20260929,
+      "type": "voicing_deferred",
+      "name": "[1] Minor ii-V-i"
+    },
+    {
+      "ts": 1790681066703,
+      "date": 20260929,
+      "type": "review",
+      "name": "Anthropology",
+      "passed": true,
+      "key": "Bb"
+    },
+    {
+      "ts": 1790683649628,
+      "date": 20260929,
+      "type": "practiced",
+      "name": "More Than You Know"
+    },
+    {
+      "ts": 1790683664410,
+      "date": 20260929,
+      "type": "review",
+      "name": "Maiden Voyage",
+      "passed": true,
+      "key": "D"
+    },
+    {
+      "ts": 1790769817131,
+      "date": 20260930,
+      "type": "practiced",
+      "name": "More Than You Know"
+    },
+    {
+      "ts": 1790853961286,
+      "date": 20261001,
+      "type": "voicing_practiced",
+      "name": "[1] Minor ii-V-i",
+      "familiarity": 1
+    },
+    {
+      "ts": 1790858637813,
+      "date": 20261001,
+      "type": "review",
+      "name": "Footprints",
+      "passed": true,
+      "key": "Cm"
+    },
+    {
+      "ts": 1790858640289,
+      "date": 20261001,
+      "type": "repertoire_deferred",
+      "name": "St. Charles"
+    },
+    {
+      "ts": 1790858642106,
+      "date": 20261001,
+      "type": "practiced",
+      "name": "More Than You Know"
+    },
+    {
+      "ts": 1790942691112,
+      "date": 20261002,
+      "type": "review",
+      "name": "Dolphin Dance",
+      "passed": false,
+      "key": "Eb"
+    },
+    {
+      "ts": 1791027139895,
+      "date": 20261003,
+      "type": "voicing_deferred",
+      "name": "[2] Minor ii-V-i"
+    },
+    {
+      "ts": 1791027149643,
+      "date": 20261003,
+      "type": "review",
+      "name": "Oleo",
+      "passed": true,
+      "key": "Bb"
+    },
+    {
+      "ts": 1791028298464,
+      "date": 20261003,
+      "type": "review",
+      "name": "Basin Street Blues",
+      "passed": false,
+      "key": "Bb"
+    },
+    {
+      "ts": 1791030023511,
+      "date": 20261003,
+      "type": "practiced",
+      "name": "More Than You Know"
+    },
+    {
+      "ts": 1791116888720,
+      "date": 20261004,
+      "type": "practiced",
+      "name": "More Than You Know"
+    },
+    {
+      "ts": 1791120097382,
+      "date": 20261004,
+      "type": "key_review",
+      "name": "All of You",
+      "passed": true,
+      "key": "Ab"
+    },
+    {
+      "ts": 1791120525009,
+      "date": 20261004,
+      "type": "voicing_practiced",
+      "name": "[2] Minor ii-V-i",
+      "familiarity": 1
+    },
+    {
+      "ts": 1791122693757,
+      "date": 20261004,
+      "type": "repertoire_deferred",
+      "name": "St. Charles"
+    },
+    {
+      "ts": 1791199416119,
+      "date": 20261005,
+      "type": "learned",
+      "name": "More Than You Know"
+    },
+    {
+      "ts": 1791199592925,
+      "date": 20261005,
+      "type": "started_learning",
+      "name": "Bye Bye Blackbird"
+    },
+    {
+      "ts": 1791201596146,
+      "date": 20261005,
+      "type": "practiced",
+      "name": "Bye Bye Blackbird"
+    },
+    {
+      "ts": 1791201857311,
+      "date": 20261005,
+      "type": "review",
+      "name": "Basin Street Blues",
+      "passed": true,
+      "key": "Bb"
+    },
+    {
+      "ts": 1791202150453,
+      "date": 20261005,
+      "type": "repertoire_deferred",
+      "name": "St. Charles"
+    },
+    {
+      "ts": 1791202352801,
+      "date": 20261005,
+      "type": "voicing_deferred",
+      "name": "[5] Major ii-V-I"
+    },
+    {
+      "ts": 1791215647738,
+      "date": 20261005,
+      "type": "review",
+      "name": "Alone Together",
+      "passed": true,
+      "key": "Dm"
+    },
+    {
+      "ts": 1791254395850,
+      "date": 20261005,
+      "type": "voicing_added",
+      "name": "[2] Major ii-V-I"
+    },
+    {
+      "ts": 1791254496992,
+      "date": 20261005,
+      "type": "voicing_added",
+      "name": "Major ii-V-I"
+    },
+    {
+      "ts": 1791254632164,
+      "date": 20261005,
+      "type": "voicing_added",
+      "name": "[4] Major ii-V-I"
+    },
+    {
+      "ts": 1791254747508,
+      "date": 20261005,
+      "type": "voicing_added",
+      "name": "[4] Minor ii-V-I"
+    },
+    {
+      "ts": 1791254864783,
+      "date": 20261005,
+      "type": "voicing_added",
+      "name": "[5] Minor ii-V-I"
+    },
+    {
+      "ts": 1791254999549,
+      "date": 20261005,
+      "type": "voicing_added",
+      "name": "[6] Minor ii-V-I"
+    },
+    {
+      "ts": 1791255979231,
+      "date": 20261005,
+      "type": "song_edited",
+      "oldName": "Caravan",
+      "name": "Caravan",
+      "tags": [
+        "Swing",
+        "Latin",
+        "Minor",
+        "Jam"
+      ],
+      "level": 0,
+      "oldLevel": 0
+    },
+    {
+      "ts": 1791287604957,
+      "date": 20261006,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "Bye Bye Blackbird",
+      "secs": 1800,
+      "origSecs": 1203
+    },
+    {
+      "ts": 1791288082094,
+      "date": 20261006,
+      "type": "practice_time",
+      "area": "voicing",
+      "name": "[5] Major ii-V-I",
+      "secs": 477
+    },
+    {
+      "ts": 1791288347287,
+      "date": 20261006,
+      "type": "practice_time",
+      "area": "rep",
+      "name": "St. Charles",
+      "secs": 187
+    }
+  ],
+  "extraReviewsToday": {
+    "date": 20260927,
+    "count": 1
+  },
+  "onboardingComplete": true,
+  "repertoire": [
+    {
+      "name": "Dorothy",
+      "composer": "Dr. John",
+      "notes": null,
+      "addedDate": 20260502,
+      "lastReviewed": 20260502
+    },
+    {
+      "name": "Me and the Blues",
+      "composer": "Ray Bryant",
+      "notes": null,
+      "addedDate": 20260502,
+      "lastReviewed": 20260813
+    },
+    {
+      "name": "Memphis Stomp",
+      "composer": "Dave Grusin",
+      "notes": "Mental map of sections:\n- Intro\n- A section with IV-V-I, iii-IV offbeats, low blues crunch\n- B section in B-flat\n- A section with off beat LH octaves, gospel walk up, and high blues crunch\n- C section minor\n- A section with minor second, extra syncopated break (favorites), and iii-IV-V LH octaves on beat\n- D section interlude\n- A section with iii-IV-V LH octaves on beat, 3-to-5 syncopated  walkup (expected) and low blues crunch\n- Outro",
+      "addedDate": 20260502,
+      "lastReviewed": 20260913,
+      "practiceFocus": [
+        {
+          "text": "Feel, separation",
+          "done": false
+        },
+        {
+          "text": "Lead in to Bb section m. 17",
+          "done": false
+        },
+        {
+          "text": "Bb section m. 26",
+          "done": false
+        },
+        {
+          "text": "Transition to Dm m. 49",
+          "done": false
+        },
+        {
+          "text": "End of interlude m. 123",
+          "done": false
+        }
+      ]
+    },
+    {
+      "name": "St. Louis Blues",
+      "composer": "W.C. Handy",
+      "notes": null,
+      "addedDate": 20260502,
+      "lastReviewed": 20260916
+    },
+    {
+      "name": "St. Charles",
+      "composer": "Ted Rothrock",
+      "notes": "",
+      "addedDate": 20260502,
+      "lastReviewed": null,
+      "pinnedDate": 20261006,
+      "deferredDate": 20261005,
+      "practiceFocus": [
+        {
+          "text": "A section turnarounds",
+          "done": false
+        },
+        {
+          "text": "Transition to bridge",
+          "done": false
+        },
+        {
+          "text": "Bridge",
+          "done": false
+        }
+      ]
+    },
+    {
+      "name": "Basin Street Blues",
+      "composer": "Spencer Williams",
+      "notes": null,
+      "addedDate": 20260502,
+      "lastReviewed": null
+    },
+    {
+      "name": "A Sleepin' Bee",
+      "composer": "Harold Arlen",
+      "notes": null,
+      "addedDate": 20260502,
+      "lastReviewed": null
+    },
+    {
+      "name": "Do You Know What It Means (To Miss New Orleans)",
+      "composer": "Eddie DeLange & Louis Alter",
+      "notes": null,
+      "addedDate": 20260502,
+      "lastReviewed": null
+    },
+    {
+      "name": "Softly As In A Morning Sunrise",
+      "composer": "Sigmund Romberg & Oscar Hammerstein",
+      "notes": null,
+      "addedDate": 20260502,
+      "lastReviewed": null
+    },
+    {
+      "name": "Champagne Stomp",
+      "composer": "Ted Rothrock",
+      "notes": null,
+      "addedDate": 20260502,
+      "lastReviewed": null
+    },
+    {
+      "name": "Tipitina and Me",
+      "composer": "Allen Toussaint",
+      "notes": null,
+      "addedDate": 20260502,
+      "lastReviewed": null
+    },
+    {
+      "name": "Simple",
+      "composer": "Ted Rothrock",
+      "notes": null,
+      "addedDate": 20260502,
+      "lastReviewed": null
+    },
+    {
+      "name": "The Nearness of You",
+      "composer": "Hoagy Carmichael",
+      "notes": null,
+      "addedDate": 20260502,
+      "lastReviewed": null
+    },
+    {
+      "name": "Pine Top Boogie",
+      "composer": "Clarence \"Pine Top\" Smith",
+      "notes": null,
+      "addedDate": 20260502,
+      "lastReviewed": null
+    },
+    {
+      "name": "Southern Nights",
+      "composer": "Allen Toussaint",
+      "notes": null,
+      "addedDate": 20260502,
+      "lastReviewed": null
+    },
+    {
+      "name": "The Crave",
+      "composer": "Jelly Roll Morton",
+      "notes": null,
+      "addedDate": 20260502,
+      "lastReviewed": null
+    },
+    {
+      "name": "Prairie Blues",
+      "composer": "Ted Rothrock",
+      "notes": null,
+      "addedDate": 20260502,
+      "lastReviewed": null
+    },
+    {
+      "name": "Claire de lune",
+      "composer": "Claude Debussy",
+      "notes": null,
+      "addedDate": 20260502,
+      "lastReviewed": null
+    },
+    {
+      "name": "Deux Arabesques I",
+      "composer": "Claude Debussy",
+      "notes": null,
+      "addedDate": 20260502,
+      "lastReviewed": null
+    },
+    {
+      "name": "Valse Op. 64 No. 2",
+      "composer": "Frederic Chopin",
+      "notes": null,
+      "addedDate": 20260502,
+      "lastReviewed": null
+    },
+    {
+      "name": "Nocturne Op. 9 No. 2",
+      "composer": "Frederic Chopin",
+      "notes": null,
+      "addedDate": 20260502,
+      "lastReviewed": null
+    },
+    {
+      "name": "Mamma",
+      "composer": "Pyotr Tschaikowsky",
+      "notes": null,
+      "addedDate": 20260502,
+      "lastReviewed": null
+    },
+    {
+      "name": "Sonata Pathetique II",
+      "composer": "Ludwig van Beethoven",
+      "notes": null,
+      "addedDate": 20260502,
+      "lastReviewed": null
+    }
+  ],
+  "voicings": [
+    {
+      "name": "[1] Major ii-V-I",
+      "category": "Major",
+      "topNote": "1",
+      "image": "core-voicing-maj-1.png",
+      "familiarity": 1,
+      "addedDate": 20260906,
+      "sortSeed": 0.48420499906294034,
+      "notes": "140 bpm",
+      "lastPracticed": 20260923
+    },
+    {
+      "name": "[1] Minor ii-V-i",
+      "category": "Minor",
+      "topNote": "1",
+      "image": "core-voicing-min-1.png",
+      "familiarity": 1,
+      "addedDate": 20260908,
+      "sortSeed": 0.45288480803657516,
+      "lastPracticed": 20261001,
+      "notes": "100 bpm"
+    },
+    {
+      "name": "[2] Minor ii-V-i",
+      "category": "Minor",
+      "topNote": "3",
+      "image": "core-voicing-min-3.png",
+      "familiarity": 1,
+      "addedDate": 20260910,
+      "sortSeed": 0.6599603038816112,
+      "lastPracticed": 20261004,
+      "notes": "Last practice speed: 100 bpm"
+    },
+    {
+      "name": "[5] Major ii-V-I",
+      "category": "Major",
+      "topNote": "7",
+      "image": "core-voicing-maj-7.png",
+      "familiarity": 0,
+      "addedDate": 20260912,
+      "sortSeed": 0.03827584631598735,
+      "lastPracticed": 20260913,
+      "notes": "Last tempo: 100 bpm",
+      "pinnedDate": 20261006,
+      "deferredDate": 20261005
+    },
+    {
+      "name": "[3] Minor ii-V-1",
+      "category": "Minor",
+      "topNote": "4",
+      "image": "core-voicing-min-3.png",
+      "familiarity": 0,
+      "addedDate": 20260914,
+      "sortSeed": 0.6936092227190404,
+      "lastPracticed": 20260922
+    },
+    {
+      "name": "[2] Major ii-V-I",
+      "category": "Major",
+      "topNote": "3",
+      "image": "core-voicing-maj-3.png",
+      "familiarity": 1,
+      "addedDate": 20261005,
+      "sortSeed": 0.21638230740563924,
+      "lastPracticed": null,
+      "pinnedDate": null
+    },
+    {
+      "name": "[3] Major ii-V-I",
+      "category": "Major",
+      "topNote": "4",
+      "image": "core-voicing-maj-4.png",
+      "familiarity": 0,
+      "addedDate": 20261005,
+      "sortSeed": 0.2461268586852252,
+      "lastPracticed": null,
+      "pinnedDate": null
+    },
+    {
+      "name": "[4] Major ii-V-I",
+      "category": "Major",
+      "topNote": "5",
+      "image": "core-voicing-maj-5.png",
+      "familiarity": 1,
+      "addedDate": 20261005,
+      "sortSeed": 0.8493709677916534,
+      "lastPracticed": null,
+      "pinnedDate": null
+    },
+    {
+      "name": "[4] Minor ii-V-I",
+      "category": "Minor",
+      "topNote": "♭5",
+      "image": "core-voicing-min-b5.png",
+      "familiarity": 0,
+      "addedDate": 20261005,
+      "sortSeed": 0.2878885489484496,
+      "lastPracticed": null,
+      "pinnedDate": null
+    },
+    {
+      "name": "[5] Minor ii-V-I",
+      "category": "Minor",
+      "topNote": "♭6",
+      "image": "core-voicing-min-6.png",
+      "familiarity": 0,
+      "addedDate": 20261005,
+      "sortSeed": 0.7896510806134865,
+      "lastPracticed": null,
+      "pinnedDate": null
+    },
+    {
+      "name": "[6] Minor ii-V-I",
+      "category": "Minor",
+      "topNote": "7",
+      "image": "core-voicing-min-7.png",
+      "familiarity": 0,
+      "addedDate": 20261005,
+      "sortSeed": 0.3764619580068007,
+      "lastPracticed": null,
+      "pinnedDate": null
+    }
+  ],
+  "voicingsSeedVersion": 2,
+  "reviewQueueMode": "all",
+  "todaySections": {
+    "learning": true,
+    "repertoire": true,
+    "voicing": true,
+    "review": true,
+    "vocabulary": false,
+    "multikey": true
+  },
+  "vocabulary": [],
+  "keyCenters": {
+    "C": {
+      "familiarity": 3
+    },
+    "Db": {
+      "familiarity": 0
+    },
+    "D": {
+      "familiarity": 1
+    },
+    "Eb": {
+      "familiarity": 2
+    },
+    "E": {
+      "familiarity": 1
+    },
+    "F": {
+      "familiarity": 3
+    },
+    "Gb": {
+      "familiarity": 0
+    },
+    "G": {
+      "familiarity": 3
+    },
+    "Ab": {
+      "familiarity": 1
+    },
+    "A": {
+      "familiarity": 0
+    },
+    "Bb": {
+      "familiarity": 3
+    },
+    "B": {
+      "familiarity": 0
+    },
+    "Cm": {
+      "familiarity": 3
+    },
+    "C#m": {
+      "familiarity": 0
+    },
+    "Dm": {
+      "familiarity": 3
+    },
+    "Ebm": {
+      "familiarity": 0
+    },
+    "Em": {
+      "familiarity": 1
+    },
+    "Fm": {
+      "familiarity": 3
+    },
+    "F#m": {
+      "familiarity": 0
+    },
+    "Gm": {
+      "familiarity": 3
+    },
+    "G#m": {
+      "familiarity": 0
+    },
+    "Am": {
+      "familiarity": 3
+    },
+    "Bbm": {
+      "familiarity": 0
+    },
+    "Bm": {
+      "familiarity": 0
+    }
+  },
+  "standardKeysSeeded": true,
+  "reviewsPerWeek": 4,
+  "rotationMax": 12,
+  "cadenceVersion": 7,
+  "multiKeyPerWeek": 3,
+  "multiKeyWeek": {
+    "weekStart": 20261005,
+    "key": "Gb"
+  },
+  "exitChecklistOpen": false,
+  "exitChecklistDetailOpen": false,
+  "practiceFocusMigrated": true,
+  "repertoireFocusMigrated": true,
+  "tagsVersion": 4,
+  "keyWheelMode": "familiarity"
+}

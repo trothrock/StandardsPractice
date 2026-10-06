@@ -816,6 +816,22 @@
   </div>
 </div>
 
+<div class="modal-backdrop" id="time-modal" onclick="handleTimeBackdropClick(event)">
+  <div class="modal">
+    <div class="modal-title">Adjust time</div>
+    <div id="time-modal-desc" style="font-size:13px;color:var(--text2);margin:-6px 0 18px"></div>
+    <div class="field">
+      <label>Minutes</label>
+      <input type="number" id="time-minutes-input" min="1" max="600" step="1" onkeydown="if(event.key==='Enter') submitTimeEdit()">
+      <div class="field-error" id="time-error">Enter a whole number of minutes, 1 to 600.</div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeTimeEdit()">Cancel</button>
+      <button class="btn-confirm" onclick="submitTimeEdit()">Save</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-backdrop" id="review-settings-modal" onclick="handleReviewSettingsBackdropClick(event)">
   <div class="modal">
     <div class="modal-title">Review settings</div>
@@ -2352,7 +2368,8 @@ function renderActivity() {
       const d = new Date(entry.ts);
       const dateStr = d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
       const timeStr = d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
-      return `<div class="timeline-entry"><div class="timeline-dot ${dot}"></div><div><div class="timeline-label">${label} — <span style="color:var(--text2)">${detail}</span></div><div class="timeline-meta">${period==='day'?timeStr:dateStr+' · '+timeStr}</div></div></div>`;
+      const menu = entry.type==='practice_time' ? `<button class="btn-dots" style="margin-left:auto" onclick="openTimeMenu(event,${entry.ts})">···</button>` : '';
+      return `<div class="timeline-entry"><div class="timeline-dot ${dot}"></div><div><div class="timeline-label">${label} — <span style="color:var(--text2)">${detail}</span></div><div class="timeline-meta">${period==='day'?timeStr:dateStr+' · '+timeStr}</div></div>${menu}</div>`;
     }).join('');
     return `<div class="section"><div class="section-head"><h2>${key}</h2><span class="count">${seen.get(key).length}</span></div>${entries}</div>`;
   }).join('');
@@ -2758,7 +2775,49 @@ function openRowMenu(e, name) {
   menu.classList.add('open');
 }
 function closeRowMenu() { document.getElementById('row-menu').classList.remove('open'); }
-document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeAddSong(); closeEditSong(); closeReviewSettings(); closeReviewMenu(); closeMultiKeyMenu(); closeRowMenu(); closeRemoveSong(); closeResetConfirm(); closeAddRepertoire(); closeEditRep(); closeRemoveRep(); closeAddVoicing(); closeEditVoicing(); closeRemoveVoicing(); closeAddVocab(); closeEditVocab(); closeRemoveVocab(); } });
+// Timed sessions are found by their timestamp, which is unique per logged entry.
+let timeEditTs = null;
+function timeEntry(db, ts) { return (db.activity||[]).find(e=>e.type==='practice_time' && e.ts===ts); }
+function openTimeMenu(e, ts) {
+  e.stopPropagation();
+  const menu = document.getElementById('row-menu');
+  menu.innerHTML = `<div class="dropdown-item" onclick="openTimeEdit(${ts});closeRowMenu()">Adjust time</div><div class="dropdown-item danger" onclick="deleteTimeEntry(${ts});closeRowMenu()">Delete</div>`;
+  const rect = e.currentTarget.getBoundingClientRect();
+  menu.style.top = (rect.bottom + 4) + 'px';
+  menu.style.right = (window.innerWidth - rect.right) + 'px';
+  menu.classList.add('open');
+}
+function openTimeEdit(ts) {
+  const entry = timeEntry(getDB(), ts);
+  if(!entry) return;
+  timeEditTs = ts;
+  document.getElementById('time-modal-desc').textContent = `${entry.name} · ${formatIntDate(entry.date)}`;
+  document.getElementById('time-minutes-input').value = Math.max(1, Math.round(entry.secs/60));
+  document.getElementById('time-error').style.display = 'none';
+  document.getElementById('time-modal').classList.add('open');
+  setTimeout(()=>document.getElementById('time-minutes-input').select(), 50);
+}
+function deleteTimeEntry(ts) {
+  const db = getDB(), entry = timeEntry(db, ts);
+  if(!entry) return;
+  if(!confirm(`Delete ${formatMinutes(entry.secs/60)} on "${entry.name}" from ${formatIntDate(entry.date)}?`)) return;
+  db.activity = db.activity.filter(e=>e!==entry);
+  saveDB(db); renderAll();
+  toast('Session deleted');
+}
+function closeTimeEdit() { document.getElementById('time-modal').classList.remove('open'); timeEditTs = null; }
+function handleTimeBackdropClick(e) { if(e.target===document.getElementById('time-modal')) closeTimeEdit(); }
+function submitTimeEdit() {
+  const mins = Number(document.getElementById('time-minutes-input').value);
+  if(!Number.isInteger(mins) || mins < 1 || mins > 600) { document.getElementById('time-error').style.display = 'block'; return; }
+  const db = getDB(), entry = timeEntry(db, timeEditTs);
+  if(!entry) { closeTimeEdit(); return; }
+  if(entry.origSecs === undefined) entry.origSecs = entry.secs;   // keep what the timer actually measured
+  entry.secs = mins * 60;
+  saveDB(db); closeTimeEdit(); renderAll();
+  toast(`${entry.name} set to ${formatMinutes(mins)}`);
+}
+document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeAddSong(); closeEditSong(); closeReviewSettings(); closeReviewMenu(); closeMultiKeyMenu(); closeRowMenu(); closeTimeEdit(); closeRemoveSong(); closeResetConfirm(); closeAddRepertoire(); closeEditRep(); closeRemoveRep(); closeAddVoicing(); closeEditVoicing(); closeRemoveVoicing(); closeAddVocab(); closeEditVocab(); closeRemoveVocab(); } });
 document.addEventListener('click', ()=>{ closeReviewMenu(); closeMultiKeyMenu(); closeRowMenu(); });
 
 let editOriginalName = null;
