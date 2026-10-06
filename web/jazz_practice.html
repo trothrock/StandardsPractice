@@ -306,7 +306,7 @@
     </div>
     <div id="panel-library" class="panel">
       <div class="panel-title">Library</div>
-      <div class="panel-sub">All 272 standards</div>
+      <div class="panel-sub" id="library-sub"></div>
       <div class="filter-row">
         <input type="text" id="lib-search" placeholder="Search by title..." oninput="renderLibrary()">
         <select id="lib-level" onchange="renderLibrary()"><option value="">All levels</option><option value="0">Level 0</option><option value="1">Level 1</option><option value="2">Level 2</option><option value="3">Level 3</option></select>
@@ -360,7 +360,7 @@
     </div>
     <div id="panel-progress" class="panel">
       <div class="panel-title">Progress</div>
-      <div class="panel-sub">Your journey toward 272 standards</div>
+      <div class="panel-sub" id="progress-sub"></div>
       <div class="stats-row" style="grid-template-columns:repeat(2,1fr);margin-bottom:12px">
         <div class="stat-card"><div class="label">At level 2+</div><div class="value gold" id="p-2">—</div></div>
         <div class="stat-card"><div class="label">Remaining</div><div class="value" id="p-0">—</div></div>
@@ -369,7 +369,7 @@
         <div class="section-head"><h2>Overall completion</h2></div>
         <div style="padding:16px 20px">
           <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text3);margin-bottom:6px">
-            <span id="prog-label">0 of 272 at level 2+</span><span id="prog-pct">0%</span>
+            <span id="prog-label"></span><span id="prog-pct">0%</span>
           </div>
           <div class="prog-wrap"><div class="prog-bar" id="prog-bar" style="width:0%"></div></div>
         </div>
@@ -1048,6 +1048,25 @@ function initDB() {
   const curatedTags = !(db.tagsVersion >= 2);
   const seedByNorm = curatedTags ? new Map(ALL_SONGS.map(([name,tags])=>[normSongTitle(name),tags])) : null;
   if(curatedTags) { db.tagsVersion = 2; delete db.balladStylesSeeded; needsSave = true; }
+  // The Jam tag marks the 50 essential jam-session tunes. Five of them were new to the
+  // library, so bring in any library song you don't have yet before tagging.
+  const jamTags = !(db.tagsVersion >= 3);
+  if(jamTags) {
+    const have = new Set(Object.values(db.songs).map(sg => normSongTitle(sg.name)));
+    ALL_SONGS.forEach(([name,tags,composer,year,standardKey]) => {
+      if(have.has(normSongTitle(name))) return;
+      db.songs[name] = { name, tags:[...tags], composer, year, baseLevel:0, currentLevel:0, status:'untouched',
+        intervalIdx:-1, learnedDate:null, reviews:[], standardKey:standardKey||null, multiKey:false };
+    });
+    db.tagsVersion = 3;
+    needsSave = true;
+  }
+  const jamByNorm = jamTags ? new Set(ALL_SONGS.filter(([,tags])=>tags.includes('Jam')).map(([name])=>normSongTitle(name))) : null;
+  // A second round of Jam tunes: the close calls that just missed the first 50.
+  const jamCloseCalls = !(db.tagsVersion >= 4);
+  const closeCallsByNorm = new Set(['Have You Met Miss Jones?','Perdido','Cherokee','Maiden Voyage','Invitation','Donna Lee',
+    'Sweet Georgia Brown','Caravan'].map(normSongTitle));
+  if(jamCloseCalls) { db.tagsVersion = 4; needsSave = true; }
   const seedKeys = !db.standardKeysSeeded;
   if(seedKeys) { db.standardKeysSeeded = true; needsSave = true; }
   Object.values(db.songs).forEach(sg => {
@@ -1056,6 +1075,8 @@ function initDB() {
     // Style was a single value; tags let a song be, say, both Blues and Bop.
     if(!Array.isArray(sg.tags)) { sg.tags = sg.style ? [sg.style] : []; delete sg.style; needsSave = true; }
     if(curatedTags && seedByNorm.has(normSongTitle(sg.name))) sg.tags = [...seedByNorm.get(normSongTitle(sg.name))];
+    if(jamTags && jamByNorm.has(normSongTitle(sg.name)) && !sg.tags.includes('Jam')) sg.tags.push('Jam');
+    if(jamCloseCalls && closeCallsByNorm.has(normSongTitle(sg.name)) && !sg.tags.includes('Jam')) sg.tags.push('Jam');
     if(seed && sg.composer === undefined) { sg.composer = seed.composer; needsSave = true; }
     if(seed && sg.year === undefined) { sg.year = seed.year; needsSave = true; }
     if(sg.standardKey === undefined) { sg.standardKey = null; needsSave = true; }
@@ -1349,9 +1370,9 @@ function importData(e) {
   reader.readAsText(file);
 }
 function lvlBadge(l) { return `<span class="badge badge-${Math.min(l,3)}">${l}</span>`; }
-// Era/feel first, then form/harmony, then meter — the order pickers and badges follow.
+// Era/feel first, then form/harmony, then meter, then lists like Jam — the order pickers and badges follow.
 const SONG_TAGS = ['Trad','Swing','Songbook','Bop','Hard bop','Modal','Post-bop','Ballad','Bossa','Latin','Monk',
-  'Blues','Rhythm changes','Contrafact','Minor','Waltz','Odd meter'];
+  'Blues','Rhythm changes','Contrafact','Minor','Waltz','Odd meter','Jam'];
 function tagBadges(sg) { return sortTags(sg.tags||[]).map(t=>`<span class="badge badge-style">${t}</span>`).join(''); }
 function sortTags(tags) { return [...tags].sort((a,b)=>SONG_TAGS.indexOf(a)-SONG_TAGS.indexOf(b)); }
 function renderTagPicker(id, selected) {
@@ -1721,13 +1742,14 @@ function renderLibrary() {
   const lf = document.getElementById('lib-level').value;
   const sf = document.getElementById('lib-status').value;
   const tagSel = document.getElementById('lib-tag');
-  if(tagSel.options.length===1) tagSel.insertAdjacentHTML('beforeend', SONG_TAGS.map(t=>`<option value="${t}">${t}</option>`).join(''));
+  if(tagSel.options.length===1) tagSel.insertAdjacentHTML('beforeend', [...SONG_TAGS].sort((a,b)=>a.localeCompare(b)).map(t=>`<option value="${t}">${t}</option>`).join(''));
   const tagf = tagSel.value;
   let songs = ALL_SONGS.map(([name])=>db.songs[name]).filter(Boolean);
   // Also include user-added songs not in ALL_SONGS
   const seeded = new Set(ALL_SONGS.map(([n])=>n));
   Object.values(db.songs).forEach(s=>{ if(!seeded.has(s.name)) songs.push(s); });
   songs.sort((a,b)=>a.name.localeCompare(b.name));
+  document.getElementById('library-sub').textContent = `All ${songs.length} standards`;
   if(q) songs = songs.filter(s=>s.name.toLowerCase().includes(q));
   if(lf!=='') songs = songs.filter(s=>s.baseLevel==lf);
   if(sf!=='') songs = songs.filter(s=>s.status===sf);
@@ -1799,6 +1821,7 @@ function renderProgress() {
   const total = all.length, pct = Math.round(grad/total*100);
   document.getElementById('p-0').textContent = total - grad;
   document.getElementById('p-2').textContent = grad;
+  document.getElementById('progress-sub').textContent = `Your journey toward ${total} standards`;
   document.getElementById('prog-label').textContent = `${grad} of ${total} at level 2+`;
   document.getElementById('prog-pct').textContent = `${pct}%`;
   document.getElementById('prog-bar').style.width = pct+'%';
