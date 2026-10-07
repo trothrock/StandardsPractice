@@ -129,6 +129,12 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  if (req.method === 'GET' && req.url === '/api/spotify/plays') {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ ...spotify.getStatus(), plays: spotify.loadPlays().plays }));
+    return;
+  }
+
   if (req.method === 'GET' && req.url === '/api/spotify/status') {
     spotify.checkConnection()
       .then(result => {

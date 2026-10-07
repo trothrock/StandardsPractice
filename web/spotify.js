@@ -136,6 +136,12 @@ function localDate(d = new Date()) {
   return d.toLocaleDateString('en-CA'); // YYYY-MM-DD in local time
 }
 
+// Spotify lists album art largest first (640/300/64); 300 stays sharp at thumbnail size on retina
+function pickAlbumImage(images = []) {
+  const fit = images.filter(i => i.width >= 80).sort((a, b) => a.width - b.width)[0];
+  return (fit || images[0])?.url || null;
+}
+
 function loadPlays() {
   return readJson(PLAYS_FILE, { lastSyncDate: null, plays: [] });
 }
@@ -157,6 +163,7 @@ async function syncRecentPlays({ force = false } = {}) {
       name: item.track.name,
       artists: item.track.artists.map(a => a.name),
       album: item.track.album?.name || null,
+      albumImage: pickAlbumImage(item.track.album?.images),
       durationMs: item.track.duration_ms,
       context: item.context?.uri || null,
     }));
@@ -169,13 +176,32 @@ async function syncRecentPlays({ force = false } = {}) {
   return { skipped: false, added: fresh.length, total: store.plays.length, truncated };
 }
 
+// Fill in album art for plays saved before images were recorded. Spotify refuses the
+// multi-track lookup for development-mode apps, so each track is fetched individually.
+async function backfillAlbumImages() {
+  const store = loadPlays();
+  const missing = [...new Set(store.plays.filter(p => p.albumImage === undefined && p.trackId).map(p => p.trackId))];
+  if (!missing.length) return 0;
+  const images = new Map();
+  for (const id of missing) {
+    const track = await spotifyGet(`/tracks/${id}`);
+    images.set(id, pickAlbumImage(track.album?.images));
+  }
+  store.plays.forEach(p => { if (images.has(p.trackId)) p.albumImage = images.get(p.trackId); });
+  writeJson(PLAYS_FILE, store);
+  return missing.length;
+}
+
 // Try a sync now and then hourly, so a server left running past midnight still picks up the new day
 function startDailySync() {
   const run = () => {
     if (!isConnected()) return;
     syncRecentPlays()
       .then(r => { if (!r.skipped) console.log(`Spotify: saved ${r.added} new plays (${r.total} total)${r.truncated ? ' — hit the 50-play limit, some may be missing' : ''}`); })
-      .catch(e => console.error('Spotify sync failed:', e.message));
+      .catch(e => console.error('Spotify sync failed:', e.message))
+      .then(backfillAlbumImages)
+      .then(n => { if (n) console.log(`Spotify: added album art for ${n} tracks`); })
+      .catch(e => console.error('Spotify album art backfill failed:', e.message));
   };
   run();
   setInterval(run, 60 * 60 * 1000).unref();
@@ -202,7 +228,7 @@ async function checkConnection() {
   };
 }
 
-module.exports = { spotifyGet, checkConnection, getLoginUrl, handleCallback, syncRecentPlays, startDailySync, getStatus };
+module.exports = { spotifyGet, checkConnection, getLoginUrl, handleCallback, syncRecentPlays, startDailySync, getStatus, loadPlays };
 
 if (require.main === module) {
   checkConnection()

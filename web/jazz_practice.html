@@ -227,6 +227,8 @@
   .btn-confirm { padding: 7px 18px; font-size: 13px; font-family: 'IBM Plex Sans', sans-serif; background: var(--gold-dim); border: 1px solid rgba(201,168,76,0.35); color: var(--gold2); border-radius: var(--radius); cursor: pointer; transition: all 0.15s; }
   .btn-confirm:hover { background: rgba(201,168,76,0.22); }
   .field-error { font-size: 11px; color: var(--red); margin-top: 4px; display: none; }
+  .listen-thumb { width: 40px; height: 40px; border-radius: 4px; object-fit: cover; flex-shrink: 0; background: var(--bg3); }
+  .listen-title { display: flex; align-items: center; gap: 8px; }
   .timeline-entry { display: flex; gap: 14px; padding: 12px 20px; border-bottom: 1px solid var(--border); align-items: flex-start; }
   .timeline-entry:last-child { border-bottom: none; }
   .timeline-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
@@ -328,6 +330,10 @@
       <div class="nav-item" onclick="showPanel('activity')">
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
         Activity
+      </div>
+      <div class="nav-item" onclick="showPanel('listening')">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 10V8a5 5 0 0 1 10 0v2"/><rect x="2" y="10" width="3" height="4" rx="1"/><rect x="11" y="10" width="3" height="4" rx="1"/></svg>
+        Listening
       </div>
     </nav>
     <div class="sidebar-footer">
@@ -443,6 +449,11 @@
       </div>
       <div id="activity-body"></div>
     </div>
+    <div id="panel-listening" class="panel">
+      <div class="panel-title">Listening</div>
+      <div class="panel-sub" id="listening-sub">Spotify plays of songs in your library</div>
+      <div id="listening-body"></div>
+    </div>
     <div id="panel-detail" class="panel">
       <button class="btn-back" onclick="showPanel(detailOriginPanel)">← Back</button>
       <div id="detail-body"></div>
@@ -486,6 +497,13 @@
         <div class="settings-row">
           <div><div class="label">Multi-key songs per week</div><div class="sub">How many songs the Multi-key review queue offers each week</div></div>
           <input type="number" id="queue-size-multikey" min="1" max="50" onchange="setQueueSize('multikey')">
+        </div>
+      </div>
+      <div class="section" style="margin-bottom:20px">
+        <div class="section-head"><h2>Listening</h2></div>
+        <div class="settings-row">
+          <div><div class="label">Listening goal per song</div><div class="sub">Spotify plays a song needs to fill the progress bar on its detail page</div></div>
+          <input type="number" id="listening-goal" min="1" max="500" onchange="setListeningGoal()">
         </div>
       </div>
       <div class="section">
@@ -2201,6 +2219,28 @@ function practiceCalendarHTML(days, firstWeek, tod, since) {
   const scale = VIZ_HEAT.map(c => `<i style="background:${c}"></i>`).join('');
   return `<svg viewBox="0 0 ${VIZ_W + VIZ_RIGHT} ${h}" role="img" aria-label="Practice calendar, last ${VIZ_WEEKS} weeks">${svg}</svg><div class="viz-scale"><em>Less</em>${scale}<em>More</em></div>`;
 }
+// Same grid and palette as the practice calendar, shaded by library-song plays per day
+function listeningCalendarHTML(days, firstWeek, tod) {
+  const step = (VIZ_W - VIZ_LEFT) / VIZ_WEEKS, cell = step - 4, top = 20;
+  const level = n => n===0 ? 0 : n===1 ? 1 : n<=3 ? 2 : n<=5 ? 3 : 4;
+  let svg = '';
+  vizMonthTicks(firstWeek).forEach(t => { svg += `<text x="${vizWeekX(t.i)}" y="11" font-size="11">${t.label}</text>`; });
+  ['Mon','','Wed','','Fri','',''].forEach((l,r) => { if(l) svg += `<text x="0" y="${top + r*step + cell/2 + 4}" font-size="10">${l}</text>`; });
+  for(let i=0;i<VIZ_WEEKS;i++) for(let r=0;r<7;r++) {
+    const d = addDays(firstWeek, i*7 + r);
+    if(d > tod) continue;
+    const songs = days.get(d);
+    const n = songs ? [...songs.values()].reduce((a,b)=>a+b,0) : 0;
+    const when = vizDate(d).toLocaleDateString('en-US',{weekday:'short', month:'short', day:'numeric'});
+    const tip = n
+      ? `${when} · ${n} play${n===1?'':'s'}\n${[...songs.entries()].sort((a,b)=>b[1]-a[1]).map(([name,c])=>c>1?`${name} ×${c}`:name).join('\n')}`
+      : `${when} · no listening`;
+    svg += `<rect class="viz-cell" x="${vizWeekX(i)}" y="${top + r*step}" width="${cell}" height="${cell}" rx="3" fill="${VIZ_HEAT[level(n)]}" data-tip="${vizEsc(tip)}"/>`;
+  }
+  const h = top + 7*step;
+  const scale = VIZ_HEAT.map(c => `<i style="background:${c}"></i>`).join('');
+  return `<svg viewBox="0 0 ${VIZ_W + VIZ_RIGHT} ${h}" role="img" aria-label="Listening calendar, last ${VIZ_WEEKS} weeks">${svg}</svg><div class="viz-scale"><em>Less</em>${scale}<em>More</em></div>`;
+}
 function vizDividerSVG(since, firstWeek, y0, y1) {
   const x = vizWeekX(daysBetween(firstWeek, since) / 7) - 2;
   return `<line x1="${x}" x2="${x}" y1="${y0}" y2="${y1}" stroke="#555" stroke-dasharray="3 3"/>`;
@@ -2379,6 +2419,101 @@ function renderActivity() {
     return `<div class="section"><div class="section-head"><h2>${key}</h2><span class="count">${seen.get(key).length}</span></div>${entries}</div>`;
   }).join('');
 }
+// Listening: Spotify plays saved by the local server, filtered to songs in the library.
+// Track titles are matched loosely — version suffixes ("- Remastered 1987"), parentheticals
+// ("(feat. …)"), punctuation and a leading "The" are ignored.
+const LISTENING_GOAL_DEFAULT = 20;
+function listeningGoal(db) { return db.listeningGoal || LISTENING_GOAL_DEFAULT; }
+function listeningKey(title) {
+  return String(title).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()
+    .replace(/\s+-\s+.*$/,'')
+    .replace(/\s*[\(\[].*?[\)\]]/g,'')
+    .replace(/&/g,' and ')
+    .replace(/[\u2018\u2019'"`.,!?]/g,'')
+    .replace(/[^a-z0-9]+/g,' ').trim()
+    .replace(/^the /,'');
+}
+async function fetchListening() {
+  const res = await fetch('/api/spotify/plays');
+  if(!res.ok) throw new Error(res.statusText);
+  return res.json();
+}
+// Plays of library songs, newest first, each tagged with the library song name
+function libraryPlays(db, plays) {
+  const byKey = new Map(Object.keys(db.songs).map(name=>[listeningKey(name), name]));
+  return plays
+    .map(p => ({ ...p, song: byKey.get(listeningKey(p.name)), ts: Date.parse(p.playedAt) }))
+    .filter(p => p.song && db.songs[p.song])
+    .sort((a,b)=>b.ts-a.ts);
+}
+function listenThumb(url) {
+  return url
+    ? `<img class="listen-thumb" src="${escHTML(url)}" alt="" loading="lazy">`
+    : '<div class="listen-thumb"></div>';
+}
+async function renderListening() {
+  const body = document.getElementById('listening-body');
+  const sub = document.getElementById('listening-sub');
+  let data;
+  try {
+    data = await fetchListening();
+  } catch(e) {
+    body.innerHTML = '<div class="empty">Listening history needs the local server — start it with Start Practice Tracker.</div>';
+    return;
+  }
+  if(!data.connected && !data.plays.length) {
+    body.innerHTML = '<div class="empty">Spotify isn\'t connected. <a href="/api/spotify/login" style="color:var(--gold)">Connect Spotify</a></div>';
+    return;
+  }
+  const db = getDB();
+  const matched = libraryPlays(db, data.plays);
+  const synced = data.lastSyncDate ? `Last synced ${formatIntDate(parseInt(data.lastSyncDate.replace(/-/g,''),10))}` : 'Not synced yet';
+  sub.textContent = `Spotify plays of songs in your library · ${synced}`;
+  if(!matched.length) {
+    body.innerHTML = '<div class="empty">No plays of library songs yet.</div>';
+    return;
+  }
+  const safe = n => n.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  const counts = new Map();
+  matched.forEach(p => {
+    const c = counts.get(p.song) || { n:0, last:p.ts, image:null };
+    c.n++; c.image = c.image || p.albumImage;
+    counts.set(p.song, c);
+  });
+  const top = [...counts.entries()].sort((a,b)=>b[1].n-a[1].n || b[1].last-a[1].last);
+  const topRows = top.map(([name,c]) => {
+    const sg = db.songs[name];
+    const last = new Date(c.last).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+    return `<div class="song-row clickable" onclick="showSongDetail('${safe(name)}')">${listenThumb(c.image)}<div class="song-name-group"><span class="song-name">${escHTML(name)}</span>${lvlBadge(sg.currentLevel)}</div><span class="key-stat">${c.n} play${c.n===1?'':'s'} · last ${last}</span></div>`;
+  }).join('');
+  const groups = [], seen = new Map();
+  matched.forEach(p => {
+    const key = activityGroupKey(p.ts, 'day');
+    if(!seen.has(key)) { seen.set(key, []); groups.push(key); }
+    seen.get(key).push(p);
+  });
+  const history = groups.map(key => {
+    const rows = seen.get(key).map(p => {
+      const sg = db.songs[p.song];
+      const time = new Date(p.ts).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+      const version = [p.name, p.artists.join(', ')].map(escHTML).join(' · ');
+      return `<div class="song-row clickable" onclick="showSongDetail('${safe(p.song)}')">${listenThumb(p.albumImage)}<div style="flex:1;min-width:0"><div class="listen-title" style="margin-bottom:4px"><span class="song-name">${escHTML(p.song)}</span>${lvlBadge(sg.currentLevel)}</div><div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${version}</div></div><span class="key-stat">${time}</span></div>`;
+    }).join('');
+    return `<div class="section"><div class="section-head"><h2>${key}</h2><span class="count">${seen.get(key).length}</span></div>${rows}</div>`;
+  }).join('');
+  const tod = todayInt(), firstWeek = weekStartInt(addDays(tod, -7*(VIZ_WEEKS-1)));
+  const days = new Map();
+  matched.forEach(p => {
+    const dt = new Date(p.ts), d = dt.getFullYear()*10000 + (dt.getMonth()+1)*100 + dt.getDate();
+    if(!days.has(d)) days.set(d, new Map());
+    days.get(d).set(p.song, (days.get(d).get(p.song)||0) + 1);
+  });
+  const { current, longest } = vizStreaks(days, tod);
+  const activeDays = [...days.keys()].filter(d => d >= firstWeek).length;
+  const calendar = `<div class="section"><div class="section-head"><h2>Listening calendar</h2><span class="count">${activeDays} listening day${activeDays===1?'':'s'} · ${current}-day streak · longest ${longest}</span></div><div class="viz-body">${listeningCalendarHTML(days, firstWeek, tod)}</div></div>`;
+  vizTipInit();
+  body.innerHTML = calendar + `<div class="section"><div class="section-head"><h2>Most played</h2><span class="count">${matched.length} play${matched.length===1?'':'s'} · ${top.length} song${top.length===1?'':'s'}</span></div>${topRows}</div>` + history;
+}
 let detailOriginPanel = 'library';
 let detailType = 'song';
 let currentDetailName = null;
@@ -2525,9 +2660,32 @@ function renderSongDetail(name) {
         return `<div class="timeline-entry"><div class="timeline-dot ${dot}"></div><div><div class="timeline-label">${label}</div><div class="timeline-meta">${dateStr} · ${timeStr}</div></div></div>`;
       }).join('');
   const notesSection = `<div class="section"><div class="section-head"><h2>Notes</h2></div><div class="notes-body" id="notes-body"></div></div>`;
-  container.innerHTML = header + practiceFocusSectionHTML('song', name) + notesSection + `<div class="section"><div class="section-head"><h2>Activity</h2></div>${timeline}</div>`;
+  container.innerHTML = header + practiceFocusSectionHTML('song', name) + '<div id="detail-listening"></div>' + notesSection + `<div class="section"><div class="section-head"><h2>Activity</h2></div>${timeline}</div>`;
   renderPracticeFocus('song', name);
   renderNotesView('song', name);
+  renderSongListening(name);
+}
+// Per-album play totals for one song; the section stays absent when there are no plays
+async function renderSongListening(name) {
+  let data;
+  try { data = await fetchListening(); } catch(e) { return; }
+  const slot = document.getElementById('detail-listening');
+  if(!slot || detailType!=='song' || currentDetailName!==name) return;
+  const plays = libraryPlays(getDB(), data.plays).filter(p => p.song===name);
+  if(!plays.length) { slot.innerHTML = ''; return; }
+  const albums = new Map();
+  plays.forEach(p => {
+    const key = p.albumImage || p.album || p.trackId;
+    const a = albums.get(key) || { album:p.album, artists:p.artists, image:p.albumImage, n:0 };
+    a.n++; albums.set(key, a);
+  });
+  const rows = [...albums.values()].sort((a,b)=>b.n-a.n).map(a =>
+    `<div class="song-row">${listenThumb(a.image)}<div style="flex:1;min-width:0"><div class="song-name" style="margin-bottom:4px">${escHTML(a.album||'Unknown album')}</div><div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${escHTML(a.artists.join(', '))}</div></div><span class="key-stat">${a.n} play${a.n===1?'':'s'}</span></div>`
+  ).join('');
+  const goal = listeningGoal(getDB());
+  const pct = Math.min(100, Math.round(plays.length / goal * 100));
+  const progress = `<div style="padding:16px 20px;border-bottom:1px solid var(--border)"><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text3);margin-bottom:6px"><span>${plays.length} of ${goal} plays</span><span>${pct}%</span></div><div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div></div>`;
+  slot.innerHTML = `<div class="section"><div class="section-head"><h2>Listening</h2><span class="count">${plays.length} play${plays.length===1?'':'s'}</span></div>${progress}${rows}</div>`;
 }
 function escHTML(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -2644,7 +2802,7 @@ function showPanel(id) {
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
-  const idx = ['today','library','repertoire','voicings','vocabulary','keys','queue','progress','activity'].indexOf(id);
+  const idx = ['today','library','repertoire','voicings','vocabulary','keys','queue','progress','activity','listening'].indexOf(id);
   if(idx>=0) document.querySelectorAll('.nav-item')[idx].classList.add('active');
   if(id==='settings') document.getElementById('nav-settings').classList.add('active');
   if(id==='library') renderLibrary();
@@ -2655,6 +2813,7 @@ function showPanel(id) {
   if(id==='queue') renderQueue();
   if(id==='progress') renderProgress();
   if(id==='activity') renderActivity();
+  if(id==='listening') renderListening();
   if(id==='settings') renderSettings();
 }
 function renderAll() {
@@ -2670,6 +2829,7 @@ function renderAll() {
     if(id==='queue') renderQueue();
     if(id==='progress') renderProgress();
     if(id==='activity') renderActivity();
+    if(id==='listening') renderListening();
     if(id==='settings') renderSettings();
     if(id==='detail') refreshCurrentDetail();
   }
@@ -2751,6 +2911,16 @@ function renderSettings() {
   document.getElementById('section-toggle-multikey').checked = !!sections.multikey;
   document.getElementById('queue-size-review').value = weeklyBudget(db);
   document.getElementById('queue-size-multikey').value = multiKeyBudget(db);
+  document.getElementById('listening-goal').value = listeningGoal(db);
+}
+function setListeningGoal() {
+  const db = getDB();
+  const input = document.getElementById('listening-goal');
+  const n = parseInt(input.value, 10);
+  if(!n || n < 1 || n > 500) { input.value = listeningGoal(db); return; }
+  db.listeningGoal = n;
+  saveDB(db);
+  toast(`Listening goal set to ${n} ${n===1?'play':'plays'} per song.`);
 }
 // The same weekly budgets the review settings modal writes, surfaced here too; a blank or
 // out-of-range entry snaps back to the stored value rather than saving something unusable.
