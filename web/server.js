@@ -87,6 +87,48 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  if (req.method === 'GET' && req.url === '/api/spotify/login') {
+    try {
+      res.writeHead(302, { Location: spotify.getLoginUrl() });
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'text/plain' });
+      res.end(err.message);
+      return;
+    }
+    res.end();
+    return;
+  }
+
+  if (req.method === 'GET' && req.url.startsWith('/api/spotify/callback')) {
+    const params = Object.fromEntries(new URL(req.url, 'http://127.0.0.1').searchParams);
+    spotify.handleCallback(params)
+      .then(({ user }) => spotify.syncRecentPlays({ force: true }).then(sync => ({ user, sync })))
+      .then(({ user, sync }) => {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end(`<p>Spotify connected as <b>${escapeHtml(user)}</b>. Saved ${sync.added} recent plays.</p>` +
+          `<p><a href="http://localhost:${PORT}/">Back to the tracker</a></p>`);
+      })
+      .catch(err => {
+        console.error('Spotify login failed:', err.message);
+        res.writeHead(400, { 'Content-Type': 'text/html' });
+        res.end(`<p>Spotify login failed: ${escapeHtml(err.message)}</p><p><a href="/api/spotify/login">Try again</a></p>`);
+      });
+    return;
+  }
+
+  if (req.method === 'POST' && req.url === '/api/spotify/sync') {
+    spotify.syncRecentPlays({ force: true })
+      .then(result => {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ ok: true, ...result }));
+      })
+      .catch(err => {
+        res.writeHead(502, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ ok: false, error: err.message }));
+      });
+    return;
+  }
+
   if (req.method === 'GET' && req.url === '/api/spotify/status') {
     spotify.checkConnection()
       .then(result => {
@@ -140,4 +182,5 @@ server.listen(PORT, () => {
   console.log(`--------------------------------`);
   console.log(`Server running at http://localhost:${PORT}`);
   console.log(`Press Ctrl+C to stop.`);
+  spotify.startDailySync();
 });
