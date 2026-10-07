@@ -141,6 +141,10 @@
   .focus-row { display: flex; align-items: center; border-top: 1px solid var(--border); }
   .focus-row:first-child { border-top: none; }
   .focus-row .exit-row { flex: 1; min-width: 0; border-top: none; }
+  .focus-row .exit-row { cursor: default; }
+  .focus-row .exit-row:hover { background: transparent; }
+  .focus-text { flex: 1; min-width: 0; cursor: text; }
+  .focus-row .exit-row .focus-input { padding: 3px 8px; }
   .focus-del { background: transparent; border: none; color: var(--text3); font-size: 15px; line-height: 1; padding: 6px 20px 6px 8px; cursor: pointer; opacity: 0; transition: opacity 0.15s, color 0.15s; }
   .focus-row:hover .focus-del, .focus-del:focus { opacity: 1; }
   .focus-del:hover { color: var(--text); }
@@ -2545,7 +2549,7 @@ function renderPracticeFocus(type, name) {
     ? `<span class="exit-count${done===items.length?' complete':''}">${done} / ${items.length}</span><button class="btn-action" onclick="resetPracticeFocus('${type}','${safeName}')"${done?'':' disabled'}>Reset</button>`
     : '';
   body.innerHTML = items.length
-    ? items.map((it,i) => `<div class="focus-row"><label class="exit-row${it.done?' done':''}"><input type="checkbox" class="chk"${it.done?' checked':''} onchange="togglePracticeFocus('${type}','${safeName}',${i})"><span>${escHTML(it.text)}</span></label><button class="focus-del" title="Remove" onclick="removePracticeFocus('${type}','${safeName}',${i})">&times;</button></div>`).join('')
+    ? items.map((it,i) => `<div class="focus-row"><div class="exit-row${it.done?' done':''}"><input type="checkbox" class="chk"${it.done?' checked':''} onchange="togglePracticeFocus('${type}','${safeName}',${i})"><span class="focus-text" title="Click to edit" onclick="editPracticeFocus(this,'${type}','${safeName}',${i})">${escHTML(it.text)}</span></div><button class="focus-del" title="Remove" onclick="removePracticeFocus('${type}','${safeName}',${i})">&times;</button></div>`).join('')
     : '<div class="focus-empty">Nothing to focus on yet.</div>';
 }
 function updatePracticeFocus(type, name, fn) {
@@ -2563,6 +2567,26 @@ function addPracticeFocus(type, name) {
   updatePracticeFocus(type, name, items => items.push({ text, done:false }));
   input.value = '';
   input.focus();
+}
+function editPracticeFocus(span, type, name, i) {
+  const entity = getDetailEntity(type, getDB(), name);
+  const item = entity && (entity.practiceFocus||[])[i];
+  if(!item) return;
+  const input = document.createElement('input');
+  input.type = 'text'; input.className = 'focus-input'; input.value = item.text;
+  let finished = false;
+  const finish = save => {
+    if(finished) return;
+    finished = true;
+    const text = input.value.trim();
+    if(save && text && text !== item.text) updatePracticeFocus(type, name, items => { if(items[i]) items[i].text = text; });
+    else renderPracticeFocus(type, name);
+  };
+  input.onkeydown = e => { if(e.key==='Enter') finish(true); else if(e.key==='Escape') finish(false); };
+  input.onblur = () => finish(true);
+  span.replaceWith(input);
+  input.focus();
+  input.select();
 }
 function togglePracticeFocus(type, name, i) {
   updatePracticeFocus(type, name, items => { if(items[i]) items[i].done = !items[i].done; });
