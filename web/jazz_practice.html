@@ -89,6 +89,7 @@
   .btn-action:disabled { opacity: 0.4; cursor: default; border-color: var(--border2); color: var(--text2); }
   .btn-primary { background: var(--gold-dim); border: 1px solid rgba(201,168,76,0.3); color: var(--gold2); font-size: 12px; font-family: 'IBM Plex Sans', sans-serif; padding: 5px 14px; border-radius: var(--radius); cursor: pointer; transition: all 0.15s; }
   .btn-primary:hover { background: rgba(201,168,76,0.2); }
+  .btn-primary:disabled { opacity: 0.55; cursor: default; background: var(--gold-dim); }
   #reviews-body .song-row { padding-left: 24px; padding-right: 24px; }
   #reviews-body .song-name-group { min-width: 0; container-type: inline-size; }
   #reviews-body .song-name { min-width: 0; flex-shrink: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: clamp(10px, 9cqw, 14px); }
@@ -988,6 +989,12 @@ function logActivity(db, type, data) {
 // counting while another tab is open. A finished session is logged as a 'practice_time'
 // entry dated to the day it started; the Activity charts use those minutes from then on.
 const TIMER_MIN_SECS = 5;   // shorter sessions are a stray click, not practice
+// Today items that stay put across days until marked reviewed: where they live, the field
+// marking the review, and the event a timed session logs.
+const PINNED_AREAS = {
+  rep:     { list:'repertoire', done:'lastReviewed',  event:'repertoire_practiced' },
+  voicing: { list:'voicings',   done:'lastPracticed', event:'voicing_session' },
+};
 function dateIntOf(ts) { const d = new Date(ts); return d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate(); }
 function timerElapsedMs(t) { return t ? t.accMs + (t.runStart ? Date.now() - t.runStart : 0) : 0; }
 function timerIs(db, area, name) { return !!db.timer && db.timer.area===area && db.timer.name===name; }
@@ -1007,7 +1014,20 @@ function finishTimer(db) {
   const secs = Math.round(timerElapsedMs(t)/1000);
   if(secs < TIMER_MIN_SECS) return false;
   if(!db.activity) db.activity = [];
-  db.activity.push({ ts: Date.now(), date: dateIntOf(t.start), type: 'practice_time', area: t.area, name: t.name, secs });
+  const date = dateIntOf(t.start);
+  db.activity.push({ ts: Date.now(), date, type: 'practice_time', area: t.area, name: t.name, secs });
+  // A timed session on the song being learned is that day's practice — no separate button.
+  if(t.area==='learn' && !practicedOn(db, t.name, date)) db.activity.push({ ts: Date.now(), date, type: 'practiced', name: t.name });
+  // Practicing a repertoire piece or voicing pins it to Today until it is marked reviewed.
+  const pa = PINNED_AREAS[t.area], list = pa ? (db[pa.list]||[]) : [];
+  const item = list.find(x=>x.name===t.name);
+  if(item) {
+    if(!db.activity.some(e=>e.type===pa.event && e.name===t.name && e.date===date)) db.activity.push({ ts: Date.now(), date, type: pa.event, name: t.name });
+    if(item[pa.done] !== date) {
+      list.forEach(x=>{ if(x!==item) { delete x.pinnedDate; delete x.deferredDate; } });
+      item.pinnedDate = date;
+    }
+  }
   toast(`${formatMinutes(secs/60)} on ${t.name}`);
   return true;
 }
@@ -1018,7 +1038,7 @@ function timerStart(area, name) {
   if(timerIs(db, area, name)) {
     if(!db.timer.runStart) db.timer.runStart = Date.now();
   } else {
-    finishTimer(db);
+    if(finishTimer(db)) updateStreak(db);
     const now = Date.now();
     db.timer = { area, name, start: now, runStart: now, accMs: 0 };
   }
@@ -1510,16 +1530,8 @@ function startLearning(name) {
   saveDB(db); renderAll(); showPanel('today');
   toast(`Now learning: ${name}`);
 }
-function practicedToday(db, name) {
-  return db.activity.some(e=>e.type==='practiced'&&e.name===name&&e.date===todayInt());
-}
-function markPracticed(name) {
-  const db = getDB();
-  if(practicedToday(db, name)) return;
-  stopTimerFor(db, 'learn', name);
-  logActivity(db, 'practiced', { name });
-  updateStreak(db); saveDB(db); renderAll();
-  toast(`Practiced: ${name}`);
+function practicedOn(db, name, dateInt) {
+  return (db.activity||[]).some(e=>e.type==='practiced'&&e.name===name&&e.date===dateInt);
 }
 function markLearned(name) {
   const db = getDB();
@@ -1835,11 +1847,7 @@ function renderToday() {
   if(db.currentNewSong && db.songs[db.currentNewSong]) {
     const sg = db.songs[db.currentNewSong];
     const safeName = sg.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-    const alreadyPracticed = practicedToday(db, sg.name);
-    const practiceBtn = alreadyPracticed
-      ? `<button class="btn-action btn-done" style="color:var(--green);border-color:rgba(39,174,96,0.3)" disabled>&#x2713; Practiced</button>`
-      : `<button class="btn-pass" onclick="markPracticed('${safeName}')">Practiced</button>`;
-    csw.innerHTML = `<div class="learning-wrap"><div class="current-song-card"><div class="current-song-dot"></div><div class="current-song-info" style="cursor:pointer" onclick="showSongDetail('${safeName}')"><div class="label">Currently learning</div><div class="name">${sg.name}</div><div class="sub">${sortTags(sg.tags||[]).join(' / ')||'Standard'} · Work on this all week</div></div>${timerClockHTML(db, 'learn', sg.name)}${lvlBadge(sg.baseLevel)}${practiceBtn}<button class="btn-primary" onclick="markLearned('${safeName}')">Mark as level 2</button>${timerControlsHTML(db, 'learn', sg.name)}</div>${learningChecklistHTML(db, sg, safeName)}</div>`;
+    csw.innerHTML = `<div class="learning-wrap"><div class="current-song-card"><div class="current-song-dot"></div><div class="current-song-info" style="cursor:pointer" onclick="showSongDetail('${safeName}')"><div class="label">Currently learning</div><div class="name">${sg.name}</div><div class="sub">${sortTags(sg.tags||[]).join(' / ')||'Standard'} · Work on this all week</div></div>${timerClockHTML(db, 'learn', sg.name)}${lvlBadge(sg.baseLevel)}<button class="btn-primary" onclick="markLearned('${safeName}')">Mark as level 2</button>${timerControlsHTML(db, 'learn', sg.name)}</div>${learningChecklistHTML(db, sg, safeName)}</div>`;
   } else {
     const next = getNextSong(db);
     csw.innerHTML = next ? `<div class="current-song-card"><div class="current-song-dot" style="background:var(--text3);animation:none"></div><div class="current-song-info"><div class="label">Next suggested song</div><div class="name">${next.name}</div><div class="sub">${next.style||'Standard'} · ${next.baseLevel===1?'Already at level 1 — push to 2':'Starting from level 0'}</div></div>${lvlBadge(next.baseLevel)}<button class="btn-action" onclick="startLearning('${next.name.replace(/'/g,"\\'")}')">Start learning</button></div>` : '';
@@ -1850,16 +1858,11 @@ function renderToday() {
     const safe = featured.name.replace(/'/g,"\\'");
     const meta = featured.composer || '';
     const doneToday = featured.lastReviewed === tod;
-    const deferredToday = featured.deferredDate === tod;
+    // Timed sessions are the practice; the piece stays here until it is marked reviewed.
     const reviewBtn = doneToday
-      ? `<button class="btn-action btn-done" style="color:var(--green);border-color:rgba(39,174,96,0.3)" disabled>&#x2713; Reviewed</button>`
-      : `<button class="btn-pass" onclick="markRepertoireReviewed('${safe}')">Reviewed</button>`;
-    const continueBtn = doneToday
-      ? ''
-      : deferredToday
-        ? `<button class="btn-fail" style="opacity:0.6;cursor:default" disabled>Continuing tomorrow</button>`
-        : `<button class="btn-fail" onclick="repertoireContinueTomorrow('${safe}')">Continue tomorrow</button>`;
-    rtw.innerHTML = `<div class="current-song-card"><div class="current-song-dot" style="background:var(--gold2)"></div><div class="current-song-info" style="cursor:pointer" onclick="showRepertoireDetail('${safe}')"><div class="label">Today's repertoire piece</div><div class="name">${featured.name}</div>${meta?`<div class="sub">${meta}</div>`:''}</div>${timerClockHTML(db, 'rep', featured.name)}${reviewBtn}${continueBtn}${timerControlsHTML(db, 'rep', featured.name)}</div>`;
+      ? `<button class="btn-primary" disabled>&#x2713; Reviewed</button>`
+      : `<button class="btn-primary" onclick="markRepertoireReviewed('${safe}')">Mark reviewed</button>`;
+    rtw.innerHTML = `<div class="current-song-card"><div class="current-song-dot" style="background:var(--gold2)"></div><div class="current-song-info" style="cursor:pointer" onclick="showRepertoireDetail('${safe}')"><div class="label">Today's repertoire piece</div><div class="name">${featured.name}</div>${meta?`<div class="sub">${meta}</div>`:''}</div>${timerClockHTML(db, 'rep', featured.name)}${reviewBtn}${timerControlsHTML(db, 'rep', featured.name)}</div>`;
   } else {
     rtw.innerHTML = '';
   }
@@ -1869,16 +1872,11 @@ function renderToday() {
     const vsafe = featuredVoicing.name.replace(/'/g,"\\'");
     const vmeta = [featuredVoicing.category, featuredVoicing.topNote!=null?`Top note ${featuredVoicing.topNote}`:null].filter(Boolean).join(' · ');
     const vDoneToday = featuredVoicing.lastPracticed === tod;
-    const vDeferredToday = featuredVoicing.deferredDate === tod;
-    const practiceBtnV = vDoneToday
-      ? `<button class="btn-action btn-done" style="color:var(--green);border-color:rgba(39,174,96,0.3)" disabled>&#x2713; Practiced</button>`
-      : `<button class="btn-pass" onclick="markVoicingPracticed('${vsafe}')">Practiced</button>`;
-    const continueBtnV = vDoneToday
-      ? ''
-      : vDeferredToday
-        ? `<button class="btn-fail" style="opacity:0.6;cursor:default" disabled>Continuing tomorrow</button>`
-        : `<button class="btn-fail" onclick="voicingContinueTomorrow('${vsafe}')">Continue tomorrow</button>`;
-    vtw.innerHTML = `<div class="current-song-card"><div class="current-song-dot" style="background:var(--blue)"></div><div class="current-song-info" style="cursor:pointer" onclick="showVoicingDetail('${vsafe}')"><div class="label">Today's voicing</div><div class="name">${featuredVoicing.name}</div>${vmeta?`<div class="sub">${vmeta}</div>`:''}</div>${timerClockHTML(db, 'voicing', featuredVoicing.name)}${lvlBadge(featuredVoicing.familiarity||0)}${practiceBtnV}${continueBtnV}${timerControlsHTML(db, 'voicing', featuredVoicing.name)}</div>`;
+    // Same as repertoire: timed sessions are the practice, Mark reviewed moves on to the next.
+    const reviewBtnV = vDoneToday
+      ? `<button class="btn-primary" disabled>&#x2713; Reviewed</button>`
+      : `<button class="btn-primary" onclick="markVoicingReviewed('${vsafe}')">Mark reviewed</button>`;
+    vtw.innerHTML = `<div class="current-song-card"><div class="current-song-dot" style="background:var(--blue)"></div><div class="current-song-info" style="cursor:pointer" onclick="showVoicingDetail('${vsafe}')"><div class="label">Today's voicing</div><div class="name">${featuredVoicing.name}</div>${vmeta?`<div class="sub">${vmeta}</div>`:''}</div>${timerClockHTML(db, 'voicing', featuredVoicing.name)}${lvlBadge(featuredVoicing.familiarity||0)}${reviewBtnV}${timerControlsHTML(db, 'voicing', featuredVoicing.name)}</div>`;
   } else {
     vtw.innerHTML = '';
   }
@@ -2074,11 +2072,14 @@ function formatActivityEntry(entry) {
     case 'song_removed':       return { dot:'red',   label:'Removed from library',     detail:entry.name };
     case 'repertoire_added':   return { dot:'blue',  label:'Repertoire added',          detail:entry.name };
     case 'repertoire_start_reviewing': return { dot:'gold', label:'Started reviewing',  detail:entry.name };
+    case 'repertoire_practiced':return { dot:'gold', label:'Repertoire practiced',       detail:entry.name };
     case 'repertoire_reviewed':return { dot:'green', label:'Repertoire reviewed',        detail:entry.name };
     case 'repertoire_deferred':return { dot:'gold',  label:'Repertoire continued',       detail:entry.name };
     case 'repertoire_removed': return { dot:'red',   label:'Removed from repertoire',    detail:entry.name };
     case 'voicing_added':      return { dot:'blue',  label:'Voicing added',              detail:entry.name };
-    case 'voicing_practiced':  return { dot:'green', label:entry.familiarity>=2?'Voicing mastered':`Voicing practiced — familiarity ${entry.familiarity}`, detail:entry.name };
+    case 'voicing_session':    return { dot:'gold',  label:'Voicing practiced',          detail:entry.name };
+    case 'voicing_practiced':  // the old move-on click, same as a review
+    case 'voicing_reviewed':   return { dot:'green', label:entry.familiarity>=2?'Voicing mastered':`Voicing reviewed — familiarity ${entry.familiarity}`, detail:entry.name };
     case 'voicing_deferred':   return { dot:'gold',  label:'Voicing continued',          detail:entry.name };
     case 'voicing_removed':    return { dot:'red',   label:'Voicing removed',            detail:entry.name };
     case 'vocab_added':        return { dot:'blue',  label:'Vocabulary added',           detail:entry.name };
@@ -2112,8 +2113,8 @@ function activityGroupKey(ts, period) {
 const VIZ_CATS = [
   { id:'review',  label:'Song reviews', color:'#3987e5', types:['review'] },
   { id:'learn',   label:'New song',     color:'#d95926', types:['practiced','learned'] },
-  { id:'rep',     label:'Repertoire',   color:'#199e70', types:['repertoire_reviewed'] },
-  { id:'voicing', label:'Voicings',     color:'#c98500', types:['voicing_practiced'] },
+  { id:'rep',     label:'Repertoire',   color:'#199e70', types:['repertoire_practiced','repertoire_reviewed'] },
+  { id:'voicing', label:'Voicings',     color:'#c98500', types:['voicing_practiced','voicing_session','voicing_reviewed'] },
   { id:'vocab',   label:'Vocabulary',   color:'#d55181', types:['vocab_practiced'] },
   { id:'keys',    label:'Multi-key',    color:'#9085e9', types:['key_review'] },
 ];
@@ -2930,13 +2931,13 @@ function markRepertoireReviewed(name) {
   const db = getDB();
   const p = db.repertoire.find(p=>p.name===name);
   if(!p) return;
+  stopTimerFor(db, 'rep', name);   // first, so the session's pin is cleared below
   p.lastReviewed = todayInt();
   delete p.pinnedDate;
   delete p.deferredDate;
-  stopTimerFor(db, 'rep', name);
   logActivity(db, 'repertoire_reviewed', { name });
-  saveDB(db); renderAll();
-  toast(`"${name}" marked as reviewed.`);
+  updateStreak(db); saveDB(db); renderAll();
+  toast(`"${name}" marked as reviewed — a new piece comes up tomorrow.`);
 }
 function startReviewingRep(name) {
   const db = getDB();
@@ -2948,17 +2949,6 @@ function startReviewingRep(name) {
   logActivity(db, 'repertoire_start_reviewing', { name });
   saveDB(db); renderAll();
   toast(`"${name}" set as today's repertoire piece.`);
-}
-function repertoireContinueTomorrow(name) {
-  const db = getDB();
-  const p = db.repertoire.find(p=>p.name===name);
-  if(!p) return;
-  p.pinnedDate = addDays(todayInt(), 1);
-  p.deferredDate = todayInt();
-  stopTimerFor(db, 'rep', name);
-  logActivity(db, 'repertoire_deferred', { name });
-  saveDB(db); renderAll();
-  toast(`"${name}" queued for tomorrow.`);
 }
 function getFeaturedVoicing(db) {
   const voicings = db.voicings || [];
@@ -2977,17 +2967,17 @@ function getFeaturedVoicing(db) {
     return a.lastPracticed - b.lastPracticed;
   })[0];
 }
-function markVoicingPracticed(name) {
+function markVoicingReviewed(name) {
   const db = getDB();
   const v = (db.voicings||[]).find(v=>v.name===name);
   if(!v) return;
+  stopTimerFor(db, 'voicing', name);   // first, so the session's pin is cleared below
   v.lastPracticed = todayInt();
   delete v.pinnedDate;
   delete v.deferredDate;
-  stopTimerFor(db, 'voicing', name);
-  logActivity(db, 'voicing_practiced', { name, familiarity: v.familiarity||0 });
-  saveDB(db); renderAll();
-  toast(`"${name}" marked as practiced.`);
+  logActivity(db, 'voicing_reviewed', { name, familiarity: v.familiarity||0 });
+  updateStreak(db); saveDB(db); renderAll();
+  toast(`"${name}" marked as reviewed — a new voicing comes up tomorrow.`);
 }
 function startPracticingVoicing(name) {
   const db = getDB();
@@ -2998,17 +2988,6 @@ function startPracticingVoicing(name) {
   delete v.deferredDate;
   saveDB(db); renderAll();
   toast(`"${name}" set as today's voicing.`);
-}
-function voicingContinueTomorrow(name) {
-  const db = getDB();
-  const v = (db.voicings||[]).find(v=>v.name===name);
-  if(!v) return;
-  v.pinnedDate = addDays(todayInt(), 1);
-  v.deferredDate = todayInt();
-  stopTimerFor(db, 'voicing', name);
-  logActivity(db, 'voicing_deferred', { name });
-  saveDB(db); renderAll();
-  toast(`"${name}" queued for tomorrow.`);
 }
 function openAddRepertoire() {
   document.getElementById('rep-name').value = '';
