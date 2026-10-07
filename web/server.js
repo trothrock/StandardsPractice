@@ -6,6 +6,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const { execFile } = require('child_process');
+const spotify = require('./spotify');
 
 const PORT = 3000;
 const ROOT = __dirname;
@@ -83,6 +84,20 @@ function handleNotesSync(req, res) {
 const server = http.createServer((req, res) => {
   if (req.method === 'POST' && req.url === '/api/sync-notes') {
     handleNotesSync(req, res);
+    return;
+  }
+
+  if (req.method === 'GET' && req.url === '/api/spotify/status') {
+    spotify.checkConnection()
+      .then(result => {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(result));
+      })
+      .catch(err => {
+        console.error('Spotify check failed:', err.message);
+        res.writeHead(502, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ ok: false, error: err.message }));
+      });
     return;
   }
 
