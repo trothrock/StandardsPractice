@@ -502,7 +502,7 @@
       <div class="section" style="margin-bottom:20px">
         <div class="section-head"><h2>Listening</h2></div>
         <div class="settings-row">
-          <div><div class="label">Listening goal per song</div><div class="sub">Spotify plays a song needs to fill the progress bar on its detail page</div></div>
+          <div><div class="label">Listening goal per recording</div><div class="sub">Spotify plays each reference recording needs to fill its progress bar on the song page</div></div>
           <input type="number" id="listening-goal" min="1" max="500" onchange="setListeningGoal()">
         </div>
       </div>
@@ -2438,11 +2438,21 @@ async function fetchListening() {
   if(!res.ok) throw new Error(res.statusText);
   return res.json();
 }
+// The library song a Spotify title refers to. Text in parentheses is tried as an alternate
+// title too, so "Quiet Nights of Quiet Stars (Corcovado)" finds Corcovado.
+function librarySongFor(title, byKey) {
+  const alts = [...String(title).matchAll(/[\(\[]([^\)\]]*)[\)\]]/g)].map(m => listeningKey(m[1]));
+  const key = [listeningKey(title), ...alts].find(k => byKey.has(k));
+  return key ? byKey.get(key) : undefined;
+}
+function libraryKeyMap(db) {
+  return new Map(Object.keys(db.songs).map(name=>[listeningKey(name), name]));
+}
 // Plays of library songs, newest first, each tagged with the library song name
 function libraryPlays(db, plays) {
-  const byKey = new Map(Object.keys(db.songs).map(name=>[listeningKey(name), name]));
+  const byKey = libraryKeyMap(db);
   return plays
-    .map(p => ({ ...p, song: byKey.get(listeningKey(p.name)), ts: Date.parse(p.playedAt) }))
+    .map(p => ({ ...p, song: librarySongFor(p.name, byKey), ts: Date.parse(p.playedAt) }))
     .filter(p => p.song && db.songs[p.song])
     .sort((a,b)=>b.ts-a.ts);
 }
@@ -2660,27 +2670,51 @@ function renderSongDetail(name) {
   renderNotesView('song', name);
   renderSongListening(name);
 }
-// Per-album play totals for one song; the section stays absent when there are no plays
+// A song's listening is split in two: reference recordings (the user's chosen versions, from the
+// reference playlists), each with its own progress toward the listening goal, and any other
+// recordings heard, totaled by album without progress. Each part is absent when it has nothing.
+// A play counts toward a reference when it is the same Spotify track, or the same title, album
+// and lead artist (Spotify sometimes serves one recording under several track ids).
+function sameRecording(play, ref) {
+  return play.trackId===ref.trackId || (
+    listeningKey(play.name)===listeningKey(ref.name) &&
+    (play.album||'').toLowerCase()===(ref.album||'').toLowerCase() &&
+    (play.artists[0]||'')===(ref.artists[0]||''));
+}
 async function renderSongListening(name) {
   let data;
   try { data = await fetchListening(); } catch(e) { return; }
   const slot = document.getElementById('detail-listening');
   if(!slot || detailType!=='song' || currentDetailName!==name) return;
-  const plays = libraryPlays(getDB(), data.plays).filter(p => p.song===name);
-  if(!plays.length) { slot.innerHTML = ''; return; }
+  const db = getDB(), goal = listeningGoal(db), byKey = libraryKeyMap(db);
+  const plays = libraryPlays(db, data.plays).filter(p => p.song===name);
+  const refs = (data.references||[]).flatMap(pl => pl.tracks
+    .filter(t => librarySongFor(t.name, byKey)===name)
+    .map(t => ({ ...t, label: pl.label })));
+  const counted = new Set();
+  const refRows = refs.map(ref => {
+    const mine = plays.filter(p => sameRecording(p, ref));
+    mine.forEach(p => counted.add(p));
+    const n = mine.length, pct = Math.min(100, Math.round(n / goal * 100));
+    const last = n ? `last played ${new Date(mine[0].ts).toLocaleDateString('en-US',{month:'short',day:'numeric'})}` : 'not played yet';
+    const meta = [ref.label, ref.artists.join(', '), ref.album].filter(Boolean).map(escHTML).join(' · ');
+    return `<div class="song-row" style="align-items:flex-start">${listenThumb(ref.albumImage)}<div style="flex:1;min-width:0"><div style="display:flex;justify-content:space-between;gap:12px;margin-bottom:4px"><span class="song-name">${escHTML(ref.name)}</span><span class="key-stat">${n} of ${goal}</span></div><div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${meta}</div><div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div><div style="font-size:11px;color:var(--text3);margin-top:6px">${pct}% · ${last}</div></div></div>`;
+  }).join('');
+  const others = plays.filter(p => !counted.has(p));
   const albums = new Map();
-  plays.forEach(p => {
-    const key = p.albumImage || p.album || p.trackId;
-    const a = albums.get(key) || { album:p.album, artists:p.artists, image:p.albumImage, n:0 };
-    a.n++; albums.set(key, a);
+  others.forEach(p => {
+    const k = p.albumImage || p.album || p.trackId;
+    const a = albums.get(k) || { album:p.album, artists:p.artists, image:p.albumImage, n:0 };
+    a.n++; albums.set(k, a);
   });
-  const rows = [...albums.values()].sort((a,b)=>b.n-a.n).map(a =>
+  const otherRows = [...albums.values()].sort((a,b)=>b.n-a.n).map(a =>
     `<div class="song-row">${listenThumb(a.image)}<div style="flex:1;min-width:0"><div class="song-name" style="margin-bottom:4px">${escHTML(a.album||'Unknown album')}</div><div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${escHTML(a.artists.join(', '))}</div></div><span class="key-stat">${a.n} play${a.n===1?'':'s'}</span></div>`
   ).join('');
-  const goal = listeningGoal(getDB());
-  const pct = Math.min(100, Math.round(plays.length / goal * 100));
-  const progress = `<div style="padding:16px 20px;border-bottom:1px solid var(--border)"><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text3);margin-bottom:6px"><span>${plays.length} of ${goal} plays</span><span>${pct}%</span></div><div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div></div>`;
-  slot.innerHTML = `<div class="section"><div class="section-head"><h2>Listening</h2><span class="count">${plays.length} play${plays.length===1?'':'s'}</span></div>${progress}${rows}</div>`;
+  const refPlays = plays.length - others.length;
+  const plural = n => `${n} play${n===1?'':'s'}`;
+  slot.innerHTML =
+    (refs.length ? `<div class="section"><div class="section-head"><h2>Reference recordings</h2><span class="count">${plural(refPlays)}</span></div>${refRows}</div>` : '') +
+    (others.length ? `<div class="section"><div class="section-head"><h2>Other recordings</h2><span class="count">${plural(others.length)}</span></div>${otherRows}</div>` : '');
 }
 function escHTML(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -2915,7 +2949,7 @@ function setListeningGoal() {
   if(!n || n < 1 || n > 500) { input.value = listeningGoal(db); return; }
   db.listeningGoal = n;
   saveDB(db);
-  toast(`Listening goal set to ${n} ${n===1?'play':'plays'} per song.`);
+  toast(`Listening goal set to ${n} ${n===1?'play':'plays'} per recording.`);
 }
 // The same weekly budgets the review settings modal writes, surfaced here too; a blank or
 // out-of-range entry snaps back to the stored value rather than saving something unusable.

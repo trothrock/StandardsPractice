@@ -117,10 +117,10 @@ const server = http.createServer((req, res) => {
   }
 
   if (req.method === 'POST' && req.url === '/api/spotify/sync') {
-    spotify.syncRecentPlays({ force: true })
-      .then(result => {
+    Promise.all([spotify.syncRecentPlays({ force: true }), spotify.syncReferencePlaylists({ force: true })])
+      .then(([result, playlists]) => {
         res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ ok: true, ...result }));
+        res.end(JSON.stringify({ ok: true, ...result, playlists: playlists.counts }));
       })
       .catch(err => {
         res.writeHead(502, { 'Content-Type': 'application/json' });
@@ -131,7 +131,7 @@ const server = http.createServer((req, res) => {
 
   if (req.method === 'GET' && req.url === '/api/spotify/plays') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ ...spotify.getStatus(), plays: spotify.loadPlays().plays }));
+    res.end(JSON.stringify({ ...spotify.getStatus(), plays: spotify.loadPlays().plays, references: spotify.loadReferencePlaylists().playlists }));
     return;
   }
 

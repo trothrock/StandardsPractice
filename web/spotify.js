@@ -6,6 +6,7 @@
 //   user — Authorization Code login for the user's own data; the refresh token is saved
 //          to .spotify-token.json so the login survives server restarts
 // Recent plays are pulled at most once per calendar day and appended to data/spotify-plays.json.
+// The reference-recording playlists are re-read once a day into data/spotify-playlists.json.
 // Run directly to check connectivity: node spotify.js
 
 const fs = require('fs');
@@ -16,10 +17,17 @@ const API_BASE = 'https://api.spotify.com/v1';
 const AUTH_URL = 'https://accounts.spotify.com/authorize';
 const TOKEN_URL = 'https://accounts.spotify.com/api/token';
 const REDIRECT_URI = 'http://127.0.0.1:3000/api/spotify/callback';
-const SCOPES = 'user-read-recently-played';
+const SCOPES = 'user-read-recently-played playlist-read-private playlist-read-collaborative';
 
 const TOKEN_FILE = path.join(__dirname, '.spotify-token.json');
 const PLAYS_FILE = path.join(__dirname, 'data', 'spotify-plays.json');
+const PLAYLISTS_FILE = path.join(__dirname, 'data', 'spotify-playlists.json');
+
+// The user's chosen reference recordings, found by playlist name among their own playlists
+const REFERENCE_PLAYLISTS = [
+  { name: 'Standards Practice', label: 'Instrumental' },
+  { name: 'Standards with Vocals', label: 'Vocal' },
+];
 
 const tokens = {
   app: null,  // { value, expiresAt }
@@ -192,6 +200,51 @@ async function backfillAlbumImages() {
   return missing.length;
 }
 
+// ── Reference playlists ──
+
+function loadReferencePlaylists() {
+  return readJson(PLAYLISTS_FILE, { lastSyncDate: null, playlists: [] });
+}
+
+async function fetchAllPages(apiPath, params) {
+  let items = [], offset = 0, total = Infinity;
+  while (offset < total) {
+    const page = await spotifyGet(apiPath, { ...params, limit: 50, offset }, { as: 'user' });
+    items = items.concat(page.items || []);
+    total = page.total; offset += 50;
+  }
+  return items;
+}
+
+async function syncReferencePlaylists({ force = false } = {}) {
+  const store = loadReferencePlaylists();
+  const today = localDate();
+  if (!force && store.lastSyncDate === today) return { skipped: true };
+
+  const me = await spotifyGet('/me', {}, { as: 'user' });
+  const owned = (await fetchAllPages('/me/playlists', {})).filter(p => p && p.owner?.id === me.id);
+  const playlists = [];
+  for (const ref of REFERENCE_PLAYLISTS) {
+    const found = owned.find(p => p.name.trim().toLowerCase() === ref.name.toLowerCase());
+    if (!found) { console.error(`Spotify: playlist "${ref.name}" not found`); continue; }
+    // Playlist entries carry the track under "item" (older responses used "track")
+    const tracks = (await fetchAllPages(`/playlists/${found.id}/items`, {}))
+      .map(e => ({ addedAt: e.added_at, t: e.item || e.track }))
+      .filter(({ t }) => t && t.type === 'track' && t.id)
+      .map(({ addedAt, t }) => ({
+        trackId: t.id,
+        name: t.name,
+        artists: t.artists.map(a => a.name),
+        album: t.album?.name || null,
+        albumImage: pickAlbumImage(t.album?.images),
+        addedAt,
+      }));
+    playlists.push({ name: ref.name, label: ref.label, id: found.id, tracks });
+  }
+  writeJson(PLAYLISTS_FILE, { lastSyncDate: today, playlists });
+  return { skipped: false, counts: playlists.map(p => `${p.name}: ${p.tracks.length}`) };
+}
+
 // Try a sync now and then hourly, so a server left running past midnight still picks up the new day
 function startDailySync() {
   const run = () => {
@@ -201,7 +254,10 @@ function startDailySync() {
       .catch(e => console.error('Spotify sync failed:', e.message))
       .then(backfillAlbumImages)
       .then(n => { if (n) console.log(`Spotify: added album art for ${n} tracks`); })
-      .catch(e => console.error('Spotify album art backfill failed:', e.message));
+      .catch(e => console.error('Spotify album art backfill failed:', e.message))
+      .then(() => syncReferencePlaylists())
+      .then(r => { if (r && !r.skipped) console.log(`Spotify: reference playlists synced (${r.counts.join(', ')})`); })
+      .catch(e => console.error('Spotify playlist sync failed:', e.message));
   };
   run();
   setInterval(run, 60 * 60 * 1000).unref();
@@ -228,7 +284,7 @@ async function checkConnection() {
   };
 }
 
-module.exports = { spotifyGet, checkConnection, getLoginUrl, handleCallback, syncRecentPlays, startDailySync, getStatus, loadPlays };
+module.exports = { spotifyGet, checkConnection, getLoginUrl, handleCallback, syncRecentPlays, startDailySync, getStatus, loadPlays, syncReferencePlaylists, loadReferencePlaylists };
 
 if (require.main === module) {
   checkConnection()

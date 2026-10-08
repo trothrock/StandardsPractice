@@ -1,0 +1,286 @@
+{
+  "lastSyncDate": "2026-10-08",
+  "playlists": [
+    {
+      "name": "Standards Practice",
+      "label": "Instrumental",
+      "id": "5eHoBQa0oaSSEgDksRhiP9",
+      "tracks": [
+        {
+          "trackId": "4lm669ZRk2EkTHg8An9n8T",
+          "name": "Anthropology",
+          "artists": [
+            "Charlie Parker"
+          ],
+          "album": "Burnin' Bird",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e02b48ed6e56a1e3cd589b20d10",
+          "addedAt": "2026-04-19T20:39:45Z"
+        },
+        {
+          "trackId": "0aWMVrwxPNYkKmFthzmpRi",
+          "name": "Blue in Green (feat. John Coltrane & Bill Evans)",
+          "artists": [
+            "Miles Davis",
+            "John Coltrane",
+            "Bill Evans"
+          ],
+          "album": "Kind Of Blue (Legacy Edition)",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e020ebc17239b6b18ba88cfb8ca",
+          "addedAt": "2026-04-20T03:43:40Z"
+        },
+        {
+          "trackId": "2dC71mbRBTewkyeHTXPzGz",
+          "name": "Lady Bird (Live) - Live At Cafe Bohemia, NY/1955 / Rudy Van Gelder Edition/2001",
+          "artists": [
+            "Art Blakey & The Jazz Messengers"
+          ],
+          "album": "At The Cafe Bohemia (Vol. 1/The Rudy Van Gelder Edition)",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e02e80e683dc5b6d510090fbada",
+          "addedAt": "2026-04-27T14:25:01Z"
+        },
+        {
+          "trackId": "5BxzqNLhwISk6IN5RZFkt8",
+          "name": "Blues For Alice",
+          "artists": [
+            "Charlie Parker"
+          ],
+          "album": "The Magnificent Charlie Parker",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e0233223ca371cd1f9d4baf918b",
+          "addedAt": "2026-05-01T14:03:11Z"
+        },
+        {
+          "trackId": "4leHEk0wS3rLsdfHz3ZItX",
+          "name": "After You've Gone",
+          "artists": [
+            "Benny Goodman Quintet"
+          ],
+          "album": "Small Groups: 1941-1945",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e02df5b78cc30f28c52e64be2e9",
+          "addedAt": "2026-05-04T20:42:26Z"
+        },
+        {
+          "trackId": "4cNtmZZ6OGq2UESnPLn94y",
+          "name": "Donna Lee",
+          "artists": [
+            "Clifford Brown"
+          ],
+          "album": "The Beginning And The End",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e02182767073d65d3c91b21a725",
+          "addedAt": "2026-05-05T14:38:33Z"
+        },
+        {
+          "trackId": "59vZ4sIpNRXW9QCxT1Xr4P",
+          "name": "Fly Me To The Moon",
+          "artists": [
+            "Vince Guaraldi Trio"
+          ],
+          "album": "A Boy Named Charlie Brown",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e02ca0e612db478fb9cebbce8bb",
+          "addedAt": "2026-05-11T14:12:40Z"
+        },
+        {
+          "trackId": "2wjHWYJVAs5TYSRP83JLmc",
+          "name": "Footprints",
+          "artists": [
+            "Miles Davis"
+          ],
+          "album": "Miles Smiles",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e02e998220aad6d8414db135780",
+          "addedAt": "2026-05-29T23:32:42Z"
+        },
+        {
+          "trackId": "1DlsGG3SnOcAnjtLcYLWIb",
+          "name": "All Of You - Live At Newport Jazz Festival, July 5, 1963",
+          "artists": [
+            "McCoy Tyner",
+            "Bob Cranshaw",
+            "Mickey Roker"
+          ],
+          "album": "Live At Newport",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e026bdf224a10afab7664aeaa3f",
+          "addedAt": "2026-09-10T16:04:23Z"
+        },
+        {
+          "trackId": "5AodXZjIg8C6Trar4dTapB",
+          "name": "Corcovado",
+          "artists": [
+            "João Gilberto"
+          ],
+          "album": "Isto è Bossa Nova (Bossa Nova Essentials)",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e020a67acc5bb1dfa58c0544d78",
+          "addedAt": "2026-07-23T11:48:44Z"
+        },
+        {
+          "trackId": "1Ku5vu9Crncz8ixeT4Ijxc",
+          "name": "Dolphin Dance - Remastered 1999/Rudy Van Gelder Edition",
+          "artists": [
+            "Herbie Hancock"
+          ],
+          "album": "Maiden Voyage (Remastered 1999/Rudy Van Gelder Edition)",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e02b6f936d535913e3f425e5bbe",
+          "addedAt": "2026-08-07T11:41:00Z"
+        },
+        {
+          "trackId": "0T1EaGm6b9eM7xBf4F1hlc",
+          "name": "Maiden Voyage - Remastered 1999/Rudy Van Gelder Edition",
+          "artists": [
+            "Herbie Hancock"
+          ],
+          "album": "Maiden Voyage (Remastered 1999/Rudy Van Gelder Edition)",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e02b6f936d535913e3f425e5bbe",
+          "addedAt": "2026-08-25T15:26:53Z"
+        },
+        {
+          "trackId": "2VaOoXFfdlrHyhORSq9H1v",
+          "name": "Stompin' At The Savoy",
+          "artists": [
+            "Clifford Brown",
+            "Max Roach",
+            "Max Roach Quintet"
+          ],
+          "album": "Brown And Roach Incorporated",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e02889a6f7c981fea2ecdf9c59e",
+          "addedAt": "2026-09-01T11:40:39Z"
+        },
+        {
+          "trackId": "38xcUjiTP1ivfb7ObwjyGA",
+          "name": "Watermelon Man - Remastered 2007",
+          "artists": [
+            "Herbie Hancock"
+          ],
+          "album": "Takin' Off (Expanded Edition)",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e02d1bac93adf4492db2e6ff9f8",
+          "addedAt": "2026-08-25T15:26:35Z"
+        },
+        {
+          "trackId": "2zQl59dZMzwhrmeSBEgiXY",
+          "name": "Watermelon Man",
+          "artists": [
+            "Herbie Hancock"
+          ],
+          "album": "Head Hunters",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e02b170840d6fdbc754ba304058",
+          "addedAt": "2026-09-09T14:22:22Z"
+        },
+        {
+          "trackId": "5B2xSO7OOIWNeoCbkIy1lB",
+          "name": "Don't Blame Me",
+          "artists": [
+            "Coleman Hawkins"
+          ],
+          "album": "Sirius",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e024125f45c8cfc17a14e9097df",
+          "addedAt": "2026-09-13T11:59:09Z"
+        },
+        {
+          "trackId": "5uLFo8xWQq4zd9Sh2xPB5t",
+          "name": "More Than You Know",
+          "artists": [
+            "Sonny Rollins",
+            "Thelonious Monk"
+          ],
+          "album": "The Complete Prestige 10-Inch LP Collection",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e02d1053d4d169474b26f605ca3",
+          "addedAt": "2026-09-27T12:38:13Z"
+        },
+        {
+          "trackId": "6xPwn3TDhmKr2LWwg15a3i",
+          "name": "Oleo - RVG Remastered 2008",
+          "artists": [
+            "Miles Davis",
+            "Sonny Rollins",
+            "Horace Silver",
+            "Kenny Clarke",
+            "Percy Heath"
+          ],
+          "album": "Bags' Groove (Rudy Van Gelder 2008 Remaster)",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e0242a04303e6eb1100df3ea036",
+          "addedAt": "2026-10-03T11:18:25Z"
+        },
+        {
+          "trackId": "3ujbZ2FGIoTQG3v07tmV2D",
+          "name": "Bye Bye Blackbird (feat. John Coltrane, Red Garland, Paul Chambers & Philly Joe Jones)",
+          "artists": [
+            "Miles Davis",
+            "John Coltrane",
+            "Red Garland",
+            "Paul Chambers",
+            "Philly Joe Jones"
+          ],
+          "album": "'Round About Midnight",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e02cb6f92683ff9ad65f27a3f9f",
+          "addedAt": "2026-10-05T11:27:42Z"
+        }
+      ]
+    },
+    {
+      "name": "Standards with Vocals",
+      "label": "Vocal",
+      "id": "7fZ6gB7eyboQzF920WzypX",
+      "tracks": [
+        {
+          "trackId": "3bT0UkPPSIZAAWZcro6QvP",
+          "name": "All Of You - Live At The London House, Chicago, 1958",
+          "artists": [
+            "Sarah Vaughan"
+          ],
+          "album": "After Hours At The London House",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e029a9bc57640e530b697625b67",
+          "addedAt": "2026-07-13T14:41:35Z"
+        },
+        {
+          "trackId": "73SLdRn1IbciLWyK4e2d8p",
+          "name": "After You've Gone",
+          "artists": [
+            "Dinah Washington"
+          ],
+          "album": "The Complete Dinah Washington On Mercury Vol.5 (1956-1958)",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e02af5da5bb6f2b37f6c2f5cb80",
+          "addedAt": "2026-07-13T22:25:17Z"
+        },
+        {
+          "trackId": "1FdulvpRiLgkseCz7RrNOR",
+          "name": "Quiet Nights of Quiet Stars (Corcovado)",
+          "artists": [
+            "Antônio Carlos Jobim",
+            "Frank Sinatra"
+          ],
+          "album": "Sinatra/Jobim: The Complete Reprise Recordings",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e027d6f106efadd36f7779383c7",
+          "addedAt": "2026-07-23T14:57:07Z"
+        },
+        {
+          "trackId": "7vBevujPxtjaG9l5gkAjW7",
+          "name": "Don't Blame Me",
+          "artists": [
+            "Ethel Waters"
+          ],
+          "album": "The First Torch Singers, Vol. 2: 1930 - 1934",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e020df7f8ecee92d917c675bfb7",
+          "addedAt": "2026-09-13T11:46:14Z"
+        },
+        {
+          "trackId": "2mj0yRicHLCcavEbRud2D5",
+          "name": "More Than You Know (with Teddy Wilson & His Orchestra) - Take 1",
+          "artists": [
+            "Billie Holiday",
+            "Teddy Wilson"
+          ],
+          "album": "Lady Day: The Complete Billie Holiday On Columbia (1933-1944)",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e02452bd32b5454a87f36ad8e8c",
+          "addedAt": "2026-09-27T12:31:08Z"
+        },
+        {
+          "trackId": "7AluKctEULNW4hid0C1qmT",
+          "name": "Bye Bye Blackbird",
+          "artists": [
+            "Peggy Lee"
+          ],
+          "album": "Songs From Pete Kelly's Blues",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e0262c5868af83edb6d9f33ec16",
+          "addedAt": "2026-10-05T11:40:57Z"
+        }
+      ]
+    }
+  ]
+}
