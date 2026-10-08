@@ -323,10 +323,6 @@
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3h12M2 6h12M2 9h8M2 12h5"/></svg>
         Review Queue
       </div>
-      <div class="nav-item" onclick="showPanel('progress')">
-        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 13L6 8l3 3 5-7"/></svg>
-        Progress
-      </div>
       <div class="nav-item" onclick="showPanel('activity')">
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
         Activity
@@ -414,9 +410,9 @@
       </div>
       <div id="queue-body"></div>
     </div>
-    <div id="panel-progress" class="panel">
-      <div class="panel-title">Progress</div>
-      <div class="panel-sub" id="progress-sub"></div>
+    <div id="panel-activity" class="panel">
+      <div class="panel-title">Activity</div>
+      <div class="panel-sub">All actions across your library</div>
       <div class="stats-row" style="grid-template-columns:repeat(2,1fr);margin-bottom:12px">
         <div class="stat-card"><div class="label">At level 2+</div><div class="value gold" id="p-2">—</div></div>
         <div class="stat-card"><div class="label">Remaining</div><div class="value" id="p-0">—</div></div>
@@ -430,15 +426,11 @@
           <div class="prog-wrap"><div class="prog-bar" id="prog-bar" style="width:0%"></div></div>
         </div>
       </div>
-      <div class="section">
+      <div id="activity-viz"></div>
+      <div class="section" style="margin-bottom:20px">
         <div class="section-head"><h2>Recently learned</h2><span class="count">most recent first</span></div>
         <div id="recent-learned-body"></div>
       </div>
-    </div>
-    <div id="panel-activity" class="panel">
-      <div class="panel-title">Activity</div>
-      <div class="panel-sub">All actions across your library</div>
-      <div id="activity-viz"></div>
       <div class="viz-log-head">
         <h2>History</h2>
         <select id="activity-group" onchange="renderActivity()" style="font-size:12px;padding:5px 8px">
@@ -2055,13 +2047,12 @@ function renderQueue() {
   document.getElementById('queue-body').innerHTML = html;
 }
 
-function renderProgress() {
-  const db = getDB(), all = Object.values(db.songs);
+function renderProgressStats(db) {
+  const all = Object.values(db.songs);
   const grad = all.filter(s=>s.currentLevel>=2).length;
   const total = all.length, pct = Math.round(grad/total*100);
   document.getElementById('p-0').textContent = total - grad;
   document.getElementById('p-2').textContent = grad;
-  document.getElementById('progress-sub').textContent = `Your journey toward ${total} standards`;
   document.getElementById('prog-label').textContent = `${grad} of ${total} at level 2+`;
   document.getElementById('prog-pct').textContent = `${pct}%`;
   document.getElementById('prog-bar').style.width = pct+'%';
@@ -2394,6 +2385,7 @@ function vizTipInit() {
 
 function renderActivity() {
   const db = getDB();
+  renderProgressStats(db);
   renderActivityViz(db);
   vizTipInit();
   const ab = document.getElementById('activity-body');
@@ -2831,7 +2823,7 @@ function showPanel(id) {
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
-  const idx = ['today','library','repertoire','voicings','vocabulary','keys','queue','progress','activity','listening'].indexOf(id);
+  const idx = ['today','library','repertoire','voicings','vocabulary','keys','queue','activity','listening'].indexOf(id);
   if(idx>=0) document.querySelectorAll('.nav-item')[idx].classList.add('active');
   if(id==='settings') document.getElementById('nav-settings').classList.add('active');
   if(id==='library') renderLibrary();
@@ -2840,7 +2832,6 @@ function showPanel(id) {
   if(id==='vocabulary') renderVocabulary();
   if(id==='keys') renderKeyCenters();
   if(id==='queue') renderQueue();
-  if(id==='progress') renderProgress();
   if(id==='activity') renderActivity();
   if(id==='listening') { listeningRowLimit = LISTENING_PAGE; renderListening(); }
   if(id==='settings') renderSettings();
@@ -2856,8 +2847,7 @@ function renderAll() {
     if(id==='vocabulary') renderVocabulary();
     if(id==='keys') renderKeyCenters();
     if(id==='queue') renderQueue();
-    if(id==='progress') renderProgress();
-    if(id==='activity') renderActivity();
+      if(id==='activity') renderActivity();
     if(id==='listening') renderListening();
     if(id==='settings') renderSettings();
     if(id==='detail') refreshCurrentDetail();
