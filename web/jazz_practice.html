@@ -124,9 +124,15 @@
   .current-song-info { flex: 1; }
   .current-song-info .label { font-size: 11px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
   .current-song-info .name { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--text); }
+  .current-song-info .name .badge { vertical-align: middle; margin-left: 2px; position: relative; top: -2px; }
   .current-song-info .sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
   .learning-wrap { background: var(--bg2); border: 1px solid rgba(201,168,76,0.25); border-radius: var(--radius-lg); margin-bottom: 20px; overflow: hidden; }
   .learning-wrap .current-song-card { background: transparent; border: none; border-radius: 0; margin-bottom: 0; }
+  .learn-days { display: flex; align-items: center; gap: 12px; padding: 0 24px 16px 48px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3); }
+  .learn-days-bar { flex: 1; display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; max-width: 320px; }
+  .learn-days-bar i { height: 6px; border-radius: 2px; background: var(--border2); }
+  .learn-days-bar i.on { background: var(--gold); }
+  .learn-days.complete { color: var(--gold2); }
   .exit-toggle { display: flex; align-items: center; gap: 8px; width: 100%; padding: 10px 24px; background: transparent; border: none; border-top: 1px solid var(--border); cursor: pointer; font-family: 'IBM Plex Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3); text-align: left; transition: color 0.15s; }
   .exit-toggle:hover { color: var(--text2); }
   .exit-chev { font-size: 9px; width: 9px; flex-shrink: 0; }
@@ -1524,6 +1530,25 @@ function exitChecklistRows(sg, safeName) {
     `<label class="exit-row${steps[id]?' done':''}"><input type="checkbox" class="chk"${steps[id]?' checked':''} onchange="toggleLearningStep('${safeName}','${id}')"><span>${label}</span></label>`
   ).join('');
 }
+// A new song needs at least this many separate days of practice before it moves on.
+const LEARNING_MIN_DAYS = 7;
+function learningDaysPracticed(db, name) {
+  const acts = db.activity||[];
+  const started = acts.filter(e=>e.type==='started_learning'&&e.name===name).reduce((m,e)=>Math.max(m,e.ts), 0);
+  return new Set(acts.filter(e=>e.type==='practiced'&&e.name===name&&e.ts>=started).map(e=>e.date)).size;
+}
+function learningDaysHTML(db, sg) {
+  const days = learningDaysPracticed(db, sg.name), done = days >= LEARNING_MIN_DAYS;
+  const segs = Array.from({length:LEARNING_MIN_DAYS}, (_,i)=>`<i${i<days?' class="on"':''}></i>`).join('');
+  return `<div class="learn-days${done?' complete':''}" title="Days practiced toward the ${LEARNING_MIN_DAYS}-day minimum"><span>Days practiced</span><div class="learn-days-bar">${segs}</div><span>${days > LEARNING_MIN_DAYS ? `${days} days` : `${days} / ${LEARNING_MIN_DAYS}`}</span></div>`;
+}
+// Why a song can't move to level 2 yet — the day minimum and every exit criterion — or '' when it can.
+function learningBlocker(db, sg) {
+  const need = [];
+  if(learningDaysPracticed(db, sg.name) < LEARNING_MIN_DAYS) need.push(`practice ${LEARNING_MIN_DAYS} days`);
+  if(learningStepsDone(sg) < LEARNING_STEPS.length) need.push('complete the exit criteria');
+  return need.length ? `First ${need.join(' and ')}` : '';
+}
 function learningChecklistHTML(db, sg, safeName) {
   const open = !!db.exitChecklistOpen;
   const header = `<button class="exit-toggle" onclick="toggleExitChecklist()"><span class="exit-chev">${open?'&#9662;':'&#9656;'}</span>Exit criteria${exitCountHTML(sg)}</button>`;
@@ -1549,6 +1574,7 @@ function practicedOn(db, name, dateInt) {
 }
 function markLearned(name) {
   const db = getDB();
+  if(learningBlocker(db, db.songs[name])) return;
   db.songs[name].status = 'active';
   db.songs[name].currentLevel = Math.max(db.songs[name].currentLevel, 2);
   db.songs[name].intervalIdx = 0;
@@ -1861,7 +1887,7 @@ function renderToday() {
   if(db.currentNewSong && db.songs[db.currentNewSong]) {
     const sg = db.songs[db.currentNewSong];
     const safeName = sg.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-    csw.innerHTML = `<div class="learning-wrap"><div class="current-song-card"><div class="current-song-dot"></div><div class="current-song-info" style="cursor:pointer" onclick="showSongDetail('${safeName}')"><div class="label">Currently learning</div><div class="name">${sg.name}</div><div class="sub">${sortTags(sg.tags||[]).join(' / ')||'Standard'} · Work on this all week</div></div>${timerClockHTML(db, 'learn', sg.name)}${lvlBadge(sg.baseLevel)}<button class="btn-primary" onclick="markLearned('${safeName}')">Mark as level 2</button>${timerControlsHTML(db, 'learn', sg.name)}</div>${learningChecklistHTML(db, sg, safeName)}</div>`;
+    csw.innerHTML = `<div class="learning-wrap"><div class="current-song-card"><div class="current-song-dot"></div><div class="current-song-info" style="cursor:pointer" onclick="showSongDetail('${safeName}')"><div class="label">Currently learning</div><div class="name">${sg.name} ${lvlBadge(sg.baseLevel)}</div><div class="sub">${sortTags(sg.tags||[]).join(' / ')||'Standard'}</div></div>${timerClockHTML(db, 'learn', sg.name)}${learningBlocker(db, sg)?'':`<button class="btn-primary" onclick="markLearned('${safeName}')">Mark as level 2</button>`}${timerControlsHTML(db, 'learn', sg.name)}</div>${learningDaysHTML(db, sg)}${learningChecklistHTML(db, sg, safeName)}</div>`;
   } else {
     const next = getNextSong(db);
     csw.innerHTML = next ? `<div class="current-song-card"><div class="current-song-dot" style="background:var(--text3);animation:none"></div><div class="current-song-info"><div class="label">Next suggested song</div><div class="name">${next.name}</div><div class="sub">${next.style||'Standard'} · ${next.baseLevel===1?'Already at level 1 — push to 2':'Starting from level 0'}</div></div>${lvlBadge(next.baseLevel)}<button class="btn-action" onclick="startLearning('${next.name.replace(/'/g,"\\'")}')">Start learning</button></div>` : '';
@@ -2978,7 +3004,7 @@ function openRowMenu(e, name) {
   const safeName = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
   const items = [];
   if(sg.status==='untouched') items.push(`<div class="dropdown-item" onclick="startLearning('${safeName}');closeRowMenu()">Start learning</div>`);
-  else if(sg.status==='learning') items.push(`<div class="dropdown-item" onclick="markLearned('${safeName}');closeRowMenu()">Mark as level 2</div>`);
+  else if(sg.status==='learning' && !learningBlocker(db, sg)) items.push(`<div class="dropdown-item" onclick="markLearned('${safeName}');closeRowMenu()">Mark as level 2</div>`);
   items.push(`<div class="dropdown-item" onclick="openEditSong('${safeName}');closeRowMenu()">Edit</div>`);
   items.push(`<div class="dropdown-item danger" onclick="openRemoveSong('${safeName}');closeRowMenu()">Remove</div>`);
   const menu = document.getElementById('row-menu');
