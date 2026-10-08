@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-10-07",
+  "lastSyncDate": "2026-10-08",
   "plays": [
     {
       "playedAt": "2026-10-01T01:25:15.151Z",
@@ -396,6 +396,43 @@
       "durationMs": 474626,
       "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9",
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02cb6f92683ff9ad65f27a3f9f"
+    },
+    {
+      "playedAt": "2026-10-08T01:15:28.254Z",
+      "trackId": "7AluKctEULNW4hid0C1qmT",
+      "name": "Bye Bye Blackbird",
+      "artists": [
+        "Peggy Lee"
+      ],
+      "album": "Songs From Pete Kelly's Blues",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0262c5868af83edb6d9f33ec16",
+      "durationMs": 219906,
+      "context": "spotify:playlist:7fZ6gB7eyboQzF920WzypX"
+    },
+    {
+      "playedAt": "2026-10-08T01:21:46.781Z",
+      "trackId": "7vBevujPxtjaG9l5gkAjW7",
+      "name": "Don't Blame Me",
+      "artists": [
+        "Ethel Waters"
+      ],
+      "album": "The First Torch Singers, Vol. 2: 1930 - 1934",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e020df7f8ecee92d917c675bfb7",
+      "durationMs": 194374,
+      "context": "spotify:playlist:7fZ6gB7eyboQzF920WzypX"
+    },
+    {
+      "playedAt": "2026-10-08T01:24:52.662Z",
+      "trackId": "2mj0yRicHLCcavEbRud2D5",
+      "name": "More Than You Know (with Teddy Wilson & His Orchestra) - Take 1",
+      "artists": [
+        "Billie Holiday",
+        "Teddy Wilson"
+      ],
+      "album": "Lady Day: The Complete Billie Holiday On Columbia (1933-1944)",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02452bd32b5454a87f36ad8e8c",
+      "durationMs": 185333,
+      "context": "spotify:playlist:7fZ6gB7eyboQzF920WzypX"
     }
   ]
 }

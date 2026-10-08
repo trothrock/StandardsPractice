@@ -2451,6 +2451,12 @@ function listenThumb(url) {
     ? `<img class="listen-thumb" src="${escHTML(url)}" alt="" loading="lazy">`
     : '<div class="listen-thumb"></div>';
 }
+const LISTENING_PAGE = 20;
+let listeningRowLimit = LISTENING_PAGE;
+function showMoreListening() {
+  listeningRowLimit += LISTENING_PAGE;
+  renderListening();
+}
 async function renderListening() {
   const body = document.getElementById('listening-body');
   const sub = document.getElementById('listening-sub');
@@ -2481,25 +2487,10 @@ async function renderListening() {
     counts.set(p.song, c);
   });
   const top = [...counts.entries()].sort((a,b)=>b[1].n-a[1].n || b[1].last-a[1].last);
-  const topRows = top.map(([name,c]) => {
+  const topRows = top.slice(0, listeningRowLimit).map(([name,c]) => {
     const sg = db.songs[name];
     const last = new Date(c.last).toLocaleDateString('en-US',{month:'short',day:'numeric'});
     return `<div class="song-row clickable" onclick="showSongDetail('${safe(name)}')">${listenThumb(c.image)}<div class="song-name-group"><span class="song-name">${escHTML(name)}</span>${lvlBadge(sg.currentLevel)}</div><span class="key-stat">${c.n} play${c.n===1?'':'s'} · last ${last}</span></div>`;
-  }).join('');
-  const groups = [], seen = new Map();
-  matched.forEach(p => {
-    const key = activityGroupKey(p.ts, 'day');
-    if(!seen.has(key)) { seen.set(key, []); groups.push(key); }
-    seen.get(key).push(p);
-  });
-  const history = groups.map(key => {
-    const rows = seen.get(key).map(p => {
-      const sg = db.songs[p.song];
-      const time = new Date(p.ts).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
-      const version = [p.name, p.artists.join(', ')].map(escHTML).join(' · ');
-      return `<div class="song-row clickable" onclick="showSongDetail('${safe(p.song)}')">${listenThumb(p.albumImage)}<div style="flex:1;min-width:0"><div class="listen-title" style="margin-bottom:4px"><span class="song-name">${escHTML(p.song)}</span>${lvlBadge(sg.currentLevel)}</div><div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${version}</div></div><span class="key-stat">${time}</span></div>`;
-    }).join('');
-    return `<div class="section"><div class="section-head"><h2>${key}</h2><span class="count">${seen.get(key).length}</span></div>${rows}</div>`;
   }).join('');
   const tod = todayInt(), firstWeek = weekStartInt(addDays(tod, -7*(VIZ_WEEKS-1)));
   const days = new Map();
@@ -2512,7 +2503,11 @@ async function renderListening() {
   const activeDays = [...days.keys()].filter(d => d >= firstWeek).length;
   const calendar = `<div class="section"><div class="section-head"><h2>Listening calendar</h2><span class="count">${activeDays} listening day${activeDays===1?'':'s'} · ${current}-day streak · longest ${longest}</span></div><div class="viz-body">${listeningCalendarHTML(days, firstWeek, tod)}</div></div>`;
   vizTipInit();
-  body.innerHTML = calendar + `<div class="section"><div class="section-head"><h2>Most played</h2><span class="count">${matched.length} play${matched.length===1?'':'s'} · ${top.length} song${top.length===1?'':'s'}</span></div>${topRows}</div>` + history;
+  const remaining = top.length - listeningRowLimit;
+  const more = remaining > 0
+    ? `<div style="padding:12px 20px;text-align:center"><button class="btn-sm" onclick="showMoreListening()">Show ${Math.min(remaining, LISTENING_PAGE)} more</button></div>`
+    : '';
+  body.innerHTML = calendar + `<div class="section"><div class="section-head"><h2>Most played</h2><span class="count">${matched.length} play${matched.length===1?'':'s'} · ${top.length} song${top.length===1?'':'s'}</span></div>${topRows}${more}</div>`;
 }
 let detailOriginPanel = 'library';
 let detailType = 'song';
@@ -2813,7 +2808,7 @@ function showPanel(id) {
   if(id==='queue') renderQueue();
   if(id==='progress') renderProgress();
   if(id==='activity') renderActivity();
-  if(id==='listening') renderListening();
+  if(id==='listening') { listeningRowLimit = LISTENING_PAGE; renderListening(); }
   if(id==='settings') renderSettings();
 }
 function renderAll() {
