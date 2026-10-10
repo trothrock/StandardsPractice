@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-10-08",
+  "lastSyncDate": "2026-10-10",
   "plays": [
     {
       "playedAt": "2026-10-01T01:25:15.151Z",
@@ -433,6 +433,402 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02452bd32b5454a87f36ad8e8c",
       "durationMs": 185333,
       "context": "spotify:playlist:7fZ6gB7eyboQzF920WzypX"
+    },
+    {
+      "playedAt": "2026-10-08T14:30:37.929Z",
+      "trackId": "3xEAZQNPiwucPdGagdoD5j",
+      "name": "I'll Remember April",
+      "artists": [
+        "Clifford Brown",
+        "Max Roach Quintet"
+      ],
+      "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021f8972135b07af1f0d59c47e",
+      "durationMs": 553066,
+      "context": null
+    },
+    {
+      "playedAt": "2026-10-08T14:38:34.770Z",
+      "trackId": "21HG0QIgIcVQ2EZeXubaqL",
+      "name": "All of You (feat. John Coltrane, Red Garland, Paul Chambers & Philly Joe Jones)",
+      "artists": [
+        "Miles Davis",
+        "John Coltrane",
+        "Red Garland",
+        "Paul Chambers",
+        "Philly Joe Jones"
+      ],
+      "album": "'Round About Midnight",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02cb6f92683ff9ad65f27a3f9f",
+      "durationMs": 420693,
+      "context": "spotify:album:4VUawqEDCHHfrUe77ScQ2K"
+    },
+    {
+      "playedAt": "2026-10-08T14:59:52.553Z",
+      "trackId": "01uqwPHqfGnOK1D2pjooLv",
+      "name": "Bye Bye Blackbird",
+      "artists": [
+        "Ben Webster",
+        "Oscar Peterson"
+      ],
+      "album": "Verve Jazz Masters 43: Ben Webster",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02588e03ea1909d877161cce5c",
+      "durationMs": 402693,
+      "context": "spotify:album:4hafeOXr4qO4FqaFGRgCOe"
+    },
+    {
+      "playedAt": "2026-10-08T16:43:36.586Z",
+      "trackId": "1UEDzwVUpxsQfJqEmiilEc",
+      "name": "Do Nothing 'Til You Hear From Me",
+      "artists": [
+        "Ben Webster"
+      ],
+      "album": "Verve Jazz Masters 43: Ben Webster",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02588e03ea1909d877161cce5c",
+      "durationMs": 282426,
+      "context": "spotify:album:4hafeOXr4qO4FqaFGRgCOe"
+    },
+    {
+      "playedAt": "2026-10-08T16:53:55.480Z",
+      "trackId": "5uLFo8xWQq4zd9Sh2xPB5t",
+      "name": "More Than You Know",
+      "artists": [
+        "Sonny Rollins",
+        "Thelonious Monk"
+      ],
+      "album": "The Complete Prestige 10-Inch LP Collection",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02d1053d4d169474b26f605ca3",
+      "durationMs": 649059,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-10-08T17:08:36.796Z",
+      "trackId": "6xPwn3TDhmKr2LWwg15a3i",
+      "name": "Oleo - RVG Remastered 2008",
+      "artists": [
+        "Miles Davis",
+        "Sonny Rollins",
+        "Horace Silver",
+        "Kenny Clarke",
+        "Percy Heath"
+      ],
+      "album": "Bags' Groove (Rudy Van Gelder 2008 Remaster)",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0242a04303e6eb1100df3ea036",
+      "durationMs": 312480,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-10-08T17:16:31.948Z",
+      "trackId": "3ujbZ2FGIoTQG3v07tmV2D",
+      "name": "Bye Bye Blackbird (feat. John Coltrane, Red Garland, Paul Chambers & Philly Joe Jones)",
+      "artists": [
+        "Miles Davis",
+        "John Coltrane",
+        "Red Garland",
+        "Paul Chambers",
+        "Philly Joe Jones"
+      ],
+      "album": "'Round About Midnight",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02cb6f92683ff9ad65f27a3f9f",
+      "durationMs": 474626,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-10-08T20:37:35.636Z",
+      "trackId": "3xEAZQNPiwucPdGagdoD5j",
+      "name": "I'll Remember April",
+      "artists": [
+        "Clifford Brown",
+        "Max Roach Quintet"
+      ],
+      "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021f8972135b07af1f0d59c47e",
+      "durationMs": 553066,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-10-09T14:36:48.311Z",
+      "trackId": "2mj0yRicHLCcavEbRud2D5",
+      "name": "More Than You Know (with Teddy Wilson & His Orchestra) - Take 1",
+      "artists": [
+        "Billie Holiday",
+        "Teddy Wilson"
+      ],
+      "album": "Lady Day: The Complete Billie Holiday On Columbia (1933-1944)",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02452bd32b5454a87f36ad8e8c",
+      "durationMs": 185333,
+      "context": "spotify:playlist:7fZ6gB7eyboQzF920WzypX"
+    },
+    {
+      "playedAt": "2026-10-09T15:05:53.452Z",
+      "trackId": "2mj0yRicHLCcavEbRud2D5",
+      "name": "More Than You Know (with Teddy Wilson & His Orchestra) - Take 1",
+      "artists": [
+        "Billie Holiday",
+        "Teddy Wilson"
+      ],
+      "album": "Lady Day: The Complete Billie Holiday On Columbia (1933-1944)",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02452bd32b5454a87f36ad8e8c",
+      "durationMs": 185333,
+      "context": "spotify:playlist:7fZ6gB7eyboQzF920WzypX"
+    },
+    {
+      "playedAt": "2026-10-09T15:09:33.893Z",
+      "trackId": "7AluKctEULNW4hid0C1qmT",
+      "name": "Bye Bye Blackbird",
+      "artists": [
+        "Peggy Lee"
+      ],
+      "album": "Songs From Pete Kelly's Blues",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0262c5868af83edb6d9f33ec16",
+      "durationMs": 219906,
+      "context": "spotify:playlist:7fZ6gB7eyboQzF920WzypX"
+    },
+    {
+      "playedAt": "2026-10-09T18:58:04.895Z",
+      "trackId": "2mj0yRicHLCcavEbRud2D5",
+      "name": "More Than You Know (with Teddy Wilson & His Orchestra) - Take 1",
+      "artists": [
+        "Billie Holiday",
+        "Teddy Wilson"
+      ],
+      "album": "Lady Day: The Complete Billie Holiday On Columbia (1933-1944)",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02452bd32b5454a87f36ad8e8c",
+      "durationMs": 185333,
+      "context": "spotify:playlist:7fZ6gB7eyboQzF920WzypX"
+    },
+    {
+      "playedAt": "2026-10-09T19:01:45.364Z",
+      "trackId": "7AluKctEULNW4hid0C1qmT",
+      "name": "Bye Bye Blackbird",
+      "artists": [
+        "Peggy Lee"
+      ],
+      "album": "Songs From Pete Kelly's Blues",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0262c5868af83edb6d9f33ec16",
+      "durationMs": 219906,
+      "context": "spotify:playlist:7fZ6gB7eyboQzF920WzypX"
+    },
+    {
+      "playedAt": "2026-10-09T19:24:16.820Z",
+      "trackId": "2VaOoXFfdlrHyhORSq9H1v",
+      "name": "Stompin' At The Savoy",
+      "artists": [
+        "Clifford Brown",
+        "Max Roach",
+        "Max Roach Quintet"
+      ],
+      "album": "Brown And Roach Incorporated",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02889a6f7c981fea2ecdf9c59e",
+      "durationMs": 387000,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-10-09T19:26:16.658Z",
+      "trackId": "2lJ9PKvyERL3usJySsGG6I",
+      "name": "Corcovado - Ultimate Mix",
+      "artists": [
+        "João Gilberto"
+      ],
+      "album": "O Amor, O Sorriso e a Flor (Ultimate Mix)",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02937268cc4480e4ae7dcc6570",
+      "durationMs": 119328,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-10-09T19:32:47.484Z",
+      "trackId": "1DlsGG3SnOcAnjtLcYLWIb",
+      "name": "All Of You - Live At Newport Jazz Festival, July 5, 1963",
+      "artists": [
+        "McCoy Tyner",
+        "Bob Cranshaw",
+        "Mickey Roker"
+      ],
+      "album": "Live At Newport",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e026bdf224a10afab7664aeaa3f",
+      "durationMs": 390306,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-10-09T19:40:44.327Z",
+      "trackId": "57AgODa7SAFUpkrkM54JxZ",
+      "name": "Newport Romp - Live At Newport Jazz Festival, July 5, 1963",
+      "artists": [
+        "McCoy Tyner",
+        "Clark Terry",
+        "Charlie Mariano",
+        "Bob Cranshaw",
+        "Mickey Roker"
+      ],
+      "album": "Live At Newport",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e026bdf224a10afab7664aeaa3f",
+      "durationMs": 465931,
+      "context": "spotify:album:26lBmmgeplvXm9stlDQapz"
+    },
+    {
+      "playedAt": "2026-10-09T19:48:55.385Z",
+      "trackId": "1ux8pH8tHLtm70aeJaa6Bj",
+      "name": "Monk's Blues - Live At Newport Jazz Festival, July 5, 1963",
+      "artists": [
+        "McCoy Tyner",
+        "Bob Cranshaw",
+        "Mickey Roker"
+      ],
+      "album": "Live At Newport",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e026bdf224a10afab7664aeaa3f",
+      "durationMs": 419266,
+      "context": "spotify:album:26lBmmgeplvXm9stlDQapz"
+    },
+    {
+      "playedAt": "2026-10-09T20:00:18.363Z",
+      "trackId": "173jxbKhDSTk4BHaIylPUJ",
+      "name": "Woody 'n You - Live At Newport Jazz Festival, July 5, 1963",
+      "artists": [
+        "McCoy Tyner",
+        "Clark Terry",
+        "Charlie Mariano",
+        "Bob Cranshaw",
+        "Mickey Roker"
+      ],
+      "album": "Live At Newport",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e026bdf224a10afab7664aeaa3f",
+      "durationMs": 545693,
+      "context": "spotify:album:26lBmmgeplvXm9stlDQapz"
+    },
+    {
+      "playedAt": "2026-10-09T20:06:49.332Z",
+      "trackId": "1DlsGG3SnOcAnjtLcYLWIb",
+      "name": "All Of You - Live At Newport Jazz Festival, July 5, 1963",
+      "artists": [
+        "McCoy Tyner",
+        "Bob Cranshaw",
+        "Mickey Roker"
+      ],
+      "album": "Live At Newport",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e026bdf224a10afab7664aeaa3f",
+      "durationMs": 390306,
+      "context": "spotify:album:26lBmmgeplvXm9stlDQapz"
+    },
+    {
+      "playedAt": "2026-10-09T20:14:56.957Z",
+      "trackId": "1udGaM0CH5sxqP4A3S74Q6",
+      "name": "My Funny Valentine - Live At Newport Jazz Festival, July 5, 1963",
+      "artists": [
+        "McCoy Tyner",
+        "Clark Terry",
+        "Charlie Mariano",
+        "Bob Cranshaw",
+        "Mickey Roker"
+      ],
+      "album": "Live At Newport",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e026bdf224a10afab7664aeaa3f",
+      "durationMs": 487066,
+      "context": "spotify:album:26lBmmgeplvXm9stlDQapz"
+    },
+    {
+      "playedAt": "2026-10-09T20:37:01.276Z",
+      "trackId": "3zqVCujN4nNryzTCwLGO3G",
+      "name": "What Is This Thing Called Love",
+      "artists": [
+        "Clifford Brown",
+        "Max Roach Quintet",
+        "Sonny Rollins"
+      ],
+      "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021f8972135b07af1f0d59c47e",
+      "durationMs": 453146,
+      "context": "spotify:album:6PuVuJwyxyBZXMz73teSoV"
+    },
+    {
+      "playedAt": "2026-10-09T20:41:15.180Z",
+      "trackId": "5pTuJH96AK3erpxaVqryHZ",
+      "name": "Love Is A Many Splendored Thing",
+      "artists": [
+        "Clifford Brown",
+        "Max Roach Quintet"
+      ],
+      "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021f8972135b07af1f0d59c47e",
+      "durationMs": 253893,
+      "context": "spotify:album:6PuVuJwyxyBZXMz73teSoV"
+    },
+    {
+      "playedAt": "2026-10-09T20:50:28.262Z",
+      "trackId": "3xEAZQNPiwucPdGagdoD5j",
+      "name": "I'll Remember April",
+      "artists": [
+        "Clifford Brown",
+        "Max Roach Quintet"
+      ],
+      "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021f8972135b07af1f0d59c47e",
+      "durationMs": 553066,
+      "context": "spotify:album:6PuVuJwyxyBZXMz73teSoV"
+    },
+    {
+      "playedAt": "2026-10-09T20:53:56.420Z",
+      "trackId": "0kHsFeDp6Oq5f6k3Couumf",
+      "name": "Powell's Prances",
+      "artists": [
+        "Clifford Brown",
+        "Max Roach"
+      ],
+      "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021f8972135b07af1f0d59c47e",
+      "durationMs": 208143,
+      "context": "spotify:album:6PuVuJwyxyBZXMz73teSoV"
+    },
+    {
+      "playedAt": "2026-10-09T20:58:59.742Z",
+      "trackId": "4p8aUCVU3V4k578GmctzJO",
+      "name": "Time",
+      "artists": [
+        "Clifford Brown",
+        "Max Roach"
+      ],
+      "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021f8972135b07af1f0d59c47e",
+      "durationMs": 303320,
+      "context": "spotify:album:6PuVuJwyxyBZXMz73teSoV"
+    },
+    {
+      "playedAt": "2026-10-09T21:05:04.585Z",
+      "trackId": "4uUWK8io5JFE4aEc1a4Kgg",
+      "name": "The Scene Is Clean",
+      "artists": [
+        "Clifford Brown",
+        "Max Roach Quintet"
+      ],
+      "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021f8972135b07af1f0d59c47e",
+      "durationMs": 364826,
+      "context": "spotify:album:6PuVuJwyxyBZXMz73teSoV"
+    },
+    {
+      "playedAt": "2026-10-09T21:10:22.955Z",
+      "trackId": "3kIzzLJGbzhwiKrVCRD3L3",
+      "name": "Gertrude's Bounce",
+      "artists": [
+        "Clifford Brown",
+        "Max Roach"
+      ],
+      "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021f8972135b07af1f0d59c47e",
+      "durationMs": 249146,
+      "context": "spotify:album:6PuVuJwyxyBZXMz73teSoV"
+    },
+    {
+      "playedAt": "2026-10-09T21:13:56.140Z",
+      "trackId": "1xTRWYfE8IXBWqpxIMC3U5",
+      "name": "Step Lightly (Junior's Arrival)",
+      "artists": [
+        "Clifford Brown",
+        "Max Roach Quintet"
+      ],
+      "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021f8972135b07af1f0d59c47e",
+      "durationMs": 213200,
+      "context": "spotify:album:6PuVuJwyxyBZXMz73teSoV"
     }
   ]
 }

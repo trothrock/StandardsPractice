@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-10-08",
+  "lastSyncDate": "2026-10-10",
   "playlists": [
     {
       "name": "Standards Practice",
@@ -210,6 +210,17 @@
           "album": "'Round About Midnight",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e02cb6f92683ff9ad65f27a3f9f",
           "addedAt": "2026-10-05T11:27:42Z"
+        },
+        {
+          "trackId": "3xEAZQNPiwucPdGagdoD5j",
+          "name": "I'll Remember April",
+          "artists": [
+            "Clifford Brown",
+            "Max Roach Quintet"
+          ],
+          "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e021f8972135b07af1f0d59c47e",
+          "addedAt": "2026-10-08T14:21:32Z"
         }
       ]
     },

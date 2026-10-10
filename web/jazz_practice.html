@@ -31,6 +31,7 @@
   .nav-icon { width: 16px; height: 16px; opacity: 0.7; flex-shrink: 0; }
   .nav-item.active .nav-icon { opacity: 1; }
   .sidebar-footer { padding: 12px 0; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px; }
+  .btn-sm.btn-inline { width: auto; flex-shrink: 0; padding: 5px 14px; }
   .btn-sm { width: 100%; padding: 7px 12px; font-size: 12px; font-family: 'IBM Plex Sans', sans-serif; background: transparent; border: 1px solid var(--border2); color: var(--text2); border-radius: var(--radius); cursor: pointer; transition: all 0.15s; text-align: center; letter-spacing: 0.02em; }
   .btn-sm:hover { border-color: var(--gold); color: var(--gold); }
   .settings-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 20px; border-bottom: 1px solid var(--border); }
@@ -448,7 +449,10 @@
       <div id="activity-body"></div>
     </div>
     <div id="panel-listening" class="panel">
-      <div class="panel-title">Listening</div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px">
+        <div class="panel-title">Listening</div>
+        <button class="btn-sm btn-inline" id="listening-refresh" onclick="refreshListening()">Refresh</button>
+      </div>
       <div class="panel-sub" id="listening-sub">Spotify plays of songs in your library</div>
       <div id="listening-body"></div>
     </div>
@@ -2485,6 +2489,22 @@ function showMoreListening() {
   listeningRowLimit += LISTENING_PAGE;
   renderListening();
 }
+// Pulls the latest plays and reference playlists from Spotify now, outside the daily schedule
+async function refreshListening() {
+  const btn = document.getElementById('listening-refresh');
+  btn.disabled = true; btn.textContent = 'Refreshing…';
+  try {
+    const res = await fetch('/api/spotify/sync', { method:'POST' });
+    const r = await res.json().catch(() => ({}));
+    if(!res.ok || !r.ok) throw new Error(r.error || res.statusText);
+    toast(r.added ? `${r.added} new ${r.added===1?'play':'plays'} from Spotify.` : 'Up to date — no new plays.');
+    await renderListening();
+  } catch(e) {
+    toast(`Refresh failed: ${e.message}`);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Refresh';
+  }
+}
 async function renderListening() {
   const body = document.getElementById('listening-body');
   const sub = document.getElementById('listening-sub');
@@ -2533,7 +2553,7 @@ async function renderListening() {
   vizTipInit();
   const remaining = top.length - listeningRowLimit;
   const more = remaining > 0
-    ? `<div style="padding:12px 20px;text-align:center"><button class="btn-sm" onclick="showMoreListening()">Show ${Math.min(remaining, LISTENING_PAGE)} more</button></div>`
+    ? `<div style="padding:12px 20px;text-align:center"><button class="btn-sm btn-inline" onclick="showMoreListening()">Show ${Math.min(remaining, LISTENING_PAGE)} more</button></div>`
     : '';
   body.innerHTML = calendar + `<div class="section"><div class="section-head"><h2>Most played</h2><span class="count">${matched.length} play${matched.length===1?'':'s'} · ${top.length} song${top.length===1?'':'s'}</span></div>${topRows}${more}</div>`;
 }
