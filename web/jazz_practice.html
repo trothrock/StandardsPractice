@@ -190,7 +190,8 @@
   .kw-dots div { display: flex; align-items: center; gap: 8px; }
   .kw-dots i { width: 11px; height: 11px; border-radius: 2px; display: inline-block; }
   .kw-list { line-height: 1.6; }
-  .kw-bar { padding: 14px 20px 0; }
+  .kw-bar { padding: 14px 20px 0; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .kw-metric { padding: 5px 8px; }
   .kw-toggle { display: inline-flex; border: 1px solid var(--border2); border-radius: var(--radius); overflow: hidden; }
   .kw-toggle button { background: transparent; border: none; border-left: 1px solid var(--border2); color: var(--text3); font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; padding: 5px 12px; cursor: pointer; transition: all 0.15s; }
   .kw-toggle button:first-child { border-left: none; }
@@ -1307,6 +1308,28 @@ function keyCenterCounts(db) {
   });
   return counts;
 }
+// Timed minutes per key from review, multi-key and new-song sessions. Only sessions run on
+// the timer carry a duration, so older untimed reviews simply don't contribute.
+// Reviews and learning are always in the standard key; a multi-key session takes the key its
+// review logged that day, or the song's assigned practice key if it wasn't marked reviewed.
+function keyCenterMinutes(db) {
+  const mins = {};
+  let since = null;
+  (db.activity||[]).forEach(e => {
+    if(e.type!=='practice_time' || !['review','keys','learn'].includes(e.area)) return;
+    const sg = db.songs[e.name];
+    if(!sg) return;
+    let key = sg.standardKey;
+    if(e.area==='keys') {
+      const kr = (sg.keyReviews||[]).find(r=>r.date===e.date);
+      key = kr ? kr.key : sg.practiceKey && sg.practiceKey.date <= e.date ? sg.practiceKey.key : null;
+    }
+    if(!key || !KEY_BY_ID[key]) return;
+    mins[key] = (mins[key]||0) + e.secs/60;
+    if(!since || e.date < since) since = e.date;
+  });
+  return { mins, since };
+}
 // Relative minor of each major key, by id. A week's key center is this pair: majors are
 // practiced in the major key, minors in its relative minor, so the whole week sits in one
 // tonal home rather than scattering across unrelated keys.
@@ -1369,6 +1392,8 @@ const KEY_FAM_FILLS = ['#222222','#5a4a25','#977b3b','#e8c97a'];
 const KEY_GAP_FILLS = ['#222222','#5c3526','#ec835a'];
 const KEY_FEW_SESSIONS = 2;
 const KEY_WHEEL_MODES = [['familiarity','Familiarity'],['sessions','Review sessions'],['gaps','Needs attention']];
+// The review-sessions view heats by timed minutes or by how many sessions were logged.
+const KEY_WHEEL_METRICS = [['minutes','By minutes'],['count','By session count']];
 const FIFTHS_MAJOR = ['C','G','D','A','E','B','Gb','Db','Ab','Eb','Bb','F'];
 const FIFTHS_MINOR = ['Am','Em','Bm','F#m','C#m','G#m','Ebm','Bbm','Fm','Cm','Gm','Dm'];
 // 2 = low familiarity (0–1) and few sessions; 1 = only one of the two; 0 = neither.
@@ -1378,12 +1403,21 @@ function setKeyWheelMode(mode) {
   db.keyWheelMode = mode;
   saveDB(db); renderKeyCenters();
 }
+function setKeyWheelMetric(metric) {
+  const db = getDB();
+  db.keyWheelMetric = metric;
+  saveDB(db); renderKeyCenters();
+}
 function keyWheelHTML(db, counts) {
   const mode = KEY_WHEEL_MODES.some(([m]) => m === db.keyWheelMode) ? db.keyWheelMode : 'familiarity';
-  const cx = 180, cy = 180, max = Math.max(1, ...Object.values(counts));
-  const sessLevel = n => n ? Math.max(1, Math.ceil(n / max * 4)) : 0;
-  const shade = (fam, n) =>
-    mode === 'sessions' ? { fill: VIZ_HEAT[sessLevel(n)], light: sessLevel(n) >= 3 }
+  const metric = KEY_WHEEL_METRICS.some(([m]) => m === db.keyWheelMetric) ? db.keyWheelMetric : 'minutes';
+  const { mins, since } = keyCenterMinutes(db);
+  const byMins = mode === 'sessions' && metric === 'minutes';
+  const heat = byMins ? mins : counts;
+  const cx = 180, cy = 180, max = Math.max(1, Math.ceil(Math.max(0, ...Object.values(heat))));
+  const sessLevel = v => v ? Math.max(1, Math.ceil(v / max * 4)) : 0;
+  const shade = (fam, n, m) =>
+    mode === 'sessions' ? { fill: VIZ_HEAT[sessLevel(byMins ? m : n)], light: sessLevel(byMins ? m : n) >= 3 }
     : mode === 'gaps' ? { fill: KEY_GAP_FILLS[keyGapLevel(fam, n)], light: keyGapLevel(fam, n) === 2 }
     : { fill: KEY_FAM_FILLS[fam], light: fam >= 2 };
   const pt = (r, deg) => { const a = (deg - 90) * Math.PI / 180; return [cx + r*Math.cos(a), cy + r*Math.sin(a)]; };
@@ -1394,20 +1428,21 @@ function keyWheelHTML(db, counts) {
   // The small line under each key carries whatever the fill isn't showing.
   const sub = (fam, n) => mode === 'sessions' ? '●'.repeat(fam) + '○'.repeat(3-fam) : mode === 'gaps' ? `${fam} · ${n}` : (n || '–');
   const ring = (ids, r0, r1, rLabel, size) => ids.map((id, i) => {
-    const k = KEY_BY_ID[id], n = counts[id]||0, fam = keyFamiliarity(db, id), sh = shade(fam, n);
+    const k = KEY_BY_ID[id], n = counts[id]||0, m = mins[id]||0, fam = keyFamiliarity(db, id), sh = shade(fam, n, m);
     const label = keyRootLabel(k.root) + (k.quality==='minor' ? 'm' : '');
     const ink = sh.light ? '#161616' : 'var(--text)', subInk = sh.light ? 'rgba(22,22,22,0.72)' : 'var(--text2)';
     const [lx, ly] = pt(rLabel, i*30);
-    const tip = `${keyLabel(id)}\n${n} review session${n===1?'':'s'}\nFamiliarity ${fam} · ${KEY_FAM_DESCS[fam]}`;
+    const tip = `${keyLabel(id)}\n${n} review session${n===1?'':'s'}${m ? `\n${formatMinutes(m)} timed` : ''}\nFamiliarity ${fam} · ${KEY_FAM_DESCS[fam]}`;
     return `<path class="kw-seg" d="${sector(r0, r1, i*30-15, i*30+15)}" fill="${sh.fill}" data-tip="${vizEsc(tip)}"/>`
       + `<text x="${lx}" y="${ly + 1}" text-anchor="middle" font-size="${size}" style="fill:${ink};font-family:'IBM Plex Sans',sans-serif;pointer-events:none">${label}</text>`
       + `<text x="${lx}" y="${ly + size*0.55 + 7}" text-anchor="middle" font-size="${size*0.62}" style="fill:${subInk};pointer-events:none">${sub(fam, n)}</text>`;
   }).join('');
-  const total = Object.values(counts).reduce((a,b)=>a+b, 0);
+  const total = Object.values(heat).reduce((a,b)=>a+b, 0);
+  const center = byMins ? (total ? formatMinutes(total) : '0 min') : total;
   const svg = `<svg viewBox="0 0 360 360" role="img" aria-label="Key centers around the circle of fifths, colored by ${mode}">`
     + ring(FIFTHS_MAJOR, 116, 178, 148, 15) + ring(FIFTHS_MINOR, 60, 114, 87, 12)
-    + `<text x="${cx}" y="${cy+2}" text-anchor="middle" font-size="22" style="fill:var(--text);font-family:'IBM Plex Sans',sans-serif">${total}</text>`
-    + `<text x="${cx}" y="${cy+18}" text-anchor="middle" font-size="9" style="fill:var(--text3);font-family:'IBM Plex Mono',monospace;letter-spacing:0.06em">SESSIONS</text></svg>`;
+    + `<text x="${cx}" y="${cy+2}" text-anchor="middle" font-size="22" style="fill:var(--text);font-family:'IBM Plex Sans',sans-serif">${center}</text>`
+    + `<text x="${cx}" y="${cy+18}" text-anchor="middle" font-size="9" style="fill:var(--text3);font-family:'IBM Plex Mono',monospace;letter-spacing:0.06em">${byMins ? 'PRACTICED' : 'SESSIONS'}</text></svg>`;
   const ranked = KEY_CENTERS.map(k => ({ id:k.id, n:counts[k.id]||0, fam:keyFamiliarity(db,k.id) }));
   const swatch = (color, text) => `<div><i style="background:${color}"></i>${text}</div>`;
   let legend;
@@ -1415,9 +1450,12 @@ function keyWheelHTML(db, counts) {
     const bins = [swatch(VIZ_HEAT[0], 'None')];
     for(let lv=1; lv<=4; lv++) {
       const lo = Math.floor((lv-1) * max / 4) + 1, hi = Math.floor(lv * max / 4);
-      if(lo <= hi) bins.push(swatch(VIZ_HEAT[lv], lo === hi ? `${lo}` : `${lo}–${hi}`));
+      if(lo <= hi) bins.push(swatch(VIZ_HEAT[lv], (lo === hi ? `${lo}` : `${lo}–${hi}`) + (byMins ? ' min' : '')));
     }
-    legend = `<div><h3>Review sessions</h3><div class="kw-dots">${bins.join('')}</div></div>
+    const note = !byMins ? '' : since
+      ? `<div class="kw-list" style="margin-top:6px">Timed review, multi-key and new-song sessions since ${formatIntDate(since)}</div>`
+      : `<div class="kw-list" style="margin-top:6px">No timed sessions yet</div>`;
+    legend = `<div><h3>${byMins ? 'Minutes practiced' : 'Review sessions'}</h3><div class="kw-dots">${bins.join('')}</div>${note}</div>
       <div><h3>Under each key</h3><div class="kw-list">Familiarity, ●●○ = 2</div></div>`;
   } else if(mode === 'gaps') {
     legend = `<div><h3>Needs attention</h3><div class="kw-dots">${[
@@ -1431,8 +1469,9 @@ function keyWheelHTML(db, counts) {
   }
   const side = `<div class="kw-side">${legend}</div>`;
   const toggle = `<div class="kw-toggle">${KEY_WHEEL_MODES.map(([m,l]) => `<button class="${m===mode?'sel':''}" onclick="setKeyWheelMode('${m}')">${l}</button>`).join('')}</div>`;
+  const metricMenu = mode !== 'sessions' ? '' : `<select class="kw-metric" aria-label="Heat review sessions by" onchange="setKeyWheelMetric(this.value)">${KEY_WHEEL_METRICS.map(([m,l]) => `<option value="${m}"${m===metric?' selected':''}>${l}</option>`).join('')}</select>`;
   const reviewed = ranked.filter(k=>k.n).length;
-  return `<div class="section"><div class="section-head"><h2>Key coverage</h2><span class="count">${reviewed} of 24 keys reviewed</span></div><div class="kw-bar">${toggle}</div><div class="kw-wrap">${svg}${side}</div></div>`;
+  return `<div class="section"><div class="section-head"><h2>Key coverage</h2><span class="count">${reviewed} of 24 keys reviewed</span></div><div class="kw-bar">${toggle}${metricMenu}</div><div class="kw-wrap">${svg}${side}</div></div>`;
 }
 function renderKeyCenters() {
   const db = getDB();
