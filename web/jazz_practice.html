@@ -245,6 +245,16 @@
   .listen-thumb { width: 40px; height: 40px; border-radius: 4px; object-fit: cover; flex-shrink: 0; background: var(--bg3); }
   .listen-thumb-link { display: block; flex-shrink: 0; border-radius: 4px; transition: opacity 0.1s; }
   .listen-thumb-link:hover { opacity: 0.75; }
+  .poi-add-btn { padding: 2px 9px; font-size: 14px; line-height: 1.2; flex-shrink: 0; }
+  .poi-list { margin-top: 8px; }
+  .poi-row { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+  .poi-row .focus-del { padding: 4px 0 4px 8px; }
+  .poi-row:hover .focus-del { opacity: 1; }
+  .poi-time { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--gold); text-decoration: none; min-width: 38px; }
+  .poi-time:hover { color: var(--gold2); }
+  .poi-text { flex: 1; min-width: 0; color: var(--text2); cursor: text; }
+  .poi-form { gap: 8px; margin-top: 8px; }
+  .poi-form .poi-time-input { flex: 0 0 64px; }
   .listen-title { display: flex; align-items: center; gap: 8px; }
   .timeline-entry { display: flex; gap: 14px; padding: 12px 20px; border-bottom: 1px solid var(--border); align-items: flex-start; }
   .timeline-entry:last-child { border-bottom: none; }
@@ -2779,12 +2789,20 @@ function sameRecording(play, ref) {
     (play.album||'').toLowerCase()===(ref.album||'').toLowerCase() &&
     (play.artists[0]||'')===(ref.artists[0]||''));
 }
+let songListeningData = null;
 async function renderSongListening(name) {
   let data;
   try { data = await fetchListening(); } catch(e) { return; }
-  const slot = document.getElementById('detail-listening');
-  if(!slot || detailType!=='song' || currentDetailName!==name) return;
+  if(detailType!=='song' || currentDetailName!==name) return;
+  songListeningData = data;
+  drawSongListening(name);
+}
+function drawSongListening(name) {
+  const slot = document.getElementById('detail-listening'), data = songListeningData;
+  if(!slot || !data || detailType!=='song' || currentDetailName!==name) return;
   const db = getDB(), goal = listeningGoal(db), byKey = libraryKeyMap(db);
+  const pois = db.songs[name]?.pointsOfInterest || [];
+  const shown = new Set();
   const plays = libraryPlays(db, data.plays).filter(p => p.song===name);
   const refs = (data.references||[]).flatMap(pl => pl.tracks
     .filter(t => librarySongFor(t.name, byKey)===name)
@@ -2796,23 +2814,119 @@ async function renderSongListening(name) {
     const n = mine.length, pct = Math.min(100, Math.round(n / goal * 100));
     const last = n ? `last played ${new Date(mine[0].ts).toLocaleDateString('en-US',{month:'short',day:'numeric'})}` : 'not played yet';
     const meta = [ref.label, ref.artists.join(', '), ref.album].filter(Boolean).map(escHTML).join(' · ');
-    return `<div class="song-row" style="align-items:flex-start">${listenThumb(ref.albumImage, ref.albumId, ref.trackId)}<div style="flex:1;min-width:0"><div style="display:flex;justify-content:space-between;gap:12px;margin-bottom:4px"><span class="song-name">${escHTML(ref.name)}</span><span class="key-stat">${n} of ${goal}</span></div><div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${meta}</div><div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div><div style="font-size:11px;color:var(--text3);margin-top:6px">${pct}% · ${last}</div></div></div>`;
+    const rowPois = poisFor(pois, shown, pt => pt.trackId===ref.trackId);
+    return `<div class="song-row" style="align-items:flex-start">${listenThumb(ref.albumImage, ref.albumId, ref.trackId)}<div style="flex:1;min-width:0"><div style="display:flex;justify-content:space-between;gap:12px;margin-bottom:4px"><span class="song-name">${escHTML(ref.name)}</span><span class="key-stat">${n} of ${goal}</span></div><div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${meta}</div><div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div><div style="font-size:11px;color:var(--text3);margin-top:6px">${pct}% · ${last}</div>${poiListHTML(name, rowPois, ref.trackId, ref.album)}</div>${poiAddButton(ref.trackId)}</div>`;
   }).join('');
   const others = plays.filter(p => !counted.has(p));
   const albums = new Map();
   others.forEach(p => {
     const k = p.albumImage || p.album || p.trackId;
-    const a = albums.get(k) || { album:p.album, artists:p.artists, image:p.albumImage, albumId:p.albumId, trackId:p.trackId, n:0 };
-    a.n++; albums.set(k, a);
+    const a = albums.get(k) || { album:p.album, artists:p.artists, image:p.albumImage, albumId:p.albumId, trackId:p.trackId, trackIds:new Set(), n:0 };
+    a.n++; a.trackIds.add(p.trackId); albums.set(k, a);
   });
-  const otherRows = [...albums.values()].sort((a,b)=>b.n-a.n).map(a =>
-    `<div class="song-row">${listenThumb(a.image, a.albumId, a.trackId)}<div style="flex:1;min-width:0"><div class="song-name" style="margin-bottom:4px">${escHTML(a.album||'Unknown album')}</div><div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${escHTML(a.artists.join(', '))}</div></div><span class="key-stat">${a.n} play${a.n===1?'':'s'}</span></div>`
-  ).join('');
+  const otherRows = [...albums.values()].sort((a,b)=>b.n-a.n).map(a => {
+    const rowPois = poisFor(pois, shown, pt => a.trackIds.has(pt.trackId) || (!!pt.album && pt.album===a.album));
+    return `<div class="song-row" style="align-items:flex-start">${listenThumb(a.image, a.albumId, a.trackId)}<div style="flex:1;min-width:0"><div class="song-name" style="margin-bottom:4px">${escHTML(a.album||'Unknown album')}</div><div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${escHTML(a.artists.join(', '))}</div>${poiListHTML(name, rowPois, a.trackId, a.album)}</div><span class="key-stat">${a.n} play${a.n===1?'':'s'}</span>${poiAddButton(a.trackId)}</div>`;
+  }).join('');
   const refPlays = plays.length - others.length;
   const plural = n => `${n} play${n===1?'':'s'}`;
   slot.innerHTML =
     (refs.length ? `<div class="section"><div class="section-head"><h2>Reference recordings</h2><span class="count">${plural(refPlays)}</span></div>${refRows}</div>` : '') +
     (others.length ? `<div class="section"><div class="section-head"><h2>Other recordings</h2><span class="count">${plural(others.length)}</span></div>${otherRows}</div>` : '');
+}
+// Points of interest are timestamped moments in a recording worth revisiting, kept on the song
+// as { trackId, album, at (seconds), text }. Each shows under the first recording row it matches;
+// clicking its time opens the track in Spotify at that moment.
+function poisFor(pois, shown, match) {
+  return pois.map((pt,i) => ({ ...pt, i })).filter(pt => !shown.has(pt.i) && match(pt))
+    .map(pt => (shown.add(pt.i), pt)).sort((a,b) => a.at-b.at);
+}
+function formatPoiTime(sec) {
+  const h = Math.floor(sec/3600), m = Math.floor(sec%3600/60), s = String(sec%60).padStart(2,'0');
+  return h ? `${h}:${String(m).padStart(2,'0')}:${s}` : `${m}:${s}`;
+}
+// Accepts m:ss, h:mm:ss or plain seconds
+function parsePoiTime(str) {
+  const parts = String(str).trim().split(':');
+  if(parts.length>3 || parts.some(x => !/^\d+$/.test(x))) return null;
+  return parts.reduce((t,x) => t*60 + Number(x), 0);
+}
+function poiAddButton(trackId) {
+  return `<button class="btn-action poi-add-btn" title="Add point of interest" onclick="showPoiForm('${escHTML(trackId)}')">+</button>`;
+}
+function poiListHTML(name, pts, trackId, album) {
+  const safeName = escHTML(name.replace(/\\/g,'\\\\').replace(/'/g,"\\'"));
+  const rows = pts.map(pt => `<div class="poi-row"><a class="poi-time" href="spotify:track:${escHTML(pt.trackId)}#${formatPoiTime(pt.at)}" title="Open in Spotify at ${formatPoiTime(pt.at)}">${formatPoiTime(pt.at)}</a><span class="poi-text" title="Click to edit" onclick="editPoi(this,'${safeName}',${pt.i})">${escHTML(pt.text)}</span><button class="focus-del" title="Remove" onclick="removePoi('${safeName}',${pt.i})">&times;</button></div>`).join('');
+  const form = `<div class="poi-form" id="poi-form-${escHTML(trackId)}" data-track="${escHTML(trackId)}" data-album="${escHTML(album||'')}" style="display:none"><input class="focus-input poi-time-input" placeholder="m:ss" onkeydown="if(event.key==='Enter')addPoi(this,'${safeName}');else if(event.key==='Escape')hidePoiForm(this)"><input class="focus-input" placeholder="What's here, e.g. Oscar Peterson piano lick" onkeydown="if(event.key==='Enter')addPoi(this,'${safeName}');else if(event.key==='Escape')hidePoiForm(this)"><button class="btn-action" onclick="addPoi(this,'${safeName}')">Add</button></div>`;
+  return (rows ? `<div class="poi-list">${rows}</div>` : '') + form;
+}
+function showPoiForm(trackId) {
+  const form = document.getElementById('poi-form-'+trackId);
+  if(!form) return;
+  form.style.display = 'flex';
+  form.querySelector('input').focus();
+}
+function hidePoiForm(el) {
+  const form = el.closest('.poi-form');
+  form.querySelectorAll('input').forEach(i => { i.value = ''; });
+  form.style.display = 'none';
+}
+function addPoi(el, name) {
+  const form = el.closest('.poi-form');
+  const [timeIn, textIn] = form.querySelectorAll('input');
+  const at = parsePoiTime(timeIn.value), text = textIn.value.trim();
+  if(at===null) { timeIn.focus(); toast('Enter a time like 2:15.'); return; }
+  if(!text) { textIn.focus(); return; }
+  const db = getDB(), sg = db.songs[name];
+  if(!sg) return;
+  (sg.pointsOfInterest = sg.pointsOfInterest || []).push({ trackId: form.dataset.track, album: form.dataset.album || undefined, at, text });
+  sg.pointsOfInterest.sort((a,b) => a.at-b.at);
+  saveDB(db);
+  drawSongListening(name);
+}
+// Clicking a point's text swaps the row for time and text inputs. Enter or clicking away saves;
+// Escape, or clicking away with a field invalid, cancels. Moving between the two inputs keeps
+// the edit open.
+function editPoi(span, name, i) {
+  const pt = getDB().songs[name]?.pointsOfInterest?.[i];
+  if(!pt) return;
+  const row = span.closest('.poi-row');
+  const form = document.createElement('div');
+  form.className = 'poi-form'; form.style.display = 'flex'; form.style.marginTop = '0';
+  form.innerHTML = '<input class="focus-input poi-time-input" placeholder="m:ss"><input class="focus-input">';
+  const [timeIn, textIn] = form.querySelectorAll('input');
+  timeIn.value = formatPoiTime(pt.at); textIn.value = pt.text;
+  let finished = false;
+  const finish = save => {
+    if(finished) return;
+    const at = parsePoiTime(timeIn.value), text = textIn.value.trim();
+    if(save && (at===null || !text)) { (at===null ? timeIn : textIn).focus(); if(at===null) toast('Enter a time like 2:15.'); return; }
+    finished = true;
+    if(save && (at!==pt.at || text!==pt.text)) {
+      const db = getDB(), item = db.songs[name]?.pointsOfInterest?.[i];
+      if(item) {
+        item.at = at; item.text = text;
+        db.songs[name].pointsOfInterest.sort((a,b) => a.at-b.at);
+        saveDB(db);
+      }
+    }
+    drawSongListening(name);
+  };
+  form.onkeydown = e => { if(e.key==='Enter') finish(true); else if(e.key==='Escape') finish(false); };
+  form.addEventListener('focusout', e => {
+    if(form.contains(e.relatedTarget)) return;
+    finish(parsePoiTime(timeIn.value)!==null && !!textIn.value.trim());
+  });
+  row.replaceWith(form);
+  textIn.focus();
+  textIn.select();
+}
+function removePoi(name, i) {
+  const db = getDB(), sg = db.songs[name];
+  if(!sg || !sg.pointsOfInterest) return;
+  sg.pointsOfInterest.splice(i, 1);
+  saveDB(db);
+  drawSongListening(name);
 }
 function escHTML(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
