@@ -311,6 +311,10 @@
   .key-stat b { color: var(--text2); font-weight: 500; }
   .key-fam-picker { display: flex; gap: 4px; flex-shrink: 0; }
   .key-fam-picker .level-btn { flex: none; width: 30px; padding: 3px 0; font-size: 11px; }
+  .concept-row { padding: 16px 20px; border-bottom: 1px solid var(--border); }
+  .concept-row:last-child { border-bottom: none; }
+  .concept-head { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+  .concept-title { font-family: 'Playfair Display', serif; font-size: 17px; color: var(--text); flex: 1; min-width: 0; }
   .top-note { font-size: 11px; color: var(--gold2); font-family: 'IBM Plex Mono', monospace; flex-shrink: 0; }
 </style>
 </head>
@@ -349,6 +353,10 @@
       <div class="nav-item" onclick="showPanel('vocabulary')">
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5h12v7H6.5L3.5 13.5V10.5H2z"/><path d="M4.5 6h7M4.5 8h4"/></svg>
         Vocabulary
+      </div>
+      <div class="nav-item" onclick="showPanel('concepts')">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1.8a4.2 4.2 0 0 0-2.5 7.6V11h5V9.4A4.2 4.2 0 0 0 8 1.8z"/><path d="M6 13h4M6.8 14.6h2.4"/></svg>
+        Concepts
       </div>
       <div class="nav-item" onclick="showPanel('keys')">
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><circle cx="8" cy="8" r="2"/><path d="M8 2v2M8 12v2M2 8h2M12 8h2"/></svg>
@@ -417,6 +425,14 @@
       </div>
       <div class="panel-sub">Lines, licks and devices &middot; familiarity 0&ndash;2</div>
       <div id="vocabulary-body"></div>
+    </div>
+    <div id="panel-concepts" class="panel">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px">
+        <div class="panel-title">Concepts</div>
+        <button class="btn-primary" onclick="openConceptModal()">+ Add concept</button>
+      </div>
+      <div class="panel-sub">Ideas surfaced during practice</div>
+      <div id="concepts-body"></div>
     </div>
     <div id="panel-keys" class="panel">
       <div class="panel-title">Key centers</div>
@@ -626,7 +642,36 @@
   </div>
 </div>
 
-<div class="modal-backdrop" id="add-voicing-modal" onclick="handleAddVoicingBackdropClick(event)">
+<div class="modal-backdrop" id="concept-modal" onclick="if(event.target===this) closeConceptModal()">
+  <div class="modal">
+    <div class="modal-title" id="concept-modal-title">Add a concept</div>
+    <div class="field">
+      <label>Title</label>
+      <input type="text" id="concept-title" placeholder="e.g. Guide tones through the bridge">
+    </div>
+    <div class="field">
+      <label>Description</label>
+      <textarea class="notes-textarea" id="concept-body" style="min-height:180px" placeholder="Describe the concept..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeConceptModal()">Cancel</button>
+      <button class="btn-confirm" id="concept-submit" onclick="submitConcept()">Add concept</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="remove-concept-modal" onclick="if(event.target===this) closeRemoveConcept()">
+  <div class="modal">
+    <div class="modal-title">Remove concept</div>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:24px">Remove <span id="remove-concept-name" style="color:var(--text);font-weight:500"></span>? This cannot be undone.</div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeRemoveConcept()">Cancel</button>
+      <button style="padding:7px 18px;font-size:13px;font-family:'IBM Plex Sans',sans-serif;background:var(--red-dim);border:1px solid rgba(192,57,43,0.35);color:#e57368;border-radius:var(--radius);cursor:pointer;transition:all 0.15s" onclick="confirmRemoveConcept()">Remove</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="add-voicing-modal"onclick="handleAddVoicingBackdropClick(event)">
   <div class="modal">
     <div class="modal-title">Add a voicing</div>
     <div class="field">
@@ -1166,6 +1211,7 @@ function initDB() {
   if(!db.activity) db.activity = [];
   if(!db.repertoire) db.repertoire = [];
   if(!db.vocabulary) db.vocabulary = [];
+  if(!db.concepts) db.concepts = [];
   const VOICINGS_SEED_VERSION = 2;
   if(db.voicingsSeedVersion !== VOICINGS_SEED_VERSION) {
     const strip = s => s.replace(/\s*\([^)]*\)\s*$/,'').trim();
@@ -2201,6 +2247,7 @@ function formatActivityEntry(entry) {
     case 'repertoire_practiced':return { dot:'gold', label:'Repertoire practiced',       detail:entry.name };
     case 'repertoire_reviewed':return { dot:'green', label:'Repertoire reviewed',        detail:entry.name };
     case 'repertoire_deferred':return { dot:'gold',  label:'Repertoire continued',       detail:entry.name };
+    case 'concept_added':      return { dot:'blue',  label:'Concept added',             detail:entry.name };
     case 'repertoire_removed': return { dot:'red',   label:'Removed from repertoire',    detail:entry.name };
     case 'voicing_added':      return { dot:'blue',  label:'Voicing added',              detail:entry.name };
     case 'voicing_session':    return { dot:'gold',  label:'Voicing practiced',          detail:entry.name };
@@ -3063,13 +3110,14 @@ function showPanel(id) {
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
-  const idx = ['today','activity','listening','library','repertoire','voicings','vocabulary','keys','queue'].indexOf(id);
+  const idx = ['today','activity','listening','library','repertoire','voicings','vocabulary','concepts','keys','queue'].indexOf(id);
   if(idx>=0) document.querySelectorAll('.nav-item')[idx].classList.add('active');
   if(id==='settings') document.getElementById('nav-settings').classList.add('active');
   if(id==='library') renderLibrary();
   if(id==='repertoire') renderRepertoire();
   if(id==='voicings') renderVoicings();
   if(id==='vocabulary') renderVocabulary();
+  if(id==='concepts') renderConcepts();
   if(id==='keys') renderKeyCenters();
   if(id==='queue') renderQueue();
   if(id==='activity') renderActivity();
@@ -3085,6 +3133,7 @@ function renderAll() {
     if(id==='repertoire') renderRepertoire();
     if(id==='voicings') renderVoicings();
     if(id==='vocabulary') renderVocabulary();
+    if(id==='concepts') renderConcepts();
     if(id==='keys') renderKeyCenters();
     if(id==='queue') renderQueue();
       if(id==='activity') renderActivity();
@@ -3271,7 +3320,7 @@ function submitTimeEdit() {
   saveDB(db); closeTimeEdit(); renderAll();
   toast(`${entry.name} set to ${formatMinutes(mins)}`);
 }
-document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeAddSong(); closeEditSong(); closeReviewSettings(); closeReviewMenu(); closeMultiKeyMenu(); closeRowMenu(); closeTimeEdit(); closeRemoveSong(); closeResetConfirm(); closeAddRepertoire(); closeEditRep(); closeRemoveRep(); closeAddVoicing(); closeEditVoicing(); closeRemoveVoicing(); closeAddVocab(); closeEditVocab(); closeRemoveVocab(); } });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeAddSong(); closeEditSong(); closeReviewSettings(); closeReviewMenu(); closeMultiKeyMenu(); closeRowMenu(); closeTimeEdit(); closeRemoveSong(); closeResetConfirm(); closeAddRepertoire(); closeEditRep(); closeRemoveRep(); closeAddVoicing(); closeEditVoicing(); closeRemoveVoicing(); closeAddVocab(); closeEditVocab(); closeRemoveVocab(); closeConceptModal(); closeRemoveConcept(); } });
 document.addEventListener('click', ()=>{ closeReviewMenu(); closeMultiKeyMenu(); closeRowMenu(); });
 
 let editOriginalName = null;
@@ -3581,6 +3630,78 @@ function confirmRemoveRep() {
   logActivity(db, 'repertoire_removed', { name: repRemoveName });
   saveDB(db); closeRemoveRep(); renderAll();
   toast(`"${repRemoveName}" removed from repertoire.`);
+}
+
+function renderConcepts() {
+  const db = getDB();
+  const container = document.getElementById('concepts-body');
+  const concepts = db.concepts || [];
+  if(!concepts.length) {
+    container.innerHTML = '<div class="empty" style="padding:32px 0">No concepts yet. Add one when something clicks in the practice room.</div>';
+    return;
+  }
+  let html = `<div class="section"><div class="section-head"><h2>All concepts</h2><span class="count">${concepts.length}</span></div>`;
+  [...concepts].sort((a,b)=>b.id-a.id).forEach(c => {
+    html += `<div class="concept-row"><div class="concept-head"><span class="concept-title">${escHTML(c.title)}</span><span class="song-meta">${formatIntDate(c.addedDate)}</span><button class="btn-dots" onclick="openConceptMenu(event,${c.id})">···</button></div>${c.body?`<div class="notes-view">${escHTML(c.body)}</div>`:''}</div>`;
+  });
+  html += '</div>';
+  container.innerHTML = html;
+}
+function openConceptMenu(e, id) {
+  e.stopPropagation();
+  const menu = document.getElementById('row-menu');
+  menu.innerHTML = `<div class="dropdown-item" onclick="openConceptModal(${id});closeRowMenu()">Edit</div><div class="dropdown-item danger" onclick="openRemoveConcept(${id});closeRowMenu()">Remove</div>`;
+  const rect = e.currentTarget.getBoundingClientRect();
+  menu.style.top = (rect.bottom + 4) + 'px';
+  menu.style.right = (window.innerWidth - rect.right) + 'px';
+  menu.classList.add('open');
+}
+// One modal serves add and edit; conceptEditId is null when adding.
+let conceptEditId = null;
+function openConceptModal(id) {
+  const c = id ? (getDB().concepts||[]).find(c=>c.id===id) : null;
+  conceptEditId = c ? c.id : null;
+  document.getElementById('concept-modal-title').textContent = c ? 'Edit concept' : 'Add a concept';
+  document.getElementById('concept-submit').textContent = c ? 'Save changes' : 'Add concept';
+  document.getElementById('concept-title').value = c ? c.title : '';
+  document.getElementById('concept-body').value = c ? (c.body||'') : '';
+  document.getElementById('concept-modal').classList.add('open');
+  setTimeout(()=>document.getElementById('concept-title').focus(), 50);
+}
+function closeConceptModal() { document.getElementById('concept-modal').classList.remove('open'); conceptEditId = null; }
+function submitConcept() {
+  const title = document.getElementById('concept-title').value.trim();
+  if(!title) { document.getElementById('concept-title').focus(); return; }
+  const body = document.getElementById('concept-body').value.trim();
+  const db = getDB();
+  if(conceptEditId) {
+    const c = db.concepts.find(c=>c.id===conceptEditId);
+    if(!c) return;
+    c.title = title; c.body = body; c.updatedDate = todayInt();
+    toast(`"${title}" updated.`);
+  } else {
+    db.concepts.push({ id: Date.now(), title, body, addedDate: todayInt() });
+    logActivity(db, 'concept_added', { name: title });
+    toast(`"${title}" added to concepts.`);
+  }
+  saveDB(db); closeConceptModal(); renderConcepts();
+}
+let conceptRemoveId = null;
+function openRemoveConcept(id) {
+  const c = (getDB().concepts||[]).find(c=>c.id===id);
+  if(!c) return;
+  conceptRemoveId = id;
+  document.getElementById('remove-concept-name').textContent = c.title;
+  document.getElementById('remove-concept-modal').classList.add('open');
+}
+function closeRemoveConcept() { document.getElementById('remove-concept-modal').classList.remove('open'); conceptRemoveId = null; }
+function confirmRemoveConcept() {
+  if(!conceptRemoveId) return;
+  const db = getDB();
+  const c = db.concepts.find(c=>c.id===conceptRemoveId);
+  db.concepts = db.concepts.filter(c=>c.id!==conceptRemoveId);
+  saveDB(db); closeRemoveConcept(); renderConcepts();
+  if(c) toast(`"${c.title}" removed.`);
 }
 
 function voicingImgHTML(v, cls) {

@@ -7244,6 +7244,12 @@
       "date": 20261011,
       "type": "practiced",
       "name": "Bye Bye Blackbird"
+    },
+    {
+      "ts": 1791727371778,
+      "date": 20261011,
+      "type": "concept_added",
+      "name": "Half diminished as tritone sub"
     }
   ],
   "extraReviewsToday": {
@@ -7684,5 +7690,13 @@
     "Pine Top Boogie",
     "Southern Nights",
     "The Crave"
+  ],
+  "concepts": [
+    {
+      "id": 1791727371778,
+      "title": "Half diminished as tritone sub",
+      "body": "When playing a minor ii-V, the half diminished chord can be thought of as the Maj7(#11) chord a half step above the V chord.\n\nA-7(b5) D7alt\nbecomes\nEbMaj7(#11) D7alt",
+      "addedDate": 20261011
+    }
   ]
 }
