@@ -5,7 +5,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
-const { execFile } = require('child_process');
+const { execFile, execFileSync } = require('child_process');
 const spotify = require('./spotify');
 
 const PORT = 3000;
@@ -81,9 +81,124 @@ function handleNotesSync(req, res) {
   });
 }
 
+// Auto backup: the page posts its localStorage DB here on every change. We keep one file per
+// day in backups/. The laptop is usually asleep once practice ends, so instead of committing on
+// idle we commit + push the previous session's data (with the Spotify data) when the next session
+// starts: the first change after a quiet gap. Startup and shutdown also commit anything pending.
+const REPO_ROOT = path.join(ROOT, '..');
+const BACKUP_DIR = path.join(ROOT, 'backups');
+const BACKUP_PATHS = ['web/backups', 'web/data'];
+const SESSION_GAP_MS = 30 * 60 * 1000;
+let lastBackupAt = 0;
+
+function localDateStr(d = new Date()) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+function handleBackup(req, res) {
+  let raw = '';
+  req.on('data', chunk => { raw += chunk; });
+  req.on('end', () => {
+    const reply = (status, body) => {
+      res.writeHead(status, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(body));
+    };
+    let db;
+    try {
+      db = JSON.parse(raw);
+    } catch (e) {
+      reply(400, { ok: false, error: 'Invalid JSON' });
+      return;
+    }
+    // Don't let a fresh/empty browser profile overwrite a real backup
+    if (!db || typeof db !== 'object' || !db.songs || !Object.keys(db.songs).length || !(db.activity || []).length) {
+      reply(400, { ok: false, error: 'Refusing to back up an empty database' });
+      return;
+    }
+    const newSession = Date.now() - lastBackupAt > SESSION_GAP_MS;
+    const prevDate = lastBackupAt ? localDateStr(new Date(lastBackupAt)) : localDateStr();
+    lastBackupAt = Date.now();
+    // Commit the previous session first so this write lands in the next session's commit
+    const ready = newSession ? commitBackups(prevDate) : Promise.resolve();
+    ready.then(() => writeBackup(db, reply));
+  });
+}
+
+function writeBackup(db, reply) {
+  const file = path.join(BACKUP_DIR, `jazz-tracker-${localDateStr()}.json`);
+  fs.mkdir(BACKUP_DIR, { recursive: true }, () => {
+    fs.writeFile(file, JSON.stringify(db, null, 2), err => {
+      if (err) {
+        console.error('Backup write failed:', err.message);
+        reply(500, { ok: false, error: err.message });
+        return;
+      }
+      backupDirty = true;
+      reply(200, { ok: true, file: path.basename(file) });
+    });
+  });
+}
+
+function git(args) {
+  return new Promise((resolve, reject) => {
+    execFile('git', ['-C', REPO_ROOT, ...args], (err, stdout, stderr) => {
+      if (err) { err.stderr = stderr; reject(err); } else resolve(stdout);
+    });
+  });
+}
+
+let backupDirty = false;
+let commitInFlight = Promise.resolve();
+
+function commitBackups(date = localDateStr()) {
+  commitInFlight = commitInFlight.then(async () => {
+    try {
+      await git(['add', '--', ...BACKUP_PATHS]);
+      const changed = await git(['diff', '--cached', '--quiet', '--', ...BACKUP_PATHS]).then(() => false, () => true);
+      if (!changed) return;
+      backupDirty = false;
+      await git(['commit', '-m', `Back up practice data (${date})`, '--', ...BACKUP_PATHS]);
+      console.log('Backup: committed practice data');
+      await git(['push']);
+      console.log('Backup: pushed to origin');
+    } catch (err) {
+      console.error('Backup commit/push failed (will retry next time):', (err.stderr || err.message).trim());
+    }
+  });
+  return commitInFlight;
+}
+
+// Commit anything pending before the server goes away (Ctrl+C or closing the Terminal window)
+function commitBackupsSync() {
+  try {
+    execFileSync('git', ['-C', REPO_ROOT, 'add', '--', ...BACKUP_PATHS]);
+    try {
+      execFileSync('git', ['-C', REPO_ROOT, 'diff', '--cached', '--quiet', '--', ...BACKUP_PATHS]);
+      return;
+    } catch (e) { /* has changes */ }
+    execFileSync('git', ['-C', REPO_ROOT, 'commit', '-m', `Back up practice data (${localDateStr()})`, '--', ...BACKUP_PATHS]);
+    execFileSync('git', ['-C', REPO_ROOT, 'push'], { timeout: 20000 });
+    console.log('Backup: committed and pushed on shutdown');
+  } catch (err) {
+    console.error('Backup on shutdown failed:', err.message);
+  }
+}
+
+for (const sig of ['SIGINT', 'SIGTERM', 'SIGHUP']) {
+  process.on(sig, () => {
+    if (backupDirty) commitBackupsSync();
+    process.exit(0);
+  });
+}
+
 const server = http.createServer((req, res) => {
   if (req.method === 'POST' && req.url === '/api/sync-notes') {
     handleNotesSync(req, res);
+    return;
+  }
+
+  if (req.method === 'POST' && req.url === '/api/backup') {
+    handleBackup(req, res);
     return;
   }
 
@@ -189,4 +304,5 @@ server.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
   console.log(`Press Ctrl+C to stop.`);
   spotify.startDailySync();
+  commitBackups(); // pick up anything left uncommitted by a previous run
 });

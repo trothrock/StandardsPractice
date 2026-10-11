@@ -992,7 +992,27 @@ function toast(msg) {
 function loadDB() {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY))||null; } catch(e){ return null; }
 }
-function saveDB(db) { localStorage.setItem(STORAGE_KEY, JSON.stringify(db)); scheduleNotesSync(); }
+function saveDB(db) { localStorage.setItem(STORAGE_KEY, JSON.stringify(db)); scheduleNotesSync(); scheduleAutoBackup(); }
+
+// Auto backup — server.js writes today's backups/ file and commits + pushes it to git
+let autoBackupTimer = null, lastAutoBackupSig = null;
+function scheduleAutoBackup() {
+  clearTimeout(autoBackupTimer);
+  autoBackupTimer = setTimeout(autoBackup, 5000);
+}
+async function autoBackup() {
+  if(location.protocol==='file:') return;
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if(!raw || raw===lastAutoBackupSig) return;
+  try {
+    const res = await fetch('/api/backup', { method:'POST', headers:{'Content-Type':'application/json'}, body:raw });
+    const out = await res.json();
+    if(!out.ok) throw new Error(out.error);
+    lastAutoBackupSig = raw;
+  } catch(err) {
+    console.warn('Auto backup failed:', err);
+  }
+}
 
 // Apple Notes sync — server.js writes the level 2+ list to the "Jam Session Calls" note
 let notesSyncTimer = null, lastNotesSyncSig = null;
@@ -3962,6 +3982,7 @@ function rankerFinish() {
 renderToday();
 checkOnboarding();
 scheduleNotesSync();
+scheduleAutoBackup();
 </script>
 </body>
 </html>
