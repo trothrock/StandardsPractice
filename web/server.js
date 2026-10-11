@@ -81,12 +81,13 @@ function handleNotesSync(req, res) {
   });
 }
 
-// Auto backup: the page posts its localStorage DB here on every change. We keep one file per
-// day in backups/. The laptop is usually asleep once practice ends, so instead of committing on
+// Auto backup: the page posts its localStorage DB here on every change. We overwrite a single
+// backups/jazz-tracker.json and let git history keep past versions. The laptop is usually asleep once practice ends, so instead of committing on
 // idle we commit + push the previous session's data (with the Spotify data) when the next session
 // starts: the first change after a quiet gap. Startup and shutdown also commit anything pending.
 const REPO_ROOT = path.join(ROOT, '..');
 const BACKUP_DIR = path.join(ROOT, 'backups');
+const BACKUP_FILE = path.join(BACKUP_DIR, 'jazz-tracker.json');
 const BACKUP_PATHS = ['web/backups', 'web/data'];
 const SESSION_GAP_MS = 30 * 60 * 1000;
 let lastBackupAt = 0;
@@ -125,16 +126,15 @@ function handleBackup(req, res) {
 }
 
 function writeBackup(db, reply) {
-  const file = path.join(BACKUP_DIR, `jazz-tracker-${localDateStr()}.json`);
   fs.mkdir(BACKUP_DIR, { recursive: true }, () => {
-    fs.writeFile(file, JSON.stringify(db, null, 2), err => {
+    fs.writeFile(BACKUP_FILE, JSON.stringify(db, null, 2), err => {
       if (err) {
         console.error('Backup write failed:', err.message);
         reply(500, { ok: false, error: err.message });
         return;
       }
       backupDirty = true;
-      reply(200, { ok: true, file: path.basename(file) });
+      reply(200, { ok: true, file: path.basename(BACKUP_FILE) });
     });
   });
 }
