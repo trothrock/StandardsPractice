@@ -236,6 +236,8 @@
   .btn-confirm:hover { background: rgba(201,168,76,0.22); }
   .field-error { font-size: 11px; color: var(--red); margin-top: 4px; display: none; }
   .listen-thumb { width: 40px; height: 40px; border-radius: 4px; object-fit: cover; flex-shrink: 0; background: var(--bg3); }
+  .listen-thumb-link { display: block; flex-shrink: 0; border-radius: 4px; transition: opacity 0.1s; }
+  .listen-thumb-link:hover { opacity: 0.75; }
   .listen-title { display: flex; align-items: center; gap: 8px; }
   .timeline-entry { display: flex; gap: 14px; padding: 12px 20px; border-bottom: 1px solid var(--border); align-items: flex-start; }
   .timeline-entry:last-child { border-bottom: none; }
@@ -2517,10 +2519,16 @@ function libraryPlays(db, plays) {
     .filter(p => p.song && db.songs[p.song])
     .sort((a,b)=>b.ts-a.ts);
 }
-function listenThumb(url) {
-  return url
+// Clicking a thumbnail opens its album in the Spotify desktop app; the click stops there so
+// it doesn't also trigger the row. Plays saved before album ids were recorded open the track.
+function listenThumb(url, albumId, trackId) {
+  const img = url
     ? `<img class="listen-thumb" src="${escHTML(url)}" alt="" loading="lazy">`
     : '<div class="listen-thumb"></div>';
+  const uri = albumId ? `spotify:album:${albumId}` : trackId ? `spotify:track:${trackId}` : null;
+  return uri
+    ? `<a class="listen-thumb-link" href="${escHTML(uri)}" title="Open in Spotify" onclick="event.stopPropagation()">${img}</a>`
+    : img;
 }
 const LISTENING_PAGE = 20;
 let listeningRowLimit = LISTENING_PAGE;
@@ -2569,15 +2577,16 @@ async function renderListening() {
   const safe = n => n.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
   const counts = new Map();
   matched.forEach(p => {
-    const c = counts.get(p.song) || { n:0, last:p.ts, image:null };
-    c.n++; c.image = c.image || p.albumImage;
+    const c = counts.get(p.song) || { n:0, last:p.ts, image:null, albumId:null, trackId:null };
+    c.n++;
+    if(!c.image && p.albumImage) { c.image = p.albumImage; c.albumId = p.albumId; c.trackId = p.trackId; }
     counts.set(p.song, c);
   });
   const top = [...counts.entries()].sort((a,b)=>b[1].n-a[1].n || b[1].last-a[1].last);
   const topRows = top.slice(0, listeningRowLimit).map(([name,c]) => {
     const sg = db.songs[name];
     const last = new Date(c.last).toLocaleDateString('en-US',{month:'short',day:'numeric'});
-    return `<div class="song-row clickable" onclick="showSongDetail('${safe(name)}')">${listenThumb(c.image)}<div class="song-name-group"><span class="song-name">${escHTML(name)}</span>${lvlBadge(sg.currentLevel)}</div><span class="key-stat">${c.n} play${c.n===1?'':'s'} · last ${last}</span></div>`;
+    return `<div class="song-row clickable" onclick="showSongDetail('${safe(name)}')">${listenThumb(c.image, c.albumId, c.trackId)}<div class="song-name-group"><span class="song-name">${escHTML(name)}</span>${lvlBadge(sg.currentLevel)}</div><span class="key-stat">${c.n} play${c.n===1?'':'s'} · last ${last}</span></div>`;
   }).join('');
   const tod = todayInt(), firstWeek = weekStartInt(addDays(tod, -7*(VIZ_WEEKS-1)));
   const days = new Map();
@@ -2775,17 +2784,17 @@ async function renderSongListening(name) {
     const n = mine.length, pct = Math.min(100, Math.round(n / goal * 100));
     const last = n ? `last played ${new Date(mine[0].ts).toLocaleDateString('en-US',{month:'short',day:'numeric'})}` : 'not played yet';
     const meta = [ref.label, ref.artists.join(', '), ref.album].filter(Boolean).map(escHTML).join(' · ');
-    return `<div class="song-row" style="align-items:flex-start">${listenThumb(ref.albumImage)}<div style="flex:1;min-width:0"><div style="display:flex;justify-content:space-between;gap:12px;margin-bottom:4px"><span class="song-name">${escHTML(ref.name)}</span><span class="key-stat">${n} of ${goal}</span></div><div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${meta}</div><div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div><div style="font-size:11px;color:var(--text3);margin-top:6px">${pct}% · ${last}</div></div></div>`;
+    return `<div class="song-row" style="align-items:flex-start">${listenThumb(ref.albumImage, ref.albumId, ref.trackId)}<div style="flex:1;min-width:0"><div style="display:flex;justify-content:space-between;gap:12px;margin-bottom:4px"><span class="song-name">${escHTML(ref.name)}</span><span class="key-stat">${n} of ${goal}</span></div><div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${meta}</div><div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div><div style="font-size:11px;color:var(--text3);margin-top:6px">${pct}% · ${last}</div></div></div>`;
   }).join('');
   const others = plays.filter(p => !counted.has(p));
   const albums = new Map();
   others.forEach(p => {
     const k = p.albumImage || p.album || p.trackId;
-    const a = albums.get(k) || { album:p.album, artists:p.artists, image:p.albumImage, n:0 };
+    const a = albums.get(k) || { album:p.album, artists:p.artists, image:p.albumImage, albumId:p.albumId, trackId:p.trackId, n:0 };
     a.n++; albums.set(k, a);
   });
   const otherRows = [...albums.values()].sort((a,b)=>b.n-a.n).map(a =>
-    `<div class="song-row">${listenThumb(a.image)}<div style="flex:1;min-width:0"><div class="song-name" style="margin-bottom:4px">${escHTML(a.album||'Unknown album')}</div><div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${escHTML(a.artists.join(', '))}</div></div><span class="key-stat">${a.n} play${a.n===1?'':'s'}</span></div>`
+    `<div class="song-row">${listenThumb(a.image, a.albumId, a.trackId)}<div style="flex:1;min-width:0"><div class="song-name" style="margin-bottom:4px">${escHTML(a.album||'Unknown album')}</div><div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${escHTML(a.artists.join(', '))}</div></div><span class="key-stat">${a.n} play${a.n===1?'':'s'}</span></div>`
   ).join('');
   const refPlays = plays.length - others.length;
   const plural = n => `${n} play${n===1?'':'s'}`;

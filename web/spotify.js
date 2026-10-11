@@ -171,6 +171,7 @@ async function syncRecentPlays({ force = false } = {}) {
       name: item.track.name,
       artists: item.track.artists.map(a => a.name),
       album: item.track.album?.name || null,
+      albumId: item.track.album?.id || null,
       albumImage: pickAlbumImage(item.track.album?.images),
       durationMs: item.track.duration_ms,
       context: item.context?.uri || null,
@@ -184,18 +185,20 @@ async function syncRecentPlays({ force = false } = {}) {
   return { skipped: false, added: fresh.length, total: store.plays.length, truncated };
 }
 
-// Fill in album art for plays saved before images were recorded. Spotify refuses the
-// multi-track lookup for development-mode apps, so each track is fetched individually.
-async function backfillAlbumImages() {
+// Fill in album art and album ids for plays saved before they were recorded. Spotify refuses
+// the multi-track lookup for development-mode apps, so each track is fetched individually.
+async function backfillAlbumInfo() {
   const store = loadPlays();
-  const missing = [...new Set(store.plays.filter(p => p.albumImage === undefined && p.trackId).map(p => p.trackId))];
+  const missing = [...new Set(store.plays
+    .filter(p => (p.albumImage === undefined || p.albumId === undefined) && p.trackId)
+    .map(p => p.trackId))];
   if (!missing.length) return 0;
-  const images = new Map();
+  const albums = new Map();
   for (const id of missing) {
     const track = await spotifyGet(`/tracks/${id}`);
-    images.set(id, pickAlbumImage(track.album?.images));
+    albums.set(id, { albumImage: pickAlbumImage(track.album?.images), albumId: track.album?.id || null });
   }
-  store.plays.forEach(p => { if (images.has(p.trackId)) p.albumImage = images.get(p.trackId); });
+  store.plays.forEach(p => { if (albums.has(p.trackId)) Object.assign(p, albums.get(p.trackId)); });
   writeJson(PLAYS_FILE, store);
   return missing.length;
 }
@@ -219,7 +222,9 @@ async function fetchAllPages(apiPath, params) {
 async function syncReferencePlaylists({ force = false } = {}) {
   const store = loadReferencePlaylists();
   const today = localDate();
-  if (!force && store.lastSyncDate === today) return { skipped: true };
+  // A store saved before album ids were recorded is re-read even if already synced today
+  const stale = store.playlists.some(pl => pl.tracks.some(t => t.albumId === undefined));
+  if (!force && !stale && store.lastSyncDate === today) return { skipped: true };
 
   const me = await spotifyGet('/me', {}, { as: 'user' });
   const owned = (await fetchAllPages('/me/playlists', {})).filter(p => p && p.owner?.id === me.id);
@@ -236,6 +241,7 @@ async function syncReferencePlaylists({ force = false } = {}) {
         name: t.name,
         artists: t.artists.map(a => a.name),
         album: t.album?.name || null,
+        albumId: t.album?.id || null,
         albumImage: pickAlbumImage(t.album?.images),
         addedAt,
       }));
@@ -252,9 +258,9 @@ function startDailySync() {
     syncRecentPlays()
       .then(r => { if (!r.skipped) console.log(`Spotify: saved ${r.added} new plays (${r.total} total)${r.truncated ? ' — hit the 50-play limit, some may be missing' : ''}`); })
       .catch(e => console.error('Spotify sync failed:', e.message))
-      .then(backfillAlbumImages)
-      .then(n => { if (n) console.log(`Spotify: added album art for ${n} tracks`); })
-      .catch(e => console.error('Spotify album art backfill failed:', e.message))
+      .then(backfillAlbumInfo)
+      .then(n => { if (n) console.log(`Spotify: added album info for ${n} tracks`); })
+      .catch(e => console.error('Spotify album info backfill failed:', e.message))
       .then(() => syncReferencePlaylists())
       .then(r => { if (r && !r.skipped) console.log(`Spotify: reference playlists synced (${r.counts.join(', ')})`); })
       .catch(e => console.error('Spotify playlist sync failed:', e.message));

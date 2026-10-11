@@ -13,6 +13,7 @@
             "Charlie Parker"
           ],
           "album": "Burnin' Bird",
+          "albumId": "2y3dGQKlcxl9KagD6QfHUY",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e02b48ed6e56a1e3cd589b20d10",
           "addedAt": "2026-04-19T20:39:45Z"
         },
@@ -25,6 +26,7 @@
             "Bill Evans"
           ],
           "album": "Kind Of Blue (Legacy Edition)",
+          "albumId": "4sb0eMpDn3upAFfyi4q2rw",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e020ebc17239b6b18ba88cfb8ca",
           "addedAt": "2026-04-20T03:43:40Z"
         },
@@ -35,6 +37,7 @@
             "Art Blakey & The Jazz Messengers"
           ],
           "album": "At The Cafe Bohemia (Vol. 1/The Rudy Van Gelder Edition)",
+          "albumId": "6aUQ6zb8XRvxfoa2Zhx8yj",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e02e80e683dc5b6d510090fbada",
           "addedAt": "2026-04-27T14:25:01Z"
         },
@@ -45,6 +48,7 @@
             "Charlie Parker"
           ],
           "album": "The Magnificent Charlie Parker",
+          "albumId": "3fA0ldo788no64soavIbL3",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e0233223ca371cd1f9d4baf918b",
           "addedAt": "2026-05-01T14:03:11Z"
         },
@@ -55,6 +59,7 @@
             "Benny Goodman Quintet"
           ],
           "album": "Small Groups: 1941-1945",
+          "albumId": "2hcioj7Ylhau26ffRy9WE4",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e02df5b78cc30f28c52e64be2e9",
           "addedAt": "2026-05-04T20:42:26Z"
         },
@@ -65,6 +70,7 @@
             "Clifford Brown"
           ],
           "album": "The Beginning And The End",
+          "albumId": "2VWBVfXpQ6RPHRwrcAjkOo",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e02182767073d65d3c91b21a725",
           "addedAt": "2026-05-05T14:38:33Z"
         },
@@ -75,6 +81,7 @@
             "Vince Guaraldi Trio"
           ],
           "album": "A Boy Named Charlie Brown",
+          "albumId": "4bNE83zw6uZs5FyDFnSCui",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e02ca0e612db478fb9cebbce8bb",
           "addedAt": "2026-05-11T14:12:40Z"
         },
@@ -85,6 +92,7 @@
             "Miles Davis"
           ],
           "album": "Miles Smiles",
+          "albumId": "7buEUXT132AA4FPswvh9tV",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e02e998220aad6d8414db135780",
           "addedAt": "2026-05-29T23:32:42Z"
         },
@@ -97,6 +105,7 @@
             "Mickey Roker"
           ],
           "album": "Live At Newport",
+          "albumId": "26lBmmgeplvXm9stlDQapz",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e026bdf224a10afab7664aeaa3f",
           "addedAt": "2026-09-10T16:04:23Z"
         },
@@ -107,6 +116,7 @@
             "João Gilberto"
           ],
           "album": "Isto è Bossa Nova (Bossa Nova Essentials)",
+          "albumId": "5n7CSy4EEqRvRsMvMFi1e1",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e020a67acc5bb1dfa58c0544d78",
           "addedAt": "2026-07-23T11:48:44Z"
         },
@@ -117,6 +127,7 @@
             "Herbie Hancock"
           ],
           "album": "Maiden Voyage (Remastered 1999/Rudy Van Gelder Edition)",
+          "albumId": "7huPJTTsWVt854oZkr88mf",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e02b6f936d535913e3f425e5bbe",
           "addedAt": "2026-08-07T11:41:00Z"
         },
@@ -127,6 +138,7 @@
             "Herbie Hancock"
           ],
           "album": "Maiden Voyage (Remastered 1999/Rudy Van Gelder Edition)",
+          "albumId": "7huPJTTsWVt854oZkr88mf",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e02b6f936d535913e3f425e5bbe",
           "addedAt": "2026-08-25T15:26:53Z"
         },
@@ -139,6 +151,7 @@
             "Max Roach Quintet"
           ],
           "album": "Brown And Roach Incorporated",
+          "albumId": "6Wub7N4F0jXoqt66E5j2ql",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e02889a6f7c981fea2ecdf9c59e",
           "addedAt": "2026-09-01T11:40:39Z"
         },
@@ -149,6 +162,7 @@
             "Herbie Hancock"
           ],
           "album": "Takin' Off (Expanded Edition)",
+          "albumId": "61bXefFZqGbVkmb7qzIIOl",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e02d1bac93adf4492db2e6ff9f8",
           "addedAt": "2026-08-25T15:26:35Z"
         },
@@ -159,6 +173,7 @@
             "Herbie Hancock"
           ],
           "album": "Head Hunters",
+          "albumId": "5fmIolILp5NAtNYiRPjhzA",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e02b170840d6fdbc754ba304058",
           "addedAt": "2026-09-09T14:22:22Z"
         },
@@ -169,6 +184,7 @@
             "Coleman Hawkins"
           ],
           "album": "Sirius",
+          "albumId": "1FMGRpSXO3AVAwwQS006qp",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e024125f45c8cfc17a14e9097df",
           "addedAt": "2026-09-13T11:59:09Z"
         },
@@ -180,6 +196,7 @@
             "Thelonious Monk"
           ],
           "album": "The Complete Prestige 10-Inch LP Collection",
+          "albumId": "5DPy4HeXMnoxi3PODdklOC",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e02d1053d4d169474b26f605ca3",
           "addedAt": "2026-09-27T12:38:13Z"
         },
@@ -194,6 +211,7 @@
             "Percy Heath"
           ],
           "album": "Bags' Groove (Rudy Van Gelder 2008 Remaster)",
+          "albumId": "3rs2Wq1755vGmXxIioU7Xo",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e0242a04303e6eb1100df3ea036",
           "addedAt": "2026-10-03T11:18:25Z"
         },
@@ -208,6 +226,7 @@
             "Philly Joe Jones"
           ],
           "album": "'Round About Midnight",
+          "albumId": "4VUawqEDCHHfrUe77ScQ2K",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e02cb6f92683ff9ad65f27a3f9f",
           "addedAt": "2026-10-05T11:27:42Z"
         },
@@ -219,6 +238,7 @@
             "Max Roach Quintet"
           ],
           "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+          "albumId": "6PuVuJwyxyBZXMz73teSoV",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e021f8972135b07af1f0d59c47e",
           "addedAt": "2026-10-08T14:21:32Z"
         }
@@ -236,6 +256,7 @@
             "Sarah Vaughan"
           ],
           "album": "After Hours At The London House",
+          "albumId": "2U3o34rb3OPW4WTdjqAWQz",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e029a9bc57640e530b697625b67",
           "addedAt": "2026-07-13T14:41:35Z"
         },
@@ -246,6 +267,7 @@
             "Dinah Washington"
           ],
           "album": "The Complete Dinah Washington On Mercury Vol.5 (1956-1958)",
+          "albumId": "53UuPjzjPZdVorCmDewJSI",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e02af5da5bb6f2b37f6c2f5cb80",
           "addedAt": "2026-07-13T22:25:17Z"
         },
@@ -257,6 +279,7 @@
             "Frank Sinatra"
           ],
           "album": "Sinatra/Jobim: The Complete Reprise Recordings",
+          "albumId": "5280NkLzxe2w7K1JW9I8jX",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e027d6f106efadd36f7779383c7",
           "addedAt": "2026-07-23T14:57:07Z"
         },
@@ -267,6 +290,7 @@
             "Ethel Waters"
           ],
           "album": "The First Torch Singers, Vol. 2: 1930 - 1934",
+          "albumId": "1Rw91oNLcFyESStYtOMOQ8",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e020df7f8ecee92d917c675bfb7",
           "addedAt": "2026-09-13T11:46:14Z"
         },
@@ -278,6 +302,7 @@
             "Teddy Wilson"
           ],
           "album": "Lady Day: The Complete Billie Holiday On Columbia (1933-1944)",
+          "albumId": "7pBwUBRsdgtIyX7tGOmaoy",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e02452bd32b5454a87f36ad8e8c",
           "addedAt": "2026-09-27T12:31:08Z"
         },
@@ -288,6 +313,7 @@
             "Peggy Lee"
           ],
           "album": "Songs From Pete Kelly's Blues",
+          "albumId": "7cIzhj3PKOQejaqfu15M9J",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e0262c5868af83edb6d9f33ec16",
           "addedAt": "2026-10-05T11:40:57Z"
         }
