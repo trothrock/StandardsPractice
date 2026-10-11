@@ -63,6 +63,13 @@
   .song-row { display: flex; align-items: center; gap: 12px; padding: 12px 20px; border-bottom: 1px solid var(--border); transition: background 0.1s; }
   .song-row:last-child { border-bottom: none; }
   .song-row:hover { background: var(--bg3); }
+  .setlist-row { cursor: pointer; }
+  .setlist-row.dragging { background: var(--bg3); opacity: 0.85; }
+  .setlist-num { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text3); width: 18px; text-align: right; flex-shrink: 0; }
+  .drag-handle { color: var(--text3); cursor: grab; touch-action: none; user-select: none; padding: 2px 4px; font-size: 14px; line-height: 1; }
+  .drag-handle:active { cursor: grabbing; }
+  .setlist-remove { background: transparent; border: none; color: var(--text3); cursor: pointer; padding: 2px 6px; border-radius: var(--radius); font-size: 16px; line-height: 1; transition: color 0.15s; }
+  .setlist-remove:hover { color: var(--red); }
   .song-name { font-size: 14px; color: var(--text); font-weight: 400; }
   .song-name-group { flex: 1; display: flex; align-items: center; gap: 8px; }
   #row-menu { display: none; position: fixed; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius-lg); min-width: 160px; z-index: 150; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
@@ -1226,6 +1233,11 @@ function initDB() {
   if(!db.repertoireFocusMigrated) {
     db.repertoire.forEach(liftPracticeFocus);
     db.repertoireFocusMigrated = true;
+    needsSave = true;
+  }
+  if(!db.setList) {
+    const names = new Set(db.repertoire.map(p => p.name));
+    db.setList = ['Dorothy','St. Charles','Me and the Blues','Memphis Stomp'].filter(n => names.has(n));
     needsSave = true;
   }
   if(db.reviewsPerWeek === undefined) { db.reviewsPerWeek = REVIEWS_PER_WEEK_DEFAULT; needsSave = true; }
@@ -3224,7 +3236,16 @@ function renderRepertoire() {
     container.innerHTML = '<div class="empty" style="padding:32px 0">No pieces yet. Add your first repertoire entry to get started.</div>';
     return;
   }
-  let html = `<div class="section"><div class="section-head"><h2>All pieces</h2><span class="count">${pieces.length}</span></div>`;
+  const setList = (db.setList||[]).filter(n => pieces.some(p => p.name === n));
+  let html = `<div class="section"><div class="section-head"><h2>Solo Set List</h2><span class="count">${setList.length}</span></div><div id="setlist-rows">`;
+  if(!setList.length) html += '<div class="empty" style="padding:16px 20px">No pieces in the set list. Use ··· on a piece below to add it.</div>';
+  setList.forEach((name, i) => {
+    const p = pieces.find(p => p.name === name);
+    const safe = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    html += `<div class="song-row setlist-row" data-name="${name.replace(/"/g,'&quot;')}" onclick="showRepertoireDetail('${safe}')"><span class="drag-handle" title="Drag to reorder" onclick="event.stopPropagation()" onpointerdown="startSetListDrag(event)">⋮⋮</span><span class="setlist-num">${i+1}</span><div class="song-name-group"><span class="song-name">${p.name}</span>${p.composer?`<span class="song-meta">${p.composer}</span>`:''}</div><button class="setlist-remove" title="Remove from set list" onclick="event.stopPropagation();removeFromSetList('${safe}')">×</button></div>`;
+  });
+  html += '</div></div>';
+  html += `<div class="section"><div class="section-head"><h2>All pieces</h2><span class="count">${pieces.length}</span></div>`;
   [...pieces].sort((a,b)=>a.name.localeCompare(b.name)).forEach(p => {
     const meta = p.composer || '';
     const reviewed = p.lastReviewed ? `Last reviewed ${formatIntDate(p.lastReviewed)}` : 'Never reviewed';
@@ -3233,6 +3254,45 @@ function renderRepertoire() {
   });
   html += '</div>';
   container.innerHTML = html;
+}
+function addToSetList(name) {
+  const db = getDB();
+  if(!db.setList) db.setList = [];
+  if(db.setList.includes(name)) return;
+  db.setList.push(name);
+  saveDB(db); renderRepertoire();
+  toast(`"${name}" added to the set list.`);
+}
+function removeFromSetList(name) {
+  const db = getDB();
+  db.setList = (db.setList||[]).filter(n => n !== name);
+  saveDB(db); renderRepertoire();
+  toast(`"${name}" removed from the set list.`);
+}
+// Pointer-based so reordering works with touch as well as a mouse.
+function startSetListDrag(e) {
+  e.preventDefault();
+  const row = e.currentTarget.closest('.setlist-row');
+  const list = document.getElementById('setlist-rows');
+  row.classList.add('dragging');
+  const move = ev => {
+    const others = [...list.querySelectorAll('.setlist-row:not(.dragging)')];
+    const before = others.find(r => { const b = r.getBoundingClientRect(); return ev.clientY < b.top + b.height/2; });
+    if(before) { if(row.nextSibling !== before) list.insertBefore(row, before); }
+    else if(list.lastElementChild !== row) list.appendChild(row);
+  };
+  const end = () => {
+    window.removeEventListener('pointermove', move);
+    window.removeEventListener('pointerup', end);
+    window.removeEventListener('pointercancel', end);
+    row.classList.remove('dragging');
+    const db = getDB();
+    db.setList = [...list.querySelectorAll('.setlist-row')].map(r => r.dataset.name);
+    saveDB(db); renderRepertoire();
+  };
+  window.addEventListener('pointermove', move);
+  window.addEventListener('pointerup', end);
+  window.addEventListener('pointercancel', end);
 }
 function markRepertoireReviewed(name) {
   const db = getDB();
@@ -3329,7 +3389,11 @@ function openRepMenu(e, name) {
   e.stopPropagation();
   const safe = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
   const menu = document.getElementById('row-menu');
-  menu.innerHTML = `<div class="dropdown-item" onclick="startReviewingRep('${safe}');closeRowMenu()">Start reviewing</div><div class="dropdown-item" onclick="openEditRep('${safe}');closeRowMenu()">Edit</div><div class="dropdown-item danger" onclick="openRemoveRep('${safe}');closeRowMenu()">Remove</div>`;
+  const inSet = (getDB().setList||[]).includes(name);
+  const setItem = inSet
+    ? `<div class="dropdown-item" onclick="removeFromSetList('${safe}');closeRowMenu()">Remove from set list</div>`
+    : `<div class="dropdown-item" onclick="addToSetList('${safe}');closeRowMenu()">Add to set list</div>`;
+  menu.innerHTML = `<div class="dropdown-item" onclick="startReviewingRep('${safe}');closeRowMenu()">Start reviewing</div>${setItem}<div class="dropdown-item" onclick="openEditRep('${safe}');closeRowMenu()">Edit</div><div class="dropdown-item danger" onclick="openRemoveRep('${safe}');closeRowMenu()">Remove</div>`;
   const rect = e.currentTarget.getBoundingClientRect();
   menu.style.top = (rect.bottom + 4) + 'px';
   menu.style.right = (window.innerWidth - rect.right) + 'px';
@@ -3360,6 +3424,7 @@ function submitEditRep() {
   }
   const p = db.repertoire.find(p=>p.name===repEditOriginalName);
   if(!p) return;
+  if(db.setList) db.setList = db.setList.map(n => n === p.name ? name : n);
   p.name = name;
   p.composer = document.getElementById('rep-edit-composer').value.trim() || null;
   p.notes = document.getElementById('rep-edit-notes').value.trim() || null;
@@ -3378,6 +3443,7 @@ function confirmRemoveRep() {
   if(!repRemoveName) return;
   const db = getDB();
   db.repertoire = db.repertoire.filter(p=>p.name!==repRemoveName);
+  if(db.setList) db.setList = db.setList.filter(n=>n!==repRemoveName);
   logActivity(db, 'repertoire_removed', { name: repRemoveName });
   saveDB(db); closeRemoveRep(); renderAll();
   toast(`"${repRemoveName}" removed from repertoire.`);
