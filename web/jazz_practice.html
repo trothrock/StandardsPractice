@@ -1668,7 +1668,10 @@ const LEARNING_MIN_DAYS = 7;
 function learningDaysPracticed(db, name) {
   const acts = db.activity||[];
   const started = acts.filter(e=>e.type==='started_learning'&&e.name===name).reduce((m,e)=>Math.max(m,e.ts), 0);
-  return new Set(acts.filter(e=>e.type==='practiced'&&e.name===name&&e.ts>=started).map(e=>e.date)).size;
+  // A timed learn session counts as practice on its own — sessions logged before timers
+  // also wrote a 'practiced' entry have only the 'practice_time' record.
+  const isPractice = e => e.type==='practiced' || (e.type==='practice_time' && e.area==='learn');
+  return new Set(acts.filter(e=>isPractice(e)&&e.name===name&&e.ts>=started).map(e=>e.date)).size;
 }
 function learningDaysHTML(db, sg) {
   const days = learningDaysPracticed(db, sg.name), done = days >= LEARNING_MIN_DAYS;
