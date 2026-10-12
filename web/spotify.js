@@ -17,7 +17,8 @@ const API_BASE = 'https://api.spotify.com/v1';
 const AUTH_URL = 'https://accounts.spotify.com/authorize';
 const TOKEN_URL = 'https://accounts.spotify.com/api/token';
 const REDIRECT_URI = 'http://127.0.0.1:3000/api/spotify/callback';
-const SCOPES = 'user-read-recently-played playlist-read-private playlist-read-collaborative';
+const SCOPES = 'user-read-recently-played playlist-read-private playlist-read-collaborative user-modify-playback-state user-read-playback-state';
+const PLAYBACK_SCOPES = ['user-modify-playback-state', 'user-read-playback-state'];
 
 const TOKEN_FILE = path.join(__dirname, '.spotify-token.json');
 const PLAYS_FILE = path.join(__dirname, 'data', 'spotify-plays.json');
@@ -269,6 +270,39 @@ function startDailySync() {
   setInterval(run, 60 * 60 * 1000).unref();
 }
 
+// ── Playback ──
+
+// Starts a track at a position on the user's Spotify. Plays on the active device, or on the
+// first available one when nothing is active (an open but idle Spotify app). Failures come
+// back as { ok:false, reason } — scope (reconnect needed), premium, no-device — not thrown.
+async function playTrackAt(trackId, positionMs) {
+  const granted = (readJson(TOKEN_FILE, null)?.scope || '').split(' ');
+  if (!PLAYBACK_SCOPES.every(s => granted.includes(s))) return { ok: false, reason: 'scope' };
+  const put = (deviceId, attempt = 0) => getAccessToken('user').then(async token => {
+    const url = new URL(API_BASE + '/me/player/play');
+    if (deviceId) url.searchParams.set('device_id', deviceId);
+    const res = await fetch(url, {
+      method: 'PUT',
+      headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ uris: [`spotify:track:${trackId}`], position_ms: Math.max(0, Math.round(positionMs)) }),
+    });
+    if (res.status === 401 && attempt === 0) { tokens.user = null; return put(deviceId, 1); }
+    return res;
+  });
+  let res = await put();
+  if (res.status === 404) {
+    const { devices = [] } = await spotifyGet('/me/player/devices', {}, { as: 'user' });
+    const device = devices.find(d => !d.is_restricted);
+    if (!device) return { ok: false, reason: 'no-device' };
+    res = await put(device.id);
+  }
+  if (res.ok) return { ok: true };
+  const body = await res.json().catch(() => ({}));
+  if (res.status === 403) return { ok: false, reason: 'premium', error: body.error?.message || 'Playback control needs Spotify Premium' };
+  if (res.status === 404) return { ok: false, reason: 'no-device' };
+  throw new Error(`Spotify playback failed (${res.status}): ${body.error?.message || res.statusText}`);
+}
+
 function getStatus() {
   const store = loadPlays();
   return {
@@ -290,7 +324,7 @@ async function checkConnection() {
   };
 }
 
-module.exports = { spotifyGet, checkConnection, getLoginUrl, handleCallback, syncRecentPlays, startDailySync, getStatus, loadPlays, syncReferencePlaylists, loadReferencePlaylists };
+module.exports = { spotifyGet, checkConnection, getLoginUrl, handleCallback, syncRecentPlays, startDailySync, getStatus, loadPlays, syncReferencePlaylists, loadReferencePlaylists, playTrackAt };
 
 if (require.main === module) {
   checkConnection()

@@ -244,6 +244,27 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  if (req.method === 'POST' && req.url === '/api/spotify/play') {
+    let raw = '';
+    req.on('data', chunk => { raw += chunk; });
+    req.on('end', () => {
+      const reply = (status, body) => {
+        res.writeHead(status, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(body));
+      };
+      let trackId, positionMs;
+      try { ({ trackId, positionMs } = JSON.parse(raw)); } catch { /* checked below */ }
+      if (!/^[A-Za-z0-9]{22}$/.test(trackId || '') || !Number.isFinite(positionMs)) {
+        reply(400, { ok: false, error: 'trackId and positionMs are required' });
+        return;
+      }
+      spotify.playTrackAt(trackId, positionMs)
+        .then(result => reply(200, result))
+        .catch(err => reply(502, { ok: false, error: err.message }));
+    });
+    return;
+  }
+
   if (req.method === 'GET' && req.url === '/api/spotify/plays') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ ...spotify.getStatus(), plays: spotify.loadPlays().plays, references: spotify.loadReferencePlaylists().playlists }));

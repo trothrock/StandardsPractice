@@ -250,7 +250,7 @@
   .poi-row { display: flex; align-items: center; gap: 10px; font-size: 13px; }
   .poi-row .focus-del { padding: 4px 0 4px 8px; }
   .poi-row:hover .focus-del { opacity: 1; }
-  .poi-time { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--gold); text-decoration: none; min-width: 38px; }
+  .poi-time { cursor: pointer; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--gold); text-decoration: none; min-width: 38px; }
   .poi-time:hover { color: var(--gold2); }
   .poi-text { flex: 1; min-width: 0; color: var(--text2); cursor: text; }
   .poi-form { gap: 8px; margin-top: 8px; }
@@ -2903,7 +2903,7 @@ function drawSongListening(name) {
 }
 // Points of interest are timestamped moments in a recording worth revisiting, kept on the song
 // as { trackId, album, at (seconds), text }. Each shows under the first recording row it matches;
-// clicking its time opens the track in Spotify at that moment.
+// clicking its time starts the track playing in Spotify from that moment (see playPoi).
 function poisFor(pois, shown, match) {
   return pois.map((pt,i) => ({ ...pt, i })).filter(pt => !shown.has(pt.i) && match(pt))
     .map(pt => (shown.add(pt.i), pt)).sort((a,b) => a.at-b.at);
@@ -2923,9 +2923,36 @@ function poiAddButton(trackId) {
 }
 function poiListHTML(name, pts, trackId, album) {
   const safeName = escHTML(name.replace(/\\/g,'\\\\').replace(/'/g,"\\'"));
-  const rows = pts.map(pt => `<div class="poi-row"><a class="poi-time" href="spotify:track:${escHTML(pt.trackId)}#${formatPoiTime(pt.at)}" title="Open in Spotify at ${formatPoiTime(pt.at)}">${formatPoiTime(pt.at)}</a><span class="poi-text" title="Click to edit" onclick="editPoi(this,'${safeName}',${pt.i})">${escHTML(pt.text)}</span><button class="focus-del" title="Remove" onclick="removePoi('${safeName}',${pt.i})">&times;</button></div>`).join('');
+  const rows = pts.map(pt => `<div class="poi-row"><a class="poi-time" href="spotify:track:${escHTML(pt.trackId)}#${formatPoiTime(pt.at)}" title="Play in Spotify from ${formatPoiTime(pt.at)}" onclick="event.preventDefault();playPoi('${escHTML(pt.trackId)}',${pt.at})">${formatPoiTime(pt.at)}</a><span class="poi-text" title="Click to edit" onclick="editPoi(this,'${safeName}',${pt.i})">${escHTML(pt.text)}</span><button class="focus-del" title="Remove" onclick="removePoi('${safeName}',${pt.i})">&times;</button></div>`).join('');
   const form = `<div class="poi-form" id="poi-form-${escHTML(trackId)}" data-track="${escHTML(trackId)}" data-album="${escHTML(album||'')}" style="display:none"><input class="focus-input poi-time-input" placeholder="m:ss" onkeydown="if(event.key==='Enter')addPoi(this,'${safeName}');else if(event.key==='Escape')hidePoiForm(this)"><input class="focus-input" placeholder="What's here, e.g. Oscar Peterson piano lick" onkeydown="if(event.key==='Enter')addPoi(this,'${safeName}');else if(event.key==='Escape')hidePoiForm(this)"><button class="btn-action" onclick="addPoi(this,'${safeName}')">Add</button></div>`;
   return (rows ? `<div class="poi-list">${rows}</div>` : '') + form;
+}
+// Asks the local server to start the track at the timestamp on the user's Spotify. With no
+// Spotify app open, the track link launches the desktop app and the request is retried while
+// it starts up. Anything else unexpected falls back to just opening the track.
+async function playPoi(trackId, at) {
+  const request = () => fetch('/api/spotify/play', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ trackId, positionMs: at*1000 }),
+  }).then(r => r.json());
+  const openTrack = () => { location.href = `spotify:track:${trackId}`; };
+  let r;
+  try { r = await request(); } catch(e) { r = { ok:false }; }
+  if(r.reason==='no-device') {
+    toast('Opening Spotify…');
+    openTrack();
+    for(let tries = 0; tries < 6 && r.reason==='no-device'; tries++) {
+      await new Promise(res => setTimeout(res, 1500));
+      try { r = await request(); } catch(e) { r = { ok:false }; }
+    }
+  }
+  if(r.ok) toast(`Playing from ${formatPoiTime(at)}`);
+  else if(r.reason==='scope') {
+    if(confirm('Spotify needs one more permission to play from a timestamp. Reconnect Spotify now?')) location.href = '/api/spotify/login';
+  }
+  else if(r.reason==='premium') toast('Jumping to a timestamp needs Spotify Premium.');
+  else if(r.reason==='no-device') toast('Spotify isn\'t ready yet. Click the time again in a moment.');
+  else { openTrack(); toast(`Couldn't jump to ${formatPoiTime(at)}. Opened the track instead.`); }
 }
 function showPoiForm(trackId) {
   const form = document.getElementById('poi-form-'+trackId);
