@@ -59,6 +59,7 @@
   .section { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 20px; overflow: hidden; }
   .section-head { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
   .section-head h2 { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text2); }
+  .section-subhead { padding: 10px 20px 6px; font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); display: flex; justify-content: space-between; }
   .section-head .count { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text3); }
   .song-row { display: flex; align-items: center; gap: 12px; padding: 12px 20px; border-bottom: 1px solid var(--border); transition: background 0.1s; }
   .song-row:last-child { border-bottom: none; }
@@ -3845,22 +3846,27 @@ function renderVoicings() {
     container.innerHTML = '<div class="empty" style="padding:32px 0">No voicings yet. Add your first voicing to get started.</div>';
     return;
   }
-  const section = (title, items, showTop=true) => {
-    if(!items.length) return '';
-    let h = `<div class="section"><div class="section-head"><h2>${title}</h2><span class="count">${items.length}</span></div>`;
-    items.forEach(v=>{
-      const safe = v.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-      const img = voicingImgHTML(v, 'voicing-thumb');
-      const top = showTop && v.topNote!=null ? `<span class="top-note">top: ${v.topNote}</span>` : '';
-      h += `<div class="song-row clickable" onclick="showVoicingDetail('${safe}')">${img}<div class="song-name-group"><span class="song-name">${v.name}</span>${top}</div>${lvlBadge(v.familiarity||0)}<button class="btn-dots" onclick="openVoicingMenu(event,'${safe}')">···</button></div>`;
-    });
-    return h + '</div>';
-  };
-  // ii-V-I exercises (voicings made of other voicings) get their own section.
+  const rowsHTML = (items, showTop=true) => items.map(v=>{
+    const safe = v.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    const img = voicingImgHTML(v, 'voicing-thumb');
+    const top = showTop && v.topNote!=null ? `<span class="top-note">top: ${v.topNote}</span>` : '';
+    return `<div class="song-row clickable" onclick="showVoicingDetail('${safe}')">${img}<div class="song-name-group"><span class="song-name">${v.name}</span>${top}</div>${lvlBadge(v.familiarity||0)}<button class="btn-dots" onclick="openVoicingMenu(event,'${safe}')">···</button></div>`;
+  }).join('');
+  const sectionHead = (title, n) => `<div class="section-head"><h2>${title}</h2><span class="count">${n}</span></div>`;
+  const section = (title, items) => items.length ? `<div class="section">${sectionHead(title, items.length)}${rowsHTML(items)}</div>` : '';
+  // ii-V-I exercises (voicings made of other voicings) get their own section, split by key quality.
   const isExercise = v => !!v.chords;
   const byTopNote = (a,b)=>(topNoteSort(a.topNote)-topNoteSort(b.topNote))||a.name.localeCompare(b.name);
-  let html = section('ii-V-I exercises', vs.filter(isExercise).sort((a,b)=>
-    (VOICING_CATEGORIES.indexOf(a.category)-VOICING_CATEGORIES.indexOf(b.category))||a.name.localeCompare(b.name)), false);
+  const exercises = vs.filter(isExercise);
+  let html = '';
+  if(exercises.length) {
+    html += `<div class="section">${sectionHead('Exercises', exercises.length)}`;
+    [['Major', v=>v.category!=='Minor'], ['Minor', v=>v.category==='Minor']].forEach(([label, inGroup]) => {
+      const items = exercises.filter(inGroup).sort((a,b)=>a.name.localeCompare(b.name));
+      if(items.length) html += `<div class="section-subhead"><span>${label}</span><span>${items.length}</span></div>${rowsHTML(items, false)}`;
+    });
+    html += '</div>';
+  }
   VOICING_CATEGORIES.forEach(cat => {
     html += section(cat, vs.filter(v=>!isExercise(v) && v.category===cat).sort(byTopNote));
   });
