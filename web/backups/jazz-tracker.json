@@ -3231,6 +3231,14 @@
       "tags": [
         "Modal",
         "Waltz"
+      ],
+      "pointsOfInterest": [
+        {
+          "trackId": "3ZikLQCnH3SIswlGENBcKe",
+          "album": "My Favorite Things",
+          "at": 155,
+          "text": "McCoy Tyner vamp voicings"
+        }
       ]
     },
     "My Foolish Heart": {
@@ -6543,7 +6551,7 @@
       "ts": 1789386703758,
       "date": 20260914,
       "type": "voicing_added",
-      "name": "[3] Minor ii-V-1"
+      "name": "[3] Minor ii-V-i"
     },
     {
       "ts": 1789387366900,
@@ -6555,7 +6563,7 @@
       "ts": 1789387369426,
       "date": 20260914,
       "type": "voicing_practiced",
-      "name": "[3] Minor ii-V-1",
+      "name": "[3] Minor ii-V-i",
       "familiarity": 0
     },
     {
@@ -6575,7 +6583,7 @@
       "ts": 1789487591349,
       "date": 20260915,
       "type": "voicing_deferred",
-      "name": "[3] Minor ii-V-1"
+      "name": "[3] Minor ii-V-i"
     },
     {
       "ts": 1789559290649,
@@ -6649,7 +6657,7 @@
       "ts": 1790077628815,
       "date": 20260922,
       "type": "voicing_practiced",
-      "name": "[3] Minor ii-V-1",
+      "name": "[3] Minor ii-V-i",
       "familiarity": 0
     },
     {
@@ -7548,7 +7556,12 @@
       "addedDate": 20260906,
       "sortSeed": 0.48420499906294034,
       "notes": "140 bpm",
-      "lastPracticed": 20260923
+      "lastPracticed": 20260923,
+      "chords": [
+        "D-7",
+        "G13",
+        "C6/9"
+      ]
     },
     {
       "name": "[1] Minor ii-V-i",
@@ -7559,7 +7572,12 @@
       "addedDate": 20260908,
       "sortSeed": 0.45288480803657516,
       "lastPracticed": 20261001,
-      "notes": "100 bpm"
+      "notes": "100 bpm",
+      "chords": [
+        "B-7(♭5) · top B",
+        "E7(♭9,♭13)",
+        "A-6/9 · top B"
+      ]
     },
     {
       "name": "[2] Minor ii-V-i",
@@ -7570,7 +7588,12 @@
       "addedDate": 20260910,
       "sortSeed": 0.6599603038816112,
       "lastPracticed": 20261004,
-      "notes": "Last practice speed: 100 bpm"
+      "notes": "Last practice speed: 100 bpm",
+      "chords": [
+        "B-11(♭5)",
+        "E7(♯9,♭13) · top C",
+        "A-6/9 · top E"
+      ]
     },
     {
       "name": "[5] Major ii-V-I",
@@ -7581,17 +7604,27 @@
       "addedDate": 20260912,
       "sortSeed": 0.03827584631598735,
       "lastPracticed": 20261007,
-      "notes": "Last tempo: 100 bpm"
+      "notes": "Last tempo: 100 bpm",
+      "chords": [
+        "D-11 · top C",
+        "G13",
+        "C6/9"
+      ]
     },
     {
-      "name": "[3] Minor ii-V-1",
+      "name": "[3] Minor ii-V-i",
       "category": "Minor",
       "topNote": "4",
-      "image": "core-voicing-min-3.png",
+      "image": "core-voicing-min-4.png",
       "familiarity": 0,
       "addedDate": 20260914,
       "sortSeed": 0.6936092227190404,
-      "lastPracticed": 20260922
+      "lastPracticed": 20260922,
+      "chords": [
+        "B-7(♭5) · top E",
+        "E7(♭9)",
+        "A-6/9 · top E"
+      ]
     },
     {
       "name": "[2] Major ii-V-I",
@@ -7601,7 +7634,12 @@
       "familiarity": 1,
       "addedDate": 20261005,
       "sortSeed": 0.21638230740563924,
-      "lastPracticed": 20261008
+      "lastPracticed": 20261008,
+      "chords": [
+        "D-11 · top F",
+        "G9",
+        "CΔ13 · top E"
+      ]
     },
     {
       "name": "[3] Major ii-V-I",
@@ -7612,7 +7650,12 @@
       "addedDate": 20261005,
       "sortSeed": 0.2461268586852252,
       "lastPracticed": null,
-      "pinnedDate": 20261012
+      "pinnedDate": 20261012,
+      "chords": [
+        "D-11 · top G",
+        "G9",
+        "CΔ13 · top G"
+      ]
     },
     {
       "name": "[4] Major ii-V-I",
@@ -7622,7 +7665,12 @@
       "familiarity": 1,
       "addedDate": 20261005,
       "sortSeed": 0.8493709677916534,
-      "lastPracticed": null
+      "lastPracticed": null,
+      "chords": [
+        "D-11 · top A",
+        "G7(♭9,13)",
+        "CΔ13 · top G"
+      ]
     },
     {
       "name": "[4] Minor ii-V-I",
@@ -7632,7 +7680,12 @@
       "familiarity": 0,
       "addedDate": 20261005,
       "sortSeed": 0.2878885489484496,
-      "lastPracticed": null
+      "lastPracticed": null,
+      "chords": [
+        "B-7(♭5) · top F",
+        "E7(♯9,♭13) · top G",
+        "A-6/9 · top A"
+      ]
     },
     {
       "name": "[5] Minor ii-V-I",
@@ -7642,7 +7695,12 @@
       "familiarity": 0,
       "addedDate": 20261005,
       "sortSeed": 0.7896510806134865,
-      "lastPracticed": null
+      "lastPracticed": null,
+      "chords": [
+        "B-7(♭5) · top G",
+        "E7(♯9,♭13) · top G",
+        "A-6/9 · top A"
+      ]
     },
     {
       "name": "[6] Minor ii-V-I",
@@ -7652,7 +7710,276 @@
       "familiarity": 0,
       "addedDate": 20261005,
       "sortSeed": 0.3764619580068007,
-      "lastPracticed": null
+      "lastPracticed": null,
+      "chords": [
+        "B-7(♭5) · top A",
+        "E7(♯9,♭13) · top G",
+        "A-6/9 · top A"
+      ]
+    },
+    {
+      "name": "D-7",
+      "category": "Minor 7",
+      "topNote": "1",
+      "image": "core-voicing-maj-1-ii.png",
+      "familiarity": 0,
+      "addedDate": 20261012,
+      "sortSeed": 0.43526814680774983,
+      "lastPracticed": null,
+      "pinnedDate": null
+    },
+    {
+      "name": "G13",
+      "category": "Dominant",
+      "topNote": "5",
+      "image": "core-voicing-maj-1-v.png",
+      "familiarity": 0,
+      "addedDate": 20261012,
+      "sortSeed": 0.03613810656147265,
+      "lastPracticed": null,
+      "pinnedDate": null
+    },
+    {
+      "name": "C6/9",
+      "category": "Major",
+      "topNote": "1",
+      "image": "core-voicing-maj-1-i.png",
+      "familiarity": 0,
+      "addedDate": 20261012,
+      "sortSeed": 0.33203668908127404,
+      "lastPracticed": null,
+      "pinnedDate": null
+    },
+    {
+      "name": "D-11 · top F",
+      "category": "Minor 7",
+      "topNote": "3",
+      "image": "core-voicing-maj-3-ii.png",
+      "familiarity": 0,
+      "addedDate": 20261012,
+      "sortSeed": 0.6881843846858503,
+      "lastPracticed": null,
+      "pinnedDate": null
+    },
+    {
+      "name": "G9",
+      "category": "Dominant",
+      "topNote": "1",
+      "image": "core-voicing-maj-3-v.png",
+      "familiarity": 0,
+      "addedDate": 20261012,
+      "sortSeed": 0.7314345878843933,
+      "lastPracticed": null,
+      "pinnedDate": null
+    },
+    {
+      "name": "CΔ13 · top E",
+      "category": "Major",
+      "topNote": "3",
+      "image": "core-voicing-maj-3-i.png",
+      "familiarity": 0,
+      "addedDate": 20261012,
+      "sortSeed": 0.602383233845966,
+      "lastPracticed": null,
+      "pinnedDate": null
+    },
+    {
+      "name": "D-11 · top G",
+      "category": "Minor 7",
+      "topNote": "4",
+      "image": "core-voicing-maj-4-ii.png",
+      "familiarity": 0,
+      "addedDate": 20261012,
+      "sortSeed": 0.6996880092191341,
+      "lastPracticed": null,
+      "pinnedDate": null
+    },
+    {
+      "name": "CΔ13 · top G",
+      "category": "Major",
+      "topNote": "5",
+      "image": "core-voicing-maj-4-i.png",
+      "familiarity": 0,
+      "addedDate": 20261012,
+      "sortSeed": 0.9136208068469419,
+      "lastPracticed": null,
+      "pinnedDate": null
+    },
+    {
+      "name": "D-11 · top A",
+      "category": "Minor 7",
+      "topNote": "5",
+      "image": "core-voicing-maj-5-ii.png",
+      "familiarity": 0,
+      "addedDate": 20261012,
+      "sortSeed": 0.4265654340049364,
+      "lastPracticed": null,
+      "pinnedDate": null
+    },
+    {
+      "name": "G7(♭9,13)",
+      "category": "Dominant",
+      "topNote": "♭9",
+      "image": "core-voicing-maj-5-v.png",
+      "familiarity": 0,
+      "addedDate": 20261012,
+      "sortSeed": 0.1958863601761629,
+      "lastPracticed": null,
+      "pinnedDate": null
+    },
+    {
+      "name": "D-11 · top C",
+      "category": "Minor 7",
+      "topNote": "7",
+      "image": "core-voicing-maj-7-ii.png",
+      "familiarity": 0,
+      "addedDate": 20261012,
+      "sortSeed": 0.5452582452267035,
+      "lastPracticed": null,
+      "pinnedDate": null
+    },
+    {
+      "name": "B-7(♭5) · top B",
+      "category": "Half diminished",
+      "topNote": "1",
+      "image": "core-voicing-min-1-ii.png",
+      "familiarity": 0,
+      "addedDate": 20261012,
+      "sortSeed": 0.2116624924795446,
+      "lastPracticed": null,
+      "pinnedDate": null
+    },
+    {
+      "name": "E7(♭9,♭13)",
+      "category": "Dominant",
+      "topNote": "♭13",
+      "image": "core-voicing-min-1-v.png",
+      "familiarity": 0,
+      "addedDate": 20261012,
+      "sortSeed": 0.9892207850341698,
+      "lastPracticed": null,
+      "pinnedDate": null
+    },
+    {
+      "name": "A-6/9 · top B",
+      "category": "Minor 6/9",
+      "topNote": "9",
+      "image": "core-voicing-min-1-i.png",
+      "familiarity": 0,
+      "addedDate": 20261012,
+      "sortSeed": 0.7006768681720973,
+      "lastPracticed": null,
+      "pinnedDate": null
+    },
+    {
+      "name": "B-11(♭5)",
+      "category": "Half diminished",
+      "topNote": "3",
+      "image": "core-voicing-min-3-ii.png",
+      "familiarity": 0,
+      "addedDate": 20261012,
+      "sortSeed": 0.07446568639639684,
+      "lastPracticed": null,
+      "pinnedDate": null
+    },
+    {
+      "name": "E7(♯9,♭13) · top C",
+      "category": "Dominant",
+      "topNote": "♭13",
+      "image": "core-voicing-min-3-v.png",
+      "familiarity": 0,
+      "addedDate": 20261012,
+      "sortSeed": 0.924138269401515,
+      "lastPracticed": null,
+      "pinnedDate": null
+    },
+    {
+      "name": "A-6/9 · top E",
+      "category": "Minor 6/9",
+      "topNote": "5",
+      "image": "core-voicing-min-3-i.png",
+      "familiarity": 0,
+      "addedDate": 20261012,
+      "sortSeed": 0.640886344334169,
+      "lastPracticed": null,
+      "pinnedDate": null
+    },
+    {
+      "name": "B-7(♭5) · top E",
+      "category": "Half diminished",
+      "topNote": "4",
+      "image": "core-voicing-min-4-ii.png",
+      "familiarity": 0,
+      "addedDate": 20261012,
+      "sortSeed": 0.555428232642299,
+      "lastPracticed": null,
+      "pinnedDate": null
+    },
+    {
+      "name": "E7(♭9)",
+      "category": "Dominant",
+      "topNote": "1",
+      "image": "core-voicing-min-4-v.png",
+      "familiarity": 0,
+      "addedDate": 20261012,
+      "sortSeed": 0.17598199272471415,
+      "lastPracticed": null,
+      "pinnedDate": null
+    },
+    {
+      "name": "B-7(♭5) · top G",
+      "category": "Half diminished",
+      "topNote": "♭6",
+      "image": "core-voicing-min-6-ii.png",
+      "familiarity": 0,
+      "addedDate": 20261012,
+      "sortSeed": 0.16725064128633638,
+      "lastPracticed": null,
+      "pinnedDate": null
+    },
+    {
+      "name": "E7(♯9,♭13) · top G",
+      "category": "Dominant",
+      "topNote": "♯9",
+      "image": "core-voicing-min-6-v.png",
+      "familiarity": 0,
+      "addedDate": 20261012,
+      "sortSeed": 0.4661260906155307,
+      "lastPracticed": null,
+      "pinnedDate": null
+    },
+    {
+      "name": "A-6/9 · top A",
+      "category": "Minor 6/9",
+      "topNote": "1",
+      "image": "core-voicing-min-6-i.png",
+      "familiarity": 0,
+      "addedDate": 20261012,
+      "sortSeed": 0.9420527286227529,
+      "lastPracticed": null,
+      "pinnedDate": null
+    },
+    {
+      "name": "B-7(♭5) · top A",
+      "category": "Half diminished",
+      "topNote": "7",
+      "image": "core-voicing-min-7-ii.png",
+      "familiarity": 0,
+      "addedDate": 20261012,
+      "sortSeed": 0.31737683696899877,
+      "lastPracticed": null,
+      "pinnedDate": null
+    },
+    {
+      "name": "B-7(♭5) · top F",
+      "category": "Half diminished",
+      "topNote": "♭5",
+      "image": "core-voicing-min-b5-ii.png",
+      "familiarity": 0,
+      "addedDate": 20261012,
+      "sortSeed": 0.45430462724957676,
+      "lastPracticed": null,
+      "pinnedDate": null
     }
   ],
   "voicingsSeedVersion": 2,
@@ -7774,5 +8101,8 @@
       "body": "When playing a minor ii-V, the half diminished chord can be thought of as the Maj7(#11) chord a half step above the V chord.\n\nA-7(b5) D7alt\nbecomes\nEbMaj7(#11) D7alt",
       "addedDate": 20261011
     }
-  ]
+  ],
+  "voicingChordsSplit": true,
+  "voicingMinorSplit": true,
+  "voicingHalfDimSplit": true
 }

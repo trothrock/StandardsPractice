@@ -681,7 +681,7 @@
     </div>
     <div class="field">
       <label>Category</label>
-      <select id="voic-category"><option value="Major">Major</option><option value="Minor">Minor</option><option value="Dominant">Dominant</option><option value="Diminished">Diminished</option></select>
+      <select id="voic-category"><option value="Major">Major</option><option value="Minor 7">Minor 7</option><option value="Minor 6/9">Minor 6/9</option><option value="Minor">Minor</option><option value="Dominant">Dominant</option><option value="Half diminished">Half diminished</option><option value="Diminished">Diminished</option></select>
     </div>
     <div class="field">
       <label>Top note <span style="font-weight:400;text-transform:none;letter-spacing:0">(scale degree)</span></label>
@@ -717,7 +717,7 @@
     </div>
     <div class="field">
       <label>Category</label>
-      <select id="voic-edit-category"><option value="Major">Major</option><option value="Minor">Minor</option><option value="Dominant">Dominant</option><option value="Diminished">Diminished</option></select>
+      <select id="voic-edit-category"><option value="Major">Major</option><option value="Minor 7">Minor 7</option><option value="Minor 6/9">Minor 6/9</option><option value="Minor">Minor</option><option value="Dominant">Dominant</option><option value="Half diminished">Half diminished</option><option value="Diminished">Diminished</option></select>
     </div>
     <div class="field">
       <label>Top note <span style="font-weight:400;text-transform:none;letter-spacing:0">(scale degree)</span></label>
@@ -1226,6 +1226,24 @@ function initDB() {
     db.voicingsSeedVersion = VOICINGS_SEED_VERSION;
     saveDB(db);
   }
+  if(!db.voicingChordsSplit) {
+    splitVoicingExercises(db);
+    db.voicingChordsSplit = true;
+    saveDB(db);
+  }
+  if(!db.voicingMinorSplit) {
+    // Minor 7 and Minor 6/9 voicings moved out of the general Minor category.
+    const cats = Object.fromEntries(VOICING_CHORDS.map(([name, category]) => [name, category]));
+    (db.voicings||[]).forEach(v => { if(v.category==='Minor' && !v.chords && cats[v.name]) v.category = cats[v.name]; });
+    db.voicingMinorSplit = true;
+    saveDB(db);
+  }
+  if(!db.voicingHalfDimSplit) {
+    // The Diminished section only ever held half-diminished voicings.
+    (db.voicings||[]).forEach(v => { if(v.category==='Diminished') v.category = 'Half diminished'; });
+    db.voicingHalfDimSplit = true;
+    saveDB(db);
+  }
   if(!db.keyCenters) db.keyCenters = {};
   KEY_CENTERS.forEach(k=>{ if(!db.keyCenters[k.id]) db.keyCenters[k.id] = { familiarity: 0 }; });
   if(db.reviewQueueMode === undefined) db.reviewQueueMode = 'all';
@@ -1597,7 +1615,7 @@ function toggleMultiKey(name, on) {
   toast(on ? (sg.standardKey ? `Multi-key practice on for "${name}".` : `Multi-key practice on — set a standard key to get key assignments.`) : `Multi-key practice off for "${name}".`);
 }
 
-const VOICING_CATEGORIES = ['Major','Minor','Dominant','Diminished'];
+const VOICING_CATEGORIES = ['Major','Minor 7','Minor 6/9','Minor','Dominant','Half diminished','Diminished'];
 const VOCAB_FAM_DESCS = ["No familiarity — haven't worked it out yet","Getting it under my fingers","Mastered — instant recall"];
 const VOICING_FAM_DESCS = ["No familiarity — haven't worked it out yet","Getting it under my fingers","Mastered — instant recall"];
 function seedVoicings() {
@@ -1615,11 +1633,79 @@ function seedVoicings() {
     ['Dominant 13','Dominant',13],
     ['Dominant 7♭9','Dominant','♭9'],
     ['Diminished 7','Diminished',7],
-    ['Half-diminished 7','Diminished','♭5'],
+    ['Half-diminished 7','Half diminished','♭5'],
     ['Diminished triad','Diminished','♭3'],
   ];
   return seed.map(([name,category,topNote])=>({ name, category, topNote, image:null, familiarity:0, addedDate: todayInt(), sortSeed: Math.random(), lastPracticed:null, pinnedDate:null }));
 }
+// Each ii-V-I exercise sheet holds three voicings. They are also tracked on their own,
+// cut from the exercise image; voicings that appear in several exercises are shared.
+// Names that would collide carry the top note's letter.
+const VOICING_CHORDS = [
+  ['D-7',                  'Minor 7',         '1',   'core-voicing-maj-1-ii.png'],
+  ['G13',                  'Dominant',        '5',   'core-voicing-maj-1-v.png'],
+  ['C6/9',                 'Major',           '1',   'core-voicing-maj-1-i.png'],
+  ['D-11 · top F',         'Minor 7',         '3',   'core-voicing-maj-3-ii.png'],
+  ['G9',                   'Dominant',        '1',   'core-voicing-maj-3-v.png'],
+  ['CΔ13 · top E',         'Major',           '3',   'core-voicing-maj-3-i.png'],
+  ['D-11 · top G',         'Minor 7',         '4',   'core-voicing-maj-4-ii.png'],
+  ['CΔ13 · top G',         'Major',           '5',   'core-voicing-maj-4-i.png'],
+  ['D-11 · top A',         'Minor 7',         '5',   'core-voicing-maj-5-ii.png'],
+  ['G7(♭9,13)',            'Dominant',        '♭9',  'core-voicing-maj-5-v.png'],
+  ['D-11 · top C',         'Minor 7',         '7',   'core-voicing-maj-7-ii.png'],
+  ['B-7(♭5) · top B',      'Half diminished', '1',   'core-voicing-min-1-ii.png'],
+  ['E7(♭9,♭13)',           'Dominant',        '♭13', 'core-voicing-min-1-v.png'],
+  ['A-6/9 · top B',        'Minor 6/9',       '9',   'core-voicing-min-1-i.png'],
+  ['B-11(♭5)',             'Half diminished', '3',   'core-voicing-min-3-ii.png'],
+  ['E7(♯9,♭13) · top C',   'Dominant',        '♭13', 'core-voicing-min-3-v.png'],
+  ['A-6/9 · top E',        'Minor 6/9',       '5',   'core-voicing-min-3-i.png'],
+  ['B-7(♭5) · top E',      'Half diminished', '4',   'core-voicing-min-4-ii.png'],
+  ['E7(♭9)',               'Dominant',        '1',   'core-voicing-min-4-v.png'],
+  ['B-7(♭5) · top G',      'Half diminished', '♭6',  'core-voicing-min-6-ii.png'],
+  ['E7(♯9,♭13) · top G',   'Dominant',        '♯9',  'core-voicing-min-6-v.png'],
+  ['A-6/9 · top A',        'Minor 6/9',       '1',   'core-voicing-min-6-i.png'],
+  ['B-7(♭5) · top A',      'Half diminished', '7',   'core-voicing-min-7-ii.png'],
+  ['B-7(♭5) · top F',      'Half diminished', '♭5',  'core-voicing-min-b5-ii.png'],
+];
+// Exercise image → its [ii, V, I] voicings.
+const VOICING_EXERCISE_CHORDS = {
+  'core-voicing-maj-1.png':  ['D-7',             'G13',                'C6/9'],
+  'core-voicing-maj-3.png':  ['D-11 · top F',    'G9',                 'CΔ13 · top E'],
+  'core-voicing-maj-4.png':  ['D-11 · top G',    'G9',                 'CΔ13 · top G'],
+  'core-voicing-maj-5.png':  ['D-11 · top A',    'G7(♭9,13)',          'CΔ13 · top G'],
+  'core-voicing-maj-7.png':  ['D-11 · top C',    'G13',                'C6/9'],
+  'core-voicing-min-1.png':  ['B-7(♭5) · top B', 'E7(♭9,♭13)',         'A-6/9 · top B'],
+  'core-voicing-min-3.png':  ['B-11(♭5)',        'E7(♯9,♭13) · top C', 'A-6/9 · top E'],
+  'core-voicing-min-4.png':  ['B-7(♭5) · top E', 'E7(♭9)',             'A-6/9 · top E'],
+  'core-voicing-min-6.png':  ['B-7(♭5) · top G', 'E7(♯9,♭13) · top G', 'A-6/9 · top A'],
+  'core-voicing-min-7.png':  ['B-7(♭5) · top A', 'E7(♯9,♭13) · top G', 'A-6/9 · top A'],
+  'core-voicing-min-b5.png': ['B-7(♭5) · top F', 'E7(♯9,♭13) · top G', 'A-6/9 · top A'],
+};
+function splitVoicingExercises(db) {
+  if(!db.voicings) db.voicings = [];
+  // [3] was pointing at [2]'s sheet and misspelled.
+  const three = db.voicings.find(v=>v.name==='[3] Minor ii-V-1');
+  if(three && !db.voicings.some(v=>v.name==='[3] Minor ii-V-i')) renameVoicingRefs(db, three, '[3] Minor ii-V-i');
+  if(three) three.image = 'core-voicing-min-4.png';
+  const has = name => db.voicings.some(v=>v.name.toLowerCase()===name.toLowerCase());
+  VOICING_CHORDS.forEach(([name, category, topNote, image]) => {
+    if(has(name)) return;
+    db.voicings.push({ name, category, topNote, image, familiarity:0, addedDate: todayInt(), sortSeed: Math.random(), lastPracticed:null, pinnedDate:null });
+  });
+  db.voicings.forEach(v => { const chords = VOICING_EXERCISE_CHORDS[v.image]; if(chords && !v.chords) v.chords = [...chords]; });
+}
+// Renames a voicing and everything that refers to it by name.
+function renameVoicingRefs(db, v, name) {
+  const old = v.name;
+  v.name = name;
+  (db.voicings||[]).forEach(x => { if(x.chords) x.chords = x.chords.map(c => c===old ? name : c); });
+  (db.activity||[]).forEach(e => { if(e.name===old && /^voicing_/.test(e.type)) e.name = name; });
+  if(db.timer && db.timer.area==='voicing' && db.timer.name===old) db.timer.name = name;
+}
+function voicingExercisesFor(db, name) {
+  return (db.voicings||[]).filter(v => (v.chords||[]).includes(name));
+}
+function voicingRoles(v) { return v.category==='Minor' ? ['ii','V','i'] : ['ii','V','I']; }
 function normTopNote(s) { return String(s).trim().replace(/b/gi,'♭').replace(/#/g,'♯'); }
 function topNoteSort(t) { const n = parseInt(String(t==null?'':t).replace(/[^0-9]/g,''),10); return isNaN(n)?999:n; }
 
@@ -2046,7 +2132,7 @@ function renderToday() {
   const vtw = document.getElementById('voicing-today-wrap');
   if(featuredVoicing) {
     const vsafe = featuredVoicing.name.replace(/'/g,"\\'");
-    const vmeta = [featuredVoicing.category, featuredVoicing.topNote!=null?`Top note ${featuredVoicing.topNote}`:null].filter(Boolean).join(' · ');
+    const vmeta = [featuredVoicing.category, !featuredVoicing.chords && featuredVoicing.topNote!=null?`Top note ${featuredVoicing.topNote}`:null].filter(Boolean).join(' · ');
     const vDoneToday = featuredVoicing.lastPracticed === tod;
     // Same as repertoire: timed sessions are the practice, Mark reviewed moves on to the next.
     const reviewBtnV = vDoneToday
@@ -2751,8 +2837,11 @@ function renderVoicingDetail(name) {
   const container = document.getElementById('detail-body');
   if(!v){ container.innerHTML='<div class="empty">Voicing not found.</div>'; return; }
   const img = voicingImgHTML(v, 'voicing-img-full');
-  const top = v.topNote!=null ? `<span class="top-note">top: ${v.topNote}</span>` : '';
-  const header = `<div class="detail-header">${img}<div class="detail-header-top"><span class="detail-title">${v.name}</span><span class="badge badge-style">${v.category}</span>${lvlBadge(v.familiarity||0)}${top}</div><div class="detail-meta-grid"><div class="detail-meta-field"><div class="label">Category</div><div class="value">${v.category}</div></div><div class="detail-meta-field"><div class="label">Top note</div><div class="value${v.topNote!=null?'':' placeholder'}">${v.topNote!=null?v.topNote:'—'}</div></div><div class="detail-meta-field"><div class="label">Added</div><div class="value${v.addedDate?'':' placeholder'}">${v.addedDate?formatIntDate(v.addedDate):'—'}</div></div></div></div>`;
+  // An exercise spans three voicings, so a single top note doesn't describe it.
+  const showTop = !v.chords;
+  const top = showTop && v.topNote!=null ? `<span class="top-note">top: ${v.topNote}</span>` : '';
+  const topField = showTop ? `<div class="detail-meta-field"><div class="label">Top note</div><div class="value${v.topNote!=null?'':' placeholder'}">${v.topNote!=null?v.topNote:'—'}</div></div>` : '';
+  const header = `<div class="detail-header">${img}<div class="detail-header-top"><span class="detail-title">${v.name}</span><span class="badge badge-style">${v.category}</span>${lvlBadge(v.familiarity||0)}${top}</div><div class="detail-meta-grid"><div class="detail-meta-field"><div class="label">Category</div><div class="value">${v.category}</div></div>${topField}<div class="detail-meta-field"><div class="label">Added</div><div class="value${v.addedDate?'':' placeholder'}">${v.addedDate?formatIntDate(v.addedDate):'—'}</div></div></div></div>`;
   const entries = (db.activity||[]).filter(e=>e.name===name||e.oldName===name).sort((a,b)=>b.ts-a.ts);
   const timeline = entries.length===0
     ? '<div class="empty">No activity for this voicing yet.</div>'
@@ -2763,8 +2852,18 @@ function renderVoicingDetail(name) {
         const timeStr = d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
         return `<div class="timeline-entry"><div class="timeline-dot ${dot}"></div><div><div class="timeline-label">${label}</div><div class="timeline-meta">${dateStr} · ${timeStr}</div></div></div>`;
       }).join('');
+  const linkRow = (x, role) => {
+    const safe = x.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    const roleTag = role ? `<span class="top-note">${role}</span>` : '';
+    return `<div class="song-row clickable" onclick="showVoicingDetail('${safe}')">${voicingImgHTML(x, 'voicing-thumb')}<div class="song-name-group"><span class="song-name">${x.name}</span>${roleTag}</div>${lvlBadge(x.familiarity||0)}</div>`;
+  };
+  const byName = n => (db.voicings||[]).find(x=>x.name===n);
+  const chordRows = (v.chords||[]).map((n,i)=>n && byName(n) ? linkRow(byName(n), voicingRoles(v)[i]) : '').join('');
+  const chordsSection = chordRows ? `<div class="section"><div class="section-head"><h2>Voicings in this exercise</h2></div>${chordRows}</div>` : '';
+  const parents = voicingExercisesFor(db, name);
+  const parentsSection = parents.length ? `<div class="section"><div class="section-head"><h2>Used in</h2><span class="count">${parents.length}</span></div>${parents.map(p=>linkRow(p, voicingRoles(p)[p.chords.indexOf(name)])).join('')}</div>` : '';
   const notesSection = `<div class="section"><div class="section-head"><h2>Notes</h2></div><div class="notes-body" id="notes-body"></div></div>`;
-  container.innerHTML = header + notesSection + `<div class="section"><div class="section-head"><h2>Activity</h2></div>${timeline}</div>`;
+  container.innerHTML = header + chordsSection + parentsSection + notesSection + `<div class="section"><div class="section-head"><h2>Activity</h2></div>${timeline}</div>`;
   renderNotesView('voicing', name);
 }
 function showVocabDetail(name) {
@@ -3746,18 +3845,24 @@ function renderVoicings() {
     container.innerHTML = '<div class="empty" style="padding:32px 0">No voicings yet. Add your first voicing to get started.</div>';
     return;
   }
-  let html = '';
-  VOICING_CATEGORIES.forEach(cat => {
-    const items = vs.filter(v=>v.category===cat).sort((a,b)=>(topNoteSort(a.topNote)-topNoteSort(b.topNote))||a.name.localeCompare(b.name));
-    if(!items.length) return;
-    html += `<div class="section"><div class="section-head"><h2>${cat}</h2><span class="count">${items.length}</span></div>`;
+  const section = (title, items, showTop=true) => {
+    if(!items.length) return '';
+    let h = `<div class="section"><div class="section-head"><h2>${title}</h2><span class="count">${items.length}</span></div>`;
     items.forEach(v=>{
       const safe = v.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
       const img = voicingImgHTML(v, 'voicing-thumb');
-      const top = v.topNote!=null ? `<span class="top-note">top: ${v.topNote}</span>` : '';
-      html += `<div class="song-row clickable" onclick="showVoicingDetail('${safe}')">${img}<div class="song-name-group"><span class="song-name">${v.name}</span>${top}</div>${lvlBadge(v.familiarity||0)}<button class="btn-dots" onclick="openVoicingMenu(event,'${safe}')">···</button></div>`;
+      const top = showTop && v.topNote!=null ? `<span class="top-note">top: ${v.topNote}</span>` : '';
+      h += `<div class="song-row clickable" onclick="showVoicingDetail('${safe}')">${img}<div class="song-name-group"><span class="song-name">${v.name}</span>${top}</div>${lvlBadge(v.familiarity||0)}<button class="btn-dots" onclick="openVoicingMenu(event,'${safe}')">···</button></div>`;
     });
-    html += '</div>';
+    return h + '</div>';
+  };
+  // ii-V-I exercises (voicings made of other voicings) get their own section.
+  const isExercise = v => !!v.chords;
+  const byTopNote = (a,b)=>(topNoteSort(a.topNote)-topNoteSort(b.topNote))||a.name.localeCompare(b.name);
+  let html = section('ii-V-I exercises', vs.filter(isExercise).sort((a,b)=>
+    (VOICING_CATEGORIES.indexOf(a.category)-VOICING_CATEGORIES.indexOf(b.category))||a.name.localeCompare(b.name)), false);
+  VOICING_CATEGORIES.forEach(cat => {
+    html += section(cat, vs.filter(v=>!isExercise(v) && v.category===cat).sort(byTopNote));
   });
   container.innerHTML = html;
 }
@@ -3852,7 +3957,7 @@ function submitEditVoicing() {
   const v = db.voicings.find(v=>v.name===voicEditOriginalName);
   if(!v) return;
   const topRaw = document.getElementById('voic-edit-topnote').value.trim();
-  v.name = name;
+  if(name !== v.name) renameVoicingRefs(db, v, name);
   v.category = document.getElementById('voic-edit-category').value;
   v.topNote = topRaw===''? null : normTopNote(topRaw);
   v.image = document.getElementById('voic-edit-image').value.trim() || null;
@@ -3872,6 +3977,7 @@ function confirmRemoveVoicing() {
   if(!voicRemoveName) return;
   const db = getDB();
   db.voicings = db.voicings.filter(v=>v.name!==voicRemoveName);
+  db.voicings.forEach(v => { if(v.chords) v.chords = v.chords.map(c => c===voicRemoveName ? null : c); });
   logActivity(db, 'voicing_removed', { name: voicRemoveName });
   saveDB(db); closeRemoveVoicing(); renderAll();
   toast(`"${voicRemoveName}" removed from voicings.`);
