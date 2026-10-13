@@ -56,7 +56,11 @@
       "staleFrom": 20261002,
       "tags": [
         "Trad"
-      ]
+      ],
+      "practiceKey": {
+        "date": 20261012,
+        "key": "A"
+      }
     },
     "Ain't Misbehavin'": {
       "name": "Ain't Misbehavin'",
@@ -598,8 +602,8 @@
       "multiKey": true,
       "staleFrom": 20261002,
       "practiceKey": {
-        "date": 20261005,
-        "key": "Gb"
+        "date": 20261012,
+        "key": "A"
       },
       "tags": [
         "Songbook"
@@ -732,10 +736,10 @@
     "Bye Bye Blackbird": {
       "name": "Bye Bye Blackbird",
       "baseLevel": 0,
-      "currentLevel": 0,
-      "status": "learning",
-      "intervalIdx": -1,
-      "learnedDate": null,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 0,
+      "learnedDate": 20261012,
       "reviews": [],
       "sortSeed": 0.13183891424433314,
       "composer": "Ray Henderson",
@@ -761,6 +765,10 @@
       "practiceFocus": [
         {
           "text": "Intro / outro",
+          "done": false
+        },
+        {
+          "text": "biii bVi lead ins",
           "done": false
         }
       ],
@@ -790,7 +798,11 @@
           "text": "John Coltrane half dim"
         }
       ],
-      "notes": "Think of the half diminished as the leading tritone Maj7(#11), e.g. A-7(b5) = EbMaj7(#11)"
+      "notes": "Think of the half diminished as the leading tritone Maj7(#11), e.g. A-7(b5) = EbMaj7(#11)",
+      "practiceKey": {
+        "date": 20261012,
+        "key": "A"
+      }
     },
     "C Jam Blues": {
       "name": "C Jam Blues",
@@ -2515,7 +2527,11 @@
       "tags": [
         "Songbook",
         "Jam"
-      ]
+      ],
+      "practiceKey": {
+        "date": 20261012,
+        "key": "A"
+      }
     },
     "Just One of Those Things": {
       "name": "Just One of Those Things",
@@ -3448,7 +3464,7 @@
       "name": "Night in Tunisia",
       "baseLevel": 0,
       "currentLevel": 0,
-      "status": "untouched",
+      "status": "learning",
       "intervalIdx": -1,
       "learnedDate": null,
       "reviews": [],
@@ -5400,9 +5416,9 @@
       "sortSeed": 0.7403636142004597
     }
   },
-  "currentNewSong": "Bye Bye Blackbird",
-  "streak": 2,
-  "lastPracticeDay": 20261011,
+  "currentNewSong": "Night in Tunisia",
+  "streak": 3,
+  "lastPracticeDay": 20261012,
   "activity": [
     {
       "ts": 1776634938073,
@@ -7250,6 +7266,68 @@
       "date": 20261011,
       "type": "concept_added",
       "name": "Half diminished as tritone sub"
+    },
+    {
+      "ts": 1791804435700,
+      "date": 20261012,
+      "type": "practice_time",
+      "area": "rep",
+      "name": "St. Charles",
+      "secs": 666
+    },
+    {
+      "ts": 1791804435700,
+      "date": 20261012,
+      "type": "repertoire_practiced",
+      "name": "St. Charles"
+    },
+    {
+      "ts": 1791804435700,
+      "date": 20261012,
+      "type": "repertoire_reviewed",
+      "name": "St. Charles"
+    },
+    {
+      "ts": 1791805428279,
+      "date": 20261012,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "Bye Bye Blackbird",
+      "secs": 1200,
+      "origSecs": 7
+    },
+    {
+      "ts": 1791805428279,
+      "date": 20261012,
+      "type": "practiced",
+      "name": "Bye Bye Blackbird"
+    },
+    {
+      "ts": 1791805460476,
+      "date": 20261012,
+      "type": "learned",
+      "name": "Bye Bye Blackbird"
+    },
+    {
+      "ts": 1791805473405,
+      "date": 20261012,
+      "type": "started_learning",
+      "name": "Night in Tunisia"
+    },
+    {
+      "ts": 1791806426645,
+      "date": 20261012,
+      "type": "practice_time",
+      "area": "voicing",
+      "name": "[3] Major ii-V-I",
+      "secs": 720,
+      "origSecs": 487
+    },
+    {
+      "ts": 1791806426645,
+      "date": 20261012,
+      "type": "voicing_session",
+      "name": "[3] Major ii-V-I"
     }
   ],
   "extraReviewsToday": {
@@ -7313,9 +7391,7 @@
       "composer": "Ted Rothrock",
       "notes": "A section turnaround map:\n- Walk down to 7\n- Surround arpeggio\n- Surround 7",
       "addedDate": 20260502,
-      "lastReviewed": null,
-      "pinnedDate": 20261011,
-      "deferredDate": 20261007,
+      "lastReviewed": 20261012,
       "practiceFocus": [
         {
           "text": "A section turnarounds",
@@ -7536,7 +7612,7 @@
       "addedDate": 20261005,
       "sortSeed": 0.2461268586852252,
       "lastPracticed": null,
-      "pinnedDate": 20261011
+      "pinnedDate": 20261012
     },
     {
       "name": "[4] Major ii-V-I",
@@ -7670,8 +7746,8 @@
   "cadenceVersion": 7,
   "multiKeyPerWeek": 3,
   "multiKeyWeek": {
-    "weekStart": 20261005,
-    "key": "Gb"
+    "weekStart": 20261012,
+    "key": "A"
   },
   "exitChecklistOpen": false,
   "exitChecklistDetailOpen": false,
