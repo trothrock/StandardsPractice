@@ -60,7 +60,13 @@
       "practiceKey": {
         "date": 20261012,
         "key": "A"
-      }
+      },
+      "keyReviews": [
+        {
+          "date": 20261014,
+          "key": "A"
+        }
+      ]
     },
     "Ain't Misbehavin'": {
       "name": "Ain't Misbehavin'",
@@ -5221,12 +5227,17 @@
       "baseLevel": 2,
       "currentLevel": 2,
       "status": "active",
-      "intervalIdx": 1,
+      "intervalIdx": 2,
       "learnedDate": 20260419,
       "reviews": [
         {
           "date": 20260801,
           "passed": true
+        },
+        {
+          "date": 20261014,
+          "passed": true,
+          "key": "C"
         }
       ],
       "sortSeed": 0.3298126231904581,
@@ -5425,8 +5436,8 @@
     }
   },
   "currentNewSong": "Night in Tunisia",
-  "streak": 3,
-  "lastPracticeDay": 20261012,
+  "streak": 1,
+  "lastPracticeDay": 20261014,
   "activity": [
     {
       "ts": 1776634938073,
@@ -7336,6 +7347,58 @@
       "date": 20261012,
       "type": "voicing_session",
       "name": "[3] Major ii-V-I"
+    },
+    {
+      "ts": 1792033336786,
+      "date": 20261014,
+      "type": "practice_time",
+      "area": "voicing",
+      "name": "[3] Major ii-V-I",
+      "secs": 920
+    },
+    {
+      "ts": 1792033336786,
+      "date": 20261014,
+      "type": "voicing_session",
+      "name": "[3] Major ii-V-I"
+    },
+    {
+      "ts": 1792033370445,
+      "date": 20261014,
+      "type": "review",
+      "name": "Yardbird Suite",
+      "passed": true,
+      "key": "C"
+    },
+    {
+      "ts": 1792034415121,
+      "date": 20261014,
+      "type": "practice_time",
+      "area": "keys",
+      "name": "After You've Gone",
+      "secs": 900,
+      "origSecs": 688
+    },
+    {
+      "ts": 1792034446302,
+      "date": 20261014,
+      "type": "key_review",
+      "name": "After You've Gone",
+      "key": "A"
+    },
+    {
+      "ts": 1792035006113,
+      "date": 20261014,
+      "type": "practice_time",
+      "area": "rep",
+      "name": "Basin Street Blues",
+      "secs": 520
+    },
+    {
+      "ts": 1792035006113,
+      "date": 20261014,
+      "type": "repertoire_practiced",
+      "name": "Basin Street Blues"
     }
   ],
   "extraReviewsToday": {
@@ -7424,7 +7487,8 @@
       "composer": "Spencer Williams",
       "notes": null,
       "addedDate": 20260502,
-      "lastReviewed": null
+      "lastReviewed": null,
+      "pinnedDate": 20261014
     },
     {
       "name": "A Sleepin' Bee",
@@ -7650,7 +7714,7 @@
       "addedDate": 20261005,
       "sortSeed": 0.2461268586852252,
       "lastPracticed": null,
-      "pinnedDate": 20261012,
+      "pinnedDate": 20261014,
       "chords": [
         "D-11 · top G",
         "G9",
@@ -7725,8 +7789,7 @@
       "familiarity": 0,
       "addedDate": 20261012,
       "sortSeed": 0.43526814680774983,
-      "lastPracticed": null,
-      "pinnedDate": null
+      "lastPracticed": null
     },
     {
       "name": "G13",
@@ -7736,8 +7799,7 @@
       "familiarity": 0,
       "addedDate": 20261012,
       "sortSeed": 0.03613810656147265,
-      "lastPracticed": null,
-      "pinnedDate": null
+      "lastPracticed": null
     },
     {
       "name": "C6/9",
@@ -7747,8 +7809,7 @@
       "familiarity": 0,
       "addedDate": 20261012,
       "sortSeed": 0.33203668908127404,
-      "lastPracticed": null,
-      "pinnedDate": null
+      "lastPracticed": null
     },
     {
       "name": "D-11 · top F",
@@ -7758,8 +7819,7 @@
       "familiarity": 0,
       "addedDate": 20261012,
       "sortSeed": 0.6881843846858503,
-      "lastPracticed": null,
-      "pinnedDate": null
+      "lastPracticed": null
     },
     {
       "name": "G9",
@@ -7769,8 +7829,7 @@
       "familiarity": 0,
       "addedDate": 20261012,
       "sortSeed": 0.7314345878843933,
-      "lastPracticed": null,
-      "pinnedDate": null
+      "lastPracticed": null
     },
     {
       "name": "CΔ13 · top E",
@@ -7780,8 +7839,7 @@
       "familiarity": 0,
       "addedDate": 20261012,
       "sortSeed": 0.602383233845966,
-      "lastPracticed": null,
-      "pinnedDate": null
+      "lastPracticed": null
     },
     {
       "name": "D-11 · top G",
@@ -7791,8 +7849,7 @@
       "familiarity": 0,
       "addedDate": 20261012,
       "sortSeed": 0.6996880092191341,
-      "lastPracticed": null,
-      "pinnedDate": null
+      "lastPracticed": null
     },
     {
       "name": "CΔ13 · top G",
@@ -7802,8 +7859,7 @@
       "familiarity": 0,
       "addedDate": 20261012,
       "sortSeed": 0.9136208068469419,
-      "lastPracticed": null,
-      "pinnedDate": null
+      "lastPracticed": null
     },
     {
       "name": "D-11 · top A",
@@ -7813,8 +7869,7 @@
       "familiarity": 0,
       "addedDate": 20261012,
       "sortSeed": 0.4265654340049364,
-      "lastPracticed": null,
-      "pinnedDate": null
+      "lastPracticed": null
     },
     {
       "name": "G7(♭9,13)",
@@ -7824,8 +7879,7 @@
       "familiarity": 0,
       "addedDate": 20261012,
       "sortSeed": 0.1958863601761629,
-      "lastPracticed": null,
-      "pinnedDate": null
+      "lastPracticed": null
     },
     {
       "name": "D-11 · top C",
@@ -7835,8 +7889,7 @@
       "familiarity": 0,
       "addedDate": 20261012,
       "sortSeed": 0.5452582452267035,
-      "lastPracticed": null,
-      "pinnedDate": null
+      "lastPracticed": null
     },
     {
       "name": "B-7(♭5) · top B",
@@ -7846,8 +7899,7 @@
       "familiarity": 0,
       "addedDate": 20261012,
       "sortSeed": 0.2116624924795446,
-      "lastPracticed": null,
-      "pinnedDate": null
+      "lastPracticed": null
     },
     {
       "name": "E7(♭9,♭13)",
@@ -7857,8 +7909,7 @@
       "familiarity": 0,
       "addedDate": 20261012,
       "sortSeed": 0.9892207850341698,
-      "lastPracticed": null,
-      "pinnedDate": null
+      "lastPracticed": null
     },
     {
       "name": "A-6/9 · top B",
@@ -7868,8 +7919,7 @@
       "familiarity": 0,
       "addedDate": 20261012,
       "sortSeed": 0.7006768681720973,
-      "lastPracticed": null,
-      "pinnedDate": null
+      "lastPracticed": null
     },
     {
       "name": "B-11(♭5)",
@@ -7879,8 +7929,7 @@
       "familiarity": 0,
       "addedDate": 20261012,
       "sortSeed": 0.07446568639639684,
-      "lastPracticed": null,
-      "pinnedDate": null
+      "lastPracticed": null
     },
     {
       "name": "E7(♯9,♭13) · top C",
@@ -7890,8 +7939,7 @@
       "familiarity": 0,
       "addedDate": 20261012,
       "sortSeed": 0.924138269401515,
-      "lastPracticed": null,
-      "pinnedDate": null
+      "lastPracticed": null
     },
     {
       "name": "A-6/9 · top E",
@@ -7901,8 +7949,7 @@
       "familiarity": 0,
       "addedDate": 20261012,
       "sortSeed": 0.640886344334169,
-      "lastPracticed": null,
-      "pinnedDate": null
+      "lastPracticed": null
     },
     {
       "name": "B-7(♭5) · top E",
@@ -7912,8 +7959,7 @@
       "familiarity": 0,
       "addedDate": 20261012,
       "sortSeed": 0.555428232642299,
-      "lastPracticed": null,
-      "pinnedDate": null
+      "lastPracticed": null
     },
     {
       "name": "E7(♭9)",
@@ -7923,8 +7969,7 @@
       "familiarity": 0,
       "addedDate": 20261012,
       "sortSeed": 0.17598199272471415,
-      "lastPracticed": null,
-      "pinnedDate": null
+      "lastPracticed": null
     },
     {
       "name": "B-7(♭5) · top G",
@@ -7934,8 +7979,7 @@
       "familiarity": 0,
       "addedDate": 20261012,
       "sortSeed": 0.16725064128633638,
-      "lastPracticed": null,
-      "pinnedDate": null
+      "lastPracticed": null
     },
     {
       "name": "E7(♯9,♭13) · top G",
@@ -7945,8 +7989,7 @@
       "familiarity": 0,
       "addedDate": 20261012,
       "sortSeed": 0.4661260906155307,
-      "lastPracticed": null,
-      "pinnedDate": null
+      "lastPracticed": null
     },
     {
       "name": "A-6/9 · top A",
@@ -7956,8 +7999,7 @@
       "familiarity": 0,
       "addedDate": 20261012,
       "sortSeed": 0.9420527286227529,
-      "lastPracticed": null,
-      "pinnedDate": null
+      "lastPracticed": null
     },
     {
       "name": "B-7(♭5) · top A",
@@ -7967,8 +8009,7 @@
       "familiarity": 0,
       "addedDate": 20261012,
       "sortSeed": 0.31737683696899877,
-      "lastPracticed": null,
-      "pinnedDate": null
+      "lastPracticed": null
     },
     {
       "name": "B-7(♭5) · top F",
@@ -7978,8 +8019,7 @@
       "familiarity": 0,
       "addedDate": 20261012,
       "sortSeed": 0.45430462724957676,
-      "lastPracticed": null,
-      "pinnedDate": null
+      "lastPracticed": null
     }
   ],
   "voicingsSeedVersion": 2,

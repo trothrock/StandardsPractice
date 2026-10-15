@@ -1245,6 +1245,13 @@ function initDB() {
     db.voicingHalfDimSplit = true;
     saveDB(db);
   }
+  if(!db.voicingActivityNamesFixed) {
+    // Exercises renamed before renames carried over to activity; point their history at the current names.
+    const current = { 'ii-V-I':'[1] Major ii-V-I', '[A] Major ii-V-I':'[1] Major ii-V-I', 'Major ii-V-I':'[3] Major ii-V-I', '[2] Minro ii-V-i':'[2] Minor ii-V-i' };
+    (db.activity||[]).forEach(e => { if(/^voicing_/.test(e.type) && current[e.name] && (db.voicings||[]).some(v=>v.name===current[e.name])) e.name = current[e.name]; });
+    db.voicingActivityNamesFixed = true;
+    saveDB(db);
+  }
   if(!db.keyCenters) db.keyCenters = {};
   KEY_CENTERS.forEach(k=>{ if(!db.keyCenters[k.id]) db.keyCenters[k.id] = { familiarity: 0 }; });
   if(db.reviewQueueMode === undefined) db.reviewQueueMode = 'all';
@@ -1706,6 +1713,15 @@ function renameVoicingRefs(db, v, name) {
 function voicingExercisesFor(db, name) {
   return (db.voicings||[]).filter(v => (v.chords||[]).includes(name));
 }
+// Days a voicing was practiced, on its own or as part of any exercise that contains it.
+// One per day, however many sessions or exercises touched it.
+const VOICING_REVIEW_TYPES = ['voicing_practiced','voicing_session','voicing_reviewed'];
+function voicingReviewCount(db, name) {
+  const names = new Set([name, ...voicingExercisesFor(db, name).map(p=>p.name)]);
+  const days = new Set((db.activity||[]).filter(e => VOICING_REVIEW_TYPES.includes(e.type) && names.has(e.name)).map(e=>e.date));
+  return days.size;
+}
+function voicingReviewsLabel(n) { return `${n} review${n===1?'':'s'}`; }
 function voicingRoles(v) { return v.category==='Minor' ? ['ii','V','i'] : ['ii','V','I']; }
 function normTopNote(s) { return String(s).trim().replace(/b/gi,'♭').replace(/#/g,'♯'); }
 function topNoteSort(t) { const n = parseInt(String(t==null?'':t).replace(/[^0-9]/g,''),10); return isNaN(n)?999:n; }
@@ -2842,7 +2858,7 @@ function renderVoicingDetail(name) {
   const showTop = !v.chords;
   const top = showTop && v.topNote!=null ? `<span class="top-note">top: ${v.topNote}</span>` : '';
   const topField = showTop ? `<div class="detail-meta-field"><div class="label">Top note</div><div class="value${v.topNote!=null?'':' placeholder'}">${v.topNote!=null?v.topNote:'—'}</div></div>` : '';
-  const header = `<div class="detail-header">${img}<div class="detail-header-top"><span class="detail-title">${v.name}</span><span class="badge badge-style">${v.category}</span>${lvlBadge(v.familiarity||0)}${top}</div><div class="detail-meta-grid"><div class="detail-meta-field"><div class="label">Category</div><div class="value">${v.category}</div></div>${topField}<div class="detail-meta-field"><div class="label">Added</div><div class="value${v.addedDate?'':' placeholder'}">${v.addedDate?formatIntDate(v.addedDate):'—'}</div></div></div></div>`;
+  const header = `<div class="detail-header">${img}<div class="detail-header-top"><span class="detail-title">${v.name}</span><span class="badge badge-style">${v.category}</span>${lvlBadge(v.familiarity||0)}${top}</div><div class="detail-meta-grid"><div class="detail-meta-field"><div class="label">Category</div><div class="value">${v.category}</div></div>${topField}<div class="detail-meta-field"><div class="label">Reviews</div><div class="value">${voicingReviewCount(db, v.name)}</div></div><div class="detail-meta-field"><div class="label">Added</div><div class="value${v.addedDate?'':' placeholder'}">${v.addedDate?formatIntDate(v.addedDate):'—'}</div></div></div></div>`;
   const entries = (db.activity||[]).filter(e=>e.name===name||e.oldName===name).sort((a,b)=>b.ts-a.ts);
   const timeline = entries.length===0
     ? '<div class="empty">No activity for this voicing yet.</div>'
@@ -3850,7 +3866,8 @@ function renderVoicings() {
     const safe = v.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
     const img = voicingImgHTML(v, 'voicing-thumb');
     const top = showTop && v.topNote!=null ? `<span class="top-note">top: ${v.topNote}</span>` : '';
-    return `<div class="song-row clickable" onclick="showVoicingDetail('${safe}')">${img}<div class="song-name-group"><span class="song-name">${v.name}</span>${top}</div>${lvlBadge(v.familiarity||0)}<button class="btn-dots" onclick="openVoicingMenu(event,'${safe}')">···</button></div>`;
+    const reviews = `<span class="key-stat">${voicingReviewsLabel(voicingReviewCount(db, v.name))}</span>`;
+    return `<div class="song-row clickable" onclick="showVoicingDetail('${safe}')">${img}<div class="song-name-group"><span class="song-name">${v.name}</span>${top}</div>${reviews}${lvlBadge(v.familiarity||0)}<button class="btn-dots" onclick="openVoicingMenu(event,'${safe}')">···</button></div>`;
   }).join('');
   const sectionHead = (title, n) => `<div class="section-head"><h2>${title}</h2><span class="count">${n}</span></div>`;
   const section = (title, items) => items.length ? `<div class="section">${sectionHead(title, items.length)}${rowsHTML(items)}</div>` : '';
