@@ -8146,5 +8146,12 @@
   "voicingChordsSplit": true,
   "voicingMinorSplit": true,
   "voicingHalfDimSplit": true,
-  "voicingActivityNamesFixed": true
+  "voicingActivityNamesFixed": true,
+  "timer": {
+    "area": "keys",
+    "name": "Bye Bye Blackbird",
+    "start": 1792116462464,
+    "runStart": 1792116462464,
+    "accMs": 0
+  }
 }
