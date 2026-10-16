@@ -6217,7 +6217,7 @@
       "ts": 1788698246062,
       "date": 20260906,
       "type": "voicing_added",
-      "name": "ii-V-I"
+      "name": "[1] Major ii-V-I"
     },
     {
       "ts": 1788698264594,
@@ -6372,7 +6372,7 @@
       "ts": 1788865992748,
       "date": 20260908,
       "type": "voicing_practiced",
-      "name": "[A] Major ii-V-I",
+      "name": "[1] Major ii-V-I",
       "familiarity": 1
     },
     {
@@ -6422,13 +6422,13 @@
       "ts": 1788955597209,
       "date": 20260909,
       "type": "voicing_deferred",
-      "name": "[A] Major ii-V-I"
+      "name": "[1] Major ii-V-I"
     },
     {
       "ts": 1789039491080,
       "date": 20260910,
       "type": "voicing_added",
-      "name": "[2] Minro ii-V-i"
+      "name": "[2] Minor ii-V-i"
     },
     {
       "ts": 1789040676894,
@@ -6964,7 +6964,7 @@
       "ts": 1791254496992,
       "date": 20261005,
       "type": "voicing_added",
-      "name": "Major ii-V-I"
+      "name": "[3] Major ii-V-I"
     },
     {
       "ts": 1791254632164,
@@ -7796,7 +7796,7 @@
       "category": "Dominant",
       "topNote": "5",
       "image": "core-voicing-maj-1-v.png",
-      "familiarity": 0,
+      "familiarity": 1,
       "addedDate": 20261012,
       "sortSeed": 0.03613810656147265,
       "lastPracticed": null
@@ -7806,7 +7806,7 @@
       "category": "Major",
       "topNote": "1",
       "image": "core-voicing-maj-1-i.png",
-      "familiarity": 0,
+      "familiarity": 2,
       "addedDate": 20261012,
       "sortSeed": 0.33203668908127404,
       "lastPracticed": null
@@ -7816,7 +7816,7 @@
       "category": "Minor 7",
       "topNote": "3",
       "image": "core-voicing-maj-3-ii.png",
-      "familiarity": 0,
+      "familiarity": 1,
       "addedDate": 20261012,
       "sortSeed": 0.6881843846858503,
       "lastPracticed": null
@@ -7826,7 +7826,7 @@
       "category": "Dominant",
       "topNote": "1",
       "image": "core-voicing-maj-3-v.png",
-      "familiarity": 0,
+      "familiarity": 2,
       "addedDate": 20261012,
       "sortSeed": 0.7314345878843933,
       "lastPracticed": null
@@ -7856,7 +7856,7 @@
       "category": "Major",
       "topNote": "5",
       "image": "core-voicing-maj-4-i.png",
-      "familiarity": 0,
+      "familiarity": 1,
       "addedDate": 20261012,
       "sortSeed": 0.9136208068469419,
       "lastPracticed": null
@@ -7866,7 +7866,7 @@
       "category": "Minor 7",
       "topNote": "5",
       "image": "core-voicing-maj-5-ii.png",
-      "familiarity": 0,
+      "familiarity": 2,
       "addedDate": 20261012,
       "sortSeed": 0.4265654340049364,
       "lastPracticed": null
@@ -8125,14 +8125,15 @@
   "keyWheelMetric": "count",
   "setList": [
     "Basin Street Blues",
-    "Memphis Stomp",
+    "The Crave",
     "Me and the Blues",
     "Dorothy",
     "St. Charles",
     "A Sleepin' Bee",
+    "Memphis Stomp",
+    "Do You Know What It Means (To Miss New Orleans)",
     "Pine Top Boogie",
-    "Southern Nights",
-    "The Crave"
+    "Southern Nights"
   ],
   "concepts": [
     {
@@ -8144,5 +8145,6 @@
   ],
   "voicingChordsSplit": true,
   "voicingMinorSplit": true,
-  "voicingHalfDimSplit": true
+  "voicingHalfDimSplit": true,
+  "voicingActivityNamesFixed": true
 }
