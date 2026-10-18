@@ -2679,7 +2679,7 @@ function renderActivity() {
 }
 // Listening: Spotify plays saved by the local server, filtered to songs in the library.
 // Track titles are matched loosely — version suffixes ("- Remastered 1987"), parentheticals
-// ("(feat. …)"), punctuation and a leading "The" are ignored.
+// ("(feat. …)"), punctuation and a leading article ("The", "A", "An") are ignored.
 const LISTENING_GOAL_DEFAULT = 20;
 function listeningGoal(db) { return db.listeningGoal || LISTENING_GOAL_DEFAULT; }
 function listeningKey(title) {
@@ -2689,7 +2689,7 @@ function listeningKey(title) {
     .replace(/&/g,' and ')
     .replace(/[\u2018\u2019'"`.,!?]/g,'')
     .replace(/[^a-z0-9]+/g,' ').trim()
-    .replace(/^the /,'');
+    .replace(/^(the|an?) /,'');
 }
 async function fetchListening() {
   const res = await fetch('/api/spotify/plays');

@@ -3503,6 +3503,14 @@
         "Latin",
         "Minor",
         "Jam"
+      ],
+      "pointsOfInterest": [
+        {
+          "trackId": "5qhSOJFmfdfoqQmQZMtNyP",
+          "album": "The Complete Savoy & Dial Master Takes",
+          "at": 77,
+          "text": "Charlie Parker break"
+        }
       ]
     },
     "Night Train": {
