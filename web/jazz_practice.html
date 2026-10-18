@@ -2778,10 +2778,20 @@ async function renderListening() {
     counts.set(p.song, c);
   });
   const top = [...counts.entries()].sort((a,b)=>b[1].n-a[1].n || b[1].last-a[1].last);
+  const goal = listeningGoal(db), refsBySong = referencesBySong(db, data.references);
   const topRows = top.slice(0, listeningRowLimit).map(([name,c]) => {
     const sg = db.songs[name];
     const last = new Date(c.last).toLocaleDateString('en-US',{month:'short',day:'numeric'});
-    return `<div class="song-row clickable" onclick="showSongDetail('${safe(name)}')">${listenThumb(c.image, c.albumId, c.trackId)}<div class="song-name-group"><span class="song-name">${escHTML(name)}</span>${lvlBadge(sg.currentLevel)}</div><span class="key-stat">${c.n} play${c.n===1?'':'s'} · last ${last}</span></div>`;
+    const refs = refsBySong.get(name);
+    let bar = '';
+    if(refs) {
+      const songPlays = matched.filter(p => p.song===name);
+      const done = refs.reduce((t,ref) => t + Math.min(goal, referencePlays(songPlays, ref).length), 0);
+      const total = goal * refs.length, pct = Math.round(done / total * 100);
+      const tip = `${done} of ${total} reference plays (${refs.length} recording${refs.length===1?'':'s'})`;
+      bar = `<div class="prog-wrap" style="margin-top:6px" title="${tip}"><div class="prog-bar" style="width:${pct}%"></div></div>`;
+    }
+    return `<div class="song-row clickable" onclick="showSongDetail('${safe(name)}')">${listenThumb(c.image, c.albumId, c.trackId)}<div style="flex:1;min-width:0"><div class="song-name-group"><span class="song-name">${escHTML(name)}</span>${lvlBadge(sg.currentLevel)}</div>${bar}</div><span class="key-stat">${c.n} play${c.n===1?'':'s'} · last ${last}</span></div>`;
   }).join('');
   const tod = todayInt(), firstWeek = weekStartInt(addDays(tod, -7*(VIZ_WEEKS-1)));
   const days = new Map();
@@ -2975,6 +2985,21 @@ function sameRecording(play, ref) {
     (play.album||'').toLowerCase()===(ref.album||'').toLowerCase() &&
     (play.artists[0]||'')===(ref.artists[0]||''));
 }
+// Plays (newest first) that count toward one reference recording
+function referencePlays(plays, ref) {
+  return plays.filter(p => sameRecording(p, ref));
+}
+// Reference recordings from the reference playlists, grouped by the library song they belong to
+function referencesBySong(db, playlists) {
+  const byKey = libraryKeyMap(db), out = new Map();
+  (playlists||[]).forEach(pl => pl.tracks.forEach(t => {
+    const song = librarySongFor(t.name, byKey);
+    if(!song) return;
+    if(!out.has(song)) out.set(song, []);
+    out.get(song).push({ ...t, label: pl.label });
+  }));
+  return out;
+}
 let songListeningData = null;
 async function renderSongListening(name) {
   let data;
@@ -2986,16 +3011,14 @@ async function renderSongListening(name) {
 function drawSongListening(name) {
   const slot = document.getElementById('detail-listening'), data = songListeningData;
   if(!slot || !data || detailType!=='song' || currentDetailName!==name) return;
-  const db = getDB(), goal = listeningGoal(db), byKey = libraryKeyMap(db);
+  const db = getDB(), goal = listeningGoal(db);
   const pois = db.songs[name]?.pointsOfInterest || [];
   const shown = new Set();
   const plays = libraryPlays(db, data.plays).filter(p => p.song===name);
-  const refs = (data.references||[]).flatMap(pl => pl.tracks
-    .filter(t => librarySongFor(t.name, byKey)===name)
-    .map(t => ({ ...t, label: pl.label })));
+  const refs = referencesBySong(db, data.references).get(name) || [];
   const counted = new Set();
   const refRows = refs.map(ref => {
-    const mine = plays.filter(p => sameRecording(p, ref));
+    const mine = referencePlays(plays, ref);
     mine.forEach(p => counted.add(p));
     const n = mine.length, pct = Math.min(100, Math.round(n / goal * 100));
     const last = n ? `last played ${new Date(mine[0].ts).toLocaleDateString('en-US',{month:'short',day:'numeric'})}` : 'not played yet';
