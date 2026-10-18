@@ -808,7 +808,13 @@
       "practiceKey": {
         "date": 20261012,
         "key": "A"
-      }
+      },
+      "keyReviews": [
+        {
+          "date": 20261015,
+          "key": "A"
+        }
+      ]
     },
     "C Jam Blues": {
       "name": "C Jam Blues",
@@ -2200,12 +2206,17 @@
       "baseLevel": 2,
       "currentLevel": 2,
       "status": "active",
-      "intervalIdx": 1,
+      "intervalIdx": 2,
       "learnedDate": 20260419,
       "reviews": [
         {
           "date": 20260801,
           "passed": true
+        },
+        {
+          "date": 20261015,
+          "passed": true,
+          "key": "G"
         }
       ],
       "sortSeed": 0.297975853158443,
@@ -4436,12 +4447,17 @@
       "baseLevel": 2,
       "currentLevel": 2,
       "status": "active",
-      "intervalIdx": 1,
+      "intervalIdx": 2,
       "learnedDate": 20260419,
       "reviews": [
         {
           "date": 20260814,
           "passed": true
+        },
+        {
+          "date": 20261015,
+          "passed": true,
+          "key": "Bb"
         }
       ],
       "sortSeed": 0.3964490508077809,
@@ -5436,8 +5452,8 @@
     }
   },
   "currentNewSong": "Night in Tunisia",
-  "streak": 1,
-  "lastPracticeDay": 20261014,
+  "streak": 2,
+  "lastPracticeDay": 20261015,
   "activity": [
     {
       "ts": 1776634938073,
@@ -7399,6 +7415,66 @@
       "date": 20261014,
       "type": "repertoire_practiced",
       "name": "Basin Street Blues"
+    },
+    {
+      "ts": 1792119359957,
+      "date": 20261015,
+      "type": "practice_time",
+      "area": "keys",
+      "name": "Bye Bye Blackbird",
+      "secs": 900,
+      "origSecs": 2897
+    },
+    {
+      "ts": 1792119381793,
+      "date": 20261015,
+      "type": "key_review",
+      "name": "Bye Bye Blackbird",
+      "key": "A"
+    },
+    {
+      "ts": 1792120165430,
+      "date": 20261015,
+      "type": "voicing_added",
+      "name": "D-7 (So What inversion)"
+    },
+    {
+      "ts": 1792121678868,
+      "date": 20261015,
+      "type": "practice_time",
+      "area": "review",
+      "name": "I'll Remember April",
+      "secs": 1336
+    },
+    {
+      "ts": 1792121679875,
+      "date": 20261015,
+      "type": "review",
+      "name": "I'll Remember April",
+      "passed": true,
+      "key": "G"
+    },
+    {
+      "ts": 1792121880616,
+      "date": 20261015,
+      "type": "repertoire_added",
+      "name": "Amazing Grace"
+    },
+    {
+      "ts": 1792122441983,
+      "date": 20261015,
+      "type": "practice_time",
+      "area": "review",
+      "name": "Stella by Starlight",
+      "secs": 501
+    },
+    {
+      "ts": 1792122441983,
+      "date": 20261015,
+      "type": "review",
+      "name": "Stella by Starlight",
+      "passed": true,
+      "key": "Bb"
     }
   ],
   "extraReviewsToday": {
@@ -7608,6 +7684,14 @@
       "notes": null,
       "addedDate": 20260502,
       "lastReviewed": null
+    },
+    {
+      "name": "Amazing Grace",
+      "composer": "Traditional",
+      "notes": null,
+      "addedDate": 20261015,
+      "lastReviewed": null,
+      "pinnedDate": null
     }
   ],
   "voicings": [
@@ -8020,6 +8104,17 @@
       "addedDate": 20261012,
       "sortSeed": 0.45430462724957676,
       "lastPracticed": null
+    },
+    {
+      "name": "D-7 (So What inversion)",
+      "category": "Minor 7",
+      "topNote": "1",
+      "image": "min-11-top-1.png",
+      "familiarity": 0,
+      "addedDate": 20261015,
+      "sortSeed": 0.9193549869122232,
+      "lastPracticed": null,
+      "pinnedDate": null
     }
   ],
   "voicingsSeedVersion": 2,
@@ -8146,12 +8241,5 @@
   "voicingChordsSplit": true,
   "voicingMinorSplit": true,
   "voicingHalfDimSplit": true,
-  "voicingActivityNamesFixed": true,
-  "timer": {
-    "area": "keys",
-    "name": "Bye Bye Blackbird",
-    "start": 1792116462464,
-    "runStart": 1792116462464,
-    "accMs": 0
-  }
+  "voicingActivityNamesFixed": true
 }
