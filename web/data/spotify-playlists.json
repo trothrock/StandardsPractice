@@ -267,6 +267,31 @@
           "albumId": "0H3mBFA2jegrYEGTI2Op0j",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e0204ac427bdcee6e6d0ddeafcd",
           "addedAt": "2026-10-13T02:11:41Z"
+        },
+        {
+          "trackId": "3zqVCujN4nNryzTCwLGO3G",
+          "name": "What Is This Thing Called Love",
+          "artists": [
+            "Clifford Brown",
+            "Max Roach Quintet",
+            "Sonny Rollins"
+          ],
+          "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+          "albumId": "6PuVuJwyxyBZXMz73teSoV",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e021f8972135b07af1f0d59c47e",
+          "addedAt": "2026-10-18T02:45:18Z"
+        },
+        {
+          "trackId": "5qhSOJFmfdfoqQmQZMtNyP",
+          "name": "A Night In Tunisia",
+          "artists": [
+            "Charlie Parker",
+            "Miles Davis"
+          ],
+          "album": "The Complete Savoy & Dial Master Takes",
+          "albumId": "2c6BUJGIxa4SA94iYX4JkT",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e02efeacf1513a1afa979a1a730",
+          "addedAt": "2026-10-18T02:47:46Z"
         }
       ]
     },

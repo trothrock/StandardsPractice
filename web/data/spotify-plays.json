@@ -1517,6 +1517,114 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e029e447b59bd3e2cbefaa31d91",
       "durationMs": 245493,
       "context": "spotify:playlist:37i9dQZF1E8ESOiWpq0FTy"
+    },
+    {
+      "playedAt": "2026-10-17T15:35:09.131Z",
+      "trackId": "12yHvSYFXI7PGzNecUvIDu",
+      "name": "Saturday Night’s Alright (For Fighting) - Remastered 2014",
+      "artists": [
+        "Elton John"
+      ],
+      "album": "Goodbye Yellow Brick Road (Remastered)",
+      "albumId": "5WupqgR68HfuHt3BMJtgun",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02f72f1e38e9bd48f18a17ed9b",
+      "durationMs": 295466,
+      "context": null
+    },
+    {
+      "playedAt": "2026-10-17T15:41:32.489Z",
+      "trackId": "2LXISHBkx8FyoxCBkckh19",
+      "name": "Do It Again",
+      "artists": [
+        "Steely Dan"
+      ],
+      "album": "Can't Buy A Thrill",
+      "albumId": "6DlSUW5gmq6Byc3osKDJ2p",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e020ddd7e736f870994f4707947",
+      "durationMs": 357041,
+      "context": "spotify:playlist:37i9dQZF1E4ljikG4oUmEm"
+    },
+    {
+      "playedAt": "2026-10-17T18:10:07.741Z",
+      "trackId": "2h23bjG8B3bcD47HBu6bHG",
+      "name": "Late in the Evening",
+      "artists": [
+        "Paul Simon"
+      ],
+      "album": "One-Trick Pony",
+      "albumId": "5Be2SD7NA17AVhzq3elNVX",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02602bb41908a114dcac761eb9",
+      "durationMs": 242706,
+      "context": "spotify:playlist:37i9dQZF1E4ljikG4oUmEm"
+    },
+    {
+      "playedAt": "2026-10-17T18:14:47.612Z",
+      "trackId": "60TB2Ifv7CCjjyROXXnChC",
+      "name": "Too High",
+      "artists": [
+        "Stevie Wonder"
+      ],
+      "album": "Innervisions",
+      "albumId": "5jgI8Eminx9MmLBontDWq8",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02ea8ab1a548312b79ac955266",
+      "durationMs": 276226,
+      "context": "spotify:playlist:37i9dQZF1E4ljikG4oUmEm"
+    },
+    {
+      "playedAt": "2026-10-17T20:37:17.286Z",
+      "trackId": "4nXkbcTj3nyww1cHkw5RAP",
+      "name": "Long Train Runnin'",
+      "artists": [
+        "The Doobie Brothers"
+      ],
+      "album": "The Captain and Me",
+      "albumId": "0M2KWMbvY5x1sUnIKNpyUt",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e027d419ac975423c069995c7bb",
+      "durationMs": 207266,
+      "context": "spotify:playlist:37i9dQZF1E4ljikG4oUmEm"
+    },
+    {
+      "playedAt": "2026-10-17T20:45:10.677Z",
+      "trackId": "3zqVCujN4nNryzTCwLGO3G",
+      "name": "What Is This Thing Called Love",
+      "artists": [
+        "Clifford Brown",
+        "Max Roach Quintet",
+        "Sonny Rollins"
+      ],
+      "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+      "albumId": "6PuVuJwyxyBZXMz73teSoV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021f8972135b07af1f0d59c47e",
+      "durationMs": 453146,
+      "context": "spotify:album:6PuVuJwyxyBZXMz73teSoV"
+    },
+    {
+      "playedAt": "2026-10-17T20:49:24.577Z",
+      "trackId": "5pTuJH96AK3erpxaVqryHZ",
+      "name": "Love Is A Many Splendored Thing",
+      "artists": [
+        "Clifford Brown",
+        "Max Roach Quintet"
+      ],
+      "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+      "albumId": "6PuVuJwyxyBZXMz73teSoV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021f8972135b07af1f0d59c47e",
+      "durationMs": 253893,
+      "context": "spotify:album:6PuVuJwyxyBZXMz73teSoV"
+    },
+    {
+      "playedAt": "2026-10-17T22:32:53.708Z",
+      "trackId": "3xEAZQNPiwucPdGagdoD5j",
+      "name": "I'll Remember April",
+      "artists": [
+        "Clifford Brown",
+        "Max Roach Quintet"
+      ],
+      "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+      "albumId": "6PuVuJwyxyBZXMz73teSoV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021f8972135b07af1f0d59c47e",
+      "durationMs": 553066,
+      "context": "spotify:album:6PuVuJwyxyBZXMz73teSoV"
     }
   ]
 }
