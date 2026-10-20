@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-10-17",
+  "lastSyncDate": "2026-10-19",
   "plays": [
     {
       "playedAt": "2026-10-01T01:25:15.151Z",
@@ -1625,6 +1625,71 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e021f8972135b07af1f0d59c47e",
       "durationMs": 553066,
       "context": "spotify:album:6PuVuJwyxyBZXMz73teSoV"
+    },
+    {
+      "playedAt": "2026-10-19T00:08:07.053Z",
+      "trackId": "5vb7At47uO0yPGfmYnAHuw",
+      "name": "'Round Midnight (feat. John Coltrane, Red Garland, Paul Chambers & Philly Joe Jones)",
+      "artists": [
+        "Miles Davis",
+        "John Coltrane",
+        "Red Garland",
+        "Paul Chambers",
+        "Philly Joe Jones"
+      ],
+      "album": "'Round About Midnight",
+      "albumId": "4VUawqEDCHHfrUe77ScQ2K",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02cb6f92683ff9ad65f27a3f9f",
+      "durationMs": 355333,
+      "context": "spotify:album:4VUawqEDCHHfrUe77ScQ2K"
+    },
+    {
+      "playedAt": "2026-10-19T00:09:51.243Z",
+      "trackId": "5qhSOJFmfdfoqQmQZMtNyP",
+      "name": "A Night In Tunisia",
+      "artists": [
+        "Charlie Parker",
+        "Miles Davis"
+      ],
+      "album": "The Complete Savoy & Dial Master Takes",
+      "albumId": "2c6BUJGIxa4SA94iYX4JkT",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02efeacf1513a1afa979a1a730",
+      "durationMs": 183706,
+      "context": null
+    },
+    {
+      "playedAt": "2026-10-19T00:13:57.359Z",
+      "trackId": "5pNPLXfPS6ZC5EYxbHbWvD",
+      "name": "Ah-Leu-Cha (feat. John Coltrane, Red Garland, Paul Chambers & Philly Joe Jones)",
+      "artists": [
+        "Miles Davis",
+        "John Coltrane",
+        "Red Garland",
+        "Paul Chambers",
+        "Philly Joe Jones"
+      ],
+      "album": "'Round About Midnight",
+      "albumId": "4VUawqEDCHHfrUe77ScQ2K",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02cb6f92683ff9ad65f27a3f9f",
+      "durationMs": 350333,
+      "context": "spotify:album:4VUawqEDCHHfrUe77ScQ2K"
+    },
+    {
+      "playedAt": "2026-10-19T00:21:26.095Z",
+      "trackId": "21HG0QIgIcVQ2EZeXubaqL",
+      "name": "All of You (feat. John Coltrane, Red Garland, Paul Chambers & Philly Joe Jones)",
+      "artists": [
+        "Miles Davis",
+        "John Coltrane",
+        "Red Garland",
+        "Paul Chambers",
+        "Philly Joe Jones"
+      ],
+      "album": "'Round About Midnight",
+      "albumId": "4VUawqEDCHHfrUe77ScQ2K",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02cb6f92683ff9ad65f27a3f9f",
+      "durationMs": 420693,
+      "context": "spotify:album:4VUawqEDCHHfrUe77ScQ2K"
     }
   ]
 }
