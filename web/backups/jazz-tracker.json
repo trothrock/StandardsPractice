@@ -155,7 +155,11 @@
       "multiKey": true,
       "tags": [
         "Songbook"
-      ]
+      ],
+      "practiceKey": {
+        "date": 20261019,
+        "key": "B"
+      }
     },
     "All of You": {
       "name": "All of You",
@@ -608,8 +612,8 @@
       "multiKey": true,
       "staleFrom": 20261002,
       "practiceKey": {
-        "date": 20261012,
-        "key": "A"
+        "date": 20261019,
+        "key": "B"
       },
       "tags": [
         "Songbook"
@@ -2546,8 +2550,8 @@
         "Jam"
       ],
       "practiceKey": {
-        "date": 20261012,
-        "key": "A"
+        "date": 20261019,
+        "key": "B"
       }
     },
     "Just One of Those Things": {
@@ -3511,7 +3515,11 @@
           "at": 77,
           "text": "Charlie Parker break"
         }
-      ]
+      ],
+      "learningSteps": {
+        "recording": true,
+        "intro-outro": true
+      }
     },
     "Night Train": {
       "name": "Night Train",
@@ -5460,8 +5468,8 @@
     }
   },
   "currentNewSong": "Night in Tunisia",
-  "streak": 2,
-  "lastPracticeDay": 20261015,
+  "streak": 1,
+  "lastPracticeDay": 20261019,
   "activity": [
     {
       "ts": 1776634938073,
@@ -7483,6 +7491,36 @@
       "name": "Stella by Starlight",
       "passed": true,
       "key": "Bb"
+    },
+    {
+      "ts": 1792459108962,
+      "date": 20261017,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "Night in Tunisia",
+      "secs": 1800,
+      "origSecs": 167495
+    },
+    {
+      "ts": 1792459108962,
+      "date": 20261017,
+      "type": "practiced",
+      "name": "Night in Tunisia"
+    },
+    {
+      "ts": 1792461418209,
+      "date": 20261019,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "Night in Tunisia",
+      "secs": 1800,
+      "origSecs": 1524
+    },
+    {
+      "ts": 1792461418210,
+      "date": 20261019,
+      "type": "practiced",
+      "name": "Night in Tunisia"
     }
   ],
   "extraReviewsToday": {
@@ -8126,7 +8164,7 @@
     }
   ],
   "voicingsSeedVersion": 2,
-  "reviewQueueMode": "all",
+  "reviewQueueMode": "learnedOnly",
   "todaySections": {
     "learning": true,
     "repertoire": true,
@@ -8216,10 +8254,10 @@
   "cadenceVersion": 7,
   "multiKeyPerWeek": 3,
   "multiKeyWeek": {
-    "weekStart": 20261012,
-    "key": "A"
+    "weekStart": 20261019,
+    "key": "B"
   },
-  "exitChecklistOpen": false,
+  "exitChecklistOpen": true,
   "exitChecklistDetailOpen": false,
   "practiceFocusMigrated": true,
   "repertoireFocusMigrated": true,
@@ -8249,12 +8287,5 @@
   "voicingChordsSplit": true,
   "voicingMinorSplit": true,
   "voicingHalfDimSplit": true,
-  "voicingActivityNamesFixed": true,
-  "timer": {
-    "area": "learn",
-    "name": "Night in Tunisia",
-    "start": 1792291613639,
-    "runStart": 1792291613639,
-    "accMs": 0
-  }
+  "voicingActivityNamesFixed": true
 }

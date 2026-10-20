@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-10-19",
+  "lastSyncDate": "2026-10-20",
   "plays": [
     {
       "playedAt": "2026-10-01T01:25:15.151Z",
@@ -1690,6 +1690,53 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02cb6f92683ff9ad65f27a3f9f",
       "durationMs": 420693,
       "context": "spotify:album:4VUawqEDCHHfrUe77ScQ2K"
+    },
+    {
+      "playedAt": "2026-10-19T19:03:39.995Z",
+      "trackId": "7AluKctEULNW4hid0C1qmT",
+      "name": "Bye Bye Blackbird",
+      "artists": [
+        "Peggy Lee"
+      ],
+      "album": "Songs From Pete Kelly's Blues",
+      "albumId": "7cIzhj3PKOQejaqfu15M9J",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0262c5868af83edb6d9f33ec16",
+      "durationMs": 219906,
+      "context": "spotify:playlist:7fZ6gB7eyboQzF920WzypX"
+    },
+    {
+      "playedAt": "2026-10-19T19:14:05.490Z",
+      "trackId": "2PlRiYiKzfoiKpSsjIsaJj",
+      "name": "A Night In Tunisia",
+      "artists": [
+        "Charlie Parker",
+        "Dizzy Gillespie",
+        "Bud Powell",
+        "Max Roach",
+        "Charles Mingus"
+      ],
+      "album": "The Quintet: Jazz At Massey Hall [Original Jazz Classics Remasters]",
+      "albumId": "0H3mBFA2jegrYEGTI2Op0j",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0204ac427bdcee6e6d0ddeafcd",
+      "durationMs": 454320,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-10-20T01:35:31.829Z",
+      "trackId": "2PlRiYiKzfoiKpSsjIsaJj",
+      "name": "A Night In Tunisia",
+      "artists": [
+        "Charlie Parker",
+        "Dizzy Gillespie",
+        "Bud Powell",
+        "Max Roach",
+        "Charles Mingus"
+      ],
+      "album": "The Quintet: Jazz At Massey Hall [Original Jazz Classics Remasters]",
+      "albumId": "0H3mBFA2jegrYEGTI2Op0j",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0204ac427bdcee6e6d0ddeafcd",
+      "durationMs": 454320,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
     }
   ]
 }
