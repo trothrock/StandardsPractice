@@ -1187,6 +1187,16 @@
       "staleFrom": 20261002,
       "tags": [
         "Post-bop"
+      ],
+      "practiceFocus": [
+        {
+          "text": "G and F pedal section improvisation",
+          "done": false
+        },
+        {
+          "text": "Bmin7 through to pedal improvisation",
+          "done": false
+        }
       ]
     },
     "Don't Blame Me": {
@@ -3518,7 +3528,11 @@
       ],
       "learningSteps": {
         "recording": true,
-        "intro-outro": true
+        "intro-outro": true,
+        "history": true,
+        "melody-shell": true,
+        "melody-rootless": true,
+        "lyrics": true
       }
     },
     "Night Train": {
@@ -5468,8 +5482,8 @@
     }
   },
   "currentNewSong": "Night in Tunisia",
-  "streak": 1,
-  "lastPracticeDay": 20261019,
+  "streak": 2,
+  "lastPracticeDay": 20261020,
   "activity": [
     {
       "ts": 1776634938073,
@@ -7521,6 +7535,20 @@
       "date": 20261019,
       "type": "practiced",
       "name": "Night in Tunisia"
+    },
+    {
+      "ts": 1792494864534,
+      "date": 20261020,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "Night in Tunisia",
+      "secs": 1291
+    },
+    {
+      "ts": 1792494864535,
+      "date": 20261020,
+      "type": "practiced",
+      "name": "Night in Tunisia"
     }
   ],
   "extraReviewsToday": {
@@ -8287,5 +8315,12 @@
   "voicingChordsSplit": true,
   "voicingMinorSplit": true,
   "voicingHalfDimSplit": true,
-  "voicingActivityNamesFixed": true
+  "voicingActivityNamesFixed": true,
+  "timer": {
+    "area": "review",
+    "name": "Dolphin Dance",
+    "start": 1792494889485,
+    "runStart": 1792494889485,
+    "accMs": 0
+  }
 }
