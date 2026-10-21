@@ -3549,7 +3549,8 @@
         "history": true,
         "melody-shell": true,
         "melody-rootless": true,
-        "lyrics": true
+        "lyrics": true,
+        "bass-track": true
       }
     },
     "Night Train": {
@@ -5499,8 +5500,8 @@
     }
   },
   "currentNewSong": "Night in Tunisia",
-  "streak": 2,
-  "lastPracticeDay": 20261020,
+  "streak": 3,
+  "lastPracticeDay": 20261021,
   "activity": [
     {
       "ts": 1776634938073,
@@ -7596,6 +7597,63 @@
       "date": 20261020,
       "type": "repertoire_practiced",
       "name": "Basin Street Blues"
+    },
+    {
+      "ts": 1792582037612,
+      "date": 20261021,
+      "type": "practice_time",
+      "area": "rep",
+      "name": "Basin Street Blues",
+      "secs": 1116
+    },
+    {
+      "ts": 1792582037612,
+      "date": 20261021,
+      "type": "repertoire_practiced",
+      "name": "Basin Street Blues"
+    },
+    {
+      "ts": 1792582212215,
+      "date": 20261021,
+      "type": "practice_time",
+      "area": "voicing",
+      "name": "[4] Minor ii-V-I",
+      "secs": 47
+    },
+    {
+      "ts": 1792582212215,
+      "date": 20261021,
+      "type": "voicing_session",
+      "name": "[4] Minor ii-V-I"
+    },
+    {
+      "ts": 1792583247622,
+      "date": 20261021,
+      "type": "practice_time",
+      "area": "voicing",
+      "name": "[5] Minor ii-V-I",
+      "secs": 1009
+    },
+    {
+      "ts": 1792583247622,
+      "date": 20261021,
+      "type": "voicing_session",
+      "name": "[5] Minor ii-V-I"
+    },
+    {
+      "ts": 1792584020466,
+      "date": 20261021,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "Night in Tunisia",
+      "secs": 720,
+      "origSecs": 434
+    },
+    {
+      "ts": 1792584020466,
+      "date": 20261021,
+      "type": "practiced",
+      "name": "Night in Tunisia"
     }
   ],
   "extraReviewsToday": {
@@ -7685,7 +7743,17 @@
       "notes": null,
       "addedDate": 20260502,
       "lastReviewed": null,
-      "pinnedDate": 20261020
+      "pinnedDate": 20261021,
+      "practiceFocus": [
+        {
+          "text": "Last turnaround of head in",
+          "done": true
+        },
+        {
+          "text": "Solo section stride pattern",
+          "done": true
+        }
+      ]
     },
     {
       "name": "A Sleepin' Bee",
@@ -7918,7 +7986,6 @@
       "addedDate": 20261005,
       "sortSeed": 0.2461268586852252,
       "lastPracticed": null,
-      "pinnedDate": 20261014,
       "chords": [
         "D-11 · top G",
         "G9",
@@ -7968,7 +8035,8 @@
         "B-7(♭5) · top G",
         "E7(♯9,♭13) · top G",
         "A-6/9 · top A"
-      ]
+      ],
+      "pinnedDate": 20261021
     },
     {
       "name": "[6] Minor ii-V-I",
@@ -8233,8 +8301,7 @@
       "familiarity": 0,
       "addedDate": 20261015,
       "sortSeed": 0.9193549869122232,
-      "lastPracticed": null,
-      "pinnedDate": null
+      "lastPracticed": null
     }
   ],
   "voicingsSeedVersion": 2,
@@ -8331,7 +8398,7 @@
     "weekStart": 20261019,
     "key": "B"
   },
-  "exitChecklistOpen": false,
+  "exitChecklistOpen": true,
   "exitChecklistDetailOpen": false,
   "practiceFocusMigrated": true,
   "repertoireFocusMigrated": true,
