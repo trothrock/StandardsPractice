@@ -7615,14 +7615,6 @@
     {
       "ts": 1792582212215,
       "date": 20261021,
-      "type": "practice_time",
-      "area": "voicing",
-      "name": "[4] Minor ii-V-I",
-      "secs": 47
-    },
-    {
-      "ts": 1792582212215,
-      "date": 20261021,
       "type": "voicing_session",
       "name": "[4] Minor ii-V-I"
     },
@@ -8403,8 +8395,8 @@
   "practiceFocusMigrated": true,
   "repertoireFocusMigrated": true,
   "tagsVersion": 4,
-  "keyWheelMode": "familiarity",
-  "keyWheelMetric": "count",
+  "keyWheelMode": "sessions",
+  "keyWheelMetric": "minutes",
   "setList": [
     "Basin Street Blues",
     "The Crave",
