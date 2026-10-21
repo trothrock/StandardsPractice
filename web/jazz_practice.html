@@ -393,7 +393,10 @@
       </div>
     </div>
     <div id="panel-library" class="panel">
-      <div class="panel-title">Library</div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px">
+        <div class="panel-title">Library</div>
+        <button class="btn-primary" onclick="openAddSong()">+ Add song</button>
+      </div>
       <div class="panel-sub" id="library-sub"></div>
       <div class="filter-row">
         <input type="text" id="lib-search" placeholder="Search by title..." oninput="renderLibrary()">
