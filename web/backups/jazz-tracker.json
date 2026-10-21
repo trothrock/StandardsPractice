@@ -1177,6 +1177,11 @@
           "date": 20261002,
           "passed": false,
           "key": "Eb"
+        },
+        {
+          "date": 20261020,
+          "passed": false,
+          "key": "Eb"
         }
       ],
       "sortSeed": 0.3337723339745905,
@@ -1196,6 +1201,18 @@
         {
           "text": "Bmin7 through to pedal improvisation",
           "done": false
+        },
+        {
+          "text": "Scale to chord mapping throughout",
+          "done": false
+        }
+      ],
+      "pointsOfInterest": [
+        {
+          "trackId": "1Ku5vu9Crncz8ixeT4Ijxc",
+          "album": "Maiden Voyage (Remastered 1999/Rudy Van Gelder Edition)",
+          "at": 408,
+          "text": "Herbie Hancock arpeggios"
         }
       ]
     },
@@ -7549,6 +7566,36 @@
       "date": 20261020,
       "type": "practiced",
       "name": "Night in Tunisia"
+    },
+    {
+      "ts": 1792497789154,
+      "date": 20261020,
+      "type": "practice_time",
+      "area": "review",
+      "name": "Dolphin Dance",
+      "secs": 2900
+    },
+    {
+      "ts": 1792497792964,
+      "date": 20261020,
+      "type": "review",
+      "name": "Dolphin Dance",
+      "passed": false,
+      "key": "Eb"
+    },
+    {
+      "ts": 1792498150058,
+      "date": 20261020,
+      "type": "practice_time",
+      "area": "rep",
+      "name": "Basin Street Blues",
+      "secs": 331
+    },
+    {
+      "ts": 1792498150058,
+      "date": 20261020,
+      "type": "repertoire_practiced",
+      "name": "Basin Street Blues"
     }
   ],
   "extraReviewsToday": {
@@ -7638,7 +7685,7 @@
       "notes": null,
       "addedDate": 20260502,
       "lastReviewed": null,
-      "pinnedDate": 20261014
+      "pinnedDate": 20261020
     },
     {
       "name": "A Sleepin' Bee",
@@ -7764,8 +7811,7 @@
       "composer": "Traditional",
       "notes": null,
       "addedDate": 20261015,
-      "lastReviewed": null,
-      "pinnedDate": null
+      "lastReviewed": null
     }
   ],
   "voicings": [
@@ -8285,7 +8331,7 @@
     "weekStart": 20261019,
     "key": "B"
   },
-  "exitChecklistOpen": true,
+  "exitChecklistOpen": false,
   "exitChecklistDetailOpen": false,
   "practiceFocusMigrated": true,
   "repertoireFocusMigrated": true,
@@ -8315,12 +8361,5 @@
   "voicingChordsSplit": true,
   "voicingMinorSplit": true,
   "voicingHalfDimSplit": true,
-  "voicingActivityNamesFixed": true,
-  "timer": {
-    "area": "review",
-    "name": "Dolphin Dance",
-    "start": 1792494889485,
-    "runStart": 1792494889485,
-    "accMs": 0
-  }
+  "voicingActivityNamesFixed": true
 }
