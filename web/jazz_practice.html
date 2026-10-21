@@ -2868,7 +2868,11 @@ function renderVoicingDetail(name) {
   const showTop = !v.chords;
   const top = showTop && v.topNote!=null ? `<span class="top-note">top: ${v.topNote}</span>` : '';
   const topField = showTop ? `<div class="detail-meta-field"><div class="label">Top note</div><div class="value${v.topNote!=null?'':' placeholder'}">${v.topNote!=null?v.topNote:'—'}</div></div>` : '';
-  const header = `<div class="detail-header">${img}<div class="detail-header-top"><span class="detail-title">${v.name}</span><span class="badge badge-style">${v.category}</span>${lvlBadge(v.familiarity||0)}${top}</div><div class="detail-meta-grid"><div class="detail-meta-field"><div class="label">Category</div><div class="value">${v.category}</div></div>${topField}<div class="detail-meta-field"><div class="label">Reviews</div><div class="value">${voicingReviewCount(db, v.name)}</div></div><div class="detail-meta-field"><div class="label">Added</div><div class="value${v.addedDate?'':' placeholder'}">${v.addedDate?formatIntDate(v.addedDate):'—'}</div></div></div></div>`;
+  const safeName = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  const practiceBtn = getFeaturedVoicing(db)===v
+    ? `<button class="btn-primary" style="margin-left:auto" disabled>Today's voicing</button>`
+    : `<button class="btn-primary" style="margin-left:auto" onclick="startPracticingVoicing('${safeName}');renderVoicingDetail('${safeName}')">Practice today</button>`;
+  const header = `<div class="detail-header">${img}<div class="detail-header-top"><span class="detail-title">${v.name}</span><span class="badge badge-style">${v.category}</span>${lvlBadge(v.familiarity||0)}${top}${practiceBtn}</div><div class="detail-meta-grid"><div class="detail-meta-field"><div class="label">Category</div><div class="value">${v.category}</div></div>${topField}<div class="detail-meta-field"><div class="label">Reviews</div><div class="value">${voicingReviewCount(db, v.name)}</div></div><div class="detail-meta-field"><div class="label">Added</div><div class="value${v.addedDate?'':' placeholder'}">${v.addedDate?formatIntDate(v.addedDate):'—'}</div></div></div></div>`;
   const entries = (db.activity||[]).filter(e=>e.name===name||e.oldName===name).sort((a,b)=>b.ts-a.ts);
   const timeline = entries.length===0
     ? '<div class="empty">No activity for this voicing yet.</div>'
