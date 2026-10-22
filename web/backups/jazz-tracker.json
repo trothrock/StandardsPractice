@@ -332,6 +332,14 @@
         "Bop",
         "Rhythm changes",
         "Jam"
+      ],
+      "pointsOfInterest": [
+        {
+          "trackId": "4lm669ZRk2EkTHg8An9n8T",
+          "album": "Burnin' Bird",
+          "at": 45,
+          "text": "Charlie Parker long line"
+        }
       ]
     },
     "April in Paris": {
@@ -1249,6 +1257,14 @@
       ],
       "tags": [
         "Ballad"
+      ],
+      "pointsOfInterest": [
+        {
+          "trackId": "5B2xSO7OOIWNeoCbkIy1lB",
+          "album": "Sirius",
+          "at": 146,
+          "text": "Barry Harris whole tone turnaround"
+        }
       ]
     },
     "Don't Get Around Much Anymore": {
@@ -1636,6 +1652,20 @@
         "Blues",
         "Minor",
         "Jam"
+      ],
+      "pointsOfInterest": [
+        {
+          "trackId": "2wjHWYJVAs5TYSRP83JLmc",
+          "album": "Miles Smiles",
+          "at": 24,
+          "text": "Herbie Hancock planing voicings"
+        },
+        {
+          "trackId": "2wjHWYJVAs5TYSRP83JLmc",
+          "album": "Miles Smiles",
+          "at": 229,
+          "text": "Miles Davis chromaticism"
+        }
       ]
     },
     "Gee Baby Ain't I Good to You": {
@@ -2260,6 +2290,14 @@
         "Songbook",
         "Latin",
         "Jam"
+      ],
+      "pointsOfInterest": [
+        {
+          "trackId": "3xEAZQNPiwucPdGagdoD5j",
+          "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+          "at": 250,
+          "text": "Sonny Rollins lick"
+        }
       ]
     },
     "I'm in the Mood for Love": {
@@ -5198,6 +5236,14 @@
       "tags": [
         "Songbook",
         "Jam"
+      ],
+      "pointsOfInterest": [
+        {
+          "trackId": "3zqVCujN4nNryzTCwLGO3G",
+          "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+          "at": 383,
+          "text": "Clifford Brown bop language"
+        }
       ]
     },
     "What's New?": {

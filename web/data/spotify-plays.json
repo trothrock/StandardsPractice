@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-10-21",
+  "lastSyncDate": "2026-10-22",
   "plays": [
     {
       "playedAt": "2026-10-01T01:25:15.151Z",
@@ -1736,6 +1736,55 @@
       "albumId": "0H3mBFA2jegrYEGTI2Op0j",
       "albumImage": "https://i.scdn.co/image/ab67616d00001e0204ac427bdcee6e6d0ddeafcd",
       "durationMs": 454320,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-10-22T02:54:57.987Z",
+      "trackId": "3ujbZ2FGIoTQG3v07tmV2D",
+      "name": "Bye Bye Blackbird (feat. John Coltrane, Red Garland, Paul Chambers & Philly Joe Jones)",
+      "artists": [
+        "Miles Davis",
+        "John Coltrane",
+        "Red Garland",
+        "Paul Chambers",
+        "Philly Joe Jones"
+      ],
+      "album": "'Round About Midnight",
+      "albumId": "4VUawqEDCHHfrUe77ScQ2K",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02cb6f92683ff9ad65f27a3f9f",
+      "durationMs": 474626,
+      "context": "spotify:album:4VUawqEDCHHfrUe77ScQ2K"
+    },
+    {
+      "playedAt": "2026-10-22T03:02:50.526Z",
+      "trackId": "2PlRiYiKzfoiKpSsjIsaJj",
+      "name": "A Night In Tunisia",
+      "artists": [
+        "Charlie Parker",
+        "Dizzy Gillespie",
+        "Bud Powell",
+        "Max Roach",
+        "Charles Mingus"
+      ],
+      "album": "The Quintet: Jazz At Massey Hall [Original Jazz Classics Remasters]",
+      "albumId": "0H3mBFA2jegrYEGTI2Op0j",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0204ac427bdcee6e6d0ddeafcd",
+      "durationMs": 454320,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-10-22T03:37:05.171Z",
+      "trackId": "3zqVCujN4nNryzTCwLGO3G",
+      "name": "What Is This Thing Called Love",
+      "artists": [
+        "Clifford Brown",
+        "Max Roach Quintet",
+        "Sonny Rollins"
+      ],
+      "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+      "albumId": "6PuVuJwyxyBZXMz73teSoV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021f8972135b07af1f0d59c47e",
+      "durationMs": 453146,
       "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
     }
   ]
