@@ -783,7 +783,7 @@
       "practiceFocus": [
         {
           "text": "Intro / outro",
-          "done": false
+          "done": true
         },
         {
           "text": "biii bVi lead ins",
@@ -3243,9 +3243,15 @@
       "baseLevel": 0,
       "currentLevel": 2,
       "status": "active",
-      "intervalIdx": 0,
+      "intervalIdx": 1,
       "learnedDate": 20261005,
-      "reviews": [],
+      "reviews": [
+        {
+          "date": 20261023,
+          "passed": true,
+          "key": "Ab"
+        }
+      ],
       "sortSeed": 0.42746147795665823,
       "composer": "Vincent Youmans",
       "year": 1929,
@@ -5546,8 +5552,8 @@
     }
   },
   "currentNewSong": "Night in Tunisia",
-  "streak": 3,
-  "lastPracticeDay": 20261021,
+  "streak": 1,
+  "lastPracticeDay": 20261023,
   "activity": [
     {
       "ts": 1776634938073,
@@ -7692,6 +7698,22 @@
       "date": 20261021,
       "type": "practiced",
       "name": "Night in Tunisia"
+    },
+    {
+      "ts": 1792754745513,
+      "date": 20261023,
+      "type": "practice_time",
+      "area": "review",
+      "name": "More Than You Know",
+      "secs": 842
+    },
+    {
+      "ts": 1792754745513,
+      "date": 20261023,
+      "type": "review",
+      "name": "More Than You Know",
+      "passed": true,
+      "key": "Ab"
     }
   ],
   "extraReviewsToday": {
@@ -8466,5 +8488,12 @@
   "voicingChordsSplit": true,
   "voicingMinorSplit": true,
   "voicingHalfDimSplit": true,
-  "voicingActivityNamesFixed": true
+  "voicingActivityNamesFixed": true,
+  "timer": {
+    "area": "review",
+    "name": "Bye Bye Blackbird",
+    "start": 1792754850422,
+    "runStart": 1792754850422,
+    "accMs": 0
+  }
 }
