@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-10-22",
+  "lastSyncDate": "2026-10-23",
   "plays": [
     {
       "playedAt": "2026-10-01T01:25:15.151Z",
@@ -1786,6 +1786,21 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e021f8972135b07af1f0d59c47e",
       "durationMs": 453146,
       "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-10-22T15:21:56.779Z",
+      "trackId": "1ux8pH8tHLtm70aeJaa6Bj",
+      "name": "Monk's Blues - Live At Newport Jazz Festival, July 5, 1963",
+      "artists": [
+        "McCoy Tyner",
+        "Bob Cranshaw",
+        "Mickey Roker"
+      ],
+      "album": "Live At Newport",
+      "albumId": "26lBmmgeplvXm9stlDQapz",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e026bdf224a10afab7664aeaa3f",
+      "durationMs": 419266,
+      "context": "spotify:album:26lBmmgeplvXm9stlDQapz"
     }
   ]
 }
