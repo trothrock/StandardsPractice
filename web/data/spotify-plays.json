@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-10-23",
+  "lastSyncDate": "2026-10-24",
   "plays": [
     {
       "playedAt": "2026-10-01T01:25:15.151Z",
@@ -1801,6 +1801,129 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e026bdf224a10afab7664aeaa3f",
       "durationMs": 419266,
       "context": "spotify:album:26lBmmgeplvXm9stlDQapz"
+    },
+    {
+      "playedAt": "2026-10-23T11:43:13.824Z",
+      "trackId": "6q8JYOuYM13UOyBaLYFC08",
+      "name": "A Night In Tunisia",
+      "artists": [
+        "Lee Morgan"
+      ],
+      "album": "The Cooker",
+      "albumId": "47AT8h8Vc7LD3NIiNNC2Py",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b62071d82ec9369b8fa8fad6",
+      "durationMs": 562520,
+      "context": null
+    },
+    {
+      "playedAt": "2026-10-23T13:42:49.402Z",
+      "trackId": "01uqwPHqfGnOK1D2pjooLv",
+      "name": "Bye Bye Blackbird",
+      "artists": [
+        "Ben Webster",
+        "Oscar Peterson"
+      ],
+      "album": "Verve Jazz Masters 43: Ben Webster",
+      "albumId": "4hafeOXr4qO4FqaFGRgCOe",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02588e03ea1909d877161cce5c",
+      "durationMs": 402693,
+      "context": "spotify:album:4hafeOXr4qO4FqaFGRgCOe"
+    },
+    {
+      "playedAt": "2026-10-23T13:48:03.889Z",
+      "trackId": "2jZgFEONQS7Bk64IytEBU8",
+      "name": "In A Mellow Tone",
+      "artists": [
+        "Ben Webster"
+      ],
+      "album": "Verve Jazz Masters 43: Ben Webster",
+      "albumId": "4hafeOXr4qO4FqaFGRgCOe",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02588e03ea1909d877161cce5c",
+      "durationMs": 309333,
+      "context": "spotify:album:4hafeOXr4qO4FqaFGRgCOe"
+    },
+    {
+      "playedAt": "2026-10-23T15:29:03.258Z",
+      "trackId": "6q8JYOuYM13UOyBaLYFC08",
+      "name": "A Night In Tunisia",
+      "artists": [
+        "Lee Morgan"
+      ],
+      "album": "The Cooker",
+      "albumId": "47AT8h8Vc7LD3NIiNNC2Py",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b62071d82ec9369b8fa8fad6",
+      "durationMs": 562520,
+      "context": "spotify:album:47AT8h8Vc7LD3NIiNNC2Py"
+    },
+    {
+      "playedAt": "2026-10-23T15:31:34.677Z",
+      "trackId": "3ujbZ2FGIoTQG3v07tmV2D",
+      "name": "Bye Bye Blackbird (feat. John Coltrane, Red Garland, Paul Chambers & Philly Joe Jones)",
+      "artists": [
+        "Miles Davis",
+        "John Coltrane",
+        "Red Garland",
+        "Paul Chambers",
+        "Philly Joe Jones"
+      ],
+      "album": "'Round About Midnight",
+      "albumId": "4VUawqEDCHHfrUe77ScQ2K",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02cb6f92683ff9ad65f27a3f9f",
+      "durationMs": 474626,
+      "context": null
+    },
+    {
+      "playedAt": "2026-10-23T15:36:08.709Z",
+      "trackId": "0934KojO0vI5QvLA8cjnfQ",
+      "name": "Heavy Dipper",
+      "artists": [
+        "Lee Morgan"
+      ],
+      "album": "The Cooker",
+      "albumId": "47AT8h8Vc7LD3NIiNNC2Py",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b62071d82ec9369b8fa8fad6",
+      "durationMs": 425426,
+      "context": "spotify:album:47AT8h8Vc7LD3NIiNNC2Py"
+    },
+    {
+      "playedAt": "2026-10-23T15:43:25.432Z",
+      "trackId": "0zztrA9NQkQTz3OQiNljXR",
+      "name": "Just One Of Those Things",
+      "artists": [
+        "Lee Morgan"
+      ],
+      "album": "The Cooker",
+      "albumId": "47AT8h8Vc7LD3NIiNNC2Py",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b62071d82ec9369b8fa8fad6",
+      "durationMs": 436733,
+      "context": "spotify:album:47AT8h8Vc7LD3NIiNNC2Py"
+    },
+    {
+      "playedAt": "2026-10-23T15:50:16.322Z",
+      "trackId": "6IF7uian979RlfiVChwK3u",
+      "name": "Lover Man",
+      "artists": [
+        "Lee Morgan"
+      ],
+      "album": "The Cooker",
+      "albumId": "47AT8h8Vc7LD3NIiNNC2Py",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b62071d82ec9369b8fa8fad6",
+      "durationMs": 410920,
+      "context": "spotify:album:47AT8h8Vc7LD3NIiNNC2Py"
+    },
+    {
+      "playedAt": "2026-10-24T02:09:20.867Z",
+      "trackId": "69WL67h0QBQkR0lgOGeVAc",
+      "name": "Chelsea Bridge",
+      "artists": [
+        "Gerry Mulligan",
+        "Ben Webster"
+      ],
+      "album": "Verve Jazz Masters 43: Ben Webster",
+      "albumId": "4hafeOXr4qO4FqaFGRgCOe",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02588e03ea1909d877161cce5c",
+      "durationMs": 438733,
+      "context": "spotify:album:4hafeOXr4qO4FqaFGRgCOe"
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-10-23",
+  "lastSyncDate": "2026-10-24",
   "playlists": [
     {
       "name": "Standards Practice",
@@ -367,6 +367,17 @@
           "albumId": "7cIzhj3PKOQejaqfu15M9J",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e0262c5868af83edb6d9f33ec16",
           "addedAt": "2026-10-05T11:40:57Z"
+        },
+        {
+          "trackId": "2jZgFEONQS7Bk64IytEBU8",
+          "name": "In A Mellow Tone",
+          "artists": [
+            "Ben Webster"
+          ],
+          "album": "Verve Jazz Masters 43: Ben Webster",
+          "albumId": "4hafeOXr4qO4FqaFGRgCOe",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e02588e03ea1909d877161cce5c",
+          "addedAt": "2026-10-23T13:43:49Z"
         }
       ]
     }

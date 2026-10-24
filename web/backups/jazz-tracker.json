@@ -756,9 +756,15 @@
       "baseLevel": 0,
       "currentLevel": 2,
       "status": "active",
-      "intervalIdx": 0,
+      "intervalIdx": 1,
       "learnedDate": 20261012,
-      "reviews": [],
+      "reviews": [
+        {
+          "date": 20261023,
+          "passed": true,
+          "key": "F"
+        }
+      ],
       "sortSeed": 0.13183891424433314,
       "composer": "Ray Henderson",
       "year": 1926,
@@ -7714,6 +7720,22 @@
       "name": "More Than You Know",
       "passed": true,
       "key": "Ab"
+    },
+    {
+      "ts": 1792756839005,
+      "date": 20261023,
+      "type": "practice_time",
+      "area": "review",
+      "name": "Bye Bye Blackbird",
+      "secs": 1989
+    },
+    {
+      "ts": 1792756839005,
+      "date": 20261023,
+      "type": "review",
+      "name": "Bye Bye Blackbird",
+      "passed": true,
+      "key": "F"
     }
   ],
   "extraReviewsToday": {
@@ -8488,12 +8510,5 @@
   "voicingChordsSplit": true,
   "voicingMinorSplit": true,
   "voicingHalfDimSplit": true,
-  "voicingActivityNamesFixed": true,
-  "timer": {
-    "area": "review",
-    "name": "Bye Bye Blackbird",
-    "start": 1792754850422,
-    "runStart": 1792754850422,
-    "accMs": 0
-  }
+  "voicingActivityNamesFixed": true
 }
