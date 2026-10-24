@@ -8510,5 +8510,12 @@
   "voicingChordsSplit": true,
   "voicingMinorSplit": true,
   "voicingHalfDimSplit": true,
-  "voicingActivityNamesFixed": true
+  "voicingActivityNamesFixed": true,
+  "timer": {
+    "area": "learn",
+    "name": "Night in Tunisia",
+    "start": 1792840922701,
+    "runStart": 1792840922701,
+    "accMs": 0
+  }
 }
