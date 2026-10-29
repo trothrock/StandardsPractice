@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-10-24",
+  "lastSyncDate": "2026-10-29",
   "plays": [
     {
       "playedAt": "2026-10-01T01:25:15.151Z",
@@ -1924,6 +1924,19 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02588e03ea1909d877161cce5c",
       "durationMs": 438733,
       "context": "spotify:album:4hafeOXr4qO4FqaFGRgCOe"
+    },
+    {
+      "playedAt": "2026-10-24T11:22:44.793Z",
+      "trackId": "4amGD4Z9FV7xTndzSDEUiB",
+      "name": "New-Ma",
+      "artists": [
+        "Lee Morgan"
+      ],
+      "album": "The Cooker",
+      "albumId": "47AT8h8Vc7LD3NIiNNC2Py",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b62071d82ec9369b8fa8fad6",
+      "durationMs": 494453,
+      "context": "spotify:album:47AT8h8Vc7LD3NIiNNC2Py"
     }
   ]
 }

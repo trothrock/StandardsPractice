@@ -3591,6 +3591,18 @@
           "album": "The Complete Savoy & Dial Master Takes",
           "at": 77,
           "text": "Charlie Parker break"
+        },
+        {
+          "trackId": "6gDOH2uybXcEkB6CumPX1J",
+          "album": "At Newport (Live at Newport Jazz Festival, 1957 / Expanded Edition)",
+          "at": 165,
+          "text": "Lee Morgan descending scales"
+        },
+        {
+          "trackId": "6gDOH2uybXcEkB6CumPX1J",
+          "album": "At Newport (Live at Newport Jazz Festival, 1957 / Expanded Edition)",
+          "at": 372,
+          "text": "Shout chorus"
         }
       ],
       "learningSteps": {
@@ -3601,7 +3613,19 @@
         "melody-rootless": true,
         "lyrics": true,
         "bass-track": true
-      }
+      },
+      "otherRecordings": [
+        {
+          "trackId": "6gDOH2uybXcEkB6CumPX1J",
+          "name": "A Night In Tunisia - Live At Newport Jazz Festival, 1957",
+          "artists": [
+            "Dizzy Gillespie"
+          ],
+          "album": "At Newport (Live at Newport Jazz Festival, 1957 / Expanded Edition)",
+          "albumId": "40uojcqOk5czLzsO4P2OOV",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e02a39b0f5822068ccedd1a9eae"
+        }
+      ]
     },
     "Night Train": {
       "name": "Night Train",
@@ -5558,8 +5582,8 @@
     }
   },
   "currentNewSong": "Night in Tunisia",
-  "streak": 1,
-  "lastPracticeDay": 20261023,
+  "streak": 2,
+  "lastPracticeDay": 20261024,
   "activity": [
     {
       "ts": 1776634938073,
@@ -7736,6 +7760,21 @@
       "name": "Bye Bye Blackbird",
       "passed": true,
       "key": "F"
+    },
+    {
+      "ts": 1792843214633,
+      "date": 20261024,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "Night in Tunisia",
+      "secs": 2580,
+      "origSecs": 2292
+    },
+    {
+      "ts": 1792843214634,
+      "date": 20261024,
+      "type": "practiced",
+      "name": "Night in Tunisia"
     }
   ],
   "extraReviewsToday": {
@@ -8510,12 +8549,5 @@
   "voicingChordsSplit": true,
   "voicingMinorSplit": true,
   "voicingHalfDimSplit": true,
-  "voicingActivityNamesFixed": true,
-  "timer": {
-    "area": "learn",
-    "name": "Night in Tunisia",
-    "start": 1792840922701,
-    "runStart": 1792840922701,
-    "accMs": 0
-  }
+  "voicingActivityNamesFixed": true
 }
