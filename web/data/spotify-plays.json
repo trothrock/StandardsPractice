@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-10-29",
+  "lastSyncDate": "2026-10-30",
   "plays": [
     {
       "playedAt": "2026-10-01T01:25:15.151Z",
@@ -1937,6 +1937,152 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02b62071d82ec9369b8fa8fad6",
       "durationMs": 494453,
       "context": "spotify:album:47AT8h8Vc7LD3NIiNNC2Py"
+    },
+    {
+      "playedAt": "2026-10-29T13:57:40.951Z",
+      "trackId": "2YQBDxMbQbOsdXixdL4ZyE",
+      "name": "Butterfly",
+      "artists": [
+        "Herbie Hancock"
+      ],
+      "album": "Thrust",
+      "albumId": "00Uf5PRAinCJ0oiCX1Cv2k",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e022e1f2d1f99c957187bb8f559",
+      "durationMs": 677893,
+      "context": "spotify:album:00Uf5PRAinCJ0oiCX1Cv2k"
+    },
+    {
+      "playedAt": "2026-10-29T13:57:50.145Z",
+      "trackId": "6gDOH2uybXcEkB6CumPX1J",
+      "name": "A Night In Tunisia - Live At Newport Jazz Festival, 1957",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "album": "At Newport (Live at Newport Jazz Festival, 1957 / Expanded Edition)",
+      "albumId": "40uojcqOk5czLzsO4P2OOV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a39b0f5822068ccedd1a9eae",
+      "durationMs": 600720,
+      "context": null
+    },
+    {
+      "playedAt": "2026-10-29T14:00:30.519Z",
+      "trackId": "4FlYcJnfkeBpowEHJ72Bmt",
+      "name": "Rockin' Robin",
+      "artists": [
+        "Bobby Day"
+      ],
+      "album": "Rockin' With Robin",
+      "albumId": "4T6nhb9QQpGzLiWkC6bG7y",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02635d01ad663c01a3665d488d",
+      "durationMs": 160080,
+      "context": "spotify:playlist:37i9dQZF1E8GkMedKT0EUD"
+    },
+    {
+      "playedAt": "2026-10-29T14:04:02.041Z",
+      "trackId": "2JknWUrnGsGYOh62EQNktb",
+      "name": "Jump, Jive, An' Wail - Remastered",
+      "artists": [
+        "Louis Prima",
+        "Keely Smith",
+        "Sam Butera & The Witnesses"
+      ],
+      "album": "The Wildest! (Expanded Edition)",
+      "albumId": "4icS85G6VGPbFlB9UGPxct",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e022ad545d5e334210c993c5648",
+      "durationMs": 211066,
+      "context": "spotify:playlist:37i9dQZF1E8GkMedKT0EUD"
+    },
+    {
+      "playedAt": "2026-10-29T14:09:09.567Z",
+      "trackId": "5yQ9iMZXGcr5rlO4hoLsP4",
+      "name": "What'd I Say, Pt. 1 & 2",
+      "artists": [
+        "Ray Charles"
+      ],
+      "album": "What'd I Say",
+      "albumId": "4tfWxufmH725XmTcQFAuXn",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02d354ff4edc0533abb3de04db",
+      "durationMs": 307053,
+      "context": "spotify:playlist:37i9dQZF1E8GkMedKT0EUD"
+    },
+    {
+      "playedAt": "2026-10-29T14:11:27.834Z",
+      "trackId": "0RAJ08NoFTQoxf7OY96zit",
+      "name": "The Nitty Gritty",
+      "artists": [
+        "Shirley Ellis"
+      ],
+      "album": "The Name Game",
+      "albumId": "3X36x0GzMLSBO5jo7stzhp",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02398ad8e731fd550cf1a2d8c6",
+      "durationMs": 137773,
+      "context": "spotify:playlist:37i9dQZF1E8GkMedKT0EUD"
+    },
+    {
+      "playedAt": "2026-10-29T14:13:50.032Z",
+      "trackId": "4tmy6FB76bR5eLmx0zO1mn",
+      "name": "Pennies From Heaven",
+      "artists": [
+        "Louis Prima",
+        "Sam Butera & The Witnesses"
+      ],
+      "album": "The Call Of The Wildest (Expanded Edition)",
+      "albumId": "5RDBugAE4cU2vbLZj0dvmf",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a06458b080f396941f2a2af9",
+      "durationMs": 141666,
+      "context": "spotify:playlist:37i9dQZF1E8GkMedKT0EUD"
+    },
+    {
+      "playedAt": "2026-10-29T14:16:39.435Z",
+      "trackId": "7G2jAmiYUDZKyk7npVrgX8",
+      "name": "Sh-Boom",
+      "artists": [
+        "The Crew Cuts"
+      ],
+      "album": "The Best Of The Crew Cuts",
+      "albumId": "7dQg87XegvtSinDdZ1p0VP",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02369a68e6ed077c6eba9e4b9a",
+      "durationMs": 168893,
+      "context": "spotify:playlist:37i9dQZF1E8GkMedKT0EUD"
+    },
+    {
+      "playedAt": "2026-10-29T14:18:38.409Z",
+      "trackId": "5TcEq6qNQJ7HXeTxwB3ZGB",
+      "name": "Walking To New Orleans",
+      "artists": [
+        "Fats Domino"
+      ],
+      "album": "A Lot Of Dominos",
+      "albumId": "1nsVgU0rX6dYpDaV4Xqsb5",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02635dcf3261792ab92bf8350d",
+      "durationMs": 118466,
+      "context": "spotify:playlist:37i9dQZF1E8GkMedKT0EUD"
+    },
+    {
+      "playedAt": "2026-10-29T14:21:19.180Z",
+      "trackId": "6b6IMqP565TbtFFZg9iFf3",
+      "name": "I Can't Help Myself (Sugar Pie, Honey Bunch)",
+      "artists": [
+        "Four Tops"
+      ],
+      "album": "Four Tops - Second Album",
+      "albumId": "2jvkMPydCpLWwRothqJU1O",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02c0fa62ae53b2aeae3766f13d",
+      "durationMs": 160280,
+      "context": "spotify:playlist:37i9dQZF1E8GkMedKT0EUD"
+    },
+    {
+      "playedAt": "2026-10-30T02:27:44.419Z",
+      "trackId": "7E8nKMtXMqIQbvl1Ta9Ucw",
+      "name": "Walkin' After Midnight",
+      "artists": [
+        "Patsy Cline"
+      ],
+      "album": "Patsy Cline",
+      "albumId": "3z9dAiADFWeGavOVth2B4v",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0297f9dd1653b9dbd23acc5cb1",
+      "durationMs": 154666,
+      "context": "spotify:playlist:37i9dQZF1E8GkMedKT0EUD"
     }
   ]
 }
