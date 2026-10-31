@@ -1008,7 +1008,7 @@
       "baseLevel": 0,
       "currentLevel": 2,
       "status": "active",
-      "intervalIdx": 1,
+      "intervalIdx": 2,
       "learnedDate": 20260813,
       "reviews": [
         {
@@ -1020,6 +1020,11 @@
           "date": 20260927,
           "passed": true,
           "key": "Cm"
+        },
+        {
+          "date": 20261031,
+          "passed": true,
+          "key": "Am"
         }
       ],
       "sortSeed": 0.9843887098398352,
@@ -5602,8 +5607,8 @@
     }
   },
   "currentNewSong": "Night in Tunisia",
-  "streak": 2,
-  "lastPracticeDay": 20261030,
+  "streak": 3,
+  "lastPracticeDay": 20261031,
   "activity": [
     {
       "ts": 1776634938073,
@@ -7885,6 +7890,22 @@
       "name": "Watermelon Man",
       "passed": true,
       "key": "F"
+    },
+    {
+      "ts": 1793445994645,
+      "date": 20261031,
+      "type": "practice_time",
+      "area": "review",
+      "name": "Corcovado",
+      "secs": 620
+    },
+    {
+      "ts": 1793445994645,
+      "date": 20261031,
+      "type": "review",
+      "name": "Corcovado",
+      "passed": true,
+      "key": "Am"
     }
   ],
   "extraReviewsToday": {
@@ -8705,5 +8726,12 @@
   "voicingChordsSplit": true,
   "voicingMinorSplit": true,
   "voicingHalfDimSplit": true,
-  "voicingActivityNamesFixed": true
+  "voicingActivityNamesFixed": true,
+  "timer": {
+    "area": "learn",
+    "name": "Night in Tunisia",
+    "start": 1793446140233,
+    "runStart": 1793446140233,
+    "accMs": 0
+  }
 }
