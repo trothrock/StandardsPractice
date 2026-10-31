@@ -632,12 +632,17 @@
       "baseLevel": 1,
       "currentLevel": 2,
       "status": "active",
-      "intervalIdx": 1,
+      "intervalIdx": 2,
       "learnedDate": 20260508,
       "reviews": [
         {
           "date": 20260912,
           "passed": true
+        },
+        {
+          "date": 20261030,
+          "passed": true,
+          "key": "F"
         }
       ],
       "sortSeed": 0.8950004661134651,
@@ -3613,7 +3618,8 @@
         "melody-rootless": true,
         "lyrics": true,
         "bass-track": true,
-        "comping": true
+        "comping": true,
+        "substitutions": false
       },
       "otherRecordings": [
         {
@@ -5196,12 +5202,17 @@
       "baseLevel": 0,
       "currentLevel": 2,
       "status": "active",
-      "intervalIdx": 1,
+      "intervalIdx": 2,
       "learnedDate": 20260913,
       "reviews": [
         {
           "date": 20260915,
           "passed": true
+        },
+        {
+          "date": 20261030,
+          "passed": true,
+          "key": "F"
         }
       ],
       "sortSeed": 0.2362384710338169,
@@ -5220,6 +5231,14 @@
       "tags": [
         "Hard bop",
         "Jam"
+      ],
+      "pointsOfInterest": [
+        {
+          "trackId": "38xcUjiTP1ivfb7ObwjyGA",
+          "album": "Takin' Off (Expanded Edition)",
+          "at": 163,
+          "text": "Herbie Hancock comping"
+        }
       ]
     },
     "Wave": {
@@ -5583,8 +5602,8 @@
     }
   },
   "currentNewSong": "Night in Tunisia",
-  "streak": 1,
-  "lastPracticeDay": 20261029,
+  "streak": 2,
+  "lastPracticeDay": 20261030,
   "activity": [
     {
       "ts": 1776634938073,
@@ -7816,6 +7835,56 @@
       "date": 20261029,
       "type": "voicing_session",
       "name": "Half dim: Full range"
+    },
+    {
+      "ts": 1793359708234,
+      "date": 20261030,
+      "type": "voicing_added",
+      "name": "B-7(♭5) · 4ths · top F"
+    },
+    {
+      "ts": 1793359822556,
+      "date": 20261030,
+      "type": "practice_time",
+      "area": "voicing",
+      "name": "Half dim: Full range",
+      "secs": 1181
+    },
+    {
+      "ts": 1793359822556,
+      "date": 20261030,
+      "type": "voicing_session",
+      "name": "Half dim: Full range"
+    },
+    {
+      "ts": 1793361177220,
+      "date": 20261030,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "Night in Tunisia",
+      "secs": 1268
+    },
+    {
+      "ts": 1793361177221,
+      "date": 20261030,
+      "type": "practiced",
+      "name": "Night in Tunisia"
+    },
+    {
+      "ts": 1793361680905,
+      "date": 20261030,
+      "type": "review",
+      "name": "Blues for Alice",
+      "passed": true,
+      "key": "F"
+    },
+    {
+      "ts": 1793362352689,
+      "date": 20261030,
+      "type": "review",
+      "name": "Watermelon Man",
+      "passed": true,
+      "key": "F"
     }
   ],
   "extraReviewsToday": {
@@ -8468,14 +8537,14 @@
       "name": "Half dim: Full range",
       "category": "Half diminished",
       "topNote": null,
-      "image": null,
+      "image": "half-dim-full-range.png",
       "chords": [
         "B-7(♭5) · top B",
         "B-11(♭5) · top D",
         "B-7(♭5) · top E",
-        "B-7(♭5) · Full · top F",
         "B-7(♭5) · top G",
-        "B-7(♭5) · top A"
+        "B-7(♭5) · top A",
+        "B-7(♭5) · 4ths · top F"
       ],
       "roles": [
         "",
@@ -8489,7 +8558,7 @@
       "addedDate": 20261029,
       "sortSeed": 0.40227082791889424,
       "lastPracticed": null,
-      "pinnedDate": 20261029
+      "pinnedDate": 20261030
     },
     {
       "name": "B-7(♭5) · Full · top F",
@@ -8499,6 +8568,16 @@
       "familiarity": 0,
       "addedDate": 20261029,
       "sortSeed": 0.593265808001799,
+      "lastPracticed": null
+    },
+    {
+      "name": "B-7(♭5) · 4ths · top F",
+      "category": "Half diminished",
+      "topNote": "♭5",
+      "image": "half-dim-b5-fourths.png",
+      "familiarity": 0,
+      "addedDate": 20261030,
+      "sortSeed": 0.4367892147864829,
       "lastPracticed": null
     }
   ],

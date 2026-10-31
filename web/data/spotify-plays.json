@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-10-30",
+  "lastSyncDate": "2026-10-31",
   "plays": [
     {
       "playedAt": "2026-10-01T01:25:15.151Z",
@@ -2083,6 +2083,435 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e0297f9dd1653b9dbd23acc5cb1",
       "durationMs": 154666,
       "context": "spotify:playlist:37i9dQZF1E8GkMedKT0EUD"
+    },
+    {
+      "playedAt": "2026-10-30T23:52:18.435Z",
+      "trackId": "3oW6SWwGqiZSPTiAp7ZQoH",
+      "name": "It's A Great Day To Be Alive",
+      "artists": [
+        "Travis Tritt"
+      ],
+      "album": "Down The Road I Go",
+      "albumId": "2ewYJg5AuA9bXWrvOs1mtB",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e029fd857fb9120e851eb0c68ea",
+      "durationMs": 241533,
+      "context": null
+    },
+    {
+      "playedAt": "2026-10-30T23:56:05.208Z",
+      "trackId": "1CYjYSg9sdtbBoxSf8uhFD",
+      "name": "This is Halloween",
+      "artists": [
+        "Danny Elfman"
+      ],
+      "album": "Nightmare Before Christmas Special Edition",
+      "albumId": "32hXKuDkMnpQaOI67xQj86",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0247cc5d86f3528b233f2b78ff",
+      "durationMs": 199200,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-30T23:57:10.215Z",
+      "trackId": "0gs6G0qcP6yXVBntg8PC3L",
+      "name": "Goosebumps Original Theme Song",
+      "artists": [
+        "Jack Lenz"
+      ],
+      "album": "Goosebumps (Original Television Soundtrack)",
+      "albumId": "7vqZjtCd0D9jfk5WlZ95KD",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e026f8d549d704f8c32a8bdd272",
+      "durationMs": 64525,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-31T00:03:23.617Z",
+      "trackId": "3S2R0EVwBSAVMd5UMgKTL0",
+      "name": "Thriller",
+      "artists": [
+        "Michael Jackson"
+      ],
+      "album": "Thriller 25 Super Deluxe Edition",
+      "albumId": "1C2h7mLntPSeVYciMRTF4a",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024121faee8df82c526cbab2be",
+      "durationMs": 357266,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-31T00:05:40.673Z",
+      "trackId": "6TEVxvhwqwKd2L901uUUQk",
+      "name": "Fright Night",
+      "artists": [
+        "Mickey Mouse",
+        "Minnie Mouse",
+        "Donald Duck",
+        "Daisy Duck",
+        "Goofy",
+        "Mickey and Friends Trick or Treats - Cast"
+      ],
+      "album": "Mickey and Friends Trick or Treats (Original Soundtrack)",
+      "albumId": "13WszrC6hyDh5jLAGrzsHx",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b8bc65c9a5d3c5380b6cc114",
+      "durationMs": 136531,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-31T00:06:26.313Z",
+      "trackId": "3AxrqCi9zTIcN8NJWaOf8V",
+      "name": "The Simpsons Treehouse of Horror (Halloween Special Theme)",
+      "artists": [
+        "Retrospectre"
+      ],
+      "album": "Halloween Themes",
+      "albumId": "6ON6UPz4I5PcqNFMEaGDPp",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021cf270e7bfd2361ee71eb42a",
+      "durationMs": 45174,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-31T00:08:10.075Z",
+      "trackId": "7dRmMRZHF4y1ExlHguSypM",
+      "name": "Main Title",
+      "artists": [
+        "John Debney"
+      ],
+      "album": "Hocus Pocus (Original Score)",
+      "albumId": "35HW28UZvr9UghP8Ras6mu",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e029a00bdd1e13ca989881b9b63",
+      "durationMs": 91360,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-31T00:10:37.948Z",
+      "trackId": "3jGAUGvmWbPe2LPc8Hon1c",
+      "name": "One Way or Another (Hocus Pocus 2 Version)",
+      "artists": [
+        "Bette Midler",
+        "Sarah Jessica Parker",
+        "Kathy Najimy"
+      ],
+      "album": "Hocus Pocus 2 (Original Soundtrack)",
+      "albumId": "5StqoKbQqzkAgH3OtPPQED",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e865bf7f3e6968ecd35327fd",
+      "durationMs": 147386,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-31T00:13:03.332Z",
+      "trackId": "0UyifotZndmtNsgBAggdnT",
+      "name": "Lullaby From Rosemary's Baby, Part 1",
+      "artists": [
+        "Krzysztof Komeda",
+        "Mia Farrow"
+      ],
+      "album": "Rosemary's Baby (Music From The Motion Picture Score)",
+      "albumId": "3UtuckR3jcCA4eSVD5CpN6",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0219d999eb81faa92c532d1de2",
+      "durationMs": 144933,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-31T00:16:20.867Z",
+      "trackId": "1TctVlWvNpmKGHMuPqJ5G2",
+      "name": "Oogie Boogie's Song",
+      "artists": [
+        "Ed Ivory",
+        "Ken Page"
+      ],
+      "album": "Nightmare Before Christmas Special Edition",
+      "albumId": "32hXKuDkMnpQaOI67xQj86",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0247cc5d86f3528b233f2b78ff",
+      "durationMs": 197040,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-31T00:20:10.630Z",
+      "trackId": "5kwuPm3p11TnirbMvcGrZZ",
+      "name": "Spooky, Scary Skeletons - Undead Tombstone Remix Extended",
+      "artists": [
+        "Andrew Gold"
+      ],
+      "album": "Halloween Howls: Fun & Scary Music (Deluxe Edition)",
+      "albumId": "2kAB6U6XJQ9lXK7TPsmaR4",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a3cf7d524baed9e303302918",
+      "durationMs": 229199,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-31T00:22:35.920Z",
+      "trackId": "3sLhMSePzxSrmxluIqeoAZ",
+      "name": "I Put a Spell On You",
+      "artists": [
+        "Screamin' Jay Hawkins"
+      ],
+      "album": "At Home with Screamin' Jay Hawkins",
+      "albumId": "2lKtE0pl4RtMD2bUwKzdcz",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02c8a1366f0f2073775e931aa3",
+      "durationMs": 144866,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-31T00:23:41.695Z",
+      "trackId": "38xcUjiTP1ivfb7ObwjyGA",
+      "name": "Watermelon Man - Remastered 2007",
+      "artists": [
+        "Herbie Hancock"
+      ],
+      "album": "Takin' Off (Expanded Edition)",
+      "albumId": "61bXefFZqGbVkmb7qzIIOl",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02d1bac93adf4492db2e6ff9f8",
+      "durationMs": 429266,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-10-31T00:27:44.546Z",
+      "trackId": "5QTxFnGygVM4jFQiBovmRo",
+      "name": "(Don't Fear) The Reaper",
+      "artists": [
+        "Blue Öyster Cult"
+      ],
+      "album": "Agents Of Fortune",
+      "albumId": "6C9WzlQANeoD0GW5B41YJt",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02aa802dc9f870e66a8bb6a2a2",
+      "durationMs": 308123,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-31T00:30:51.060Z",
+      "trackId": "3EEd6ldsPat620GVYMEhOP",
+      "name": "Goo Goo Muck",
+      "artists": [
+        "The Cramps"
+      ],
+      "album": "Psychedelic Jungle",
+      "albumId": "111E8uRgwGQo9YJJBvpALn",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02133d663963bdaa99891a5cee",
+      "durationMs": 186038,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-31T00:32:59.195Z",
+      "trackId": "23V08GxMeaZNSf8Gy6KF6t",
+      "name": "Spooky, Scary Skeletons",
+      "artists": [
+        "Andrew Gold"
+      ],
+      "album": "Halloween Howls: Fun & Scary Music",
+      "albumId": "5RoMbNYEFVEJyE1OX7VYsW",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a27520a763055c625e1f2be8",
+      "durationMs": 127626,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-31T00:35:01.642Z",
+      "trackId": "0kHsXoIt6dONEdkgKgyjoK",
+      "name": "Agatha All Along",
+      "artists": [
+        "Kristen Anderson-Lopez",
+        "Robert Lopez",
+        "Kathryn Hahn",
+        "Eric Bradley",
+        "Greg Whipple",
+        "Jasper Randall",
+        "Gerald White"
+      ],
+      "album": "WandaVision: Episode 7 (Original Soundtrack)",
+      "albumId": "5ALs5g5Hfd0EaLLzA2Cgza",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02374bbe82f1abe6921b1488fa",
+      "durationMs": 62613,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-31T00:39:06.231Z",
+      "trackId": "0xxZY5C9xxij3D1HkzbnfC",
+      "name": "Monster Mash",
+      "artists": [
+        "Bobby \"Boris\" Pickett",
+        "The Crypt-Kickers"
+      ],
+      "album": "The Original Monster Mash",
+      "albumId": "1yW6XU0pw5ZqDeu81OAaCr",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02edf6710f9c0cd81e37fcaf3d",
+      "durationMs": 192040,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-31T00:43:05.352Z",
+      "trackId": "2VOomzT6VavJOGBeySqaMc",
+      "name": "Disturbia",
+      "artists": [
+        "Rihanna"
+      ],
+      "album": "Good Girl Gone Bad: Reloaded",
+      "albumId": "3JSWZWeTHF4HDGt5Eozdy7",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02f9f27162ab1ed45b8d7a7e98",
+      "durationMs": 238626,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-31T00:44:38.010Z",
+      "trackId": "7raiG1962Kb1UyD8otwGXZ",
+      "name": "Grim Grinning Ghosts (Dance Party)",
+      "artists": [
+        "Kris Bowers"
+      ],
+      "album": "Haunted Mansion (Original Motion Picture Soundtrack)",
+      "albumId": "7JNLw46VIKt7zqPxFA69l7",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02ac22b5a880870d85945b9c8d",
+      "durationMs": 92146,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-31T00:47:49.720Z",
+      "trackId": "7a5X1rz0891fakVVcgtefI",
+      "name": "Killer Clown Waltz",
+      "artists": [
+        "Halloween FX Productions"
+      ],
+      "album": "Halloween Fright Night: Vampires, Ghosts, Killer Clowns & Haunted House Sounds",
+      "albumId": "5iGfKW2Ehg2D09xFOTSLoM",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0259d4571589325003f6365ab8",
+      "durationMs": 191172,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-31T00:50:36.241Z",
+      "trackId": "5bCZynRXRjFneuCvmwNULU",
+      "name": "I Want Candy",
+      "artists": [
+        "The Hit Co."
+      ],
+      "album": "I Want Candy",
+      "albumId": "6hD1HnURVfmiN1FggQAQWa",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e026caa394541f19f08cf4ae5e6",
+      "durationMs": 166053,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-31T00:51:33.434Z",
+      "trackId": "2vkH5M8zo9mtbpqY0eMSxu",
+      "name": "The Twilight Zone Theme",
+      "artists": [
+        "Retrospectre"
+      ],
+      "album": "This Is Halloween!",
+      "albumId": "5E78nAxmARNdlGoXj8bKmf",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e023cf8846e40bcab8fd7f2fa8e",
+      "durationMs": 56711,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-31T00:53:06.734Z",
+      "trackId": "5Oe3gfSRYnqcLvH1LNBCZ4",
+      "name": "Kill Bill: Volume One - Twisted Nerve - Cover Version",
+      "artists": [
+        "Cinescore"
+      ],
+      "album": "Kill Bill: Volume One - Twisted Nerve (Cover Version)",
+      "albumId": "4ZOLd3XZ3H9WgDy85fFEtO",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02bcfa64748759840cd197b84c",
+      "durationMs": 92796,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-31T00:55:59.501Z",
+      "trackId": "7lKkBTKh2Q0hLUr5UgT2Ig",
+      "name": "Day-O (from \"Beetlejuice Beetlejuice\")",
+      "artists": [
+        "Alfie Davis",
+        "The Sylvia Young Theatre School Choir"
+      ],
+      "album": "Beetlejuice Beetlejuice (Original Motion Picture Soundtrack)",
+      "albumId": "63PDHCTMl5YxaqmbdQ66jj",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02504f0adb24b8d6e41b9795cd",
+      "durationMs": 172293,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-31T00:58:03.420Z",
+      "trackId": "6PSN0NJHzkCmNWGpF6yDsj",
+      "name": "Like the Zombies Do",
+      "artists": [
+        "Milo Manheim",
+        "Kylee Russell",
+        "Chandler Kinney",
+        "Pearce Joza",
+        "ZOMBIES – Cast",
+        "Disney"
+      ],
+      "album": "ZOMBIES 2 (Original TV Movie Soundtrack)",
+      "albumId": "3sZV33Gfqx8tZmAwRBtpCs",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e6b4c93ab69449740cc2ded3",
+      "durationMs": 123411,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-31T00:58:56.132Z",
+      "trackId": "03oSabzbieHQLIghrYc86x",
+      "name": "The X-Files Theme",
+      "artists": [
+        "Retrospectre"
+      ],
+      "album": "This Is Halloween!",
+      "albumId": "5E78nAxmARNdlGoXj8bKmf",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e023cf8846e40bcab8fd7f2fa8e",
+      "durationMs": 52218,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-31T01:01:52.025Z",
+      "trackId": "7swocJUCUWTCiRUAU9oerC",
+      "name": "Halloween Theme - Main Title",
+      "artists": [
+        "John Carpenter"
+      ],
+      "album": "Halloween Motion Picture Soundtrack",
+      "albumId": "1eA3cq4WvDR4yVKChvZewP",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02fa935f7c028206c47706775a",
+      "durationMs": 175333,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-31T01:03:02.422Z",
+      "trackId": "3dd9uXh41vmFLO3UvqLJL6",
+      "name": "Wednesday Main Titles",
+      "artists": [
+        "Danny Elfman"
+      ],
+      "album": "Wednesday (Original Series Soundtrack)",
+      "albumId": "2uuGxhpcN88ctFFHAYOzxF",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e026806e279bc76fa6eaa6436a0",
+      "durationMs": 69893,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-31T01:06:04.933Z",
+      "trackId": "0MHStU0muAIEMbwdnebYu2",
+      "name": "Takedown",
+      "artists": [
+        "HUNTR/X",
+        "EJAE",
+        "AUDREY NUNA",
+        "REI AMI",
+        "KPop Demon Hunters Cast"
+      ],
+      "album": "KPop Demon Hunters (Soundtrack from the Netflix Film)",
+      "albumId": "14JkAa6IiFaOh5s0nMyMU9",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024dcb6c5df15cf74596ab25a4",
+      "durationMs": 182016,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-31T01:10:49.721Z",
+      "trackId": "2oj1WfUGiBa8eCyMx5D3I5",
+      "name": "Yo, Ho! (A Pirate's Life For Me) - From \"Pirates of the Caribbean\"",
+      "artists": [
+        "Disney Studio Chorus"
+      ],
+      "album": "Disney's Greatest Vol. 3",
+      "albumId": "6UuNvv5UFJG5bQkYzQIarh",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02ea64ccdfa35a32dddeaec8fc",
+      "durationMs": 284266,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
     }
   ]
 }
