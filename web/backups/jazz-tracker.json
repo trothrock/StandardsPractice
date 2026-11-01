@@ -1206,6 +1206,11 @@
           "date": 20261020,
           "passed": false,
           "key": "Eb"
+        },
+        {
+          "date": 20261031,
+          "passed": false,
+          "key": "Eb"
         }
       ],
       "sortSeed": 0.3337723339745905,
@@ -3579,10 +3584,10 @@
     "Night in Tunisia": {
       "name": "Night in Tunisia",
       "baseLevel": 0,
-      "currentLevel": 0,
-      "status": "learning",
-      "intervalIdx": -1,
-      "learnedDate": null,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 0,
+      "learnedDate": 20261031,
       "reviews": [],
       "sortSeed": 0.6631978975687559,
       "composer": "Dizzy Gillespie",
@@ -3624,7 +3629,8 @@
         "lyrics": true,
         "bass-track": true,
         "comping": true,
-        "substitutions": false
+        "substitutions": true,
+        "points": true
       },
       "otherRecordings": [
         {
@@ -4031,7 +4037,7 @@
       "name": "Rhythm-a-ning",
       "baseLevel": 0,
       "currentLevel": 0,
-      "status": "untouched",
+      "status": "learning",
       "intervalIdx": -1,
       "learnedDate": null,
       "reviews": [],
@@ -5606,7 +5612,7 @@
       "sortSeed": 0.7403636142004597
     }
   },
-  "currentNewSong": "Night in Tunisia",
+  "currentNewSong": "Rhythm-a-ning",
   "streak": 3,
   "lastPracticeDay": 20261031,
   "activity": [
@@ -7906,6 +7912,49 @@
       "name": "Corcovado",
       "passed": true,
       "key": "Am"
+    },
+    {
+      "ts": 1793448020864,
+      "date": 20261031,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "Night in Tunisia",
+      "secs": 1881
+    },
+    {
+      "ts": 1793448020864,
+      "date": 20261031,
+      "type": "practiced",
+      "name": "Night in Tunisia"
+    },
+    {
+      "ts": 1793448031069,
+      "date": 20261031,
+      "type": "learned",
+      "name": "Night in Tunisia"
+    },
+    {
+      "ts": 1793448090937,
+      "date": 20261031,
+      "type": "started_learning",
+      "name": "Rhythm-a-ning"
+    },
+    {
+      "ts": 1793449864161,
+      "date": 20261031,
+      "type": "practice_time",
+      "area": "review",
+      "name": "Dolphin Dance",
+      "secs": 1620,
+      "origSecs": 1040
+    },
+    {
+      "ts": 1793449869378,
+      "date": 20261031,
+      "type": "review",
+      "name": "Dolphin Dance",
+      "passed": false,
+      "key": "Eb"
     }
   ],
   "extraReviewsToday": {
@@ -8726,12 +8775,5 @@
   "voicingChordsSplit": true,
   "voicingMinorSplit": true,
   "voicingHalfDimSplit": true,
-  "voicingActivityNamesFixed": true,
-  "timer": {
-    "area": "learn",
-    "name": "Night in Tunisia",
-    "start": 1793446140233,
-    "runStart": 1793446140233,
-    "accMs": 0
-  }
+  "voicingActivityNamesFixed": true
 }

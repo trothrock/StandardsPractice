@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-10-31",
+  "lastSyncDate": "2026-11-01",
   "plays": [
     {
       "playedAt": "2026-10-01T01:25:15.151Z",
@@ -2512,6 +2512,193 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02ea64ccdfa35a32dddeaec8fc",
       "durationMs": 284266,
       "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-31T11:49:37.723Z",
+      "trackId": "5qhSOJFmfdfoqQmQZMtNyP",
+      "name": "A Night In Tunisia",
+      "artists": [
+        "Charlie Parker",
+        "Miles Davis"
+      ],
+      "album": "The Complete Savoy & Dial Master Takes",
+      "albumId": "2c6BUJGIxa4SA94iYX4JkT",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02efeacf1513a1afa979a1a730",
+      "durationMs": 183706,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-10-31T14:49:22.945Z",
+      "trackId": "4HE2Ex0bjbj3YNXmV01OoM",
+      "name": "Toccata & Fugue in D Minor, BWV 565: I. Toccata",
+      "artists": [
+        "Johann Sebastian Bach",
+        "Simon Preston"
+      ],
+      "album": "Bach, J.S.: Toccata and Fugue BWV 565; Organ Works BWV 572, 590, 532, 769 & 552",
+      "albumId": "55QLnZs735inLUYGNBkti5",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e18c79ed0a39f4b10b0d2359",
+      "durationMs": 150800,
+      "context": "spotify:playlist:3ZkBOo7bwxb3hMQO2wbCE6"
+    },
+    {
+      "playedAt": "2026-10-31T14:50:35.134Z",
+      "trackId": "1Ku5vu9Crncz8ixeT4Ijxc",
+      "name": "Dolphin Dance - Remastered 1999/Rudy Van Gelder Edition",
+      "artists": [
+        "Herbie Hancock"
+      ],
+      "album": "Maiden Voyage (Remastered 1999/Rudy Van Gelder Edition)",
+      "albumId": "7huPJTTsWVt854oZkr88mf",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b6f936d535913e3f425e5bbe",
+      "durationMs": 556133,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-10-31T14:53:22.172Z",
+      "trackId": "2yxLuGeCk5yVXxROrNAsX4",
+      "name": "Monster Mash",
+      "artists": [
+        "Bobby \"Boris\" Pickett",
+        "The Crypt-Kickers"
+      ],
+      "album": "Halloween Mix",
+      "albumId": "2uX8vuhVKDOKwqJoUeBQTh",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02325b4a48b8e22c0582430f02",
+      "durationMs": 193626,
+      "context": "spotify:playlist:0oGK7xmyKLusOZ3j2x83IY"
+    },
+    {
+      "playedAt": "2026-10-31T14:57:27.769Z",
+      "trackId": "3m0y8qLoznUYi73SUBP8GI",
+      "name": "Ghostbusters",
+      "artists": [
+        "Ray Parker Jr."
+      ],
+      "album": "Ghostbusters (Original Motion Picture Soundtrack) [2016]",
+      "albumId": "0epcJ1L57tp3SF30aKyeWa",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e13e5a8659a5518c320cd6cb",
+      "durationMs": 245248,
+      "context": "spotify:playlist:0oGK7xmyKLusOZ3j2x83IY"
+    },
+    {
+      "playedAt": "2026-10-31T15:00:44.980Z",
+      "trackId": "01YROQCnF1AQm7SCWJmD2o",
+      "name": "This Is Halloween",
+      "artists": [
+        "The Citizens of Halloween"
+      ],
+      "album": "Nightmare Before Christmas Special Edition",
+      "albumId": "32hXKuDkMnpQaOI67xQj86",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0247cc5d86f3528b233f2b78ff",
+      "durationMs": 196560,
+      "context": "spotify:playlist:0oGK7xmyKLusOZ3j2x83IY"
+    },
+    {
+      "playedAt": "2026-10-31T15:03:50.870Z",
+      "trackId": "3fytQQcjEOWXlvI9BDXVcK",
+      "name": "What's This?",
+      "artists": [
+        "Danny Elfman"
+      ],
+      "album": "Nightmare Before Christmas Special Edition",
+      "albumId": "32hXKuDkMnpQaOI67xQj86",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0247cc5d86f3528b233f2b78ff",
+      "durationMs": 185573,
+      "context": "spotify:playlist:0oGK7xmyKLusOZ3j2x83IY"
+    },
+    {
+      "playedAt": "2026-10-31T15:09:02.264Z",
+      "trackId": "3czj9t456R7q4gleItrt0n",
+      "name": "Friends on the Other Side - From \"The Princess and the Frog\" / Soundtrack Version",
+      "artists": [
+        "Keith David"
+      ],
+      "album": "Disney Halloween",
+      "albumId": "2rTXmuNjiVhF0ig1WflV2p",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02eeed8dd101cb9bd4931f0cb4",
+      "durationMs": 214960,
+      "context": "spotify:playlist:0oGK7xmyKLusOZ3j2x83IY"
+    },
+    {
+      "playedAt": "2026-10-31T15:09:55.061Z",
+      "trackId": "3ZqPSBYMFYVtCZv9Un5dc0",
+      "name": "Addams Family Theme",
+      "artists": [
+        "HeathisHuman"
+      ],
+      "album": "The Addams Family (Original Motion Picture Soundtrack)",
+      "albumId": "42gNmvl1nDLFdZh6nEA7KS",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e5e9c3a7768a7264f3d4de4e",
+      "durationMs": 52320,
+      "context": "spotify:playlist:0oGK7xmyKLusOZ3j2x83IY"
+    },
+    {
+      "playedAt": "2026-10-31T15:11:30.953Z",
+      "trackId": "1Pt4uDDVb4kl9BQngDohY3",
+      "name": "Halloween Shark",
+      "artists": [
+        "Pinkfong"
+      ],
+      "album": "Baby Shark Special",
+      "albumId": "32rfxYeHQua1OqWpmBEK90",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02c64a7f40264718cf06faf46a",
+      "durationMs": 95291,
+      "context": "spotify:playlist:0oGK7xmyKLusOZ3j2x83IY"
+    },
+    {
+      "playedAt": "2026-10-31T17:15:42.637Z",
+      "trackId": "6DD5beNG6Ji3AYp5WrYnwD",
+      "name": "What's New Scooby-Doo?",
+      "artists": [
+        "Simple Plan"
+      ],
+      "album": "What's New Scooby-Doo?",
+      "albumId": "5esfoJljMhrZ8VCryEZE2V",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0248463ed74aee049f2f14973d",
+      "durationMs": 68695,
+      "context": "spotify:playlist:0oGK7xmyKLusOZ3j2x83IY"
+    },
+    {
+      "playedAt": "2026-10-31T17:17:49.054Z",
+      "trackId": "1qZFiIbbctH69MjJzkP0hh",
+      "name": "Scooby-Doo (Scooby-Doo Theme Song)",
+      "artists": [
+        "Ohio Express"
+      ],
+      "album": "Scooby-Doo",
+      "albumId": "2ePuNuynpIcwdNbzB4Fd4d",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b91830af42c8ce5cd2f52d47",
+      "durationMs": 121751,
+      "context": "spotify:playlist:0oGK7xmyKLusOZ3j2x83IY"
+    },
+    {
+      "playedAt": "2026-11-01T01:18:08.670Z",
+      "trackId": "2yxLuGeCk5yVXxROrNAsX4",
+      "name": "Monster Mash",
+      "artists": [
+        "Bobby \"Boris\" Pickett",
+        "The Crypt-Kickers"
+      ],
+      "album": "Halloween Mix",
+      "albumId": "2uX8vuhVKDOKwqJoUeBQTh",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02325b4a48b8e22c0582430f02",
+      "durationMs": 193626,
+      "context": "spotify:playlist:0oGK7xmyKLusOZ3j2x83IY"
+    },
+    {
+      "playedAt": "2026-11-01T01:20:22.177Z",
+      "trackId": "2yxLuGeCk5yVXxROrNAsX4",
+      "name": "Monster Mash",
+      "artists": [
+        "Bobby \"Boris\" Pickett",
+        "The Crypt-Kickers"
+      ],
+      "album": "Halloween Mix",
+      "albumId": "2uX8vuhVKDOKwqJoUeBQTh",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02325b4a48b8e22c0582430f02",
+      "durationMs": 193626,
+      "context": "spotify:playlist:0oGK7xmyKLusOZ3j2x83IY"
     }
   ]
 }
