@@ -399,7 +399,11 @@
         "Songbook",
         "Minor",
         "Jam"
-      ]
+      ],
+      "practiceKey": {
+        "date": 20261102,
+        "key": "Ebm"
+      }
     },
     "Bags' Groove": {
       "name": "Bags' Groove",
@@ -626,8 +630,8 @@
       "multiKey": true,
       "staleFrom": 20261002,
       "practiceKey": {
-        "date": 20261029,
-        "key": "Db"
+        "date": 20261102,
+        "key": "Gb"
       },
       "tags": [
         "Songbook"
@@ -2642,8 +2646,8 @@
         "Jam"
       ],
       "practiceKey": {
-        "date": 20261029,
-        "key": "Db"
+        "date": 20261102,
+        "key": "Gb"
       }
     },
     "Just One of Those Things": {
@@ -4084,6 +4088,14 @@
           "album": "Art Blakey's Jazz Messengers (with Thelonious Monk)",
           "albumId": "4LDDC0qycqg3LnywOqm46c",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e02455974d03e5f5c4e8380bf43"
+        }
+      ],
+      "pointsOfInterest": [
+        {
+          "trackId": "0IbD8xojkJgwh9lLu8hoxg",
+          "album": "Criss-Cross (Expanded Edition)",
+          "at": 167,
+          "text": "Thelonious Monk figure"
         }
       ]
     },
@@ -5647,8 +5659,8 @@
     }
   },
   "currentNewSong": "Rhythm-a-ning",
-  "streak": 4,
-  "lastPracticeDay": 20261101,
+  "streak": 5,
+  "lastPracticeDay": 20261102,
   "activity": [
     {
       "ts": 1776634938073,
@@ -8032,6 +8044,20 @@
       "date": 20261101,
       "type": "repertoire_practiced",
       "name": "Basin Street Blues"
+    },
+    {
+      "ts": 1793622781454,
+      "date": 20261102,
+      "type": "practice_time",
+      "area": "voicing",
+      "name": "Half dim: Full range",
+      "secs": 1306
+    },
+    {
+      "ts": 1793622781454,
+      "date": 20261102,
+      "type": "voicing_session",
+      "name": "Half dim: Full range"
     }
   ],
   "extraReviewsToday": {
@@ -8713,7 +8739,7 @@
       "addedDate": 20261029,
       "sortSeed": 0.40227082791889424,
       "lastPracticed": null,
-      "pinnedDate": 20261030
+      "pinnedDate": 20261102
     },
     {
       "name": "B-7(♭5) · Full · top F",
@@ -8827,8 +8853,8 @@
   "cadenceVersion": 7,
   "multiKeyPerWeek": 3,
   "multiKeyWeek": {
-    "weekStart": 20261026,
-    "key": "Db"
+    "weekStart": 20261102,
+    "key": "Gb"
   },
   "exitChecklistOpen": false,
   "exitChecklistDetailOpen": false,
@@ -8860,5 +8886,12 @@
   "voicingChordsSplit": true,
   "voicingMinorSplit": true,
   "voicingHalfDimSplit": true,
-  "voicingActivityNamesFixed": true
+  "voicingActivityNamesFixed": true,
+  "timer": {
+    "area": "learn",
+    "name": "Rhythm-a-ning",
+    "start": 1793623342873,
+    "runStart": 1793623342873,
+    "accMs": 0
+  }
 }

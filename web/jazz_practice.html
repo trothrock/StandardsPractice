@@ -417,7 +417,10 @@
     <div id="panel-voicings" class="panel">
       <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px">
         <div class="panel-title">Voicings</div>
-        <button class="btn-primary" onclick="openAddVoicing()">+ Add voicing</button>
+        <div style="display:flex;gap:8px">
+          <button class="btn-primary" onclick="openAddVoicingExercise()">+ Add exercise</button>
+          <button class="btn-primary" onclick="openAddVoicing()">+ Add voicing</button>
+        </div>
       </div>
       <div class="panel-sub">Chord voicings by category · familiarity 0–2</div>
       <div id="voicings-body"></div>
@@ -707,6 +710,44 @@
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeAddVoicing()">Cancel</button>
       <button class="btn-confirm" onclick="submitAddVoicing()">Add voicing</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="add-voicing-exercise-modal" onclick="handleAddVoicingExerciseBackdropClick(event)">
+  <div class="modal">
+    <div class="modal-title">Add a voicing exercise</div>
+    <div class="field">
+      <label>Name</label>
+      <input type="text" id="voicx-name" placeholder="e.g. Minor blues comp, [6] Major ii-V-I">
+      <div class="field-error" id="voicx-error">A voicing with this name already exists.</div>
+    </div>
+    <div class="field">
+      <label>Category</label>
+      <select id="voicx-category"><option value="Major">Major</option><option value="Minor 7">Minor 7</option><option value="Minor 6/9">Minor 6/9</option><option value="Minor">Minor</option><option value="Dominant">Dominant</option><option value="Half diminished">Half diminished</option><option value="Diminished">Diminished</option></select>
+    </div>
+    <div class="field">
+      <label>Chords <span style="font-weight:400;text-transform:none;letter-spacing:0">(in order · label optional, e.g. ii, V7, I)</span></label>
+      <div id="voicx-chords"></div>
+      <div class="field-error" id="voicx-chords-error">Pick at least one voicing.</div>
+      <button class="btn-cancel" style="margin-top:4px" onclick="voicxAddChordRow()">+ Add chord</button>
+    </div>
+    <div class="field">
+      <label>Image filename <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <input type="text" id="voicx-image" placeholder="e.g. core-voicing-maj-9.png — in images/voicings/">
+    </div>
+    <div class="field">
+      <label>Familiarity</label>
+      <div class="level-picker">
+        <button class="level-btn sel-0" data-voicx-lvl="0" onclick="voicxSelectLevel(0)">0</button>
+        <button class="level-btn" data-voicx-lvl="1" onclick="voicxSelectLevel(1)">1</button>
+        <button class="level-btn" data-voicx-lvl="2" onclick="voicxSelectLevel(2)">2</button>
+      </div>
+      <div class="level-desc" id="voicx-lvl-desc">No familiarity — haven't worked it out yet</div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeAddVoicingExercise()">Cancel</button>
+      <button class="btn-confirm" onclick="submitAddVoicingExercise()">Add exercise</button>
     </div>
   </div>
 </div>
@@ -1725,7 +1766,8 @@ function voicingReviewCount(db, name) {
   return days.size;
 }
 function voicingReviewsLabel(n) { return `${n} review${n===1?'':'s'}`; }
-function voicingRoles(v) { return v.category==='Minor' ? ['ii','V','i'] : ['ii','V','I']; }
+// Exercises can carry their own chord labels; the original ii-V-I sheets predate that.
+function voicingRoles(v) { return v.roles || (v.category==='Minor' ? ['ii','V','i'] : ['ii','V','I']); }
 function normTopNote(s) { return String(s).trim().replace(/b/gi,'♭').replace(/#/g,'♯'); }
 function topNoteSort(t) { const n = parseInt(String(t==null?'':t).replace(/[^0-9]/g,''),10); return isNaN(n)?999:n; }
 
@@ -2891,19 +2933,63 @@ function renderVoicingDetail(name) {
         const timeStr = d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
         return `<div class="timeline-entry"><div class="timeline-dot ${dot}"></div><div><div class="timeline-label">${label}</div><div class="timeline-meta">${dateStr} · ${timeStr}</div></div></div>`;
       }).join('');
-  const linkRow = (x, role) => {
+  const linkRow = (x, role, extra='') => {
     const safe = x.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
     const roleTag = role ? `<span class="top-note">${role}</span>` : '';
-    return `<div class="song-row clickable" onclick="showVoicingDetail('${safe}')">${voicingImgHTML(x, 'voicing-thumb')}<div class="song-name-group"><span class="song-name">${x.name}</span>${roleTag}</div>${lvlBadge(x.familiarity||0)}</div>`;
+    return `<div class="song-row clickable" onclick="showVoicingDetail('${safe}')">${voicingImgHTML(x, 'voicing-thumb')}<div class="song-name-group"><span class="song-name">${x.name}</span>${roleTag}</div>${lvlBadge(x.familiarity||0)}${extra}</div>`;
   };
   const byName = n => (db.voicings||[]).find(x=>x.name===n);
-  const chordRows = (v.chords||[]).map((n,i)=>n && byName(n) ? linkRow(byName(n), voicingRoles(v)[i]) : '').join('');
-  const chordsSection = chordRows ? `<div class="section"><div class="section-head"><h2>Voicings in this exercise</h2></div>${chordRows}</div>` : '';
+  const removeBtn = i => `<button class="btn-dots" title="Remove from exercise" onclick="event.stopPropagation();removeExerciseChord('${safeName}',${i})">×</button>`;
+  const chordRows = (v.chords||[]).map((n,i)=>n && byName(n) ? linkRow(byName(n), voicingRoles(v)[i], removeBtn(i)) : '').join('');
+  const chordCount = (v.chords||[]).filter(n=>n && byName(n)).length;
+  const chordsSection = v.chords ? `<div class="section"><div class="section-head"><h2>Voicings in this exercise</h2><div style="display:flex;align-items:center;gap:10px"><span class="count">${chordCount}</span><button class="btn-primary" title="Add chord" style="padding:2px 9px" onclick="openAddExerciseChord(event,'${safeName}')">+</button></div></div>${chordRows || '<div class="empty">No voicings in this exercise yet.</div>'}</div>` : '';
   const parents = voicingExercisesFor(db, name);
   const parentsSection = parents.length ? `<div class="section"><div class="section-head"><h2>Used in</h2><span class="count">${parents.length}</span></div>${parents.map(p=>linkRow(p, voicingRoles(p)[p.chords.indexOf(name)])).join('')}</div>` : '';
   const notesSection = `<div class="section"><div class="section-head"><h2>Notes</h2></div><div class="notes-body" id="notes-body"></div></div>`;
   container.innerHTML = header + chordsSection + parentsSection + notesSection + `<div class="section"><div class="section-head"><h2>Activity</h2></div>${timeline}</div>`;
   renderNotesView('voicing', name);
+}
+// The original ii-V-I exercises derive their labels from the category; pin them down
+// before the chord list changes so the remaining labels stay with their chords.
+function exerciseRolesFor(v) {
+  return (v.chords||[]).map((_,i) => voicingRoles(v)[i] || '');
+}
+// The add-chord popover reuses the row menu; clicks inside it don't bubble up to the closer.
+function openAddExerciseChord(e, name) {
+  e.stopPropagation();
+  const safe = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  const menu = document.getElementById('row-menu');
+  menu.innerHTML = `<div onclick="event.stopPropagation()" style="padding:12px;display:flex;flex-direction:column;gap:8px;width:260px"><div style="font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--text3)">Add chord</div><select id="exercise-add-chord" style="width:100%"></select><input type="text" id="exercise-add-role" placeholder="Label (optional, e.g. V7)" style="flex:none;width:100%;box-sizing:border-box" onkeydown="if(event.key==='Enter')addExerciseChord('${safe}')"><div style="display:flex;justify-content:flex-end;gap:6px"><button class="btn-cancel" style="padding:5px 12px" onclick="closeRowMenu()">Cancel</button><button class="btn-primary" onclick="addExerciseChord('${safe}')">Add</button></div></div>`;
+  voicxFillChordSelect(document.getElementById('exercise-add-chord'), getDB());
+  const rect = e.currentTarget.getBoundingClientRect();
+  menu.style.top = (rect.bottom + 4) + 'px';
+  menu.style.right = (window.innerWidth - rect.right) + 'px';
+  menu.classList.add('open');
+  setTimeout(()=>document.getElementById('exercise-add-chord').focus(), 0);
+}
+function addExerciseChord(name) {
+  const chord = document.getElementById('exercise-add-chord').value;
+  if(!chord) { document.getElementById('exercise-add-chord').focus(); return; }
+  const db = getDB();
+  const v = (db.voicings||[]).find(v=>v.name===name);
+  if(!v || !v.chords) return;
+  v.roles = exerciseRolesFor(v);
+  v.chords.push(chord);
+  v.roles.push(document.getElementById('exercise-add-role').value.trim());
+  closeRowMenu();
+  saveDB(db); renderAll(); renderVoicingDetail(name);
+  toast(`"${chord}" added to "${name}".`);
+}
+function removeExerciseChord(name, i) {
+  const db = getDB();
+  const v = (db.voicings||[]).find(v=>v.name===name);
+  if(!v || !v.chords || v.chords[i]===undefined) return;
+  const chord = v.chords[i];
+  v.roles = exerciseRolesFor(v);
+  v.chords.splice(i, 1);
+  v.roles.splice(i, 1);
+  saveDB(db); renderAll(); renderVoicingDetail(name);
+  toast(`"${chord}" removed from "${name}".`);
 }
 function showVocabDetail(name) {
   const active = document.querySelector('.panel.active');
@@ -3501,7 +3587,7 @@ function submitTimeEdit() {
   saveDB(db); closeTimeEdit(); renderAll();
   toast(`${entry.name} set to ${formatMinutes(mins)}`);
 }
-document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeAddSong(); closeEditSong(); closeReviewSettings(); closeReviewMenu(); closeMultiKeyMenu(); closeRowMenu(); closeTimeEdit(); closeRemoveSong(); closeResetConfirm(); closeAddRepertoire(); closeEditRep(); closeRemoveRep(); closeAddVoicing(); closeEditVoicing(); closeRemoveVoicing(); closeAddVocab(); closeEditVocab(); closeRemoveVocab(); closeConceptModal(); closeRemoveConcept(); } });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeAddSong(); closeEditSong(); closeReviewSettings(); closeReviewMenu(); closeMultiKeyMenu(); closeRowMenu(); closeTimeEdit(); closeRemoveSong(); closeResetConfirm(); closeAddRepertoire(); closeEditRep(); closeRemoveRep(); closeAddVoicing(); closeAddVoicingExercise(); closeEditVoicing(); closeRemoveVoicing(); closeAddVocab(); closeEditVocab(); closeRemoveVocab(); closeConceptModal(); closeRemoveConcept(); } });
 document.addEventListener('click', ()=>{ closeReviewMenu(); closeMultiKeyMenu(); closeRowMenu(); });
 
 let editOriginalName = null;
@@ -3906,15 +3992,15 @@ function renderVoicings() {
   }).join('');
   const sectionHead = (title, n) => `<div class="section-head"><h2>${title}</h2><span class="count">${n}</span></div>`;
   const section = (title, items) => items.length ? `<div class="section">${sectionHead(title, items.length)}${rowsHTML(items)}</div>` : '';
-  // ii-V-I exercises (voicings made of other voicings) get their own section, split by key quality.
+  // Exercises (voicings made of other voicings) get their own section, split by category.
   const isExercise = v => !!v.chords;
   const byTopNote = (a,b)=>(topNoteSort(a.topNote)-topNoteSort(b.topNote))||a.name.localeCompare(b.name);
   const exercises = vs.filter(isExercise);
   let html = '';
   if(exercises.length) {
     html += `<div class="section">${sectionHead('Exercises', exercises.length)}`;
-    [['Major', v=>v.category!=='Minor'], ['Minor', v=>v.category==='Minor']].forEach(([label, inGroup]) => {
-      const items = exercises.filter(inGroup).sort((a,b)=>a.name.localeCompare(b.name));
+    VOICING_CATEGORIES.forEach(label => {
+      const items = exercises.filter(v=>v.category===label).sort((a,b)=>a.name.localeCompare(b.name));
       if(items.length) html += `<div class="section-subhead"><span>${label}</span><span>${items.length}</span></div>${rowsHTML(items, false)}`;
     });
     html += '</div>';
@@ -3969,6 +4055,101 @@ function submitAddVoicing() {
   logActivity(db, 'voicing_added', { name });
   saveDB(db); closeAddVoicing(); renderAll();
   toast(`"${name}" added to voicings.`);
+}
+let voicxSelectedLevel = 0;
+function voicxSelectLevel(lvl) {
+  voicxSelectedLevel = lvl;
+  document.querySelectorAll('[data-voicx-lvl]').forEach(b=>b.className='level-btn');
+  document.querySelector(`[data-voicx-lvl="${lvl}"]`).classList.add(`sel-${lvl}`);
+  document.getElementById('voicx-lvl-desc').textContent = VOICING_FAM_DESCS[lvl];
+}
+// Each chord slot picks from the standalone voicings, grouped by category.
+function voicxFillChordSelect(sel, db) {
+  sel.innerHTML = '';
+  sel.appendChild(new Option('— None —', ''));
+  const singles = (db.voicings||[]).filter(v=>!v.chords);
+  VOICING_CATEGORIES.forEach(cat => {
+    const items = singles.filter(v=>v.category===cat).sort((a,b)=>(topNoteSort(a.topNote)-topNoteSort(b.topNote))||a.name.localeCompare(b.name));
+    if(!items.length) return;
+    const group = document.createElement('optgroup');
+    group.label = cat;
+    items.forEach(v => group.appendChild(new Option(v.name, v.name)));
+    sel.appendChild(group);
+  });
+}
+function voicxAddChordRow() {
+  const row = document.createElement('div');
+  row.className = 'voicx-chord-row';
+  row.style.cssText = 'display:flex;gap:6px;align-items:center;margin-bottom:6px';
+  row.innerHTML = `<span class="voicx-num" style="width:16px;flex:none;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text3)"></span><input type="text" class="voicx-role" placeholder="Label" style="width:72px;flex:none"><select class="voicx-chord" style="flex:1;width:auto" onchange="document.getElementById('voicx-chords-error').style.display='none'"></select><button class="btn-dots voicx-up" title="Move up" onclick="voicxMoveChordRow(this.parentElement,-1)">↑</button><button class="btn-dots voicx-down" title="Move down" onclick="voicxMoveChordRow(this.parentElement,1)">↓</button><button class="btn-dots voicx-remove" title="Remove chord" onclick="this.parentElement.remove();voicxRefreshChordRows()">×</button>`;
+  voicxFillChordSelect(row.querySelector('select'), getDB());
+  document.getElementById('voicx-chords').appendChild(row);
+  voicxRefreshChordRows();
+  return row;
+}
+function voicxMoveChordRow(row, dir) {
+  const sib = dir < 0 ? row.previousElementSibling : row.nextElementSibling;
+  if(!sib) return;
+  row.parentElement.insertBefore(row, dir < 0 ? sib : sib.nextElementSibling);
+  voicxRefreshChordRows();
+}
+// Numbers the rows and disables moves past the ends; the last remaining row can't be removed.
+function voicxRefreshChordRows() {
+  const rows = [...document.querySelectorAll('#voicx-chords .voicx-chord-row')];
+  rows.forEach((r,i) => {
+    r.querySelector('.voicx-num').textContent = i+1;
+    [['.voicx-up', i===0], ['.voicx-down', i===rows.length-1], ['.voicx-remove', rows.length===1]].forEach(([sel, off]) => {
+      const b = r.querySelector(sel);
+      b.disabled = off;
+      b.style.visibility = off ? 'hidden' : '';
+    });
+  });
+}
+function openAddVoicingExercise() {
+  document.getElementById('voicx-name').value = '';
+  document.getElementById('voicx-category').value = 'Major';
+  document.getElementById('voicx-image').value = '';
+  document.getElementById('voicx-error').style.display = 'none';
+  document.getElementById('voicx-chords').innerHTML = '';
+  document.getElementById('voicx-chords-error').style.display = 'none';
+  voicxAddChordRow();
+  voicxSelectLevel(0);
+  document.getElementById('add-voicing-exercise-modal').classList.add('open');
+  setTimeout(()=>document.getElementById('voicx-name').focus(), 50);
+}
+function closeAddVoicingExercise() { document.getElementById('add-voicing-exercise-modal').classList.remove('open'); }
+function handleAddVoicingExerciseBackdropClick(e) { if(e.target===document.getElementById('add-voicing-exercise-modal')) closeAddVoicingExercise(); }
+function submitAddVoicingExercise() {
+  const name = document.getElementById('voicx-name').value.trim();
+  if(!name) { document.getElementById('voicx-name').focus(); return; }
+  const db = getDB();
+  if(!db.voicings) db.voicings = [];
+  if(db.voicings.some(v=>v.name.toLowerCase()===name.toLowerCase())) {
+    document.getElementById('voicx-error').style.display = 'block';
+    document.getElementById('voicx-name').focus(); return;
+  }
+  // Rows left on "None" are dropped.
+  const rows = [...document.querySelectorAll('#voicx-chords .voicx-chord-row')].filter(r => r.querySelector('.voicx-chord').value);
+  if(!rows.length) {
+    document.getElementById('voicx-chords-error').style.display = 'block';
+    document.querySelector('#voicx-chords .voicx-chord').focus(); return;
+  }
+  db.voicings.push({
+    name,
+    category: document.getElementById('voicx-category').value,
+    topNote: null,
+    image: document.getElementById('voicx-image').value.trim() || null,
+    chords: rows.map(r => r.querySelector('.voicx-chord').value),
+    roles: rows.map(r => r.querySelector('.voicx-role').value.trim()),
+    familiarity: voicxSelectedLevel,
+    addedDate: todayInt(),
+    sortSeed: Math.random(),
+    lastPracticed: null,
+    pinnedDate: null
+  });
+  logActivity(db, 'voicing_added', { name });
+  saveDB(db); closeAddVoicingExercise(); renderAll();
+  toast(`"${name}" added to exercises.`);
 }
 function openVoicingMenu(e, name) {
   e.stopPropagation();
