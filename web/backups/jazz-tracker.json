@@ -8058,6 +8058,29 @@
       "date": 20261102,
       "type": "voicing_session",
       "name": "Half dim: Full range"
+    },
+    {
+      "ts": 1793624439447,
+      "date": 20261102,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "Rhythm-a-ning",
+      "secs": 1097
+    },
+    {
+      "ts": 1793624439448,
+      "date": 20261102,
+      "type": "practiced",
+      "name": "Rhythm-a-ning"
+    },
+    {
+      "ts": 1793625053003,
+      "date": 20261102,
+      "type": "practice_time",
+      "area": "review",
+      "name": "Fly Me to the Moon",
+      "secs": 600,
+      "origSecs": 7
     }
   ],
   "extraReviewsToday": {
@@ -8886,12 +8909,5 @@
   "voicingChordsSplit": true,
   "voicingMinorSplit": true,
   "voicingHalfDimSplit": true,
-  "voicingActivityNamesFixed": true,
-  "timer": {
-    "area": "learn",
-    "name": "Rhythm-a-ning",
-    "start": 1793623342873,
-    "runStart": 1793623342873,
-    "accMs": 0
-  }
+  "voicingActivityNamesFixed": true
 }
