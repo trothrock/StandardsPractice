@@ -159,7 +159,13 @@
       "practiceKey": {
         "date": 20261029,
         "key": "Db"
-      }
+      },
+      "keyReviews": [
+        {
+          "date": 20261101,
+          "key": "Db"
+        }
+      ]
     },
     "All of You": {
       "name": "All of You",
@@ -4051,6 +4057,34 @@
         "Monk",
         "Rhythm changes",
         "Jam"
+      ],
+      "learningSteps": {
+        "history": true,
+        "recording": true,
+        "lyrics": true
+      },
+      "otherRecordings": [
+        {
+          "trackId": "0IbD8xojkJgwh9lLu8hoxg",
+          "name": "Rhythm-A-Ning",
+          "artists": [
+            "Thelonious Monk"
+          ],
+          "album": "Criss-Cross (Expanded Edition)",
+          "albumId": "0QTVbs5gj4pbv3Je4fJ3VI",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e0216272e3ef5368f8db98ddfbd"
+        },
+        {
+          "trackId": "2SCBYLcHOa0e12DBBxLAon",
+          "name": "Rhythm-A-Ning (with Thelonious Monk) - 2022 Remaster",
+          "artists": [
+            "Art Blakey & The Jazz Messengers",
+            "Thelonious Monk"
+          ],
+          "album": "Art Blakey's Jazz Messengers (with Thelonious Monk)",
+          "albumId": "4LDDC0qycqg3LnywOqm46c",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e02455974d03e5f5c4e8380bf43"
+        }
       ]
     },
     "Round Midnight": {
@@ -5613,8 +5647,8 @@
     }
   },
   "currentNewSong": "Rhythm-a-ning",
-  "streak": 3,
-  "lastPracticeDay": 20261031,
+  "streak": 4,
+  "lastPracticeDay": 20261101,
   "activity": [
     {
       "ts": 1776634938073,
@@ -7955,6 +7989,49 @@
       "name": "Dolphin Dance",
       "passed": false,
       "key": "Eb"
+    },
+    {
+      "ts": 1793540034333,
+      "date": 20261101,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "Rhythm-a-ning",
+      "secs": 3108
+    },
+    {
+      "ts": 1793540034333,
+      "date": 20261101,
+      "type": "practiced",
+      "name": "Rhythm-a-ning"
+    },
+    {
+      "ts": 1793541741126,
+      "date": 20261101,
+      "type": "practice_time",
+      "area": "keys",
+      "name": "All of Me",
+      "secs": 1692
+    },
+    {
+      "ts": 1793541741126,
+      "date": 20261101,
+      "type": "key_review",
+      "name": "All of Me",
+      "key": "Db"
+    },
+    {
+      "ts": 1793543143337,
+      "date": 20261101,
+      "type": "practice_time",
+      "area": "rep",
+      "name": "Basin Street Blues",
+      "secs": 1287
+    },
+    {
+      "ts": 1793543143337,
+      "date": 20261101,
+      "type": "repertoire_practiced",
+      "name": "Basin Street Blues"
     }
   ],
   "extraReviewsToday": {
@@ -8041,18 +8118,26 @@
     {
       "name": "Basin Street Blues",
       "composer": "Spencer Williams",
-      "notes": null,
+      "notes": "Always tends to rush. Practice with a metronome on 2 and 4.",
       "addedDate": 20260502,
       "lastReviewed": null,
-      "pinnedDate": 20261021,
+      "pinnedDate": 20261101,
       "practiceFocus": [
         {
           "text": "Last turnaround of head in",
-          "done": true
+          "done": false
         },
         {
           "text": "Solo section stride pattern",
-          "done": true
+          "done": false
+        },
+        {
+          "text": "Boogie bass",
+          "done": false
+        },
+        {
+          "text": "Ending",
+          "done": false
         }
       ]
     },

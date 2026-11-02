@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-11-01",
+  "lastSyncDate": "2026-11-02",
   "playlists": [
     {
       "name": "Standards Practice",
@@ -288,6 +288,17 @@
           "albumId": "40uojcqOk5czLzsO4P2OOV",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e02a39b0f5822068ccedd1a9eae",
           "addedAt": "2026-10-24T11:35:47Z"
+        },
+        {
+          "trackId": "0IbD8xojkJgwh9lLu8hoxg",
+          "name": "Rhythm-A-Ning",
+          "artists": [
+            "Thelonious Monk"
+          ],
+          "album": "Criss-Cross (Expanded Edition)",
+          "albumId": "0QTVbs5gj4pbv3Je4fJ3VI",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e0216272e3ef5368f8db98ddfbd",
+          "addedAt": "2026-11-01T12:49:10Z"
         }
       ]
     },

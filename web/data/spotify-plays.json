@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-11-01",
+  "lastSyncDate": "2026-11-02",
   "plays": [
     {
       "playedAt": "2026-10-01T01:25:15.151Z",
@@ -2699,6 +2699,181 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02325b4a48b8e22c0582430f02",
       "durationMs": 193626,
       "context": "spotify:playlist:0oGK7xmyKLusOZ3j2x83IY"
+    },
+    {
+      "playedAt": "2026-11-01T20:08:09.874Z",
+      "trackId": "0IbD8xojkJgwh9lLu8hoxg",
+      "name": "Rhythm-A-Ning",
+      "artists": [
+        "Thelonious Monk"
+      ],
+      "album": "Criss-Cross (Expanded Edition)",
+      "albumId": "0QTVbs5gj4pbv3Je4fJ3VI",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0216272e3ef5368f8db98ddfbd",
+      "durationMs": 233066,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-11-01T20:17:23.407Z",
+      "trackId": "3xEAZQNPiwucPdGagdoD5j",
+      "name": "I'll Remember April",
+      "artists": [
+        "Clifford Brown",
+        "Max Roach Quintet"
+      ],
+      "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+      "albumId": "6PuVuJwyxyBZXMz73teSoV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021f8972135b07af1f0d59c47e",
+      "durationMs": 553066,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-11-01T20:19:12.219Z",
+      "trackId": "0IbD8xojkJgwh9lLu8hoxg",
+      "name": "Rhythm-A-Ning",
+      "artists": [
+        "Thelonious Monk"
+      ],
+      "album": "Criss-Cross (Expanded Edition)",
+      "albumId": "0QTVbs5gj4pbv3Je4fJ3VI",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0216272e3ef5368f8db98ddfbd",
+      "durationMs": 233066,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-11-01T20:23:01.675Z",
+      "trackId": "0aWMVrwxPNYkKmFthzmpRi",
+      "name": "Blue in Green (feat. John Coltrane & Bill Evans)",
+      "artists": [
+        "Miles Davis",
+        "John Coltrane",
+        "Bill Evans"
+      ],
+      "album": "Kind Of Blue (Legacy Edition)",
+      "albumId": "4sb0eMpDn3upAFfyi4q2rw",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e020ebc17239b6b18ba88cfb8ca",
+      "durationMs": 337733,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-11-01T20:31:47.517Z",
+      "trackId": "2dC71mbRBTewkyeHTXPzGz",
+      "name": "Lady Bird (Live) - Live At Cafe Bohemia, NY/1955 / Rudy Van Gelder Edition/2001",
+      "artists": [
+        "Art Blakey & The Jazz Messengers"
+      ],
+      "album": "At The Cafe Bohemia (Vol. 1/The Rudy Van Gelder Edition)",
+      "albumId": "6aUQ6zb8XRvxfoa2Zhx8yj",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e80e683dc5b6d510090fbada",
+      "durationMs": 450360,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-11-01T20:39:18.713Z",
+      "trackId": "5B2xSO7OOIWNeoCbkIy1lB",
+      "name": "Don't Blame Me",
+      "artists": [
+        "Coleman Hawkins"
+      ],
+      "album": "Sirius",
+      "albumId": "1FMGRpSXO3AVAwwQS006qp",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024125f45c8cfc17a14e9097df",
+      "durationMs": 279400,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-11-01T20:57:25.053Z",
+      "trackId": "5uLFo8xWQq4zd9Sh2xPB5t",
+      "name": "More Than You Know",
+      "artists": [
+        "Sonny Rollins",
+        "Thelonious Monk"
+      ],
+      "album": "The Complete Prestige 10-Inch LP Collection",
+      "albumId": "5DPy4HeXMnoxi3PODdklOC",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02d1053d4d169474b26f605ca3",
+      "durationMs": 649059,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-11-01T23:52:35.678Z",
+      "trackId": "1DlsGG3SnOcAnjtLcYLWIb",
+      "name": "All Of You - Live At Newport Jazz Festival, July 5, 1963",
+      "artists": [
+        "McCoy Tyner",
+        "Bob Cranshaw",
+        "Mickey Roker"
+      ],
+      "album": "Live At Newport",
+      "albumId": "26lBmmgeplvXm9stlDQapz",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e026bdf224a10afab7664aeaa3f",
+      "durationMs": 390306,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-11-01T23:59:24.479Z",
+      "trackId": "5f0n6K8hW2RIVXuZjxO0bu",
+      "name": "This I Dig Of You - Remastered 1999/Rudy Van Gelder Edition",
+      "artists": [
+        "Hank Mobley"
+      ],
+      "album": "Soul Station",
+      "albumId": "731OW49heGHCMrMOREHYlY",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028d277396016ea9ea46d55ce0",
+      "durationMs": 385866,
+      "context": "spotify:album:731OW49heGHCMrMOREHYlY"
+    },
+    {
+      "playedAt": "2026-11-02T00:05:33.869Z",
+      "trackId": "10kVwPSRjUYja0EtdqmXHe",
+      "name": "Dig Dis - Remastered 1999/Rudy Van Gelder Edition",
+      "artists": [
+        "Hank Mobley"
+      ],
+      "album": "Soul Station",
+      "albumId": "731OW49heGHCMrMOREHYlY",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028d277396016ea9ea46d55ce0",
+      "durationMs": 369386,
+      "context": "spotify:album:731OW49heGHCMrMOREHYlY"
+    },
+    {
+      "playedAt": "2026-11-02T00:10:29.495Z",
+      "trackId": "3V3r5GlxyDjubv9TiZuw1s",
+      "name": "Split Feelin's - Remastered 1999/Rudy Van Gelder Edition",
+      "artists": [
+        "Hank Mobley"
+      ],
+      "album": "Soul Station",
+      "albumId": "731OW49heGHCMrMOREHYlY",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028d277396016ea9ea46d55ce0",
+      "durationMs": 295680,
+      "context": "spotify:album:731OW49heGHCMrMOREHYlY"
+    },
+    {
+      "playedAt": "2026-11-02T00:19:36.910Z",
+      "trackId": "3HIO2Ysxx47gnwMGWy7dwB",
+      "name": "Soul Station - Remastered 1999/Rudy Van Gelder Edition",
+      "artists": [
+        "Hank Mobley"
+      ],
+      "album": "Soul Station",
+      "albumId": "731OW49heGHCMrMOREHYlY",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028d277396016ea9ea46d55ce0",
+      "durationMs": 547426,
+      "context": "spotify:album:731OW49heGHCMrMOREHYlY"
+    },
+    {
+      "playedAt": "2026-11-02T00:24:47.390Z",
+      "trackId": "5Li88NjZlTMl8v68GIJJ5v",
+      "name": "If I Should Lose You - Remastered 1999/Rudy Van Gelder Edition",
+      "artists": [
+        "Hank Mobley"
+      ],
+      "album": "Soul Station",
+      "albumId": "731OW49heGHCMrMOREHYlY",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028d277396016ea9ea46d55ce0",
+      "durationMs": 310520,
+      "context": "spotify:album:731OW49heGHCMrMOREHYlY"
     }
   ]
 }
