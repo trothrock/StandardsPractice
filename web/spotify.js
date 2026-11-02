@@ -508,6 +508,25 @@ async function playTrackAt(trackId, positionMs) {
   throw new Error(`Spotify playback failed (${res.status}): ${body.error?.message || res.statusText}`);
 }
 
+// ── Track search ──
+
+// Tracks matching a search, or the one track a pasted Spotify link or URI names
+async function searchTracks(q) {
+  const linked = String(q).match(/track[:\/]([A-Za-z0-9]{22})/);
+  const tracks = linked
+    ? [await spotifyGet(`/tracks/${linked[1]}`)]
+    : (await spotifyGet('/search', { q, type: 'track', limit: 10 })).tracks?.items || [];
+  return tracks.filter(t => t && t.id).map(t => ({
+    trackId: t.id,
+    name: t.name,
+    artists: t.artists.map(a => a.name),
+    album: t.album?.name || null,
+    albumId: t.album?.id || null,
+    albumImage: pickAlbumImage(t.album?.images),
+    year: (t.album?.release_date || '').slice(0, 4) || null,
+  }));
+}
+
 function getStatus() {
   const store = loadPlays();
   return {
@@ -529,7 +548,7 @@ async function checkConnection() {
   };
 }
 
-module.exports = { spotifyGet, checkConnection, getLoginUrl, handleCallback, syncRecentPlays, startDailySync, getStatus, loadPlays, syncReferencePlaylists, loadReferencePlaylists, selectDailyTracks, runDailyPlaylist, playTrackAt };
+module.exports = { spotifyGet, checkConnection, getLoginUrl, handleCallback, syncRecentPlays, startDailySync, getStatus, loadPlays, syncReferencePlaylists, loadReferencePlaylists, selectDailyTracks, runDailyPlaylist, playTrackAt, searchTracks };
 
 if (require.main === module) {
   checkConnection()
