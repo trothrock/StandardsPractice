@@ -1,0 +1,60 @@
+{
+  "playlists": [
+    {
+      "date": "2026-11-02",
+      "id": "2x82R3d7T6U0Do4ok8v0Oy",
+      "name": "Daily Standards – Nov 2, 2026",
+      "tracks": [
+        {
+          "trackId": "0IbD8xojkJgwh9lLu8hoxg",
+          "name": "Rhythm-A-Ning",
+          "artists": [
+            "Thelonious Monk"
+          ],
+          "song": "Rhythm-a-ning"
+        },
+        {
+          "trackId": "4lm669ZRk2EkTHg8An9n8T",
+          "name": "Anthropology",
+          "artists": [
+            "Charlie Parker"
+          ],
+          "song": "Anthropology"
+        },
+        {
+          "trackId": "5BxzqNLhwISk6IN5RZFkt8",
+          "name": "Blues For Alice",
+          "artists": [
+            "Charlie Parker"
+          ],
+          "song": "Blues for Alice"
+        },
+        {
+          "trackId": "3ZikLQCnH3SIswlGENBcKe",
+          "name": "My Favorite Things",
+          "artists": [
+            "John Coltrane"
+          ],
+          "song": "My Favorite Things"
+        },
+        {
+          "trackId": "6gDOH2uybXcEkB6CumPX1J",
+          "name": "A Night In Tunisia - Live At Newport Jazz Festival, 1957",
+          "artists": [
+            "Dizzy Gillespie"
+          ],
+          "song": "Night in Tunisia"
+        },
+        {
+          "trackId": "4leHEk0wS3rLsdfHz3ZItX",
+          "name": "After You've Gone",
+          "artists": [
+            "Benny Goodman Quintet"
+          ],
+          "song": "After You've Gone"
+        }
+      ],
+      "filled": true
+    }
+  ]
+}

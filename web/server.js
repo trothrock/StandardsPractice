@@ -219,6 +219,7 @@ const server = http.createServer((req, res) => {
     spotify.handleCallback(params)
       .then(({ user }) => spotify.syncRecentPlays({ force: true }).then(sync => ({ user, sync })))
       .then(({ user, sync }) => {
+        spotify.runDailyPlaylist();
         res.writeHead(200, { 'Content-Type': 'text/html' });
         res.end(`<p>Spotify connected as <b>${escapeHtml(user)}</b>. Saved ${sync.added} recent plays.</p>` +
           `<p><a href="http://localhost:${PORT}/">Back to the tracker</a></p>`);
@@ -234,6 +235,7 @@ const server = http.createServer((req, res) => {
   if (req.method === 'POST' && req.url === '/api/spotify/sync') {
     Promise.all([spotify.syncRecentPlays({ force: true }), spotify.syncReferencePlaylists({ force: true })])
       .then(([result, playlists]) => {
+        spotify.runDailyPlaylist();
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ ok: true, ...result, playlists: playlists.counts }));
       })
