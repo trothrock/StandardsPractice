@@ -2874,6 +2874,188 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e028d277396016ea9ea46d55ce0",
       "durationMs": 310520,
       "context": "spotify:album:731OW49heGHCMrMOREHYlY"
+    },
+    {
+      "playedAt": "2026-11-02T18:50:43.765Z",
+      "trackId": "0IbD8xojkJgwh9lLu8hoxg",
+      "name": "Rhythm-A-Ning",
+      "artists": [
+        "Thelonious Monk"
+      ],
+      "album": "Criss-Cross (Expanded Edition)",
+      "albumId": "0QTVbs5gj4pbv3Je4fJ3VI",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0216272e3ef5368f8db98ddfbd",
+      "durationMs": 233066,
+      "context": "spotify:playlist:2x82R3d7T6U0Do4ok8v0Oy"
+    },
+    {
+      "playedAt": "2026-11-02T18:52:06.390Z",
+      "trackId": "0IbD8xojkJgwh9lLu8hoxg",
+      "name": "Rhythm-A-Ning",
+      "artists": [
+        "Thelonious Monk"
+      ],
+      "album": "Criss-Cross (Expanded Edition)",
+      "albumId": "0QTVbs5gj4pbv3Je4fJ3VI",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0216272e3ef5368f8db98ddfbd",
+      "durationMs": 233066,
+      "context": "spotify:playlist:2x82R3d7T6U0Do4ok8v0Oy"
+    },
+    {
+      "playedAt": "2026-11-02T20:57:57.932Z",
+      "trackId": "5Li88NjZlTMl8v68GIJJ5v",
+      "name": "If I Should Lose You - Remastered 1999/Rudy Van Gelder Edition",
+      "artists": [
+        "Hank Mobley"
+      ],
+      "album": "Soul Station",
+      "albumId": "731OW49heGHCMrMOREHYlY",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028d277396016ea9ea46d55ce0",
+      "durationMs": 310520,
+      "context": "spotify:album:731OW49heGHCMrMOREHYlY"
+    },
+    {
+      "playedAt": "2026-11-02T21:04:28.765Z",
+      "trackId": "4lm669ZRk2EkTHg8An9n8T",
+      "name": "Anthropology",
+      "artists": [
+        "Charlie Parker"
+      ],
+      "album": "Burnin' Bird",
+      "albumId": "2y3dGQKlcxl9KagD6QfHUY",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b48ed6e56a1e3cd589b20d10",
+      "durationMs": 307866,
+      "context": "spotify:playlist:2x82R3d7T6U0Do4ok8v0Oy"
+    },
+    {
+      "playedAt": "2026-11-02T21:08:10.851Z",
+      "trackId": "5BxzqNLhwISk6IN5RZFkt8",
+      "name": "Blues For Alice",
+      "artists": [
+        "Charlie Parker"
+      ],
+      "album": "The Magnificent Charlie Parker",
+      "albumId": "3fA0ldo788no64soavIbL3",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0233223ca371cd1f9d4baf918b",
+      "durationMs": 166101,
+      "context": "spotify:playlist:2x82R3d7T6U0Do4ok8v0Oy"
+    },
+    {
+      "playedAt": "2026-11-02T23:28:11.608Z",
+      "trackId": "4leHEk0wS3rLsdfHz3ZItX",
+      "name": "After You've Gone",
+      "artists": [
+        "Benny Goodman Quintet"
+      ],
+      "album": "Small Groups: 1941-1945",
+      "albumId": "2hcioj7Ylhau26ffRy9WE4",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02df5b78cc30f28c52e64be2e9",
+      "durationMs": 183160,
+      "context": "spotify:playlist:2x82R3d7T6U0Do4ok8v0Oy"
+    },
+    {
+      "playedAt": "2026-11-03T00:52:58.851Z",
+      "trackId": "4lm669ZRk2EkTHg8An9n8T",
+      "name": "Anthropology",
+      "artists": [
+        "Charlie Parker"
+      ],
+      "album": "Burnin' Bird",
+      "albumId": "2y3dGQKlcxl9KagD6QfHUY",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b48ed6e56a1e3cd589b20d10",
+      "durationMs": 307866,
+      "context": "spotify:playlist:2x82R3d7T6U0Do4ok8v0Oy"
+    },
+    {
+      "playedAt": "2026-11-03T01:03:28.587Z",
+      "trackId": "6gDOH2uybXcEkB6CumPX1J",
+      "name": "A Night In Tunisia - Live At Newport Jazz Festival, 1957",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "album": "At Newport (Live at Newport Jazz Festival, 1957 / Expanded Edition)",
+      "albumId": "40uojcqOk5czLzsO4P2OOV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a39b0f5822068ccedd1a9eae",
+      "durationMs": 600720,
+      "context": "spotify:playlist:2x82R3d7T6U0Do4ok8v0Oy"
+    },
+    {
+      "playedAt": "2026-11-03T01:06:32.237Z",
+      "trackId": "4leHEk0wS3rLsdfHz3ZItX",
+      "name": "After You've Gone",
+      "artists": [
+        "Benny Goodman Quintet"
+      ],
+      "album": "Small Groups: 1941-1945",
+      "albumId": "2hcioj7Ylhau26ffRy9WE4",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02df5b78cc30f28c52e64be2e9",
+      "durationMs": 183160,
+      "context": "spotify:playlist:2x82R3d7T6U0Do4ok8v0Oy"
+    },
+    {
+      "playedAt": "2026-11-03T01:10:14.301Z",
+      "trackId": "4leHEk0wS3rLsdfHz3ZItX",
+      "name": "After You've Gone",
+      "artists": [
+        "Benny Goodman Quintet"
+      ],
+      "album": "Small Groups: 1941-1945",
+      "albumId": "2hcioj7Ylhau26ffRy9WE4",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02df5b78cc30f28c52e64be2e9",
+      "durationMs": 183160,
+      "context": "spotify:playlist:2x82R3d7T6U0Do4ok8v0Oy"
+    },
+    {
+      "playedAt": "2026-11-03T01:14:24.777Z",
+      "trackId": "0IbD8xojkJgwh9lLu8hoxg",
+      "name": "Rhythm-A-Ning",
+      "artists": [
+        "Thelonious Monk"
+      ],
+      "album": "Criss-Cross (Expanded Edition)",
+      "albumId": "0QTVbs5gj4pbv3Je4fJ3VI",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0216272e3ef5368f8db98ddfbd",
+      "durationMs": 233066,
+      "context": "spotify:playlist:2x82R3d7T6U0Do4ok8v0Oy"
+    },
+    {
+      "playedAt": "2026-11-03T01:19:17.587Z",
+      "trackId": "5t4jCQRoGMwygy7uPpCxfp",
+      "name": "Mess Around",
+      "artists": [
+        "Ray Charles"
+      ],
+      "album": "The Atlantic Hits",
+      "albumId": "6vbwAQCAYy8Vj7bXAPq5bz",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02251f9ed8769d5c58720a7dd1",
+      "durationMs": 160226,
+      "context": "spotify:album:6vbwAQCAYy8Vj7bXAPq5bz"
+    },
+    {
+      "playedAt": "2026-11-03T01:24:24.652Z",
+      "trackId": "2KQD84JGzWu8bibaWHytjP",
+      "name": "What'd I Say, Pt. 1 & 2",
+      "artists": [
+        "Ray Charles"
+      ],
+      "album": "The Atlantic Hits",
+      "albumId": "6vbwAQCAYy8Vj7bXAPq5bz",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02251f9ed8769d5c58720a7dd1",
+      "durationMs": 307053,
+      "context": "spotify:album:6vbwAQCAYy8Vj7bXAPq5bz"
+    },
+    {
+      "playedAt": "2026-11-03T01:27:32.680Z",
+      "trackId": "5zJgpPfTCLdrbDSwviV4nl",
+      "name": "Come Rain or Come Shine",
+      "artists": [
+        "Ray Charles"
+      ],
+      "album": "The Atlantic Hits",
+      "albumId": "6vbwAQCAYy8Vj7bXAPq5bz",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02251f9ed8769d5c58720a7dd1",
+      "durationMs": 221906,
+      "context": "spotify:album:6vbwAQCAYy8Vj7bXAPq5bz"
     }
   ]
 }

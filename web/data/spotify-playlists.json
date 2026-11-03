@@ -299,6 +299,17 @@
           "albumId": "0QTVbs5gj4pbv3Je4fJ3VI",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e0216272e3ef5368f8db98ddfbd",
           "addedAt": "2026-11-01T12:49:10Z"
+        },
+        {
+          "trackId": "5Li88NjZlTMl8v68GIJJ5v",
+          "name": "If I Should Lose You - Remastered 1999/Rudy Van Gelder Edition",
+          "artists": [
+            "Hank Mobley"
+          ],
+          "album": "Soul Station",
+          "albumId": "731OW49heGHCMrMOREHYlY",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e028d277396016ea9ea46d55ce0",
+          "addedAt": "2026-11-02T18:40:26Z"
         }
       ]
     },
@@ -385,6 +396,17 @@
           "albumId": "4hafeOXr4qO4FqaFGRgCOe",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e02588e03ea1909d877161cce5c",
           "addedAt": "2026-10-23T13:43:49Z"
+        },
+        {
+          "trackId": "5zJgpPfTCLdrbDSwviV4nl",
+          "name": "Come Rain or Come Shine",
+          "artists": [
+            "Ray Charles"
+          ],
+          "album": "The Atlantic Hits",
+          "albumId": "6vbwAQCAYy8Vj7bXAPq5bz",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e02251f9ed8769d5c58720a7dd1",
+          "addedAt": "2026-11-03T01:25:05Z"
         }
       ]
     }
