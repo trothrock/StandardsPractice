@@ -533,6 +533,21 @@ async function searchTracks(q) {
   }));
 }
 
+// Albums matching a search, or the one album a pasted Spotify link or URI names
+async function searchAlbums(q) {
+  const linked = String(q).match(/album[:\/]([A-Za-z0-9]{22})/);
+  const albums = linked
+    ? [await spotifyGet(`/albums/${linked[1]}`)]
+    : (await spotifyGet('/search', { q, type: 'album', limit: 10 })).albums?.items || [];
+  return albums.filter(a => a && a.id).map(a => ({
+    albumId: a.id,
+    album: a.name,
+    artists: a.artists.map(x => x.name),
+    albumImage: pickAlbumImage(a.images),
+    year: (a.release_date || '').slice(0, 4) || null,
+  }));
+}
+
 function getStatus() {
   const store = loadPlays();
   return {
@@ -554,7 +569,7 @@ async function checkConnection() {
   };
 }
 
-module.exports = { spotifyGet, checkConnection, getLoginUrl, handleCallback, syncRecentPlays, startDailySync, getStatus, loadPlays, syncReferencePlaylists, loadReferencePlaylists, selectDailyTracks, runDailyPlaylist, getTodayPlaylist, playTrackAt, searchTracks };
+module.exports = { spotifyGet, checkConnection, getLoginUrl, handleCallback, syncRecentPlays, startDailySync, getStatus, loadPlays, syncReferencePlaylists, loadReferencePlaylists, selectDailyTracks, runDailyPlaylist, getTodayPlaylist, playTrackAt, searchTracks, searchAlbums };
 
 if (require.main === module) {
   checkConnection()

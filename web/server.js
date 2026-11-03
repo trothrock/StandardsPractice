@@ -274,14 +274,18 @@ const server = http.createServer((req, res) => {
   }
 
   if (req.method === 'GET' && req.url.startsWith('/api/spotify/search?')) {
-    const q = new URL(req.url, 'http://127.0.0.1').searchParams.get('q') || '';
+    const params = new URL(req.url, 'http://127.0.0.1').searchParams;
+    const q = params.get('q') || '';
     const reply = (status, body) => {
       res.writeHead(status, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify(body));
     };
     if (!q.trim()) { reply(400, { ok: false, error: 'q is required' }); return; }
-    spotify.searchTracks(q.trim())
-      .then(tracks => reply(200, { ok: true, tracks }))
+    const search = params.get('type') === 'album'
+      ? spotify.searchAlbums(q.trim()).then(albums => ({ ok: true, albums }))
+      : spotify.searchTracks(q.trim()).then(tracks => ({ ok: true, tracks }));
+    search
+      .then(result => reply(200, result))
       .catch(err => reply(502, { ok: false, error: err.message }));
     return;
   }

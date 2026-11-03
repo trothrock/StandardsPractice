@@ -8931,5 +8931,152 @@
   "voicingChordsSplit": true,
   "voicingMinorSplit": true,
   "voicingHalfDimSplit": true,
-  "voicingActivityNamesFixed": true
+  "voicingActivityNamesFixed": true,
+  "albumOfWeek": {
+    "albumId": "3nLStxdTkSzihxm7FTLzCP",
+    "weekStart": 20261102
+  },
+  "records": [
+    {
+      "albumId": "3nLStxdTkSzihxm7FTLzCP",
+      "album": "My Favorite Things",
+      "artists": [
+        "John Coltrane"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02c00913832628c23c7952ae7b",
+      "year": "1961",
+      "featuredWeek": 20261102
+    },
+    {
+      "albumId": "2iyZW2XXp6L2qp0t8Kv33S",
+      "album": "Criss-Cross",
+      "artists": [
+        "Thelonious Monk"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02bbc6b72d1940cc24649c0ffa",
+      "year": "1963"
+    },
+    {
+      "albumId": "5fGj14UbUEMl2v8tu7sqi4",
+      "album": "Dizzy Gillespie At Newport",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02555943f813d6e4a80d26bf19",
+      "year": "1957"
+    },
+    {
+      "albumId": "6aUQ6zb8XRvxfoa2Zhx8yj",
+      "album": "At The Cafe Bohemia (Vol. 1/The Rudy Van Gelder Edition)",
+      "artists": [
+        "Art Blakey & The Jazz Messengers"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e80e683dc5b6d510090fbada",
+      "year": "1956"
+    },
+    {
+      "albumId": "7buEUXT132AA4FPswvh9tV",
+      "album": "Miles Smiles",
+      "artists": [
+        "Miles Davis"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e998220aad6d8414db135780",
+      "year": "1967"
+    },
+    {
+      "albumId": "26lBmmgeplvXm9stlDQapz",
+      "album": "Live At Newport",
+      "artists": [
+        "McCoy Tyner"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e026bdf224a10afab7664aeaa3f",
+      "year": "1964"
+    },
+    {
+      "albumId": "7huPJTTsWVt854oZkr88mf",
+      "album": "Maiden Voyage (Remastered 1999/Rudy Van Gelder Edition)",
+      "artists": [
+        "Herbie Hancock"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b6f936d535913e3f425e5bbe",
+      "year": "1965"
+    },
+    {
+      "albumId": "61bXefFZqGbVkmb7qzIIOl",
+      "album": "Takin' Off (Expanded Edition)",
+      "artists": [
+        "Herbie Hancock"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02d1bac93adf4492db2e6ff9f8",
+      "year": "1962"
+    },
+    {
+      "albumId": "6Wub7N4F0jXoqt66E5j2ql",
+      "album": "Brown And Roach Incorporated",
+      "artists": [
+        "Clifford Brown",
+        "Max Roach"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02889a6f7c981fea2ecdf9c59e",
+      "year": "1954"
+    },
+    {
+      "albumId": "731OW49heGHCMrMOREHYlY",
+      "album": "Soul Station",
+      "artists": [
+        "Hank Mobley"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028d277396016ea9ea46d55ce0",
+      "year": "1960"
+    },
+    {
+      "albumId": "6PuVuJwyxyBZXMz73teSoV",
+      "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+      "artists": [
+        "Clifford Brown",
+        "Max Roach"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021f8972135b07af1f0d59c47e",
+      "year": "1956"
+    },
+    {
+      "albumId": "5fmIolILp5NAtNYiRPjhzA",
+      "album": "Head Hunters",
+      "artists": [
+        "Herbie Hancock"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b170840d6fdbc754ba304058",
+      "year": "1973"
+    },
+    {
+      "albumId": "4VUawqEDCHHfrUe77ScQ2K",
+      "album": "'Round About Midnight",
+      "artists": [
+        "Miles Davis"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02cb6f92683ff9ad65f27a3f9f",
+      "year": "1957"
+    },
+    {
+      "albumId": "3rs2Wq1755vGmXxIioU7Xo",
+      "album": "Bags' Groove (Rudy Van Gelder 2008 Remaster)",
+      "artists": [
+        "Miles Davis"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0242a04303e6eb1100df3ea036",
+      "year": "1957"
+    },
+    {
+      "albumId": "5DmnEvPDaIE2lhP91ZIrRn",
+      "album": "Trio Music",
+      "artists": [
+        "Chick Corea",
+        "Miroslav Vitous",
+        "Roy Haynes"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e24f9ba390b7e6e72039d2ce",
+      "year": "1982"
+    }
+  ],
+  "recordsSort": "year"
 }
