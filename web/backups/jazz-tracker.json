@@ -1595,7 +1595,7 @@
       "baseLevel": 1,
       "currentLevel": 2,
       "status": "active",
-      "intervalIdx": 2,
+      "intervalIdx": 3,
       "learnedDate": 20260529,
       "reviews": [
         {
@@ -1609,6 +1609,11 @@
         {
           "date": 20260914,
           "passed": true
+        },
+        {
+          "date": 20261102,
+          "passed": true,
+          "key": "C"
         }
       ],
       "sortSeed": 0.8633675201611779,
@@ -8081,6 +8086,23 @@
       "name": "Fly Me to the Moon",
       "secs": 600,
       "origSecs": 7
+    },
+    {
+      "ts": 1793644866044,
+      "date": 20261102,
+      "type": "practice_time",
+      "area": "review",
+      "name": "Fly Me to the Moon",
+      "secs": 300,
+      "origSecs": 8
+    },
+    {
+      "ts": 1793644866045,
+      "date": 20261102,
+      "type": "review",
+      "name": "Fly Me to the Moon",
+      "passed": true,
+      "key": "C"
     }
   ],
   "extraReviewsToday": {

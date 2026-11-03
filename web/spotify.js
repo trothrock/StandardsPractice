@@ -31,7 +31,7 @@ const DAILY_PLAYLISTS_FILE = path.join(__dirname, 'data', 'spotify-daily-playlis
 const DB_BACKUP_FILE = path.join(__dirname, 'backups', 'jazz-tracker.json'); // the page's latest saved data
 
 const DAILY_PLAYLIST_SIZE = 6;
-const DAILY_PLAYLIST_KEEP_DAYS = 7;
+const DAILY_PLAYLIST_KEEP_DAYS = 1; // removed on the next calendar day
 const LIBRARY_REMOVE_LIMIT = 40; // Spotify's maximum per request
 const LISTENING_GOAL_DEFAULT = 20;
 const MIN_PICK_WEIGHT = 0.05; // recordings past their goal still come up now and then
@@ -406,7 +406,7 @@ async function buildDailyPlaylist() {
   return { skipped: false, name: entry.name, count: entry.tracks.length };
 }
 
-// Takes daily playlists out of the library once they're a week old. Spotify has no true delete,
+// Takes daily playlists out of the library once their day has passed. Spotify has no true delete,
 // so each is only unfollowed. Only playlists logged by buildDailyPlaylist are ever touched, and
 // their log entries stay, marked with the removal date. Any past the per-request limit wait for
 // the next hourly run.
