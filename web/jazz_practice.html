@@ -2780,12 +2780,6 @@ function listenThumb(url, albumId, trackId) {
     ? `<a class="listen-thumb-link" href="${escHTML(uri)}" title="Open in Spotify" onclick="event.stopPropagation()">${img}</a>`
     : img;
 }
-const LISTENING_PAGE = 20;
-let listeningRowLimit = LISTENING_PAGE;
-function showMoreListening() {
-  listeningRowLimit += LISTENING_PAGE;
-  renderListening();
-}
 // Pulls the latest plays and reference playlists from Spotify now, outside the daily schedule
 async function refreshListening() {
   const btn = document.getElementById('listening-refresh');
@@ -2820,34 +2814,36 @@ async function renderListening() {
   const matched = libraryPlays(db, data.plays);
   const synced = data.lastSyncDate ? `Last synced ${formatIntDate(parseInt(data.lastSyncDate.replace(/-/g,''),10))}` : 'Not synced yet';
   sub.textContent = `Spotify plays of songs in your library · ${synced}`;
-  if(!matched.length) {
-    body.innerHTML = '<div class="empty">No plays of library songs yet.</div>';
-    return;
-  }
   const safe = n => n.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-  const counts = new Map();
-  matched.forEach(p => {
-    const c = counts.get(p.song) || { n:0, last:p.ts, image:null, albumId:null, trackId:null };
-    c.n++;
-    if(!c.image && p.albumImage) { c.image = p.albumImage; c.albumId = p.albumId; c.trackId = p.trackId; }
-    counts.set(p.song, c);
-  });
-  const top = [...counts.entries()].sort((a,b)=>b[1].n-a[1].n || b[1].last-a[1].last);
   const goal = listeningGoal(db), refsBySong = referencesBySong(db, data.references);
-  const topRows = top.slice(0, listeningRowLimit).map(([name,c]) => {
-    const sg = db.songs[name];
-    const last = new Date(c.last).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  const refTracks = (data.references||[]).flatMap(pl => pl.tracks);
+  const playlist = data.todayPlaylist?.tracks || [];
+  // The log keeps only a recording's id and names, so its art comes from where it was picked.
+  // A playlist song can be missing from the library, with no song page or level to show.
+  const playlistRows = playlist.map(t => {
+    const name = t.song, sg = db.songs[name];
+    const rec = refTracks.find(r => r.trackId===t.trackId) || sg?.otherRecordings?.find(r => r.trackId===t.trackId) || {};
+    const thumb = listenThumb(rec.albumImage, rec.albumId, t.trackId);
+    if(!sg) return `<div class="song-row">${thumb}<div style="flex:1;min-width:0"><div class="song-name-group"><span class="song-name">${escHTML(t.name)}</span></div></div></div>`;
+    const songPlays = matched.filter(p => p.song===name);
     const refs = refsBySong.get(name);
     let bar = '';
     if(refs) {
-      const songPlays = matched.filter(p => p.song===name);
       const done = refs.reduce((t,ref) => t + Math.min(goal, referencePlays(songPlays, ref).length), 0);
       const total = goal * refs.length, pct = Math.round(done / total * 100);
       const tip = `${done} of ${total} reference plays (${refs.length} recording${refs.length===1?'':'s'})`;
       bar = `<div class="prog-wrap" style="margin-top:6px" title="${tip}"><div class="prog-bar" style="width:${pct}%"></div></div>`;
     }
-    return `<div class="song-row clickable" onclick="showSongDetail('${safe(name)}')">${listenThumb(c.image, c.albumId, c.trackId)}<div style="flex:1;min-width:0"><div class="song-name-group"><span class="song-name">${escHTML(name)}</span>${lvlBadge(sg.currentLevel)}</div>${bar}</div><span class="key-stat">${c.n} play${c.n===1?'':'s'} · last ${last}</span></div>`;
+    const stat = songPlays.length
+      ? `${songPlays.length} play${songPlays.length===1?'':'s'} · last ${new Date(songPlays[0].ts).toLocaleDateString('en-US',{month:'short',day:'numeric'})}`
+      : 'not played yet';
+    return `<div class="song-row clickable" onclick="showSongDetail('${safe(name)}')">${thumb}<div style="flex:1;min-width:0"><div class="song-name-group"><span class="song-name">${escHTML(name)}</span>${lvlBadge(sg.currentLevel)}</div>${bar}</div><span class="key-stat">${stat}</span></div>`;
   }).join('');
+  const playlistSection = `<div class="section"><div class="section-head"><h2>Today's playlist</h2>${playlist.length?`<span class="count">${playlist.length} song${playlist.length===1?'':'s'}</span>`:''}</div>${playlistRows || '<div class="empty">Today\'s playlist hasn\'t been created yet.</div>'}</div>`;
+  if(!matched.length) {
+    body.innerHTML = playlistSection + '<div class="empty">No plays of library songs yet.</div>';
+    return;
+  }
   const tod = todayInt(), firstWeek = weekStartInt(addDays(tod, -7*(VIZ_WEEKS-1)));
   const days = new Map();
   matched.forEach(p => {
@@ -2859,11 +2855,7 @@ async function renderListening() {
   const activeDays = [...days.keys()].filter(d => d >= firstWeek).length;
   const calendar = `<div class="section"><div class="section-head"><h2>Listening calendar</h2><span class="count">${activeDays} listening day${activeDays===1?'':'s'} · ${current}-day streak · longest ${longest}</span></div><div class="viz-body">${listeningCalendarHTML(days, firstWeek, tod)}</div></div>`;
   vizTipInit();
-  const remaining = top.length - listeningRowLimit;
-  const more = remaining > 0
-    ? `<div style="padding:12px 20px;text-align:center"><button class="btn-sm btn-inline" onclick="showMoreListening()">Show ${Math.min(remaining, LISTENING_PAGE)} more</button></div>`
-    : '';
-  body.innerHTML = calendar + `<div class="section"><div class="section-head"><h2>Most played</h2><span class="count">${matched.length} play${matched.length===1?'':'s'} · ${top.length} song${top.length===1?'':'s'}</span></div>${topRows}${more}</div>`;
+  body.innerHTML = calendar + playlistSection;
 }
 let detailOriginPanel = 'library';
 let detailType = 'song';
@@ -3460,7 +3452,7 @@ function showPanel(id) {
   if(id==='keys') renderKeyCenters();
   if(id==='queue') renderQueue();
   if(id==='activity') renderActivity();
-  if(id==='listening') { listeningRowLimit = LISTENING_PAGE; renderListening(); }
+  if(id==='listening') renderListening();
   if(id==='settings') renderSettings();
 }
 function renderAll() {

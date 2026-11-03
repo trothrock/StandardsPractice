@@ -366,6 +366,12 @@ function loadDailyPlaylists() {
   return readJson(DAILY_PLAYLISTS_FILE, { playlists: [] });
 }
 
+// Today's playlist once it's on Spotify, else null
+function getTodayPlaylist() {
+  const today = localDate();
+  return loadDailyPlaylists().playlists.find(p => p.date === today && p.filled) || null;
+}
+
 // Creates today's playlist once. It waits for today's plays and reference playlists, so progress
 // is current. The new playlist is logged before it's filled: a failure in between is retried
 // against the same playlist instead of leaving an empty one behind.
@@ -548,7 +554,7 @@ async function checkConnection() {
   };
 }
 
-module.exports = { spotifyGet, checkConnection, getLoginUrl, handleCallback, syncRecentPlays, startDailySync, getStatus, loadPlays, syncReferencePlaylists, loadReferencePlaylists, selectDailyTracks, runDailyPlaylist, playTrackAt, searchTracks };
+module.exports = { spotifyGet, checkConnection, getLoginUrl, handleCallback, syncRecentPlays, startDailySync, getStatus, loadPlays, syncReferencePlaylists, loadReferencePlaylists, selectDailyTracks, runDailyPlaylist, getTodayPlaylist, playTrackAt, searchTracks };
 
 if (require.main === module) {
   checkConnection()
