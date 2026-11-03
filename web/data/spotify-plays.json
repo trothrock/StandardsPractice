@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-11-02",
+  "lastSyncDate": "2026-11-03",
   "plays": [
     {
       "playedAt": "2026-10-01T01:25:15.151Z",
@@ -3056,6 +3056,58 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02251f9ed8769d5c58720a7dd1",
       "durationMs": 221906,
       "context": "spotify:album:6vbwAQCAYy8Vj7bXAPq5bz"
+    },
+    {
+      "playedAt": "2026-11-03T02:51:43.643Z",
+      "trackId": "5BxzqNLhwISk6IN5RZFkt8",
+      "name": "Blues For Alice",
+      "artists": [
+        "Charlie Parker"
+      ],
+      "album": "The Magnificent Charlie Parker",
+      "albumId": "3fA0ldo788no64soavIbL3",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0233223ca371cd1f9d4baf918b",
+      "durationMs": 166101,
+      "context": "spotify:playlist:2x82R3d7T6U0Do4ok8v0Oy"
+    },
+    {
+      "playedAt": "2026-11-03T03:00:15.648Z",
+      "trackId": "7tZDxcJeLzyjBKYc7TWbsr",
+      "name": "Everytime We Say Goodbye",
+      "artists": [
+        "John Coltrane"
+      ],
+      "album": "My Favorite Things",
+      "albumId": "3nLStxdTkSzihxm7FTLzCP",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02c00913832628c23c7952ae7b",
+      "durationMs": 345266,
+      "context": "spotify:album:3nLStxdTkSzihxm7FTLzCP"
+    },
+    {
+      "playedAt": "2026-11-03T03:11:53.655Z",
+      "trackId": "2urSBQat1mXT6bLgCunxAy",
+      "name": "Summertime",
+      "artists": [
+        "John Coltrane"
+      ],
+      "album": "My Favorite Things",
+      "albumId": "3nLStxdTkSzihxm7FTLzCP",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02c00913832628c23c7952ae7b",
+      "durationMs": 697946,
+      "context": "spotify:album:3nLStxdTkSzihxm7FTLzCP"
+    },
+    {
+      "playedAt": "2026-11-03T03:29:16.783Z",
+      "trackId": "0oVhV0PZndBEiaorbqtNbR",
+      "name": "But Not for Me",
+      "artists": [
+        "John Coltrane"
+      ],
+      "album": "My Favorite Things",
+      "albumId": "3nLStxdTkSzihxm7FTLzCP",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02c00913832628c23c7952ae7b",
+      "durationMs": 581866,
+      "context": "spotify:album:3nLStxdTkSzihxm7FTLzCP"
     }
   ]
 }

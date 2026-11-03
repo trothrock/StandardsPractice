@@ -54,6 +54,64 @@
           "song": "After You've Gone"
         }
       ],
+      "filled": true,
+      "removedOn": "2026-11-03"
+    },
+    {
+      "date": "2026-11-03",
+      "id": "6lMxCy3M7wsmZlmLdTmNyY",
+      "name": "Daily Standards – Nov 3, 2026",
+      "tracks": [
+        {
+          "trackId": "0IbD8xojkJgwh9lLu8hoxg",
+          "name": "Rhythm-A-Ning",
+          "artists": [
+            "Thelonious Monk"
+          ],
+          "song": "Rhythm-a-ning"
+        },
+        {
+          "trackId": "1Ku5vu9Crncz8ixeT4Ijxc",
+          "name": "Dolphin Dance - Remastered 1999/Rudy Van Gelder Edition",
+          "artists": [
+            "Herbie Hancock"
+          ],
+          "song": "Dolphin Dance"
+        },
+        {
+          "trackId": "5Li88NjZlTMl8v68GIJJ5v",
+          "name": "If I Should Lose You - Remastered 1999/Rudy Van Gelder Edition",
+          "artists": [
+            "Hank Mobley"
+          ],
+          "song": "If I Should Lose You"
+        },
+        {
+          "trackId": "2jZgFEONQS7Bk64IytEBU8",
+          "name": "In A Mellow Tone",
+          "artists": [
+            "Ben Webster"
+          ],
+          "song": "In a Mellow Tone"
+        },
+        {
+          "trackId": "38xcUjiTP1ivfb7ObwjyGA",
+          "name": "Watermelon Man - Remastered 2007",
+          "artists": [
+            "Herbie Hancock"
+          ],
+          "song": "Watermelon Man"
+        },
+        {
+          "trackId": "2mj0yRicHLCcavEbRud2D5",
+          "name": "More Than You Know (with Teddy Wilson & His Orchestra) - Take 1",
+          "artists": [
+            "Billie Holiday",
+            "Teddy Wilson"
+          ],
+          "song": "More Than You Know"
+        }
+      ],
       "filled": true
     }
   ]
