@@ -8939,7 +8939,7 @@
     "weekStart": 20261102,
     "key": "Gb"
   },
-  "exitChecklistOpen": true,
+  "exitChecklistOpen": false,
   "exitChecklistDetailOpen": false,
   "practiceFocusMigrated": true,
   "repertoireFocusMigrated": true,
