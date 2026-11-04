@@ -262,6 +262,15 @@
   .album-feature-art { width: 120px; height: 120px; border-radius: var(--radius); object-fit: cover; display: block; background: var(--bg3); }
   .album-feature-title { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--text); margin-bottom: 6px; overflow-wrap: anywhere; }
   .album-feature-meta { font-size: 13px; color: var(--text2); }
+  .record-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 24px 20px; padding: 20px; }
+  .record-cell { position: relative; min-width: 0; }
+  .record-cell-art { display: block; width: 100%; aspect-ratio: 1; border-radius: var(--radius); object-fit: cover; background: var(--bg3); }
+  .record-cell-title { margin-top: 10px; font-size: 13px; color: var(--text); overflow-wrap: anywhere; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+  .record-cell-meta { margin-top: 4px; font-size: 11px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; overflow-wrap: anywhere; }
+  .record-cell-when { margin-top: 4px; font-size: 11px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; }
+  .record-cell-when.current { color: var(--gold2); }
+  .record-cell .focus-del { position: absolute; top: 6px; right: 6px; width: 24px; height: 24px; padding: 0; border-radius: 50%; background: rgba(0,0,0,0.7); color: var(--text); }
+  .record-cell:hover .focus-del { opacity: 1; }
   .album-year { cursor: text; border-bottom: 1px dotted var(--text3); }
   .album-year:hover { color: var(--gold2); border-bottom-color: var(--gold2); }
   .focus-input.album-year-input { flex: none; width: 56px; padding: 1px 6px; font-size: inherit; font-family: inherit; }
@@ -2844,6 +2853,7 @@ function albumMeta(a, editableYear) {
   return [escHTML(a.artists.join(', ')), year].filter(Boolean).join(' · ');
 }
 const RECORD_SORTS = [['artist','Artist'],['title','Title'],['year','Year']];
+const RECORD_VIEWS = [['list','List'],['grid','Grid']];
 function withoutArticle(s) {
   return s.replace(/^(the|an?)\s+/i,'');
 }
@@ -2868,11 +2878,17 @@ function sortedRecords(records, sort) {
     title: byTitle,
     year: (a,b) => (yearOf(a)===yearOf(b) ? 0 : yearOf(a)-yearOf(b)) || byTitle(a,b),
   };
-  return [...records].sort(orders[sort] || orders.artist);
+  return [...records].sort(orders[sort] || orders.year);
 }
 function setRecordsSort(sort) {
   const db = getDB();
   db.recordsSort = sort;
+  saveDB(db);
+  drawRecords();
+}
+function setRecordsView(view) {
+  const db = getDB();
+  db.recordsView = view;
   saveDB(db);
   drawRecords();
 }
@@ -2890,10 +2906,19 @@ function albumOfWeekHTML(db) {
 }
 function recordsHTML(db) {
   const cur = currentAlbumOfWeek(db), records = db.records || [];
-  const sort = db.recordsSort || 'artist';
+  const sort = db.recordsSort || 'year';
   const sortToggle = records.length > 1 ? `<div class="kw-toggle">${RECORD_SORTS.map(([m,l]) => `<button class="${m===sort?'sel':''}" title="Sort by ${l.toLowerCase()}" onclick="setRecordsSort('${m}')">${l}</button>`).join('')}</div>` : '';
-  const rows = sortedRecords(records, sort).map(a => {
-    const when = a===cur ? 'This week' : a.featuredWeek ? `Featured ${formatIntDate(a.featuredWeek)}` : '';
+  const view = db.recordsView==='list' ? 'list' : 'grid';
+  const viewToggle = records.length > 1 ? `<div class="kw-toggle">${RECORD_VIEWS.map(([m,l]) => `<button class="${m===view?'sel':''}" title="Show as a ${l.toLowerCase()}" onclick="setRecordsView('${m}')">${l}</button>`).join('')}</div>` : '';
+  const whenFor = a => a===cur ? 'This week' : a.featuredWeek ? `Featured ${formatIntDate(a.featuredWeek)}` : '';
+  const sorted = sortedRecords(records, sort);
+  const cells = view==='grid' && sorted.length ? `<div class="record-grid">${sorted.map(a => {
+    const art = a.albumImage ? `<img class="record-cell-art" src="${escHTML(a.albumImage)}" alt="" loading="lazy">` : '<div class="record-cell-art"></div>';
+    const when = whenFor(a);
+    return `<div class="record-cell"><a class="listen-thumb-link" href="spotify:album:${escHTML(a.albumId)}" title="Open in Spotify">${art}</a><button class="focus-del" title="Remove album" aria-label="Remove album" onclick="removeRecord('${escHTML(a.albumId)}')">&times;</button><div class="record-cell-title" title="${escHTML(a.album)}">${escHTML(a.album)}</div><div class="record-cell-meta">${albumMeta(a, true)}</div>${when?`<div class="record-cell-when${a===cur?' current':''}">${when}</div>`:''}</div>`;
+  }).join('')}</div>` : '';
+  const rows = view==='grid' ? cells : sorted.map(a => {
+    const when = whenFor(a);
     return `<div class="song-row">${listenThumb(a.albumImage, a.albumId)}<div style="flex:1;min-width:0"><div class="song-name">${escHTML(a.album)}</div><div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${albumMeta(a, true)}</div></div>${when?`<span class="key-stat">${when}</span>`:''}<button class="focus-del" title="Remove album" aria-label="Remove album" onclick="removeRecord('${escHTML(a.albumId)}')">&times;</button></div>`;
   }).join('');
   const s = albumSearch;
@@ -2906,7 +2931,7 @@ function recordsHTML(db) {
     results = s.results.map((a,i) => `<div class="song-row">${listenThumb(a.albumImage, a.albumId)}<div style="flex:1;min-width:0"><div class="song-name">${escHTML(a.album)}</div><div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${albumMeta(a)}</div></div>${have.has(a.albumId) ? '<span class="key-stat">added</span>' : `<button class="btn-action" onclick="addRecord(${i})">Add</button>`}</div>`).join('');
   }
   const form = s.open ? `<div class="rec-add-form"><div style="display:flex;gap:8px"><input class="focus-input" id="album-add-q" placeholder="Search Spotify, or paste an album link" value="${escHTML(s.q)}" onkeydown="if(event.key==='Enter')searchRecords();else if(event.key==='Escape')toggleRecordSearch()"><button class="btn-action" onclick="searchRecords()">Search</button><button class="btn-action" onclick="toggleRecordSearch()">Close</button></div><div id="album-add-results">${results}</div></div>` : '';
-  return `<div class="section"><div class="section-head"><h2>Albums</h2><div style="display:flex;align-items:center;gap:10px">${records.length?`<span class="count">${records.length} album${records.length===1?'':'s'}</span>`:''}${sortToggle}<button class="btn-action poi-add-btn" title="Add an album" aria-label="Add an album" onclick="toggleRecordSearch()">+</button></div></div>${form}${rows || (s.open ? '' : '<div class="empty">No albums yet.</div>')}</div>`;
+  return `<div class="section"><div class="section-head"><h2>Albums</h2><div style="display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:10px">${records.length?`<span class="count">${records.length} album${records.length===1?'':'s'}</span>`:''}${sortToggle}${viewToggle}<button class="btn-action poi-add-btn" title="Add an album" aria-label="Add an album" onclick="toggleRecordSearch()">+</button></div></div>${form}${rows || (s.open ? '' : '<div class="empty">No albums yet.</div>')}</div>`;
 }
 // The card lives on the Listening tab and the list on the Records tab, and a change to either can
 // affect the other. The card's slot only exists once the Listening tab has been drawn.

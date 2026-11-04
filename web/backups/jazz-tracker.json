@@ -9125,5 +9125,6 @@
       "year": "1962"
     }
   ],
-  "recordsSort": "year"
+  "recordsSort": "year",
+  "recordsView": "grid"
 }
