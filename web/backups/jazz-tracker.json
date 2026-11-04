@@ -9114,6 +9114,15 @@
       ],
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02e24f9ba390b7e6e72039d2ce",
       "year": "1982"
+    },
+    {
+      "albumId": "72WSznqhvxfLmh4r2QUlFz",
+      "album": "Interplay (Remastered 2025)",
+      "artists": [
+        "Bill Evans"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0213e0345b275968deb69ef25c",
+      "year": "1962"
     }
   ],
   "recordsSort": "year"
