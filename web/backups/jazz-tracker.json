@@ -1260,13 +1260,18 @@
       "baseLevel": 0,
       "currentLevel": 2,
       "status": "active",
-      "intervalIdx": 1,
+      "intervalIdx": 2,
       "learnedDate": 20260927,
       "reviews": [
         {
           "date": 20260928,
           "passed": true,
           "key": "Eb"
+        },
+        {
+          "date": 20261103,
+          "passed": true,
+          "key": "C"
         }
       ],
       "sortSeed": 0.9033086847748873,
@@ -4070,7 +4075,8 @@
       "learningSteps": {
         "history": true,
         "recording": true,
-        "lyrics": true
+        "lyrics": true,
+        "melody-rootless": true
       },
       "otherRecordings": [
         {
@@ -5664,8 +5670,8 @@
     }
   },
   "currentNewSong": "Rhythm-a-ning",
-  "streak": 5,
-  "lastPracticeDay": 20261102,
+  "streak": 6,
+  "lastPracticeDay": 20261103,
   "activity": [
     {
       "ts": 1776634938073,
@@ -8103,6 +8109,38 @@
       "name": "Fly Me to the Moon",
       "passed": true,
       "key": "C"
+    },
+    {
+      "ts": 1793710294963,
+      "date": 20261103,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "Rhythm-a-ning",
+      "secs": 2400,
+      "origSecs": 1809
+    },
+    {
+      "ts": 1793710294964,
+      "date": 20261103,
+      "type": "practiced",
+      "name": "Rhythm-a-ning"
+    },
+    {
+      "ts": 1793711813825,
+      "date": 20261103,
+      "type": "practice_time",
+      "area": "review",
+      "name": "Don't Blame Me",
+      "secs": 1200,
+      "origSecs": 900
+    },
+    {
+      "ts": 1793711815263,
+      "date": 20261103,
+      "type": "review",
+      "name": "Don't Blame Me",
+      "passed": true,
+      "key": "C"
     }
   ],
   "extraReviewsToday": {
@@ -8901,7 +8939,7 @@
     "weekStart": 20261102,
     "key": "Gb"
   },
-  "exitChecklistOpen": false,
+  "exitChecklistOpen": true,
   "exitChecklistDetailOpen": false,
   "practiceFocusMigrated": true,
   "repertoireFocusMigrated": true,

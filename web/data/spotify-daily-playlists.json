@@ -112,6 +112,65 @@
           "song": "More Than You Know"
         }
       ],
+      "filled": true,
+      "removedOn": "2026-11-04"
+    },
+    {
+      "date": "2026-11-04",
+      "id": "37IZQ8gAYTXyUKs4YpkU8L",
+      "name": "Daily Standards – Nov 4, 2026",
+      "tracks": [
+        {
+          "trackId": "0IbD8xojkJgwh9lLu8hoxg",
+          "name": "Rhythm-A-Ning",
+          "artists": [
+            "Thelonious Monk"
+          ],
+          "song": "Rhythm-a-ning"
+        },
+        {
+          "trackId": "5BxzqNLhwISk6IN5RZFkt8",
+          "name": "Blues For Alice",
+          "artists": [
+            "Charlie Parker"
+          ],
+          "song": "Blues for Alice"
+        },
+        {
+          "trackId": "1Ku5vu9Crncz8ixeT4Ijxc",
+          "name": "Dolphin Dance - Remastered 1999/Rudy Van Gelder Edition",
+          "artists": [
+            "Herbie Hancock"
+          ],
+          "song": "Dolphin Dance"
+        },
+        {
+          "trackId": "5qhSOJFmfdfoqQmQZMtNyP",
+          "name": "A Night In Tunisia",
+          "artists": [
+            "Charlie Parker",
+            "Miles Davis"
+          ],
+          "song": "Night in Tunisia"
+        },
+        {
+          "trackId": "0T1EaGm6b9eM7xBf4F1hlc",
+          "name": "Maiden Voyage - Remastered 1999/Rudy Van Gelder Edition",
+          "artists": [
+            "Herbie Hancock"
+          ],
+          "song": "Maiden Voyage"
+        },
+        {
+          "trackId": "1FdulvpRiLgkseCz7RrNOR",
+          "name": "Quiet Nights of Quiet Stars (Corcovado)",
+          "artists": [
+            "Antônio Carlos Jobim",
+            "Frank Sinatra"
+          ],
+          "song": "Corcovado"
+        }
+      ],
       "filled": true
     }
   ]
