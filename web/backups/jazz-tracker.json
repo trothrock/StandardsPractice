@@ -9053,7 +9053,25 @@
       ],
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02c00913832628c23c7952ae7b",
       "year": "1961",
-      "featuredWeek": 20261102
+      "featuredWeek": 20261102,
+      "tracks": [
+        {
+          "id": "3ZikLQCnH3SIswlGENBcKe",
+          "name": "My Favorite Things"
+        },
+        {
+          "id": "7tZDxcJeLzyjBKYc7TWbsr",
+          "name": "Everytime We Say Goodbye"
+        },
+        {
+          "id": "2urSBQat1mXT6bLgCunxAy",
+          "name": "Summertime"
+        },
+        {
+          "id": "0oVhV0PZndBEiaorbqtNbR",
+          "name": "But Not for Me"
+        }
+      ]
     },
     {
       "albumId": "2iyZW2XXp6L2qp0t8Kv33S",
@@ -9239,7 +9257,57 @@
         "Robert Glasper"
       ],
       "albumImage": "https://i.scdn.co/image/ab67616d00001e021a76b24f7385acff6d8e57c7",
-      "year": "2012"
+      "year": "2012",
+      "tracks": [
+        {
+          "id": "6GlmcXF1XCzSCeGrFgmAEF",
+          "name": "Lift Off / Mic Check"
+        },
+        {
+          "id": "7e0j6jReCfN5KJkDNLHyHQ",
+          "name": "Afro Blue"
+        },
+        {
+          "id": "4ZMmUFcNgjBNiA377QCGeh",
+          "name": "Cherish The Day"
+        },
+        {
+          "id": "4wQFB68968Q08qP3iy5DMW",
+          "name": "Always Shine"
+        },
+        {
+          "id": "3IyvKXZZwgqU4tPxE2LZ0p",
+          "name": "Gonna Be Alright (F.T.B.)"
+        },
+        {
+          "id": "5TbX5Af7orkoGJkY43ly1B",
+          "name": "Move Love"
+        },
+        {
+          "id": "6wIBZCIbbZh6ACDkWC5TX7",
+          "name": "Ah Yeah"
+        },
+        {
+          "id": "5Q8V72HTpqO4ROxvRGZ5D0",
+          "name": "The Consequences Of Jealousy"
+        },
+        {
+          "id": "42h7mG9WcbmYMjhPSciXYy",
+          "name": "Why Do We Try"
+        },
+        {
+          "id": "0PPE6KX3ScymCdkZWBTICw",
+          "name": "Black Radio"
+        },
+        {
+          "id": "7f4R2TOur5XdSwVPHQHK7H",
+          "name": "Letter To Hermione"
+        },
+        {
+          "id": "5SmYRW8JySpZnsg0yzEFR5",
+          "name": "Smells Like Teen Spirit"
+        }
+      ]
     },
     {
       "albumId": "5JguHYfSLjVomb3nAwP5Lm",
@@ -9258,7 +9326,37 @@
       ],
       "albumImage": "https://i.scdn.co/image/ab67616d00001e0298ed63ef035ba53d5a6ab87e",
       "year": "2025",
-      "featuredWeek": 20261102
+      "featuredWeek": 20261102,
+      "tracks": [
+        {
+          "id": "0TQrkoFjysMzOHcPNRaIML",
+          "name": "A Way"
+        },
+        {
+          "id": "57zh3ivLqu95lvkdW4zISx",
+          "name": "Parks Lope"
+        },
+        {
+          "id": "4ToeD7bGmiRDr8W99n5ETj",
+          "name": "For María José"
+        },
+        {
+          "id": "5V8i8ZFBEztWokEGtXnFUO",
+          "name": "Dense Phantasy"
+        },
+        {
+          "id": "6y8wzT1tutKxp0R7VjkBem",
+          "name": "Anywhere Together"
+        },
+        {
+          "id": "3CJchfTC39IPfNFpQvKE58",
+          "name": "Little River"
+        },
+        {
+          "id": "40fWFp9xmEhueXZ5gQh6TV",
+          "name": "Raincoat"
+        }
+      ]
     },
     {
       "albumId": "5mEbDqNq42kurr4gzxy5pp",

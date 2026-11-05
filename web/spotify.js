@@ -548,6 +548,12 @@ async function searchAlbums(q) {
   }));
 }
 
+// An album's songs in order, for counting full plays of it
+async function getAlbumTracks(albumId) {
+  const items = await fetchAllPages(`/albums/${albumId}/tracks`, {});
+  return items.filter(t => t && t.id).map(t => ({ id: t.id, name: t.name }));
+}
+
 function getStatus() {
   const store = loadPlays();
   return {
@@ -569,7 +575,7 @@ async function checkConnection() {
   };
 }
 
-module.exports = { spotifyGet, checkConnection, getLoginUrl, handleCallback, syncRecentPlays, startDailySync, getStatus, loadPlays, syncReferencePlaylists, loadReferencePlaylists, selectDailyTracks, runDailyPlaylist, getTodayPlaylist, playTrackAt, searchTracks, searchAlbums };
+module.exports = { spotifyGet, checkConnection, getLoginUrl, handleCallback, syncRecentPlays, startDailySync, getStatus, loadPlays, syncReferencePlaylists, loadReferencePlaylists, selectDailyTracks, runDailyPlaylist, getTodayPlaylist, playTrackAt, searchTracks, searchAlbums, getAlbumTracks };
 
 if (require.main === module) {
   checkConnection()

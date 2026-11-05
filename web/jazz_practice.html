@@ -265,6 +265,12 @@
   .album-feature-art { width: 120px; height: 120px; border-radius: var(--radius); object-fit: cover; display: block; background: var(--bg3); }
   .album-feature-title { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--text); margin-bottom: 6px; overflow-wrap: anywhere; }
   .album-feature-meta { font-size: 13px; color: var(--text2); }
+  .album-link { cursor: pointer; transition: color 0.15s; }
+  .album-link:hover { color: var(--gold2); }
+  .album-detail-top { display: flex; align-items: flex-start; gap: 20px; }
+  .album-track-num { flex: 0 0 22px; padding-top: 1px; text-align: right; font-size: 12px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; }
+  .album-track-name { color: inherit; text-decoration: none; transition: color 0.15s; }
+  .album-track-name:hover { color: var(--gold2); }
   .record-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 24px 20px; padding: 20px; }
   .record-cell { position: relative; min-width: 0; }
   .record-cell-art { display: block; width: 100%; aspect-ratio: 1; border-radius: var(--radius); object-fit: cover; background: var(--bg3); }
@@ -2827,7 +2833,7 @@ function listenThumb(url, albumId, trackId) {
 // its week for each era. The first draw of each Monday-start week picks at random among the era's
 // albums without a featuredWeek. Once all have one they're cleared to start over, avoiding a repeat
 // of last week. An album with no year belongs to neither era, so it waits until one is added.
-let albumWeekPlays = [];
+let albumPlays = null;
 let albumSearch = { open:false, q:'', results:null, error:null, searching:false };
 const RECORD_ERAS = [['classic','CLASSIC','released before 2000'],['contemporary','CONTEMPORARY','released in 2000 or later']];
 function recordEra(album) {
@@ -2854,13 +2860,48 @@ function currentAlbumOfWeek(db, era, exclude) {
   saveDB(db);
   return pick;
 }
-// Plays since the album's week began. Spotify sometimes lists one album under several ids, so a
-// matching name and lead artist counts too.
-function albumPlaysThisWeek(album, weekStart) {
-  const from = new Date(Math.floor(weekStart/10000), Math.floor((weekStart%10000)/100)-1, weekStart%100).getTime();
-  const name = (album.album||'').toLowerCase();
-  return albumWeekPlays.filter(p => Date.parse(p.playedAt) >= from && (
-    p.albumId===album.albumId || ((p.album||'').toLowerCase()===name && p.artists[0]===album.artists[0]))).length;
+// Plays of each of the album's songs since a moment in time. Spotify sometimes lists one album under
+// several ids and swaps in another copy of a song, so a matching album name and lead artist counts,
+// and then a matching song name.
+function albumSongPlays(album, from = 0) {
+  const name = (album.album||'').toLowerCase(), counts = album.tracks.map(() => 0);
+  (albumPlays||[]).filter(p => Date.parse(p.playedAt) >= from && (
+    p.albumId===album.albumId || ((p.album||'').toLowerCase()===name && p.artists[0]===album.artists[0]))).forEach(p => {
+    let i = album.tracks.findIndex(t => t.id===p.trackId);
+    if(i<0) i = album.tracks.findIndex(t => t.name.toLowerCase()===(p.name||'').toLowerCase());
+    if(i>=0) counts[i]++;
+  });
+  return counts;
+}
+// A full play is every song on the album played once, so the count is that of its least-played song
+function fullAlbumPlays(album, weekStart) {
+  const from = weekStart ? new Date(Math.floor(weekStart/10000), Math.floor((weekStart%10000)/100)-1, weekStart%100).getTime() : 0;
+  return Math.min(...albumSongPlays(album, from));
+}
+// An album's songs are fetched once and kept on its record. A failed fetch isn't retried until the
+// Listening tab or the album's page is next opened.
+const albumTracksLoading = new Set(), albumTracksFailed = new Set();
+async function loadAlbumTracks(albumId) {
+  if(albumTracksLoading.has(albumId) || albumTracksFailed.has(albumId)) return;
+  albumTracksLoading.add(albumId);
+  let r;
+  try { r = await fetch('/api/spotify/album-tracks?id='+encodeURIComponent(albumId)).then(res => res.json()); } catch(e) { r = null; }
+  albumTracksLoading.delete(albumId);
+  const db = getDB(), item = db.records?.find(a => a.albumId===albumId);
+  if(r?.ok && r.tracks?.length) {
+    if(item) { item.tracks = r.tracks; saveDB(db); }
+  } else albumTracksFailed.add(albumId);
+  const slot = document.getElementById('album-week-slot');
+  if(slot) slot.innerHTML = albumOfWeekHTML(getDB());
+  drawAlbumDetail(albumId);
+}
+function albumPlaysLabel(album, weekStart) {
+  if(!album.tracks?.length) {
+    loadAlbumTracks(album.albumId);
+    return albumTracksFailed.has(album.albumId) ? "Couldn't load the album's songs" : 'Counting plays…';
+  }
+  const n = fullAlbumPlays(album, weekStart);
+  return n ? `${n} full play${n===1?'':'s'} this week` : 'No full plays yet this week';
 }
 // With editableYear, the year can be clicked to correct it (see editRecordYear)
 function albumMeta(a, editableYear) {
@@ -2912,11 +2953,10 @@ function albumOfWeekHTML(db) {
   const features = RECORD_ERAS.map(([era, label, range]) => {
     const cur = currentAlbumOfWeek(db, era);
     if(!cur) return `<div class="album-feature"><div style="flex:1;min-width:0"><div class="album-feature-era">${label}</div><div class="album-feature-meta">Add an album ${range} on the <a href="#" style="color:var(--gold)" onclick="event.preventDefault();showPanel('records')">Records</a> tab to feature it here.</div></div></div>`;
-    const n = albumPlaysThisWeek(cur, db.albumOfWeek[era].weekStart);
     const art = cur.albumImage ? `<img class="album-feature-art" src="${escHTML(cur.albumImage)}" alt="">` : '<div class="album-feature-art"></div>';
     const canSkip = db.records.filter(a => recordEra(a)===era).length > 1;
     const skip = canSkip ? `<button class="btn-action" title="Pick a different ${label.toLowerCase()} album this week" onclick="skipAlbumOfWeek('${era}')">Skip</button>` : '';
-    return `<div class="album-feature"><a class="listen-thumb-link" href="spotify:album:${escHTML(cur.albumId)}" title="Open in Spotify">${art}</a><div style="flex:1;min-width:0"><div class="album-feature-era">${label}</div><div class="album-feature-title">${escHTML(cur.album)}</div><div class="album-feature-meta">${albumMeta(cur, true)}</div><div class="album-feature-foot"><span>${n ? `${n} play${n===1?'':'s'} this week` : 'Not played yet this week'}</span>${skip}</div></div></div>`;
+    return `<div class="album-feature"><a class="listen-thumb-link" href="spotify:album:${escHTML(cur.albumId)}" title="Open in Spotify">${art}</a><div style="flex:1;min-width:0"><div class="album-feature-era">${label}</div><div class="album-feature-title album-link" onclick="showAlbumDetail('${escHTML(cur.albumId)}')">${escHTML(cur.album)}</div><div class="album-feature-meta">${albumMeta(cur, true)}</div><div class="album-feature-foot"><span>${albumPlaysLabel(cur, db.albumOfWeek[era].weekStart)}</span>${skip}</div></div></div>`;
   });
   return `<div class="section"><div class="section-head"><h2>Albums of the Week</h2></div><div class="album-week-pair">${features.join('')}</div></div>`;
 }
@@ -2931,11 +2971,11 @@ function recordsHTML(db) {
   const cells = view==='grid' && sorted.length ? `<div class="record-grid">${sorted.map(a => {
     const art = a.albumImage ? `<img class="record-cell-art" src="${escHTML(a.albumImage)}" alt="" loading="lazy">` : '<div class="record-cell-art"></div>';
     const when = whenFor(a);
-    return `<div class="record-cell"><a class="listen-thumb-link" href="spotify:album:${escHTML(a.albumId)}" title="Open in Spotify">${art}</a><button class="focus-del" title="Remove album" aria-label="Remove album" onclick="removeRecord('${escHTML(a.albumId)}')">&times;</button><div class="record-cell-title" title="${escHTML(a.album)}">${escHTML(a.album)}</div><div class="record-cell-meta">${albumMeta(a, true)}</div>${when?`<div class="record-cell-when${current.has(a)?' current':''}">${when}</div>`:''}</div>`;
+    return `<div class="record-cell"><a class="listen-thumb-link" href="spotify:album:${escHTML(a.albumId)}" title="Open in Spotify">${art}</a><button class="focus-del" title="Remove album" aria-label="Remove album" onclick="removeRecord('${escHTML(a.albumId)}')">&times;</button><div class="record-cell-title album-link" title="${escHTML(a.album)}" onclick="showAlbumDetail('${escHTML(a.albumId)}')">${escHTML(a.album)}</div><div class="record-cell-meta">${albumMeta(a, true)}</div>${when?`<div class="record-cell-when${current.has(a)?' current':''}">${when}</div>`:''}</div>`;
   }).join('')}</div>` : '';
   const rows = view==='grid' ? cells : sorted.map(a => {
     const when = whenFor(a);
-    return `<div class="song-row">${listenThumb(a.albumImage, a.albumId)}<div style="flex:1;min-width:0"><div class="song-name">${escHTML(a.album)}</div><div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${albumMeta(a, true)}</div></div>${when?`<span class="key-stat">${when}</span>`:''}<button class="focus-del" title="Remove album" aria-label="Remove album" onclick="removeRecord('${escHTML(a.albumId)}')">&times;</button></div>`;
+    return `<div class="song-row">${listenThumb(a.albumImage, a.albumId)}<div style="flex:1;min-width:0"><div class="song-name album-link" onclick="showAlbumDetail('${escHTML(a.albumId)}')">${escHTML(a.album)}</div><div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${albumMeta(a, true)}</div></div>${when?`<span class="key-stat">${when}</span>`:''}<button class="focus-del" title="Remove album" aria-label="Remove album" onclick="removeRecord('${escHTML(a.albumId)}')">&times;</button></div>`;
   }).join('');
   const s = albumSearch;
   let results = '';
@@ -2949,12 +2989,14 @@ function recordsHTML(db) {
   const form = s.open ? `<div class="rec-add-form"><div style="display:flex;gap:8px"><input class="focus-input" id="album-add-q" placeholder="Search Spotify, or paste an album link" value="${escHTML(s.q)}" onkeydown="if(event.key==='Enter')searchRecords();else if(event.key==='Escape')toggleRecordSearch()"><button class="btn-action" onclick="searchRecords()">Search</button><button class="btn-action" onclick="toggleRecordSearch()">Close</button></div><div id="album-add-results">${results}</div></div>` : '';
   return `<div class="section"><div class="section-head"><h2>Albums</h2><div style="display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:10px">${records.length?`<span class="count">${records.length} album${records.length===1?'':'s'}</span>`:''}${sortToggle}${viewToggle}<button class="btn-action poi-add-btn" title="Add an album" aria-label="Add an album" onclick="toggleRecordSearch()">+</button></div></div>${form}${rows || (s.open ? '' : '<div class="empty">No albums yet.</div>')}</div>`;
 }
-// The card lives on the Listening tab and the list on the Records tab, and a change to either can
-// affect the other. The card's slot only exists once the Listening tab has been drawn.
+// The card lives on the Listening tab, the list on the Records tab and the details on the album's
+// page, and a change to one can affect the others. The card's slot only exists once the Listening
+// tab has been drawn.
 function drawRecords() {
   const db = getDB(), slot = document.getElementById('album-week-slot');
   document.getElementById('records-body').innerHTML = recordsHTML(db);
   if(slot) slot.innerHTML = albumOfWeekHTML(db);
+  if(detailType==='album') drawAlbumDetail(currentDetailName);
 }
 function closeRecordSearch() {
   albumSearch = { open:false, q:'', results:null, error:null, searching:false };
@@ -3029,6 +3071,8 @@ function editRecordYear(span, albumId) {
 function removeRecord(albumId) {
   const db = getDB(), i = (db.records||[]).findIndex(a => a.albumId===albumId);
   if(i<0) return;
+  const notes = db.records[i].pointsOfInterest?.length;
+  if(notes && !confirm(`Remove ${db.records[i].album}? Its ${notes} point${notes===1?'':'s'} of interest will be lost.`)) return;
   db.records.splice(i, 1);
   saveDB(db);
   drawRecords();
@@ -3101,7 +3145,8 @@ async function renderListening() {
       : 'not played yet';
     return `<div class="song-row clickable" onclick="showSongDetail('${safe(name)}')">${thumb}<div style="flex:1;min-width:0"><div class="song-name-group"><span class="song-name">${escHTML(name)}</span>${lvlBadge(sg.currentLevel)}</div>${bar}</div><span class="key-stat">${stat}</span></div>`;
   }).join('');
-  albumWeekPlays = data.plays;
+  albumPlays = data.plays;
+  albumTracksFailed.clear();
   const albumSlot = `<div id="album-week-slot">${albumOfWeekHTML(db)}</div>`;
   const playlistSection = `<div class="section"><div class="section-head"><h2>Today's playlist</h2>${playlist.length?`<span class="count">${playlist.length} song${playlist.length===1?'':'s'}</span>`:''}</div>${playlistRows || '<div class="empty">Today\'s playlist hasn\'t been created yet.</div>'}</div>`;
   if(!matched.length) {
@@ -3131,6 +3176,46 @@ function showSongDetail(name) {
   currentDetailName = name;
   renderSongDetail(name);
   showPanel('detail');
+}
+function showAlbumDetail(albumId) {
+  const active = document.querySelector('.panel.active');
+  detailOriginPanel = active ? active.id.replace('panel-','') : 'records';
+  detailType = 'album';
+  currentDetailName = albumId;
+  albumTracksFailed.delete(albumId);
+  renderAlbumDetail(albumId);
+  showPanel('detail');
+}
+// Draws at once from what's known, then again only if there are new plays, which keeps an open
+// point of interest form from being lost.
+async function renderAlbumDetail(albumId) {
+  drawAlbumDetail(albumId);
+  let data;
+  try { data = await fetchListening(); } catch(e) { return; }
+  const changed = data.plays.length !== albumPlays?.length;
+  albumPlays = data.plays;
+  if(changed) drawAlbumDetail(albumId);
+}
+function drawAlbumDetail(albumId) {
+  if(detailType!=='album' || currentDetailName!==albumId) return;
+  const container = document.getElementById('detail-body'), a = getDB().records?.find(r => r.albumId===albumId);
+  if(!a) { container.innerHTML = '<div class="empty">Album not found.</div>'; return; }
+  const tracks = a.tracks || [], owner = `album:${albumId}`;
+  if(!tracks.length) loadAlbumTracks(albumId);
+  const counts = tracks.length && albumPlays ? albumSongPlays(a) : null;
+  const era = RECORD_ERAS.find(([id]) => id===recordEra(a));
+  const art = a.albumImage ? `<img class="album-feature-art" src="${escHTML(a.albumImage)}" alt="">` : '<div class="album-feature-art"></div>';
+  const field = (label, value, tip) => `<div class="detail-meta-field"${tip?` title="${tip}"`:''}><div class="label">${label}</div><div class="value">${value}</div></div>`;
+  const year = `<span class="album-year" title="Click to correct the year" onclick="editRecordYear(this,'${escHTML(albumId)}')">${a.year ? escHTML(a.year) : 'Add year'}</span>`;
+  const header = `<div class="detail-header"><div class="album-detail-top"><a class="listen-thumb-link" href="spotify:album:${escHTML(albumId)}" title="Open in Spotify">${art}</a><div style="flex:1;min-width:0">${era?`<div class="album-feature-era">${era[1]}</div>`:''}<div class="detail-title" style="margin-bottom:6px;overflow-wrap:anywhere">${escHTML(a.album)}</div><div class="album-feature-meta">${escHTML(a.artists.join(', '))}</div></div></div><div class="detail-meta-grid">${field('Full plays', counts ? Math.min(...counts) : '—', 'Times every song on the album has been played')}${field('Songs', tracks.length || '—')}${field('Year', year)}</div></div>`;
+  const pois = a.pointsOfInterest || [], shown = new Set();
+  const rows = tracks.map((t,i) => {
+    const n = counts?.[i], stat = n===undefined ? '' : n ? `${n} play${n===1?'':'s'}` : 'not played yet';
+    const rowPois = poisFor(pois, shown, pt => pt.trackId===t.id);
+    return `<div class="song-row" style="align-items:flex-start"><span class="album-track-num">${i+1}</span><div style="flex:1;min-width:0"><a class="song-name album-track-name" href="spotify:track:${escHTML(t.id)}" title="Open in Spotify">${escHTML(t.name)}</a>${poiListHTML(owner, rowPois, t.id, a.album)}</div><span class="key-stat">${stat}</span>${poiAddButton(t.id)}</div>`;
+  }).join('');
+  const empty = `<div class="empty">${albumTracksFailed.has(albumId) ? "Couldn't load this album's songs." : 'Loading songs…'}</div>`;
+  container.innerHTML = header + `<div class="section"><div class="section-head"><h2>Tracks</h2>${tracks.length?`<span class="count">${tracks.length} song${tracks.length===1?'':'s'}</span>`:''}</div>${rows || empty}</div>`;
 }
 function showRepertoireDetail(name) {
   const active = document.querySelector('.panel.active');
@@ -3471,7 +3556,15 @@ function removeOtherRecording(name, i) {
 }
 // Points of interest are timestamped moments in a recording worth revisiting, kept on the song
 // as { trackId, album, at (seconds), text }. Each shows under the first recording row it matches;
-// clicking its time starts the track playing in Spotify from that moment (see playPoi).
+// clicking its time starts the track playing in Spotify from that moment (see playPoi). An album
+// keeps its own the same way, with album:<id> standing in for the song's name.
+function poiOwner(db, name) {
+  return name.startsWith('album:') ? db.records?.find(a => a.albumId===name.slice(6)) : db.songs[name];
+}
+function redrawPois(name) {
+  if(name.startsWith('album:')) drawAlbumDetail(name.slice(6));
+  else drawSongListening(name);
+}
 function poisFor(pois, shown, match) {
   return pois.map((pt,i) => ({ ...pt, i })).filter(pt => !shown.has(pt.i) && match(pt))
     .map(pt => (shown.add(pt.i), pt)).sort((a,b) => a.at-b.at);
@@ -3539,18 +3632,18 @@ function addPoi(el, name) {
   const at = parsePoiTime(timeIn.value), text = textIn.value.trim();
   if(at===null) { timeIn.focus(); toast('Enter a time like 2:15.'); return; }
   if(!text) { textIn.focus(); return; }
-  const db = getDB(), sg = db.songs[name];
+  const db = getDB(), sg = poiOwner(db, name);
   if(!sg) return;
   (sg.pointsOfInterest = sg.pointsOfInterest || []).push({ trackId: form.dataset.track, album: form.dataset.album || undefined, at, text });
   sg.pointsOfInterest.sort((a,b) => a.at-b.at);
   saveDB(db);
-  drawSongListening(name);
+  redrawPois(name);
 }
 // Clicking a point's text swaps the row for time and text inputs. Enter or clicking away saves;
 // Escape, or clicking away with a field invalid, cancels. Moving between the two inputs keeps
 // the edit open.
 function editPoi(span, name, i) {
-  const pt = getDB().songs[name]?.pointsOfInterest?.[i];
+  const pt = poiOwner(getDB(), name)?.pointsOfInterest?.[i];
   if(!pt) return;
   const row = span.closest('.poi-row');
   const form = document.createElement('div');
@@ -3565,14 +3658,14 @@ function editPoi(span, name, i) {
     if(save && (at===null || !text)) { (at===null ? timeIn : textIn).focus(); if(at===null) toast('Enter a time like 2:15.'); return; }
     finished = true;
     if(save && (at!==pt.at || text!==pt.text)) {
-      const db = getDB(), item = db.songs[name]?.pointsOfInterest?.[i];
+      const db = getDB(), owner = poiOwner(db, name), item = owner?.pointsOfInterest?.[i];
       if(item) {
         item.at = at; item.text = text;
-        db.songs[name].pointsOfInterest.sort((a,b) => a.at-b.at);
+        owner.pointsOfInterest.sort((a,b) => a.at-b.at);
         saveDB(db);
       }
     }
-    drawSongListening(name);
+    redrawPois(name);
   };
   form.onkeydown = e => { if(e.key==='Enter') finish(true); else if(e.key==='Escape') finish(false); };
   form.addEventListener('focusout', e => {
@@ -3584,11 +3677,11 @@ function editPoi(span, name, i) {
   textIn.select();
 }
 function removePoi(name, i) {
-  const db = getDB(), sg = db.songs[name];
+  const db = getDB(), sg = poiOwner(db, name);
   if(!sg || !sg.pointsOfInterest) return;
   sg.pointsOfInterest.splice(i, 1);
   saveDB(db);
-  drawSongListening(name);
+  redrawPois(name);
 }
 function escHTML(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -3740,7 +3833,8 @@ function renderAll() {
   }
 }
 function refreshCurrentDetail() {
-  if(detailType==='repertoire') renderRepertoireDetail(currentDetailName);
+  if(detailType==='album') renderAlbumDetail(currentDetailName);
+  else if(detailType==='repertoire') renderRepertoireDetail(currentDetailName);
   else if(detailType==='voicing') renderVoicingDetail(currentDetailName);
   else if(detailType==='vocab') renderVocabDetail(currentDetailName);
   else renderSongDetail(currentDetailName);

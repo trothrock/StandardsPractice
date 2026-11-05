@@ -290,6 +290,19 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  if (req.method === 'GET' && req.url.startsWith('/api/spotify/album-tracks?')) {
+    const id = new URL(req.url, 'http://127.0.0.1').searchParams.get('id') || '';
+    const reply = (status, body) => {
+      res.writeHead(status, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(body));
+    };
+    if (!/^[A-Za-z0-9]{22}$/.test(id)) { reply(400, { ok: false, error: 'a Spotify album id is required' }); return; }
+    spotify.getAlbumTracks(id)
+      .then(tracks => reply(200, { ok: true, tracks }))
+      .catch(err => reply(502, { ok: false, error: err.message }));
+    return;
+  }
+
   if (req.method === 'GET' && req.url === '/api/spotify/status') {
     spotify.checkConnection()
       .then(result => {
