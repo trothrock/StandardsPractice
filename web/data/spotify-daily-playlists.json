@@ -171,6 +171,66 @@
           "song": "Corcovado"
         }
       ],
+      "filled": true,
+      "removedOn": "2026-11-05"
+    },
+    {
+      "date": "2026-11-05",
+      "id": "2Xdb4GRIJSf3Y7A56RrW8u",
+      "name": "Daily Standards – Nov 5, 2026",
+      "tracks": [
+        {
+          "trackId": "0IbD8xojkJgwh9lLu8hoxg",
+          "name": "Rhythm-A-Ning",
+          "artists": [
+            "Thelonious Monk"
+          ],
+          "song": "Rhythm-a-ning"
+        },
+        {
+          "trackId": "1DlsGG3SnOcAnjtLcYLWIb",
+          "name": "All Of You - Live At Newport Jazz Festival, July 5, 1963",
+          "artists": [
+            "McCoy Tyner",
+            "Bob Cranshaw",
+            "Mickey Roker"
+          ],
+          "song": "All of You"
+        },
+        {
+          "trackId": "1FdulvpRiLgkseCz7RrNOR",
+          "name": "Quiet Nights of Quiet Stars (Corcovado)",
+          "artists": [
+            "Antônio Carlos Jobim",
+            "Frank Sinatra"
+          ],
+          "song": "Corcovado"
+        },
+        {
+          "trackId": "4cNtmZZ6OGq2UESnPLn94y",
+          "name": "Donna Lee",
+          "artists": [
+            "Clifford Brown"
+          ],
+          "song": "Donna Lee"
+        },
+        {
+          "trackId": "4leHEk0wS3rLsdfHz3ZItX",
+          "name": "After You've Gone",
+          "artists": [
+            "Benny Goodman Quintet"
+          ],
+          "song": "After You've Gone"
+        },
+        {
+          "trackId": "2zQl59dZMzwhrmeSBEgiXY",
+          "name": "Watermelon Man",
+          "artists": [
+            "Herbie Hancock"
+          ],
+          "song": "Watermelon Man"
+        }
+      ],
       "filled": true
     }
   ]

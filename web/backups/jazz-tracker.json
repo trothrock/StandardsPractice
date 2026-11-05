@@ -9123,6 +9123,44 @@
       ],
       "albumImage": "https://i.scdn.co/image/ab67616d00001e0213e0345b275968deb69ef25c",
       "year": "1962"
+    },
+    {
+      "albumId": "2U3o34rb3OPW4WTdjqAWQz",
+      "album": "After Hours At The London House",
+      "artists": [
+        "Sarah Vaughan"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e029a9bc57640e530b697625b67",
+      "year": "1958"
+    },
+    {
+      "albumId": "6lxRA8Rl9a9XoZDCVWBzBY",
+      "album": "The Blues And The Abstract Truth",
+      "artists": [
+        "Oliver Nelson"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e029ab9b4e0d804541ca54c3f6c",
+      "year": "1961"
+    },
+    {
+      "albumId": "5oNoDsIeu8Gty0kxJ7o0fo",
+      "album": "Sonny Side Up",
+      "artists": [
+        "Dizzy Gillespie",
+        "Sonny Stitt",
+        "Sonny Rollins"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024a4bb3b6b92abff05ada1878",
+      "year": "1959"
+    },
+    {
+      "albumId": "7mQGTuvmdp56DNz0AmMwWi",
+      "album": "Page One",
+      "artists": [
+        "Joe Henderson"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028162476a3924e27ce23cf04b",
+      "year": "1963"
     }
   ],
   "recordsSort": "year",

@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-11-04",
+  "lastSyncDate": "2026-11-05",
   "plays": [
     {
       "playedAt": "2026-10-01T01:25:15.151Z",
@@ -3329,6 +3329,151 @@
       "albumId": "3nLStxdTkSzihxm7FTLzCP",
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02c00913832628c23c7952ae7b",
       "durationMs": 345266,
+      "context": "spotify:album:3nLStxdTkSzihxm7FTLzCP"
+    },
+    {
+      "playedAt": "2026-11-04T16:31:39.237Z",
+      "trackId": "2jZgFEONQS7Bk64IytEBU8",
+      "name": "In A Mellow Tone",
+      "artists": [
+        "Ben Webster"
+      ],
+      "album": "Verve Jazz Masters 43: Ben Webster",
+      "albumId": "4hafeOXr4qO4FqaFGRgCOe",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02588e03ea1909d877161cce5c",
+      "durationMs": 309333,
+      "context": "spotify:playlist:6lMxCy3M7wsmZlmLdTmNyY"
+    },
+    {
+      "playedAt": "2026-11-04T16:37:30.058Z",
+      "trackId": "0IbD8xojkJgwh9lLu8hoxg",
+      "name": "Rhythm-A-Ning",
+      "artists": [
+        "Thelonious Monk"
+      ],
+      "album": "Criss-Cross (Expanded Edition)",
+      "albumId": "0QTVbs5gj4pbv3Je4fJ3VI",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0216272e3ef5368f8db98ddfbd",
+      "durationMs": 233066,
+      "context": "spotify:playlist:37IZQ8gAYTXyUKs4YpkU8L"
+    },
+    {
+      "playedAt": "2026-11-04T16:40:16.856Z",
+      "trackId": "5BxzqNLhwISk6IN5RZFkt8",
+      "name": "Blues For Alice",
+      "artists": [
+        "Charlie Parker"
+      ],
+      "album": "The Magnificent Charlie Parker",
+      "albumId": "3fA0ldo788no64soavIbL3",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0233223ca371cd1f9d4baf918b",
+      "durationMs": 166101,
+      "context": "spotify:playlist:37IZQ8gAYTXyUKs4YpkU8L"
+    },
+    {
+      "playedAt": "2026-11-04T16:49:33.344Z",
+      "trackId": "1Ku5vu9Crncz8ixeT4Ijxc",
+      "name": "Dolphin Dance - Remastered 1999/Rudy Van Gelder Edition",
+      "artists": [
+        "Herbie Hancock"
+      ],
+      "album": "Maiden Voyage (Remastered 1999/Rudy Van Gelder Edition)",
+      "albumId": "7huPJTTsWVt854oZkr88mf",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b6f936d535913e3f425e5bbe",
+      "durationMs": 556133,
+      "context": "spotify:playlist:37IZQ8gAYTXyUKs4YpkU8L"
+    },
+    {
+      "playedAt": "2026-11-04T16:52:37.583Z",
+      "trackId": "5qhSOJFmfdfoqQmQZMtNyP",
+      "name": "A Night In Tunisia",
+      "artists": [
+        "Charlie Parker",
+        "Miles Davis"
+      ],
+      "album": "The Complete Savoy & Dial Master Takes",
+      "albumId": "2c6BUJGIxa4SA94iYX4JkT",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02efeacf1513a1afa979a1a730",
+      "durationMs": 183706,
+      "context": "spotify:playlist:37IZQ8gAYTXyUKs4YpkU8L"
+    },
+    {
+      "playedAt": "2026-11-04T17:00:35.096Z",
+      "trackId": "0T1EaGm6b9eM7xBf4F1hlc",
+      "name": "Maiden Voyage - Remastered 1999/Rudy Van Gelder Edition",
+      "artists": [
+        "Herbie Hancock"
+      ],
+      "album": "Maiden Voyage (Remastered 1999/Rudy Van Gelder Edition)",
+      "albumId": "7huPJTTsWVt854oZkr88mf",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b6f936d535913e3f425e5bbe",
+      "durationMs": 477093,
+      "context": "spotify:playlist:37IZQ8gAYTXyUKs4YpkU8L"
+    },
+    {
+      "playedAt": "2026-11-04T17:03:20.812Z",
+      "trackId": "1FdulvpRiLgkseCz7RrNOR",
+      "name": "Quiet Nights of Quiet Stars (Corcovado)",
+      "artists": [
+        "Antônio Carlos Jobim",
+        "Frank Sinatra"
+      ],
+      "album": "Sinatra/Jobim: The Complete Reprise Recordings",
+      "albumId": "5280NkLzxe2w7K1JW9I8jX",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e027d6f106efadd36f7779383c7",
+      "durationMs": 165213,
+      "context": "spotify:playlist:37IZQ8gAYTXyUKs4YpkU8L"
+    },
+    {
+      "playedAt": "2026-11-04T17:17:35.699Z",
+      "trackId": "3ZikLQCnH3SIswlGENBcKe",
+      "name": "My Favorite Things",
+      "artists": [
+        "John Coltrane"
+      ],
+      "album": "My Favorite Things",
+      "albumId": "3nLStxdTkSzihxm7FTLzCP",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02c00913832628c23c7952ae7b",
+      "durationMs": 824133,
+      "context": "spotify:album:3nLStxdTkSzihxm7FTLzCP"
+    },
+    {
+      "playedAt": "2026-11-04T17:23:20.947Z",
+      "trackId": "7tZDxcJeLzyjBKYc7TWbsr",
+      "name": "Everytime We Say Goodbye",
+      "artists": [
+        "John Coltrane"
+      ],
+      "album": "My Favorite Things",
+      "albumId": "3nLStxdTkSzihxm7FTLzCP",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02c00913832628c23c7952ae7b",
+      "durationMs": 345266,
+      "context": "spotify:album:3nLStxdTkSzihxm7FTLzCP"
+    },
+    {
+      "playedAt": "2026-11-04T21:01:37.601Z",
+      "trackId": "2urSBQat1mXT6bLgCunxAy",
+      "name": "Summertime",
+      "artists": [
+        "John Coltrane"
+      ],
+      "album": "My Favorite Things",
+      "albumId": "3nLStxdTkSzihxm7FTLzCP",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02c00913832628c23c7952ae7b",
+      "durationMs": 697946,
+      "context": "spotify:album:3nLStxdTkSzihxm7FTLzCP"
+    },
+    {
+      "playedAt": "2026-11-04T21:11:19.404Z",
+      "trackId": "0oVhV0PZndBEiaorbqtNbR",
+      "name": "But Not for Me",
+      "artists": [
+        "John Coltrane"
+      ],
+      "album": "My Favorite Things",
+      "albumId": "3nLStxdTkSzihxm7FTLzCP",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02c00913832628c23c7952ae7b",
+      "durationMs": 581866,
       "context": "spotify:album:3nLStxdTkSzihxm7FTLzCP"
     }
   ]

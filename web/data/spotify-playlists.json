@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-11-04",
+  "lastSyncDate": "2026-11-05",
   "playlists": [
     {
       "name": "Standards Practice",
@@ -310,6 +310,17 @@
           "albumId": "731OW49heGHCMrMOREHYlY",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e028d277396016ea9ea46d55ce0",
           "addedAt": "2026-11-02T18:40:26Z"
+        },
+        {
+          "trackId": "1sce5VJvCOYYDAR9rp9KdG",
+          "name": "Stolen Moments",
+          "artists": [
+            "Oliver Nelson"
+          ],
+          "album": "The Blues And The Abstract Truth",
+          "albumId": "6lxRA8Rl9a9XoZDCVWBzBY",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e029ab9b4e0d804541ca54c3f6c",
+          "addedAt": "2026-11-04T23:07:09Z"
         }
       ]
     },
