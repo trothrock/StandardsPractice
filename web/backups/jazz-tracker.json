@@ -9259,6 +9259,24 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e0298ed63ef035ba53d5a6ab87e",
       "year": "2025",
       "featuredWeek": 20261102
+    },
+    {
+      "albumId": "5mEbDqNq42kurr4gzxy5pp",
+      "album": "Pathways",
+      "artists": [
+        "Dave Holland Octet"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02f8f1aae1b6bd03f38deb4345",
+      "year": "2010"
+    },
+    {
+      "albumId": "7rEI09faivlOKJ30pLglZT",
+      "album": "Soul Food (U.S. Version)",
+      "artists": [
+        "Cyrus Chestnut"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02fdb29debc646dabe505d1223",
+      "year": "2001"
     }
   ],
   "recordsSort": "year",
