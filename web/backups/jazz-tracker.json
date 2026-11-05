@@ -4076,7 +4076,11 @@
         "history": true,
         "recording": true,
         "lyrics": true,
-        "melody-rootless": true
+        "melody-rootless": true,
+        "melody-shell": true,
+        "intro-outro": true,
+        "bass-track": true,
+        "points": true
       },
       "otherRecordings": [
         {
@@ -4105,10 +4109,35 @@
         {
           "trackId": "0IbD8xojkJgwh9lLu8hoxg",
           "album": "Criss-Cross (Expanded Edition)",
+          "at": 61,
+          "text": "Charlie Rouse line"
+        },
+        {
+          "trackId": "0IbD8xojkJgwh9lLu8hoxg",
+          "album": "Criss-Cross (Expanded Edition)",
+          "at": 70,
+          "text": "Charlie Rouse C7(#11) line"
+        },
+        {
+          "trackId": "0IbD8xojkJgwh9lLu8hoxg",
+          "album": "Criss-Cross (Expanded Edition)",
+          "at": 79,
+          "text": "Charlie Rouse line"
+        },
+        {
+          "trackId": "0IbD8xojkJgwh9lLu8hoxg",
+          "album": "Criss-Cross (Expanded Edition)",
+          "at": 98,
+          "text": "Charlie Rouse chromatic line"
+        },
+        {
+          "trackId": "0IbD8xojkJgwh9lLu8hoxg",
+          "album": "Criss-Cross (Expanded Edition)",
           "at": 167,
           "text": "Thelonious Monk figure"
         }
-      ]
+      ],
+      "notes": "- BMaj7(#11) for chromatic tension over A sections"
     },
     "Round Midnight": {
       "name": "Round Midnight",
@@ -4720,7 +4749,7 @@
       "baseLevel": 0,
       "currentLevel": 2,
       "status": "active",
-      "intervalIdx": 2,
+      "intervalIdx": 3,
       "learnedDate": 20260908,
       "reviews": [
         {
@@ -4734,6 +4763,11 @@
         {
           "date": 20260916,
           "passed": true
+        },
+        {
+          "date": 20261105,
+          "passed": true,
+          "key": "Db"
         }
       ],
       "sortSeed": 0.39974994820867993,
@@ -4746,11 +4780,11 @@
       "practiceFocus": [
         {
           "text": "Intro",
-          "done": false
+          "done": true
         },
         {
           "text": "Comping",
-          "done": false
+          "done": true
         },
         {
           "text": "Bridge improvisation",
@@ -4762,7 +4796,7 @@
         },
         {
           "text": "Basie ending",
-          "done": false
+          "done": true
         }
       ],
       "tags": [
@@ -5670,8 +5704,8 @@
     }
   },
   "currentNewSong": "Rhythm-a-ning",
-  "streak": 6,
-  "lastPracticeDay": 20261103,
+  "streak": 1,
+  "lastPracticeDay": 20261105,
   "activity": [
     {
       "ts": 1776634938073,
@@ -8141,6 +8175,36 @@
       "name": "Don't Blame Me",
       "passed": true,
       "key": "C"
+    },
+    {
+      "ts": 1793882966043,
+      "date": 20261105,
+      "type": "practice_time",
+      "area": "review",
+      "name": "Stompin' at the Savoy",
+      "secs": 1898
+    },
+    {
+      "ts": 1793882966043,
+      "date": 20261105,
+      "type": "review",
+      "name": "Stompin' at the Savoy",
+      "passed": true,
+      "key": "Db"
+    },
+    {
+      "ts": 1793885391393,
+      "date": 20261105,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "Rhythm-a-ning",
+      "secs": 2412
+    },
+    {
+      "ts": 1793885391394,
+      "date": 20261105,
+      "type": "practiced",
+      "name": "Rhythm-a-ning"
     }
   ],
   "extraReviewsToday": {
