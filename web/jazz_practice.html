@@ -258,7 +258,10 @@
   .rec-add-form { padding: 12px 20px; border-bottom: 1px solid var(--border); }
   .rec-add-form .focus-input { flex: 1; }
   .rec-add-form #rec-add-results, .rec-add-form #album-add-results { margin: 8px -20px -12px; }
-  .album-feature { display: flex; align-items: center; gap: 20px; padding: 20px; }
+  .album-week-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr)); }
+  .album-feature { display: flex; align-items: flex-start; gap: 20px; padding: 20px; }
+  .album-feature-era { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: var(--gold2); margin-bottom: 6px; }
+  .album-feature-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 10px; font-size: 11px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; }
   .album-feature-art { width: 120px; height: 120px; border-radius: var(--radius); object-fit: cover; display: block; background: var(--bg3); }
   .album-feature-title { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--text); margin-bottom: 6px; overflow-wrap: anywhere; }
   .album-feature-meta { font-size: 13px; color: var(--text2); }
@@ -1340,6 +1343,13 @@ function initDB() {
     db.records = [...(featured.album ? [{ ...featured, featuredWeek:weekStart }] : []), ...(db.albumBacklog||[])];
     db.albumOfWeek = featured.album ? { albumId:featured.albumId, weekStart } : null;
     delete db.albumBacklog;
+    saveDB(db);
+  }
+  // There used to be a single album of the week, which keeps its week in the slot for its era
+  if(db.albumOfWeek?.albumId) {
+    const { albumId, weekStart } = db.albumOfWeek;
+    const era = recordEra((db.records||[]).find(a => a.albumId===albumId));
+    db.albumOfWeek = era ? { [era]:{ albumId, weekStart } } : {};
     saveDB(db);
   }
   let needsSave = false;
@@ -2813,17 +2823,23 @@ function listenThumb(url, albumId, trackId) {
     ? `<a class="listen-thumb-link" href="${escHTML(uri)}" title="Open in Spotify" onclick="event.stopPropagation()">${img}</a>`
     : img;
 }
-// Records: db.records holds the albums to choose from, and db.albumOfWeek names the current one
-// and its week. The first draw of each Monday-start week picks at random among albums without a
-// featuredWeek. Once all have one they're cleared to start over, avoiding a repeat of last week.
+// Records: db.records holds the albums to choose from, and db.albumOfWeek holds the current pick and
+// its week for each era. The first draw of each Monday-start week picks at random among the era's
+// albums without a featuredWeek. Once all have one they're cleared to start over, avoiding a repeat
+// of last week. An album with no year belongs to neither era, so it waits until one is added.
 let albumWeekPlays = [];
 let albumSearch = { open:false, q:'', results:null, error:null, searching:false };
-function currentAlbumOfWeek(db, exclude) {
-  const week = weekStartInt(todayInt()), records = db.records || [], cur = db.albumOfWeek;
+const RECORD_ERAS = [['classic','CLASSIC','released before 2000'],['contemporary','CONTEMPORARY','released in 2000 or later']];
+function recordEra(album) {
+  const year = Number(album?.year);
+  return year ? (year < 2000 ? 'classic' : 'contemporary') : null;
+}
+function currentAlbumOfWeek(db, era, exclude) {
+  const week = weekStartInt(todayInt()), records = (db.records||[]).filter(a => recordEra(a)===era), cur = db.albumOfWeek?.[era];
   const album = cur && records.find(a => a.albumId===cur.albumId);
   if(album && cur.weekStart >= week) return album;
   if(!records.length) {
-    if(cur) { db.albumOfWeek = null; saveDB(db); }
+    if(cur) { db.albumOfWeek = { ...db.albumOfWeek, [era]:null }; saveDB(db); }
     return null;
   }
   let pool = records.filter(a => !a.featuredWeek && a.albumId!==exclude);
@@ -2834,7 +2850,7 @@ function currentAlbumOfWeek(db, exclude) {
   }
   const pick = pool[Math.floor(Math.random() * pool.length)];
   pick.featuredWeek = week;
-  db.albumOfWeek = { albumId:pick.albumId, weekStart:week };
+  db.albumOfWeek = { ...db.albumOfWeek, [era]:{ albumId:pick.albumId, weekStart:week } };
   saveDB(db);
   return pick;
 }
@@ -2893,29 +2909,29 @@ function setRecordsView(view) {
   drawRecords();
 }
 function albumOfWeekHTML(db) {
-  const cur = currentAlbumOfWeek(db), records = db.records || [];
-  let feature = `<div class="empty">Add an album on the <a href="#" style="color:var(--gold)" onclick="event.preventDefault();showPanel('records')">Records</a> tab to feature it here.</div>`, stat = '';
-  if(cur) {
-    const n = albumPlaysThisWeek(cur, db.albumOfWeek.weekStart);
-    stat = `<span class="count">${n ? `${n} play${n===1?'':'s'} this week` : 'Not played yet this week'}</span>`;
+  const features = RECORD_ERAS.map(([era, label, range]) => {
+    const cur = currentAlbumOfWeek(db, era);
+    if(!cur) return `<div class="album-feature"><div style="flex:1;min-width:0"><div class="album-feature-era">${label}</div><div class="album-feature-meta">Add an album ${range} on the <a href="#" style="color:var(--gold)" onclick="event.preventDefault();showPanel('records')">Records</a> tab to feature it here.</div></div></div>`;
+    const n = albumPlaysThisWeek(cur, db.albumOfWeek[era].weekStart);
     const art = cur.albumImage ? `<img class="album-feature-art" src="${escHTML(cur.albumImage)}" alt="">` : '<div class="album-feature-art"></div>';
-    const skip = records.length > 1 ? '<button class="btn-action" title="Pick a different album this week" onclick="skipAlbumOfWeek()">Skip</button>' : '';
-    feature = `<div class="album-feature"><a class="listen-thumb-link" href="spotify:album:${escHTML(cur.albumId)}" title="Open in Spotify">${art}</a><div style="flex:1;min-width:0"><div class="album-feature-title">${escHTML(cur.album)}</div><div class="album-feature-meta">${albumMeta(cur, true)}</div></div>${skip}</div>`;
-  }
-  return `<div class="section"><div class="section-head"><h2>Album of the Week</h2>${stat}</div>${feature}</div>`;
+    const canSkip = db.records.filter(a => recordEra(a)===era).length > 1;
+    const skip = canSkip ? `<button class="btn-action" title="Pick a different ${label.toLowerCase()} album this week" onclick="skipAlbumOfWeek('${era}')">Skip</button>` : '';
+    return `<div class="album-feature"><a class="listen-thumb-link" href="spotify:album:${escHTML(cur.albumId)}" title="Open in Spotify">${art}</a><div style="flex:1;min-width:0"><div class="album-feature-era">${label}</div><div class="album-feature-title">${escHTML(cur.album)}</div><div class="album-feature-meta">${albumMeta(cur, true)}</div><div class="album-feature-foot"><span>${n ? `${n} play${n===1?'':'s'} this week` : 'Not played yet this week'}</span>${skip}</div></div></div>`;
+  });
+  return `<div class="section"><div class="section-head"><h2>Albums of the Week</h2></div><div class="album-week-pair">${features.join('')}</div></div>`;
 }
 function recordsHTML(db) {
-  const cur = currentAlbumOfWeek(db), records = db.records || [];
+  const current = new Set(RECORD_ERAS.map(([era]) => currentAlbumOfWeek(db, era))), records = db.records || [];
   const sort = db.recordsSort || 'year';
   const sortToggle = records.length > 1 ? `<div class="kw-toggle">${RECORD_SORTS.map(([m,l]) => `<button class="${m===sort?'sel':''}" title="Sort by ${l.toLowerCase()}" onclick="setRecordsSort('${m}')">${l}</button>`).join('')}</div>` : '';
   const view = db.recordsView==='list' ? 'list' : 'grid';
   const viewToggle = records.length > 1 ? `<div class="kw-toggle">${RECORD_VIEWS.map(([m,l]) => `<button class="${m===view?'sel':''}" title="Show as a ${l.toLowerCase()}" onclick="setRecordsView('${m}')">${l}</button>`).join('')}</div>` : '';
-  const whenFor = a => a===cur ? 'This week' : a.featuredWeek ? `Featured ${formatIntDate(a.featuredWeek)}` : '';
+  const whenFor = a => current.has(a) ? 'This week' : a.featuredWeek ? `Featured ${formatIntDate(a.featuredWeek)}` : '';
   const sorted = sortedRecords(records, sort);
   const cells = view==='grid' && sorted.length ? `<div class="record-grid">${sorted.map(a => {
     const art = a.albumImage ? `<img class="record-cell-art" src="${escHTML(a.albumImage)}" alt="" loading="lazy">` : '<div class="record-cell-art"></div>';
     const when = whenFor(a);
-    return `<div class="record-cell"><a class="listen-thumb-link" href="spotify:album:${escHTML(a.albumId)}" title="Open in Spotify">${art}</a><button class="focus-del" title="Remove album" aria-label="Remove album" onclick="removeRecord('${escHTML(a.albumId)}')">&times;</button><div class="record-cell-title" title="${escHTML(a.album)}">${escHTML(a.album)}</div><div class="record-cell-meta">${albumMeta(a, true)}</div>${when?`<div class="record-cell-when${a===cur?' current':''}">${when}</div>`:''}</div>`;
+    return `<div class="record-cell"><a class="listen-thumb-link" href="spotify:album:${escHTML(a.albumId)}" title="Open in Spotify">${art}</a><button class="focus-del" title="Remove album" aria-label="Remove album" onclick="removeRecord('${escHTML(a.albumId)}')">&times;</button><div class="record-cell-title" title="${escHTML(a.album)}">${escHTML(a.album)}</div><div class="record-cell-meta">${albumMeta(a, true)}</div>${when?`<div class="record-cell-when${current.has(a)?' current':''}">${when}</div>`:''}</div>`;
   }).join('')}</div>` : '';
   const rows = view==='grid' ? cells : sorted.map(a => {
     const when = whenFor(a);
@@ -2993,7 +3009,14 @@ function editRecordYear(span, albumId) {
     finished = true;
     if(save && year && year!==a.year) {
       const db = getDB(), item = db.records?.find(r => r.albumId===albumId);
-      if(item) { item.year = year; saveDB(db); }
+      if(item) {
+        // A correction can move this week's pick to the other era. It wasn't listened to as a
+        // feature there, so it stays in the running, and its old era picks again on the redraw.
+        const era = recordEra(item), wasPick = db.albumOfWeek?.[era]?.albumId===albumId;
+        item.year = year;
+        if(wasPick && recordEra(item)!==era) delete item.featuredWeek;
+        saveDB(db);
+      }
     }
     drawRecords();
   };
@@ -3002,7 +3025,7 @@ function editRecordYear(span, albumId) {
   span.replaceWith(input);
   input.focus(); input.select();
 }
-// Removing this week's album picks another straight away
+// Removing one of this week's albums picks another from its era straight away
 function removeRecord(albumId) {
   const db = getDB(), i = (db.records||[]).findIndex(a => a.albumId===albumId);
   if(i<0) return;
@@ -3011,12 +3034,12 @@ function removeRecord(albumId) {
   drawRecords();
 }
 // A skipped album wasn't listened to, so it stays in the running for a later week
-function skipAlbumOfWeek() {
-  const db = getDB(), cur = currentAlbumOfWeek(db);
-  if(!cur || db.records.length < 2) return;
+function skipAlbumOfWeek(era) {
+  const db = getDB(), cur = currentAlbumOfWeek(db, era);
+  if(!cur || db.records.filter(a => recordEra(a)===era).length < 2) return;
   delete cur.featuredWeek;
-  db.albumOfWeek = null;
-  currentAlbumOfWeek(db, cur.albumId);
+  db.albumOfWeek[era] = null;
+  currentAlbumOfWeek(db, era, cur.albumId);
   drawRecords();
 }
 // Pulls the latest plays and reference playlists from Spotify now, outside the daily schedule

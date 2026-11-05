@@ -9035,8 +9035,14 @@
   "voicingHalfDimSplit": true,
   "voicingActivityNamesFixed": true,
   "albumOfWeek": {
-    "albumId": "3nLStxdTkSzihxm7FTLzCP",
-    "weekStart": 20261102
+    "classic": {
+      "albumId": "3nLStxdTkSzihxm7FTLzCP",
+      "weekStart": 20261102
+    },
+    "contemporary": {
+      "albumId": "0Bb8tnCWkiCrZFJ4BSXx9e",
+      "weekStart": 20261102
+    }
   },
   "records": [
     {
@@ -9225,6 +9231,34 @@
       ],
       "albumImage": "https://i.scdn.co/image/ab67616d00001e028162476a3924e27ce23cf04b",
       "year": "1963"
+    },
+    {
+      "albumId": "1yqUCdbw73DpnHBVDwNa3X",
+      "album": "Black Radio",
+      "artists": [
+        "Robert Glasper"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021a76b24f7385acff6d8e57c7",
+      "year": "2012"
+    },
+    {
+      "albumId": "5JguHYfSLjVomb3nAwP5Lm",
+      "album": "Universal Truth",
+      "artists": [
+        "Emmet Cohen"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e022bfb4ab41f5a579c992b4144",
+      "year": "2026"
+    },
+    {
+      "albumId": "0Bb8tnCWkiCrZFJ4BSXx9e",
+      "album": "By All Means",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0298ed63ef035ba53d5a6ab87e",
+      "year": "2025",
+      "featuredWeek": 20261102
     }
   ],
   "recordsSort": "year",
