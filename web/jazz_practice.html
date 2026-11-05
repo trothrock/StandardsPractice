@@ -3071,8 +3071,9 @@ function editRecordYear(span, albumId) {
 function removeRecord(albumId) {
   const db = getDB(), i = (db.records||[]).findIndex(a => a.albumId===albumId);
   if(i<0) return;
-  const notes = db.records[i].pointsOfInterest?.length;
-  if(notes && !confirm(`Remove ${db.records[i].album}? Its ${notes} point${notes===1?'':'s'} of interest will be lost.`)) return;
+  const album = db.records[i], points = album.pointsOfInterest?.length || 0;
+  const lost = [album.notes && 'notes', points && `${points} point${points===1?'':'s'} of interest`].filter(Boolean).join(' and ');
+  if(lost && !confirm(`Remove ${album.album}? Its ${lost} will be lost.`)) return;
   db.records.splice(i, 1);
   saveDB(db);
   drawRecords();
@@ -3187,8 +3188,10 @@ function showAlbumDetail(albumId) {
   showPanel('detail');
 }
 // Draws at once from what's known, then again only if there are new plays, which keeps an open
-// point of interest form from being lost.
+// point of interest form from being lost. Notes sit outside what redraws, so an open edit survives.
 async function renderAlbumDetail(albumId) {
+  document.getElementById('detail-body').innerHTML = `<div id="album-detail-main"></div><div class="section"><div class="section-head"><h2>Notes</h2></div><div class="notes-body" id="notes-body"></div></div>`;
+  renderNotesView('album', albumId);
   drawAlbumDetail(albumId);
   let data;
   try { data = await fetchListening(); } catch(e) { return; }
@@ -3198,8 +3201,9 @@ async function renderAlbumDetail(albumId) {
 }
 function drawAlbumDetail(albumId) {
   if(detailType!=='album' || currentDetailName!==albumId) return;
-  const container = document.getElementById('detail-body'), a = getDB().records?.find(r => r.albumId===albumId);
-  if(!a) { container.innerHTML = '<div class="empty">Album not found.</div>'; return; }
+  const container = document.getElementById('album-detail-main'), a = getDB().records?.find(r => r.albumId===albumId);
+  if(!container) return;
+  if(!a) { document.getElementById('detail-body').innerHTML = '<div class="empty">Album not found.</div>'; return; }
   const tracks = a.tracks || [], owner = `album:${albumId}`;
   if(!tracks.length) loadAlbumTracks(albumId);
   const counts = tracks.length && albumPlays ? albumSongPlays(a) : null;
@@ -3752,6 +3756,7 @@ function resetPracticeFocus(type, name) {
   updatePracticeFocus(type, name, items => items.forEach(it => { it.done = false; }));
 }
 function getDetailEntity(type, db, name) {
+  if(type==='album') return (db.records||[]).find(a=>a.albumId===name);
   if(type==='repertoire') return (db.repertoire||[]).find(p=>p.name===name);
   if(type==='voicing') return (db.voicings||[]).find(v=>v.name===name);
   if(type==='vocab') return (db.vocabulary||[]).find(c=>c.name===name);
@@ -3777,7 +3782,7 @@ function editSongNotes(type, name) {
   const nb = document.getElementById('notes-body');
   if(!nb || !entity) return;
   const safeName = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-  nb.innerHTML = `<textarea class="notes-textarea" id="notes-input" placeholder="Add notes about this song..."></textarea><div class="notes-actions"><button class="btn-confirm" onclick="saveSongNotes('${type}','${safeName}')">Save</button><button class="btn-cancel" onclick="cancelEditSongNotes('${type}','${safeName}')">Cancel</button></div>`;
+  nb.innerHTML = `<textarea class="notes-textarea" id="notes-input" placeholder="Add notes about this ${type==='album'?'album':'song'}..."></textarea><div class="notes-actions"><button class="btn-confirm" onclick="saveSongNotes('${type}','${safeName}')">Save</button><button class="btn-cancel" onclick="cancelEditSongNotes('${type}','${safeName}')">Cancel</button></div>`;
   const input = document.getElementById('notes-input');
   input.value = entity.notes || '';
   input.focus();
