@@ -9356,6 +9356,14 @@
           "id": "40fWFp9xmEhueXZ5gQh6TV",
           "name": "Raincoat"
         }
+      ],
+      "pointsOfInterest": [
+        {
+          "trackId": "4ToeD7bGmiRDr8W99n5ETj",
+          "album": "By All Means",
+          "at": 219,
+          "text": "Solo piano harmony"
+        }
       ]
     },
     {
@@ -9375,6 +9383,15 @@
       ],
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02fdb29debc646dabe505d1223",
       "year": "2001"
+    },
+    {
+      "albumId": "5grWR2kxfIZorVA7y73KVR",
+      "album": "Little Big",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0269a7b90aad1f9ca60dd46035",
+      "year": "2018"
     }
   ],
   "recordsSort": "year",
