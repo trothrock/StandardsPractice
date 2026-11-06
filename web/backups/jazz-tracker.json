@@ -4063,7 +4063,8 @@
         "melody-shell": true,
         "intro-outro": true,
         "bass-track": true,
-        "points": true
+        "points": true,
+        "substitutions": true
       },
       "otherRecordings": [
         {
@@ -4112,6 +4113,12 @@
           "album": "Criss-Cross (Expanded Edition)",
           "at": 98,
           "text": "Charlie Rouse chromatic line"
+        },
+        {
+          "trackId": "0IbD8xojkJgwh9lLu8hoxg",
+          "album": "Criss-Cross (Expanded Edition)",
+          "at": 139,
+          "text": "Thelonious Monk whole tone bridge"
         },
         {
           "trackId": "0IbD8xojkJgwh9lLu8hoxg",
@@ -5704,8 +5711,8 @@
     }
   },
   "currentNewSong": "Rhythm-a-ning",
-  "streak": 1,
-  "lastPracticeDay": 20261105,
+  "streak": 2,
+  "lastPracticeDay": 20261106,
   "activity": [
     {
       "ts": 1776634938073,
@@ -8217,6 +8224,21 @@
       ],
       "level": 0,
       "oldLevel": 0
+    },
+    {
+      "ts": 1793969425518,
+      "date": 20261106,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "Rhythm-a-ning",
+      "secs": 2520,
+      "origSecs": 1629
+    },
+    {
+      "ts": 1793969425519,
+      "date": 20261106,
+      "type": "practiced",
+      "name": "Rhythm-a-ning"
     }
   ],
   "extraReviewsToday": {
@@ -8303,7 +8325,7 @@
     {
       "name": "Basin Street Blues",
       "composer": "Spencer Williams",
-      "notes": "Always tends to rush. Practice with a metronome on 2 and 4.",
+      "notes": "Always tends to rush. Practice with a metronome on 2 and 4 at 54 bpm.",
       "addedDate": 20260502,
       "lastReviewed": null,
       "pinnedDate": 20261101,
@@ -8318,7 +8340,7 @@
         },
         {
           "text": "Boogie bass",
-          "done": false
+          "done": true
         },
         {
           "text": "Ending",
@@ -9407,5 +9429,12 @@
     }
   ],
   "recordsSort": "year",
-  "recordsView": "grid"
+  "recordsView": "grid",
+  "timer": {
+    "area": "rep",
+    "name": "Basin Street Blues",
+    "start": 1793969864984,
+    "runStart": 1793969864984,
+    "accMs": 0
+  }
 }
