@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-11-05",
+  "lastSyncDate": "2026-11-06",
   "plays": [
     {
       "playedAt": "2026-10-01T01:25:15.151Z",
@@ -3475,6 +3475,230 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02c00913832628c23c7952ae7b",
       "durationMs": 581866,
       "context": "spotify:album:3nLStxdTkSzihxm7FTLzCP"
+    },
+    {
+      "playedAt": "2026-11-05T15:26:32.236Z",
+      "trackId": "0TQrkoFjysMzOHcPNRaIML",
+      "name": "A Way",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "By All Means",
+      "albumId": "0Bb8tnCWkiCrZFJ4BSXx9e",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0298ed63ef035ba53d5a6ab87e",
+      "durationMs": 368712,
+      "context": "spotify:album:0Bb8tnCWkiCrZFJ4BSXx9e"
+    },
+    {
+      "playedAt": "2026-11-05T15:28:29.025Z",
+      "trackId": "0IbD8xojkJgwh9lLu8hoxg",
+      "name": "Rhythm-A-Ning",
+      "artists": [
+        "Thelonious Monk"
+      ],
+      "album": "Criss-Cross (Expanded Edition)",
+      "albumId": "0QTVbs5gj4pbv3Je4fJ3VI",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0216272e3ef5368f8db98ddfbd",
+      "durationMs": 233066,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-11-05T15:31:41.177Z",
+      "trackId": "57zh3ivLqu95lvkdW4zISx",
+      "name": "Parks Lope",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "By All Means",
+      "albumId": "0Bb8tnCWkiCrZFJ4BSXx9e",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0298ed63ef035ba53d5a6ab87e",
+      "durationMs": 308880,
+      "context": "spotify:album:0Bb8tnCWkiCrZFJ4BSXx9e"
+    },
+    {
+      "playedAt": "2026-11-05T16:39:30.658Z",
+      "trackId": "4ToeD7bGmiRDr8W99n5ETj",
+      "name": "For María José",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "By All Means",
+      "albumId": "0Bb8tnCWkiCrZFJ4BSXx9e",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0298ed63ef035ba53d5a6ab87e",
+      "durationMs": 294504,
+      "context": "spotify:album:0Bb8tnCWkiCrZFJ4BSXx9e"
+    },
+    {
+      "playedAt": "2026-11-05T16:45:54.117Z",
+      "trackId": "5V8i8ZFBEztWokEGtXnFUO",
+      "name": "Dense Phantasy",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "By All Means",
+      "albumId": "0Bb8tnCWkiCrZFJ4BSXx9e",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0298ed63ef035ba53d5a6ab87e",
+      "durationMs": 383365,
+      "context": "spotify:album:0Bb8tnCWkiCrZFJ4BSXx9e"
+    },
+    {
+      "playedAt": "2026-11-05T16:51:27.355Z",
+      "trackId": "6y8wzT1tutKxp0R7VjkBem",
+      "name": "Anywhere Together",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "By All Means",
+      "albumId": "0Bb8tnCWkiCrZFJ4BSXx9e",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0298ed63ef035ba53d5a6ab87e",
+      "durationMs": 333285,
+      "context": "spotify:album:0Bb8tnCWkiCrZFJ4BSXx9e"
+    },
+    {
+      "playedAt": "2026-11-05T16:58:19.357Z",
+      "trackId": "3CJchfTC39IPfNFpQvKE58",
+      "name": "Little River",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "By All Means",
+      "albumId": "0Bb8tnCWkiCrZFJ4BSXx9e",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0298ed63ef035ba53d5a6ab87e",
+      "durationMs": 411996,
+      "context": "spotify:album:0Bb8tnCWkiCrZFJ4BSXx9e"
+    },
+    {
+      "playedAt": "2026-11-05T17:04:46.392Z",
+      "trackId": "40fWFp9xmEhueXZ5gQh6TV",
+      "name": "Raincoat",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "By All Means",
+      "albumId": "0Bb8tnCWkiCrZFJ4BSXx9e",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0298ed63ef035ba53d5a6ab87e",
+      "durationMs": 387065,
+      "context": "spotify:album:0Bb8tnCWkiCrZFJ4BSXx9e"
+    },
+    {
+      "playedAt": "2026-11-05T17:18:10.248Z",
+      "trackId": "2urSBQat1mXT6bLgCunxAy",
+      "name": "Summertime",
+      "artists": [
+        "John Coltrane"
+      ],
+      "album": "My Favorite Things",
+      "albumId": "3nLStxdTkSzihxm7FTLzCP",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02c00913832628c23c7952ae7b",
+      "durationMs": 697946,
+      "context": "spotify:album:3nLStxdTkSzihxm7FTLzCP"
+    },
+    {
+      "playedAt": "2026-11-05T17:49:05.561Z",
+      "trackId": "0oVhV0PZndBEiaorbqtNbR",
+      "name": "But Not for Me",
+      "artists": [
+        "John Coltrane"
+      ],
+      "album": "My Favorite Things",
+      "albumId": "3nLStxdTkSzihxm7FTLzCP",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02c00913832628c23c7952ae7b",
+      "durationMs": 581866,
+      "context": "spotify:album:3nLStxdTkSzihxm7FTLzCP"
+    },
+    {
+      "playedAt": "2026-11-05T21:12:07.297Z",
+      "trackId": "7tZDxcJeLzyjBKYc7TWbsr",
+      "name": "Everytime We Say Goodbye",
+      "artists": [
+        "John Coltrane"
+      ],
+      "album": "My Favorite Things",
+      "albumId": "3nLStxdTkSzihxm7FTLzCP",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02c00913832628c23c7952ae7b",
+      "durationMs": 345266,
+      "context": "spotify:album:3nLStxdTkSzihxm7FTLzCP"
+    },
+    {
+      "playedAt": "2026-11-05T21:19:02.984Z",
+      "trackId": "2zQl59dZMzwhrmeSBEgiXY",
+      "name": "Watermelon Man",
+      "artists": [
+        "Herbie Hancock"
+      ],
+      "album": "Head Hunters",
+      "albumId": "5fmIolILp5NAtNYiRPjhzA",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b170840d6fdbc754ba304058",
+      "durationMs": 390432,
+      "context": "spotify:playlist:2Xdb4GRIJSf3Y7A56RrW8u"
+    },
+    {
+      "playedAt": "2026-11-05T21:22:06.642Z",
+      "trackId": "4leHEk0wS3rLsdfHz3ZItX",
+      "name": "After You've Gone",
+      "artists": [
+        "Benny Goodman Quintet"
+      ],
+      "album": "Small Groups: 1941-1945",
+      "albumId": "2hcioj7Ylhau26ffRy9WE4",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02df5b78cc30f28c52e64be2e9",
+      "durationMs": 183160,
+      "context": "spotify:playlist:2Xdb4GRIJSf3Y7A56RrW8u"
+    },
+    {
+      "playedAt": "2026-11-05T21:28:51.081Z",
+      "trackId": "1DlsGG3SnOcAnjtLcYLWIb",
+      "name": "All Of You - Live At Newport Jazz Festival, July 5, 1963",
+      "artists": [
+        "McCoy Tyner",
+        "Bob Cranshaw",
+        "Mickey Roker"
+      ],
+      "album": "Live At Newport",
+      "albumId": "26lBmmgeplvXm9stlDQapz",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e026bdf224a10afab7664aeaa3f",
+      "durationMs": 390306,
+      "context": "spotify:playlist:2Xdb4GRIJSf3Y7A56RrW8u"
+    },
+    {
+      "playedAt": "2026-11-05T23:10:21.495Z",
+      "trackId": "4cNtmZZ6OGq2UESnPLn94y",
+      "name": "Donna Lee",
+      "artists": [
+        "Clifford Brown"
+      ],
+      "album": "The Beginning And The End",
+      "albumId": "2VWBVfXpQ6RPHRwrcAjkOo",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02182767073d65d3c91b21a725",
+      "durationMs": 429626,
+      "context": "spotify:playlist:2Xdb4GRIJSf3Y7A56RrW8u"
+    },
+    {
+      "playedAt": "2026-11-05T23:13:07.181Z",
+      "trackId": "1FdulvpRiLgkseCz7RrNOR",
+      "name": "Quiet Nights of Quiet Stars (Corcovado)",
+      "artists": [
+        "Antônio Carlos Jobim",
+        "Frank Sinatra"
+      ],
+      "album": "Sinatra/Jobim: The Complete Reprise Recordings",
+      "albumId": "5280NkLzxe2w7K1JW9I8jX",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e027d6f106efadd36f7779383c7",
+      "durationMs": 165213,
+      "context": "spotify:playlist:2Xdb4GRIJSf3Y7A56RrW8u"
+    },
+    {
+      "playedAt": "2026-11-05T23:17:00.734Z",
+      "trackId": "0IbD8xojkJgwh9lLu8hoxg",
+      "name": "Rhythm-A-Ning",
+      "artists": [
+        "Thelonious Monk"
+      ],
+      "album": "Criss-Cross (Expanded Edition)",
+      "albumId": "0QTVbs5gj4pbv3Je4fJ3VI",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0216272e3ef5368f8db98ddfbd",
+      "durationMs": 233066,
+      "context": "spotify:playlist:2Xdb4GRIJSf3Y7A56RrW8u"
     }
   ]
 }

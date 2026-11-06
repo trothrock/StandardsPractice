@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-11-05",
+  "lastSyncDate": "2026-11-06",
   "playlists": [
     {
       "name": "Standards Practice",
@@ -321,6 +321,17 @@
           "albumId": "6lxRA8Rl9a9XoZDCVWBzBY",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e029ab9b4e0d804541ca54c3f6c",
           "addedAt": "2026-11-04T23:07:09Z"
+        },
+        {
+          "trackId": "7tZDxcJeLzyjBKYc7TWbsr",
+          "name": "Everytime We Say Goodbye",
+          "artists": [
+            "John Coltrane"
+          ],
+          "album": "My Favorite Things",
+          "albumId": "3nLStxdTkSzihxm7FTLzCP",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e02c00913832628c23c7952ae7b",
+          "addedAt": "2026-11-05T17:58:32Z"
         }
       ]
     },

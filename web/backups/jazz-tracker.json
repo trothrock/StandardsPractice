@@ -1491,23 +1491,6 @@
         "Rhythm changes"
       ]
     },
-    "Ev'ry Time We Say Goodbye": {
-      "name": "Ev'ry Time We Say Goodbye",
-      "baseLevel": 0,
-      "currentLevel": 0,
-      "status": "untouched",
-      "intervalIdx": -1,
-      "learnedDate": null,
-      "reviews": [],
-      "sortSeed": 0.8098318664358818,
-      "composer": "Cole Porter",
-      "year": 1944,
-      "standardKey": "Eb",
-      "multiKey": false,
-      "tags": [
-        "Ballad"
-      ]
-    },
     "Everything Happens to Me": {
       "name": "Everything Happens to Me",
       "baseLevel": 0,
@@ -5701,6 +5684,23 @@
       "standardKey": "Bb",
       "multiKey": false,
       "sortSeed": 0.7403636142004597
+    },
+    "Every Time We Say Goodbye": {
+      "name": "Every Time We Say Goodbye",
+      "baseLevel": 0,
+      "currentLevel": 0,
+      "status": "untouched",
+      "intervalIdx": -1,
+      "learnedDate": null,
+      "reviews": [],
+      "sortSeed": 0.8098318664358818,
+      "composer": "Cole Porter",
+      "year": 1944,
+      "standardKey": "Eb",
+      "multiKey": false,
+      "tags": [
+        "Ballad"
+      ]
     }
   },
   "currentNewSong": "Rhythm-a-ning",
@@ -8205,6 +8205,18 @@
       "date": 20261105,
       "type": "practiced",
       "name": "Rhythm-a-ning"
+    },
+    {
+      "ts": 1793901502328,
+      "date": 20261105,
+      "type": "song_edited",
+      "oldName": "Ev'ry Time We Say Goodbye",
+      "name": "Every Time We Say Goodbye",
+      "tags": [
+        "Ballad"
+      ],
+      "level": 0,
+      "oldLevel": 0
     }
   ],
   "extraReviewsToday": {
