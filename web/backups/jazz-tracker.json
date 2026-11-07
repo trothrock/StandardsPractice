@@ -8239,6 +8239,21 @@
       "date": 20261106,
       "type": "practiced",
       "name": "Rhythm-a-ning"
+    },
+    {
+      "ts": 1793972119394,
+      "date": 20261106,
+      "type": "practice_time",
+      "area": "rep",
+      "name": "Basin Street Blues",
+      "secs": 1200,
+      "origSecs": 2254
+    },
+    {
+      "ts": 1793972119395,
+      "date": 20261106,
+      "type": "repertoire_practiced",
+      "name": "Basin Street Blues"
     }
   ],
   "extraReviewsToday": {
@@ -8328,7 +8343,7 @@
       "notes": "Always tends to rush. Practice with a metronome on 2 and 4 at 54 bpm.",
       "addedDate": 20260502,
       "lastReviewed": null,
-      "pinnedDate": 20261101,
+      "pinnedDate": 20261106,
       "practiceFocus": [
         {
           "text": "Last turnaround of head in",
@@ -9429,12 +9444,5 @@
     }
   ],
   "recordsSort": "year",
-  "recordsView": "grid",
-  "timer": {
-    "area": "rep",
-    "name": "Basin Street Blues",
-    "start": 1793969864984,
-    "runStart": 1793969864984,
-    "accMs": 0
-  }
+  "recordsView": "grid"
 }

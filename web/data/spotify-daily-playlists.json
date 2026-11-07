@@ -290,6 +290,65 @@
           "song": "If I Should Lose You"
         }
       ],
+      "filled": true,
+      "removedOn": "2026-11-07"
+    },
+    {
+      "date": "2026-11-07",
+      "id": "5VVn68jQTAJIhYYnZOCw6F",
+      "name": "Daily Standards – Nov 7, 2026",
+      "tracks": [
+        {
+          "trackId": "0IbD8xojkJgwh9lLu8hoxg",
+          "name": "Rhythm-A-Ning",
+          "artists": [
+            "Thelonious Monk"
+          ],
+          "song": "Rhythm-a-ning"
+        },
+        {
+          "trackId": "4leHEk0wS3rLsdfHz3ZItX",
+          "name": "After You've Gone",
+          "artists": [
+            "Benny Goodman Quintet"
+          ],
+          "song": "After You've Gone"
+        },
+        {
+          "trackId": "4cNtmZZ6OGq2UESnPLn94y",
+          "name": "Donna Lee",
+          "artists": [
+            "Clifford Brown"
+          ],
+          "song": "Donna Lee"
+        },
+        {
+          "trackId": "5B2xSO7OOIWNeoCbkIy1lB",
+          "name": "Don't Blame Me",
+          "artists": [
+            "Coleman Hawkins"
+          ],
+          "song": "Don't Blame Me"
+        },
+        {
+          "trackId": "4lm669ZRk2EkTHg8An9n8T",
+          "name": "Anthropology",
+          "artists": [
+            "Charlie Parker"
+          ],
+          "song": "Anthropology"
+        },
+        {
+          "trackId": "0aWMVrwxPNYkKmFthzmpRi",
+          "name": "Blue in Green (feat. John Coltrane & Bill Evans)",
+          "artists": [
+            "Miles Davis",
+            "John Coltrane",
+            "Bill Evans"
+          ],
+          "song": "Blue in Green"
+        }
+      ],
       "filled": true
     }
   ]
