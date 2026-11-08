@@ -4239,6 +4239,177 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e020ff7983361faf581e74a80e5",
       "durationMs": 181773,
       "context": "spotify:playlist:5Wnqb1ypktKuD8wmH1dbaG"
+    },
+    {
+      "playedAt": "2026-11-08T16:00:52.177Z",
+      "trackId": "4edBxVVQL76ObsFj9ABbSX",
+      "name": "What Is This Thing Called Love - Single Version",
+      "artists": [
+        "Billie Holiday"
+      ],
+      "album": "The Complete Commodore/Decca Masters",
+      "albumId": "1FqBsGdAki04wMMPst8iZK",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e023ef5677049d3e4a2a7f4747d",
+      "durationMs": 189066,
+      "context": null
+    },
+    {
+      "playedAt": "2026-11-08T16:06:15.797Z",
+      "trackId": "3zqVCujN4nNryzTCwLGO3G",
+      "name": "What Is This Thing Called Love",
+      "artists": [
+        "Clifford Brown",
+        "Max Roach Quintet"
+      ],
+      "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+      "albumId": "6PuVuJwyxyBZXMz73teSoV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021f8972135b07af1f0d59c47e",
+      "durationMs": 453146,
+      "context": "spotify:playlist:5B0I0ZgO5QrOacP4SDQF2B"
+    },
+    {
+      "playedAt": "2026-11-08T16:13:46.640Z",
+      "trackId": "2dC71mbRBTewkyeHTXPzGz",
+      "name": "Lady Bird (Live) - Live At Cafe Bohemia, NY/1955 / Rudy Van Gelder Edition/2001",
+      "artists": [
+        "Art Blakey & The Jazz Messengers"
+      ],
+      "album": "At The Cafe Bohemia (Vol. 1/The Rudy Van Gelder Edition)",
+      "albumId": "6aUQ6zb8XRvxfoa2Zhx8yj",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e80e683dc5b6d510090fbada",
+      "durationMs": 450360,
+      "context": "spotify:playlist:5B0I0ZgO5QrOacP4SDQF2B"
+    },
+    {
+      "playedAt": "2026-11-08T16:18:02.297Z",
+      "trackId": "3bT0UkPPSIZAAWZcro6QvP",
+      "name": "All Of You - Live At The London House, Chicago, 1958",
+      "artists": [
+        "Sarah Vaughan"
+      ],
+      "album": "After Hours At The London House",
+      "albumId": "2U3o34rb3OPW4WTdjqAWQz",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e029a9bc57640e530b697625b67",
+      "durationMs": 255120,
+      "context": "spotify:playlist:5B0I0ZgO5QrOacP4SDQF2B"
+    },
+    {
+      "playedAt": "2026-11-08T16:21:55.898Z",
+      "trackId": "0IbD8xojkJgwh9lLu8hoxg",
+      "name": "Rhythm-A-Ning",
+      "artists": [
+        "Thelonious Monk"
+      ],
+      "album": "Criss-Cross (Expanded Edition)",
+      "albumId": "0QTVbs5gj4pbv3Je4fJ3VI",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0216272e3ef5368f8db98ddfbd",
+      "durationMs": 233066,
+      "context": "spotify:playlist:5B0I0ZgO5QrOacP4SDQF2B"
+    },
+    {
+      "playedAt": "2026-11-08T17:10:57.504Z",
+      "trackId": "7tZDxcJeLzyjBKYc7TWbsr",
+      "name": "Everytime We Say Goodbye",
+      "artists": [
+        "John Coltrane"
+      ],
+      "album": "My Favorite Things",
+      "albumId": "3nLStxdTkSzihxm7FTLzCP",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02c00913832628c23c7952ae7b",
+      "durationMs": 345266,
+      "context": "spotify:playlist:5B0I0ZgO5QrOacP4SDQF2B"
+    },
+    {
+      "playedAt": "2026-11-08T17:16:48.508Z",
+      "trackId": "7tZDxcJeLzyjBKYc7TWbsr",
+      "name": "Everytime We Say Goodbye",
+      "artists": [
+        "John Coltrane"
+      ],
+      "album": "My Favorite Things",
+      "albumId": "3nLStxdTkSzihxm7FTLzCP",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02c00913832628c23c7952ae7b",
+      "durationMs": 345266,
+      "context": "spotify:playlist:5B0I0ZgO5QrOacP4SDQF2B"
+    },
+    {
+      "playedAt": "2026-11-08T18:08:06.078Z",
+      "trackId": "2VaOoXFfdlrHyhORSq9H1v",
+      "name": "Stompin' At The Savoy",
+      "artists": [
+        "Clifford Brown",
+        "Max Roach"
+      ],
+      "album": "Brown And Roach Incorporated",
+      "albumId": "6Wub7N4F0jXoqt66E5j2ql",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02889a6f7c981fea2ecdf9c59e",
+      "durationMs": 387000,
+      "context": "spotify:playlist:5B0I0ZgO5QrOacP4SDQF2B"
+    },
+    {
+      "playedAt": "2026-11-08T18:13:44.913Z",
+      "trackId": "57zh3ivLqu95lvkdW4zISx",
+      "name": "Parks Lope",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "By All Means",
+      "albumId": "0Bb8tnCWkiCrZFJ4BSXx9e",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0298ed63ef035ba53d5a6ab87e",
+      "durationMs": 308880,
+      "context": "spotify:album:0Bb8tnCWkiCrZFJ4BSXx9e"
+    },
+    {
+      "playedAt": "2026-11-08T18:18:39.458Z",
+      "trackId": "4ToeD7bGmiRDr8W99n5ETj",
+      "name": "For María José",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "By All Means",
+      "albumId": "0Bb8tnCWkiCrZFJ4BSXx9e",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0298ed63ef035ba53d5a6ab87e",
+      "durationMs": 294504,
+      "context": "spotify:album:0Bb8tnCWkiCrZFJ4BSXx9e"
+    },
+    {
+      "playedAt": "2026-11-08T18:25:02.808Z",
+      "trackId": "5V8i8ZFBEztWokEGtXnFUO",
+      "name": "Dense Phantasy",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "By All Means",
+      "albumId": "0Bb8tnCWkiCrZFJ4BSXx9e",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0298ed63ef035ba53d5a6ab87e",
+      "durationMs": 383365,
+      "context": "spotify:album:0Bb8tnCWkiCrZFJ4BSXx9e"
+    },
+    {
+      "playedAt": "2026-11-08T18:55:17.172Z",
+      "trackId": "0Jl5bIEve3A4axcjY3EgDZ",
+      "name": "Feelin' Alright",
+      "artists": [
+        "Joe Cocker"
+      ],
+      "album": "With A Little Help From My Friends",
+      "albumId": "74sIm8QdXqFwYeDS7OfYVw",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e025bb09aa81ffb17ccf902629f",
+      "durationMs": 250840,
+      "context": "spotify:playlist:37i9dQZF1E4ljikG4oUmEm"
+    },
+    {
+      "playedAt": "2026-11-08T19:01:14.728Z",
+      "trackId": "2LXISHBkx8FyoxCBkckh19",
+      "name": "Do It Again",
+      "artists": [
+        "Steely Dan"
+      ],
+      "album": "Can't Buy A Thrill",
+      "albumId": "6DlSUW5gmq6Byc3osKDJ2p",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e020ddd7e736f870994f4707947",
+      "durationMs": 357041,
+      "context": "spotify:playlist:37i9dQZF1E4ljikG4oUmEm"
     }
   ]
 }
