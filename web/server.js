@@ -7,6 +7,7 @@ const fs = require('fs');
 const path = require('path');
 const { execFile, execFileSync } = require('child_process');
 const spotify = require('./spotify');
+const discogs = require('./discogs');
 
 const PORT = 3000;
 const ROOT = __dirname;
@@ -192,6 +193,8 @@ for (const sig of ['SIGINT', 'SIGTERM', 'SIGHUP']) {
 }
 
 const server = http.createServer((req, res) => {
+  if (discogs.handleRequest(req, res)) return;
+
   if (req.method === 'POST' && req.url === '/api/sync-notes') {
     handleNotesSync(req, res);
     return;
@@ -325,8 +328,9 @@ const server = http.createServer((req, res) => {
 
   const filePath = path.join(ROOT, urlPath);
 
-  // Security: prevent directory traversal outside ROOT
-  if (!filePath.startsWith(ROOT)) {
+  // Security: prevent directory traversal outside ROOT, and never serve hidden files like the Spotify token
+  const insideRoot = filePath === ROOT || filePath.startsWith(ROOT + path.sep);
+  if (!insideRoot || path.relative(ROOT, filePath).split(path.sep).some(part => part.startsWith('.'))) {
     res.writeHead(403);
     res.end('Forbidden');
     return;

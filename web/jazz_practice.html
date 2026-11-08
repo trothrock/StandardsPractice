@@ -283,6 +283,18 @@
   .album-year { cursor: text; border-bottom: 1px dotted var(--text3); }
   .album-year:hover { color: var(--gold2); border-bottom-color: var(--gold2); }
   .focus-input.album-year-input { flex: none; width: 56px; padding: 1px 6px; font-size: inherit; font-family: inherit; }
+  .review-album { display: flex; align-items: flex-start; gap: 16px; padding: 20px; border-bottom: 1px solid var(--border); }
+  .review-label { padding: 14px 20px 6px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: var(--text3); text-transform: uppercase; }
+  .review-option { display: flex; align-items: center; gap: 10px; padding: 7px 20px; font-size: 13px; color: var(--text2); cursor: pointer; }
+  .review-option:hover { color: var(--text); background: var(--bg3); }
+  .review-option.sel { color: var(--gold); }
+  .review-option input { accent-color: var(--gold); flex: none; margin: 0; }
+  .review-option { flex-wrap: wrap; }
+  .review-option-main { flex: 1 1 120px; min-width: 0; overflow-wrap: anywhere; }
+  .review-form { display: flex; gap: 8px; padding: 8px 20px; }
+  .review-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 8px; padding: 14px 20px; border-top: 1px solid var(--border); margin-top: 10px; }
+  .review-note { flex: 1 1 100%; font-size: 11px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; }
+  .btn-action.primary { border-color: var(--gold); color: var(--gold); }
   .song-row > .focus-del { padding: 4px 0 4px 4px; }
   .song-row:hover > .focus-del { opacity: 1; }
   .poi-form .poi-time-input { flex: 0 0 64px; }
@@ -372,6 +384,10 @@
       <div class="nav-item" onclick="showPanel('records')">
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.5"/><circle cx="8" cy="8" r="2"/></svg>
         Records
+      </div>
+      <div class="nav-item" onclick="showPanel('players')">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="5" r="3"/><path d="M2.5 14c.6-3 2.7-4.5 5.5-4.5s4.9 1.5 5.5 4.5"/></svg>
+        Players
       </div>
       <div class="nav-item" onclick="showPanel('library')">
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="2" width="10" height="12" rx="1"/><path d="M6 2v12M3 5h3M3 8h3"/></svg>
@@ -537,6 +553,11 @@
       <div class="panel-title">Records</div>
       <div class="panel-sub">New albums are chosen at random each Monday</div>
       <div id="records-body"></div>
+    </div>
+    <div id="panel-players" class="panel">
+      <div class="panel-title">Players</div>
+      <div class="panel-sub">The musicians on your recordings and albums</div>
+      <div id="players-body"></div>
     </div>
     <div id="panel-detail" class="panel">
       <button class="btn-back" onclick="showPanel(detailOriginPanel)">← Back</button>
@@ -3223,6 +3244,303 @@ function drawAlbumDetail(albumId) {
   const empty = `<div class="empty">${albumTracksFailed.has(albumId) ? "Couldn't load this album's songs." : 'Loading songs…'}</div>`;
   container.innerHTML = header + `<div class="section"><div class="section-head"><h2>Tracks</h2>${tracks.length?`<span class="count">${tracks.length} song${tracks.length===1?'':'s'}</span>`:''}</div>${rows || empty}</div>`;
 }
+// Players: nobody's place on the tab is saved. db.creditLinks records, per Spotify album, the Discogs
+// release confirmed for it and any changes to its lineup; the players follow from those and from the
+// albums and recordings currently chosen. A lineup only counts once its album has been confirmed,
+// because searching by title sometimes finds the wrong album.
+let playerReferences = null, playerLoadError = null;
+let playerReview = null, playerReviewRun = 0;
+let confirmedReleases = {};
+const reviewSkipped = new Set();
+
+async function discogsGet(url) {
+  let res;
+  try { res = await fetch(url); } catch(e) { throw new Error('no response from the tracker'); }
+  const body = await res.json().catch(() => null);
+  if(!body) throw new Error('restart the tracker so it can reach Discogs');
+  if(!body.ok) throw new Error(body.error || 'Discogs request failed');
+  return body;
+}
+// Every album that has a say in who the players are, Records first
+function creditSources(db, references) {
+  const albums = new Map();
+  const place = (a, kind) => {
+    if(!a.albumId) return;
+    if(!albums.has(a.albumId)) albums.set(a.albumId, { albumId:a.albumId, album:a.album, artists:a.artists||[], albumImage:a.albumImage, year:null, onRecords:false, recordings:new Set() });
+    const entry = albums.get(a.albumId);
+    if(kind==='record') { entry.onRecords = true; entry.year = a.year || null; }
+    else entry.recordings.add(a.trackId);
+  };
+  (db.records||[]).forEach(a => place(a, 'record'));
+  (references||[]).forEach(pl => pl.tracks.forEach(t => place(t, 'recording')));
+  Object.values(db.songs).forEach(s => (s.otherRecordings||[]).forEach(t => place(t, 'recording')));
+  return [...albums.values()];
+}
+const pendingAlbums = (db, sources) => sources.filter(a => !db.creditLinks?.[a.albumId]);
+function freshReviewSearch() { return { q:'', results:null, error:null, searching:false }; }
+function freshPersonSearch() { return { q:'', instrument:'', results:null, error:null, searching:false }; }
+
+// A confirmed album's players: Discogs' lineup with the choices made in review applied
+function confirmedLineup(link, release) {
+  if(!link || link.none) return [];
+  const excluded = new Set(link.excluded||[]), included = new Set(link.included||[]);
+  const fromRelease = (release?.lineup||[]).filter(p => p.status==='player' ? !excluded.has(p.id) : included.has(p.id));
+  return [...fromRelease, ...(link.added||[])];
+}
+
+async function renderPlayers() {
+  drawPlayers();
+  let data;
+  try { data = await fetchListening(); }
+  catch(e) { playerLoadError = e.message; drawPlayers(); return; }
+  playerReferences = data.references || [];
+  playerLoadError = null;
+  loadConfirmedReleases();
+  if(!playerReview) nextReview();
+  else drawPlayers();
+}
+async function loadConfirmedReleases() {
+  const links = Object.values(getDB().creditLinks||{});
+  const ids = [...new Set(links.map(l => l.releaseId).filter(id => id && !confirmedReleases[id]))];
+  if(!ids.length) return;
+  try {
+    const r = await discogsGet('/api/discogs/lineups?ids='+ids.join(','));
+    Object.assign(confirmedReleases, r.releases);
+    drawPlayers();
+  } catch(e) { /* the counts just stay blank until the next visit */ }
+}
+function nextReview() {
+  const db = getDB(), current = playerReview?.albumId;
+  const allPending = pendingAlbums(db, creditSources(db, playerReferences));
+  const pending = allPending.filter(a => a.albumId!==current);
+  let upcoming = pending.filter(a => !reviewSkipped.has(a.albumId));
+  if(!upcoming.length && reviewSkipped.size) {
+    reviewSkipped.clear();
+    upcoming = pending;
+  }
+  if(!upcoming.length) {
+    // Nothing else is waiting, so an album put off for later is simply still the one to do
+    if(allPending.some(a => a.albumId===current)) { toast('This is the last album left to confirm.'); drawPlayers(); return; }
+    playerReview = null;
+    playerReviewRun++;
+    drawPlayers();
+    return;
+  }
+  startReview(upcoming[0].albumId);
+  // Search ahead, so the next album is ready when this one is done
+  if(upcoming[1]) fetch(candidatesUrl(upcoming[1])).catch(() => {});
+}
+function candidatesUrl(album) {
+  return '/api/discogs/candidates?albumId='+encodeURIComponent(album.albumId)+(album.year ? '&year='+encodeURIComponent(album.year) : '');
+}
+async function startReview(albumId) {
+  const db = getDB(), album = creditSources(db, playerReferences).find(a => a.albumId===albumId), link = db.creditLinks?.[albumId];
+  if(!album) return;
+  const run = ++playerReviewRun;
+  playerReview = { albumId, album, loading:true, error:null, candidates:[], chosen:-1, release:null, loadingLineup:false, excluded:new Set(link?.excluded||[]), included:new Set(link?.included||[]), added:[...(link?.added||[])], search:freshReviewSearch(), person:freshPersonSearch() };
+  drawPlayers();
+  let found;
+  try { found = await discogsGet(candidatesUrl(album)); }
+  catch(e) {
+    if(run!==playerReviewRun) return;
+    playerReview.loading = false;
+    playerReview.error = e.message;
+    drawPlayers();
+    return;
+  }
+  if(run!==playerReviewRun) return;
+  playerReview.loading = false;
+  playerReview.candidates = found.candidates;
+  // An album being changed opens on the release already confirmed for it
+  if(link?.releaseId) {
+    playerReview.candidates = [{ kind:'release', id:link.releaseId, label:link.title, year:link.year ? String(link.year) : null, current:true }, ...found.candidates.filter(c => !(c.kind==='release' && c.id===link.releaseId))];
+  }
+  if(playerReview.candidates.length) chooseCandidate(0, true);
+  else drawPlayers();
+}
+async function chooseCandidate(i, keepChoices) {
+  const review = playerReview, candidate = review?.candidates[i];
+  if(!candidate) return;
+  const run = ++playerReviewRun;
+  review.chosen = i;
+  review.release = null;
+  review.loadingLineup = true;
+  review.error = null;
+  if(!keepChoices) { review.excluded = new Set(); review.included = new Set(); }
+  drawPlayers();
+  try {
+    const r = await discogsGet(`/api/discogs/lineup?kind=${candidate.kind}&id=${candidate.id}`);
+    if(run!==playerReviewRun) return;
+    review.release = r.release;
+  } catch(e) {
+    if(run!==playerReviewRun) return;
+    review.error = e.message;
+  }
+  review.loadingLineup = false;
+  drawPlayers();
+}
+function toggleReviewPlayer(id) {
+  const review = playerReview, person = review?.release?.lineup.find(p => p.id===id);
+  if(!person) return;
+  const set = person.status==='player' ? review.excluded : review.included;
+  if(set.has(id)) set.delete(id); else set.add(id);
+  drawPlayers();
+}
+async function searchReviewReleases() {
+  const review = playerReview, q = document.getElementById('review-release-q').value.trim();
+  if(!review || !q) return;
+  review.search = { ...freshReviewSearch(), q, searching:true };
+  drawPlayers();
+  let results = null, error = null;
+  try { results = (await discogsGet('/api/discogs/search?q='+encodeURIComponent(q))).candidates; }
+  catch(e) { error = e.message; }
+  if(playerReview!==review || review.search.q!==q) return;
+  review.search = { q, results, error, searching:false };
+  drawPlayers();
+}
+function useReviewResult(i) {
+  const review = playerReview, result = review?.search.results?.[i];
+  if(!result) return;
+  const known = review.candidates.findIndex(c => c.kind===result.kind && c.id===result.id);
+  review.search = freshReviewSearch();
+  if(known>=0) { chooseCandidate(known); return; }
+  review.candidates.unshift(result);
+  chooseCandidate(0);
+}
+async function searchReviewPeople() {
+  const review = playerReview, q = document.getElementById('review-person-q').value.trim();
+  if(!review || !q) return;
+  const instrument = document.getElementById('review-person-instrument').value.trim();
+  review.person = { ...freshPersonSearch(), q, instrument, searching:true };
+  drawPlayers();
+  let results = null, error = null;
+  try { results = (await discogsGet('/api/discogs/search?type=artist&q='+encodeURIComponent(q))).artists; }
+  catch(e) { error = e.message; }
+  if(playerReview!==review || review.person.q!==q) return;
+  review.person = { q, instrument, results, error, searching:false };
+  drawPlayers();
+}
+function addReviewPerson(i) {
+  const review = playerReview;
+  if(!review) return;
+  const { q, instrument, results } = review.person;
+  // Someone Discogs doesn't list is kept under the name as typed
+  const found = i>=0 ? results?.[i] : { id:'manual:'+listeningKey(q), name:q };
+  if(!found || !found.name) return;
+  const onRelease = review.release?.lineup.find(p => p.id===found.id);
+  if(onRelease) {
+    if(onRelease.status==='player') review.excluded.delete(found.id); else review.included.add(found.id);
+  } else if(!review.added.some(p => p.id===found.id)) {
+    review.added.push({ id:found.id, name:found.name, instruments:instrument ? [instrument] : [], status:'player' });
+  }
+  review.person = freshPersonSearch();
+  drawPlayers();
+}
+function removeReviewPerson(i) {
+  if(!playerReview) return;
+  playerReview.added.splice(i, 1);
+  drawPlayers();
+}
+function saveCreditLink(albumId, link) {
+  const db = getDB();
+  if(!db.creditLinks) db.creditLinks = {};
+  db.creditLinks[albumId] = { ...link, confirmedAt:todayInt() };
+  saveDB(db);
+  reviewSkipped.delete(albumId);
+  nextReview();
+}
+function confirmReview() {
+  const review = playerReview;
+  if(!review) return;
+  const { release, added } = review;
+  if(!release && !added.length) { toast('Choose a release or add a player first.'); return; }
+  if(release) confirmedReleases[release.id] = release;
+  saveCreditLink(review.albumId, { releaseId:release?.id || null, title:release ? review.candidates[review.chosen]?.label || release.title : null, year:release?.year || null, url:release?.url || null, excluded:[...review.excluded], included:[...review.included], added });
+}
+function markNoCredits() {
+  if(playerReview) saveCreditLink(playerReview.albumId, { none:true });
+}
+function skipReview() {
+  if(!playerReview) return;
+  reviewSkipped.add(playerReview.albumId);
+  nextReview();
+}
+function roleLine(p) {
+  const parts = [p.instruments?.join(', '), p.leader ? 'leader' : '', p.status==='unsure' ? 'not listed as an instrumentalist' : ''].filter(Boolean);
+  return parts.join(' · ');
+}
+function reviewLineupHTML(review) {
+  if(review.loadingLineup) return '<div class="empty">Loading lineup…</div>';
+  const fromRelease = (review.release?.lineup||[]).map(p => {
+    const on = p.status==='player' ? !review.excluded.has(p.id) : review.included.has(p.id);
+    return `<label class="review-option"><input type="checkbox" ${on?'checked':''} onchange="toggleReviewPlayer(${Number(p.id)})"><span class="review-option-main">${escHTML(p.name)}</span><span class="key-stat" style="white-space:normal;text-align:right">${escHTML(roleLine(p))}</span></label>`;
+  }).join('');
+  const added = review.added.map((p,i) => `<div class="review-option"><span class="review-option-main">${escHTML(p.name)}</span><span class="key-stat">${escHTML(p.instruments.join(', ') || 'added by you')}</span><button class="focus-del" style="opacity:1" title="Remove" aria-label="Remove ${escHTML(p.name)}" onclick="removeReviewPerson(${i})">&times;</button></div>`).join('');
+  const none = !fromRelease && !added ? `<div class="empty">${review.release ? 'Discogs lists no musicians on this release.' : 'No release chosen.'}</div>` : '';
+  return fromRelease + added + none;
+}
+function reviewPersonResultsHTML(person) {
+  if(person.searching) return '<div class="empty">Searching…</div>';
+  if(person.error) return `<div class="empty">Search failed: ${escHTML(person.error)}.</div>`;
+  if(!person.results) return '';
+  const rows = person.results.map((a,i) => `<div class="review-option" style="cursor:default"><span class="review-option-main">${escHTML(a.name)}</span><button class="btn-action" onclick="addReviewPerson(${i})">Add</button></div>`).join('');
+  return rows + `<div class="review-option" style="cursor:default"><span class="review-option-main">Not listed? Add as typed: ${escHTML(person.q)}</span><button class="btn-action" onclick="addReviewPerson(-1)">Add</button></div>`;
+}
+function reviewReleaseResultsHTML(search) {
+  if(search.searching) return '<div class="empty">Searching…</div>';
+  if(search.error) return `<div class="empty">Search failed: ${escHTML(search.error)}.</div>`;
+  if(!search.results) return '';
+  if(!search.results.length) return '<div class="empty">No matches.</div>';
+  return search.results.map((c,i) => `<div class="review-option" style="cursor:default"><span class="review-option-main">${escHTML(c.label)}</span><span class="key-stat">${escHTML(c.year||'')}</span><button class="btn-action" onclick="useReviewResult(${i})">Use</button></div>`).join('');
+}
+function reviewCardHTML(review, left, total) {
+  const a = review.album;
+  const art = a.albumImage ? `<img class="album-feature-art" src="${escHTML(a.albumImage)}" alt="">` : '<div class="album-feature-art"></div>';
+  const count = a.recordings.size;
+  const uses = [a.onRecords && 'On Records', count && `${count} recording${count===1?'':'s'}`].filter(Boolean).join(' · ');
+  const head = `<div class="section-head"><h2>Confirm lineups</h2><span class="count">${left} of ${total} left</span></div>`;
+  const album = `<div class="review-album">${art}<div style="flex:1;min-width:0"><div class="album-feature-title">${escHTML(a.album)}</div><div class="album-feature-meta">${escHTML(a.artists.join(', '))}${a.year?` · ${escHTML(a.year)}`:''}</div><div class="review-note" style="margin-top:8px">${escHTML(uses)}</div></div></div>`;
+  if(review.loading) return `<div class="section">${head}${album}<div class="empty">Searching Discogs…</div></div>`;
+  const options = review.candidates.map((c,i) => `<label class="review-option${i===review.chosen?' sel':''}"><input type="radio" name="review-candidate" ${i===review.chosen?'checked':''} onchange="chooseCandidate(${i})"><span class="review-option-main">${escHTML(c.label)}</span><span class="key-stat">${c.current?'confirmed · ':''}${escHTML(c.year||'')}</span></label>`).join('');
+  const link = review.release ? `<a class="key-stat" style="color:var(--gold)" href="${escHTML(review.release.url)}" target="_blank" rel="noopener">View on Discogs</a>` : '';
+  const person = review.person, search = review.search;
+  const canConfirm = !review.loadingLineup && (review.release || review.added.length);
+  return `<div class="section">${head}${album}
+    ${review.error ? `<div class="empty">Couldn't reach Discogs: ${escHTML(review.error)}.</div>` : ''}
+    <div class="review-label">Discogs release</div>
+    ${options || '<div class="empty">No likely match found. Search below, or add the players yourself.</div>'}
+    <div class="review-form"><input class="focus-input" id="review-release-q" placeholder="Search Discogs, or paste a release link" value="${escHTML(search.q)}" onkeydown="if(event.key==='Enter')searchReviewReleases()"><button class="btn-action" onclick="searchReviewReleases()">Search</button></div>
+    ${reviewReleaseResultsHTML(search)}
+    <div class="review-label" style="display:flex;justify-content:space-between;align-items:baseline"><span>Lineup</span>${link}</div>
+    ${reviewLineupHTML(review)}
+    <div class="review-form"><input class="focus-input" id="review-person-q" placeholder="Add a player" value="${escHTML(person.q)}" onkeydown="if(event.key==='Enter')searchReviewPeople()"><input class="focus-input" id="review-person-instrument" style="flex:0 1 130px" placeholder="Instrument" value="${escHTML(person.instrument)}" onkeydown="if(event.key==='Enter')searchReviewPeople()"><button class="btn-action" onclick="searchReviewPeople()">Find</button></div>
+    ${reviewPersonResultsHTML(person)}
+    <div class="review-actions"><button class="btn-action" onclick="skipReview()">Later</button><button class="btn-action" title="Nobody from this album should count" onclick="markNoCredits()">No credits</button><button class="btn-action primary" ${canConfirm?'':'disabled'} onclick="confirmReview()">Confirm</button></div>
+  </div>`;
+}
+function confirmedAlbumsHTML(db, sources) {
+  const done = sources.filter(a => db.creditLinks?.[a.albumId]);
+  if(!done.length) return '';
+  const rows = done.map(a => {
+    const link = db.creditLinks[a.albumId], release = confirmedReleases[link.releaseId];
+    const stat = link.none ? 'no credits' : (!link.releaseId || release) ? (n => `${n} player${n===1?'':'s'}`)(confirmedLineup(link, release).length) : '';
+    return `<div class="song-row">${listenThumb(a.albumImage, a.albumId)}<div style="flex:1;min-width:0"><div class="song-name">${escHTML(a.album)}</div><div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace;overflow-wrap:anywhere">${escHTML(link.none ? a.artists.join(', ') : link.title || 'Entered by hand')}</div></div><span class="key-stat">${stat}</span><button class="btn-action" onclick="startReview('${escHTML(a.albumId)}')">Change</button></div>`;
+  }).join('');
+  return `<div class="section"><div class="section-head"><h2>Confirmed</h2><span class="count">${done.length} album${done.length===1?'':'s'}</span></div>${rows}</div>`;
+}
+function drawPlayers() {
+  const body = document.getElementById('players-body');
+  if(!body) return;
+  if(!playerReferences) {
+    body.innerHTML = `<div class="section"><div class="empty">${playerLoadError ? `Couldn't load your recordings: ${escHTML(playerLoadError)}.` : 'Loading…'}</div></div>`;
+    return;
+  }
+  const db = getDB(), sources = creditSources(db, playerReferences), left = pendingAlbums(db, sources).length;
+  const top = playerReview
+    ? reviewCardHTML(playerReview, left, sources.length)
+    : `<div class="section"><div class="section-head"><h2>Confirm lineups</h2></div><div class="empty">${sources.length ? 'Every album is confirmed.' : 'Add an album or choose a recording to get started.'}</div></div>`;
+  body.innerHTML = top + confirmedAlbumsHTML(db, sources);
+}
 function showRepertoireDetail(name) {
   const active = document.querySelector('.panel.active');
   detailOriginPanel = active ? active.id.replace('panel-','') : 'repertoire';
@@ -3805,7 +4123,7 @@ function showPanel(id) {
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
-  const idx = ['today','activity','listening','records','library','repertoire','voicings','vocabulary','concepts','keys','queue'].indexOf(id);
+  const idx = ['today','activity','listening','records','players','library','repertoire','voicings','vocabulary','concepts','keys','queue'].indexOf(id);
   if(idx>=0) document.querySelectorAll('.nav-item')[idx].classList.add('active');
   if(id==='settings') document.getElementById('nav-settings').classList.add('active');
   if(id==='library') renderLibrary();
@@ -3818,6 +4136,7 @@ function showPanel(id) {
   if(id==='activity') renderActivity();
   if(id==='listening') renderListening();
   if(id==='records') drawRecords();
+  if(id==='players') renderPlayers();
   if(id==='settings') renderSettings();
 }
 function renderAll() {
@@ -3835,6 +4154,7 @@ function renderAll() {
       if(id==='activity') renderActivity();
     if(id==='listening') renderListening();
     if(id==='records') drawRecords();
+    if(id==='players') renderPlayers();
     if(id==='settings') renderSettings();
     if(id==='detail') refreshCurrentDetail();
   }
