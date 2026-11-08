@@ -4050,10 +4050,10 @@
     "Rhythm-a-ning": {
       "name": "Rhythm-a-ning",
       "baseLevel": 0,
-      "currentLevel": 0,
-      "status": "learning",
-      "intervalIdx": -1,
-      "learnedDate": null,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 0,
+      "learnedDate": 20261108,
       "reviews": [],
       "sortSeed": 0.7409584813528363,
       "composer": "Thelonious Monk",
@@ -5384,7 +5384,7 @@
       "name": "What Is This Thing Called Love?",
       "baseLevel": 0,
       "currentLevel": 0,
-      "status": "untouched",
+      "status": "learning",
       "intervalIdx": -1,
       "learnedDate": null,
       "reviews": [],
@@ -5404,7 +5404,11 @@
           "at": 383,
           "text": "Clifford Brown bop language"
         }
-      ]
+      ],
+      "learningSteps": {
+        "history": true,
+        "recording": true
+      }
     },
     "What's New?": {
       "name": "What's New?",
@@ -5722,9 +5726,9 @@
       ]
     }
   },
-  "currentNewSong": "Rhythm-a-ning",
-  "streak": 3,
-  "lastPracticeDay": 20261107,
+  "currentNewSong": "What Is This Thing Called Love?",
+  "streak": 4,
+  "lastPracticeDay": 20261108,
   "activity": [
     {
       "ts": 1776634938073,
@@ -8324,6 +8328,80 @@
       "date": 20261107,
       "type": "practiced",
       "name": "Rhythm-a-ning"
+    },
+    {
+      "ts": 1794142756439,
+      "date": 20261108,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "Rhythm-a-ning",
+      "secs": 978
+    },
+    {
+      "ts": 1794142756439,
+      "date": 20261108,
+      "type": "practiced",
+      "name": "Rhythm-a-ning"
+    },
+    {
+      "ts": 1794142758860,
+      "date": 20261108,
+      "type": "learned",
+      "name": "Rhythm-a-ning"
+    },
+    {
+      "ts": 1794142849326,
+      "date": 20261108,
+      "type": "started_learning",
+      "name": "What Is This Thing Called Love?"
+    },
+    {
+      "ts": 1794143381739,
+      "date": 20261108,
+      "type": "practice_time",
+      "area": "rep",
+      "name": "Basin Street Blues",
+      "secs": 517
+    },
+    {
+      "ts": 1794143381739,
+      "date": 20261108,
+      "type": "repertoire_practiced",
+      "name": "Basin Street Blues"
+    },
+    {
+      "ts": 1794143381740,
+      "date": 20261108,
+      "type": "repertoire_reviewed",
+      "name": "Basin Street Blues"
+    },
+    {
+      "ts": 1794144283548,
+      "date": 20261108,
+      "type": "practice_time",
+      "area": "voicing",
+      "name": "Half dim: Full range",
+      "secs": 750
+    },
+    {
+      "ts": 1794144283549,
+      "date": 20261108,
+      "type": "voicing_session",
+      "name": "Half dim: Full range"
+    },
+    {
+      "ts": 1794145083858,
+      "date": 20261108,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "What Is This Thing Called Love?",
+      "secs": 797
+    },
+    {
+      "ts": 1794145083858,
+      "date": 20261108,
+      "type": "practiced",
+      "name": "What Is This Thing Called Love?"
     }
   ],
   "extraReviewsToday": {
@@ -8412,8 +8490,7 @@
       "composer": "Spencer Williams",
       "notes": "Always tends to rush. Practice with a metronome on 2 and 4 at 54 bpm.",
       "addedDate": 20260502,
-      "lastReviewed": null,
-      "pinnedDate": 20261107,
+      "lastReviewed": 20261108,
       "practiceFocus": [
         {
           "text": "Last turnaround of head in",
@@ -8726,7 +8803,7 @@
       "lastPracticed": null,
       "chords": [
         "B-7(♭5) · top A",
-        "E7(♯9,♭13) · top G",
+        "E7(♯9,♭13) �� top G",
         "A-6/9 · top A"
       ]
     },
@@ -9005,7 +9082,7 @@
       "addedDate": 20261029,
       "sortSeed": 0.40227082791889424,
       "lastPracticed": null,
-      "pinnedDate": 20261107
+      "pinnedDate": 20261108
     },
     {
       "name": "B-7(♭5) · Full · top F",
@@ -9122,7 +9199,7 @@
     "weekStart": 20261102,
     "key": "Gb"
   },
-  "exitChecklistOpen": false,
+  "exitChecklistOpen": true,
   "exitChecklistDetailOpen": false,
   "practiceFocusMigrated": true,
   "repertoireFocusMigrated": true,
