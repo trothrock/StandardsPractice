@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-11-07",
+  "lastSyncDate": "2026-11-08",
   "plays": [
     {
       "playedAt": "2026-10-01T01:25:15.151Z",
@@ -4002,6 +4002,243 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e023dadd10b7e18e7ce847cf22b",
       "durationMs": 398906,
       "context": "spotify:album:1iIkvMLhr8QpBg3IclikQL"
+    },
+    {
+      "playedAt": "2026-11-07T13:40:13.759Z",
+      "trackId": "3hUujhoY0kHJfaQacMCAHv",
+      "name": "Just In Time - Live At Theatre Du Chatelet, Paris/1992",
+      "artists": [
+        "Shirley Horn"
+      ],
+      "album": "I Love You, Paris",
+      "albumId": "1iIkvMLhr8QpBg3IclikQL",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e023dadd10b7e18e7ce847cf22b",
+      "durationMs": 192266,
+      "context": "spotify:album:1iIkvMLhr8QpBg3IclikQL"
+    },
+    {
+      "playedAt": "2026-11-07T14:15:55.988Z",
+      "trackId": "0IbD8xojkJgwh9lLu8hoxg",
+      "name": "Rhythm-A-Ning",
+      "artists": [
+        "Thelonious Monk"
+      ],
+      "album": "Criss-Cross (Expanded Edition)",
+      "albumId": "0QTVbs5gj4pbv3Je4fJ3VI",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0216272e3ef5368f8db98ddfbd",
+      "durationMs": 233066,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-11-07T16:11:38.380Z",
+      "trackId": "5Li88NjZlTMl8v68GIJJ5v",
+      "name": "If I Should Lose You - Remastered 1999/Rudy Van Gelder Edition",
+      "artists": [
+        "Hank Mobley"
+      ],
+      "album": "Soul Station",
+      "albumId": "731OW49heGHCMrMOREHYlY",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028d277396016ea9ea46d55ce0",
+      "durationMs": 310520,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-11-07T16:15:01.292Z",
+      "trackId": "04AeDdisLAy1Jm7wBjkEY5",
+      "name": "Lazy River",
+      "artists": [
+        "Pete Fountain"
+      ],
+      "album": "Best Of Pete Fountain",
+      "albumId": "1sJLIJ1ALPfUmrW7Yf9PZe",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0241e1e2b3b4ec58574e7a068e",
+      "durationMs": 304733,
+      "context": "spotify:album:1sJLIJ1ALPfUmrW7Yf9PZe"
+    },
+    {
+      "playedAt": "2026-11-07T16:17:53.935Z",
+      "trackId": "1T5cdFiSyAZeOQAYS6rWyD",
+      "name": "Yes Indeed",
+      "artists": [
+        "Pete Fountain"
+      ],
+      "album": "Best Of Pete Fountain",
+      "albumId": "1sJLIJ1ALPfUmrW7Yf9PZe",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0241e1e2b3b4ec58574e7a068e",
+      "durationMs": 172666,
+      "context": "spotify:album:1sJLIJ1ALPfUmrW7Yf9PZe"
+    },
+    {
+      "playedAt": "2026-11-07T16:20:22.635Z",
+      "trackId": "6c8yGsw8VG5XYhn6rzcoee",
+      "name": "High Society",
+      "artists": [
+        "Pete Fountain"
+      ],
+      "album": "Best Of Pete Fountain",
+      "albumId": "1sJLIJ1ALPfUmrW7Yf9PZe",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0241e1e2b3b4ec58574e7a068e",
+      "durationMs": 148626,
+      "context": "spotify:album:1sJLIJ1ALPfUmrW7Yf9PZe"
+    },
+    {
+      "playedAt": "2026-11-07T16:25:36.203Z",
+      "trackId": "5p4kUVmmXLmmILEbD7Nd3S",
+      "name": "Stranger On The Shore",
+      "artists": [
+        "Pete Fountain"
+      ],
+      "album": "Best Of Pete Fountain",
+      "albumId": "1sJLIJ1ALPfUmrW7Yf9PZe",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0241e1e2b3b4ec58574e7a068e",
+      "durationMs": 313560,
+      "context": "spotify:album:1sJLIJ1ALPfUmrW7Yf9PZe"
+    },
+    {
+      "playedAt": "2026-11-07T16:28:14.040Z",
+      "trackId": "2LIgQ3IN2XJOLvcxD7ZUaL",
+      "name": "Over The Waves",
+      "artists": [
+        "Pete Fountain"
+      ],
+      "album": "Best Of Pete Fountain",
+      "albumId": "1sJLIJ1ALPfUmrW7Yf9PZe",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0241e1e2b3b4ec58574e7a068e",
+      "durationMs": 157813,
+      "context": "spotify:album:1sJLIJ1ALPfUmrW7Yf9PZe"
+    },
+    {
+      "playedAt": "2026-11-07T18:43:04.807Z",
+      "trackId": "6QnSFGDcoBu6FBRP64ARSD",
+      "name": "Oh, Lady Be Good",
+      "artists": [
+        "Pete Fountain",
+        "Tiny Little"
+      ],
+      "album": "Best Of Pete Fountain",
+      "albumId": "1sJLIJ1ALPfUmrW7Yf9PZe",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0241e1e2b3b4ec58574e7a068e",
+      "durationMs": 377026,
+      "context": "spotify:album:1sJLIJ1ALPfUmrW7Yf9PZe"
+    },
+    {
+      "playedAt": "2026-11-07T18:46:23.290Z",
+      "trackId": "6JAqGYyjxNy2HA6rfMJFU0",
+      "name": "Tipitina and Me",
+      "artists": [
+        "Allen Toussaint"
+      ],
+      "album": "Our New Orleans (Expanded Edition)",
+      "albumId": "4sVRgVyVsDVWFmtEgNwaF5",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e5513bbe318d107061a00fbb",
+      "durationMs": 172040,
+      "context": "spotify:playlist:5Wnqb1ypktKuD8wmH1dbaG"
+    },
+    {
+      "playedAt": "2026-11-07T18:49:23.590Z",
+      "trackId": "0Qks0CzPAFWEXshcfvaHuE",
+      "name": "Ruler of My Heart",
+      "artists": [
+        "Norah Jones"
+      ],
+      "album": "Medicated Magic",
+      "albumId": "0dvzycKLTFrPdNCVFEcrrU",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0254b9d5084951c27be8185b68",
+      "durationMs": 179800,
+      "context": "spotify:playlist:5Wnqb1ypktKuD8wmH1dbaG"
+    },
+    {
+      "playedAt": "2026-11-07T18:52:21.787Z",
+      "trackId": "3GppcLIGlSlvujXgR0pPRt",
+      "name": "Such a Night",
+      "artists": [
+        "Dr. John"
+      ],
+      "album": "In The Right Place",
+      "albumId": "1b1ljTXAkcugOLAHkIi7Eq",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a1ae61997ddf171fc5353408",
+      "durationMs": 177733,
+      "context": "spotify:playlist:5Wnqb1ypktKuD8wmH1dbaG"
+    },
+    {
+      "playedAt": "2026-11-07T18:55:17.589Z",
+      "trackId": "0I2ELF6uHlL4ABu9aFiou7",
+      "name": "Right Place Wrong Time",
+      "artists": [
+        "Dr. John"
+      ],
+      "album": "In The Right Place",
+      "albumId": "1b1ljTXAkcugOLAHkIi7Eq",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a1ae61997ddf171fc5353408",
+      "durationMs": 175240,
+      "context": "spotify:playlist:5Wnqb1ypktKuD8wmH1dbaG"
+    },
+    {
+      "playedAt": "2026-11-07T18:59:33.289Z",
+      "trackId": "7jyquSccpyQ25wPgmP1ehU",
+      "name": "Yes We Can Can",
+      "artists": [
+        "Allen Toussaint"
+      ],
+      "album": "Our New Orleans (Expanded Edition)",
+      "albumId": "4sVRgVyVsDVWFmtEgNwaF5",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e5513bbe318d107061a00fbb",
+      "durationMs": 255160,
+      "context": "spotify:playlist:5Wnqb1ypktKuD8wmH1dbaG"
+    },
+    {
+      "playedAt": "2026-11-07T19:02:38.788Z",
+      "trackId": "2YiQdeqFggskfcoEVnC43p",
+      "name": "Louisiana 1927 (with Members of the New York Philharmonic)",
+      "artists": [
+        "Randy Newman",
+        "the Louisiana Philharmonic Orchestra",
+        "Members Of The New York Philharmonic"
+      ],
+      "album": "Our New Orleans (Expanded Edition)",
+      "albumId": "4sVRgVyVsDVWFmtEgNwaF5",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e5513bbe318d107061a00fbb",
+      "durationMs": 185053,
+      "context": "spotify:playlist:5Wnqb1ypktKuD8wmH1dbaG"
+    },
+    {
+      "playedAt": "2026-11-07T19:06:46.992Z",
+      "trackId": "5MFDzoacbgdgeLeO8uqKIR",
+      "name": "Prairie Sunset",
+      "artists": [
+        "Stanton Moore"
+      ],
+      "album": "Flyin' The Koop",
+      "albumId": "33sqTjtp1c4kUg5DPKC9lA",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e025af99dd5ea56d1c493431e5f",
+      "durationMs": 247706,
+      "context": "spotify:playlist:5Wnqb1ypktKuD8wmH1dbaG"
+    },
+    {
+      "playedAt": "2026-11-07T19:09:54.686Z",
+      "trackId": "1Dc1z5j75C2nMpLp1sbkpG",
+      "name": "Sophisticated Cissy",
+      "artists": [
+        "The Meters"
+      ],
+      "album": "The Essentials: The Meters",
+      "albumId": "3phn65gF8UFtnbVtZ6JXBM",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02bc7fa549a5ca11cfbad57ccc",
+      "durationMs": 175400,
+      "context": "spotify:playlist:5Wnqb1ypktKuD8wmH1dbaG"
+    },
+    {
+      "playedAt": "2026-11-07T19:36:52.856Z",
+      "trackId": "6mvyfn27ij4MYSCJXSgXAW",
+      "name": "Last Train - 2003 Remaster",
+      "artists": [
+        "Allen Toussaint"
+      ],
+      "album": "The Complete Warner Bros. Recordings",
+      "albumId": "7ovTISOD9hbyE8ojDAGnWG",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e020ff7983361faf581e74a80e5",
+      "durationMs": 181773,
+      "context": "spotify:playlist:5Wnqb1ypktKuD8wmH1dbaG"
     }
   ]
 }

@@ -349,6 +349,65 @@
           "song": "Blue in Green"
         }
       ],
+      "filled": true,
+      "removedOn": "2026-11-08"
+    },
+    {
+      "date": "2026-11-08",
+      "id": "5B0I0ZgO5QrOacP4SDQF2B",
+      "name": "Daily Standards – Nov 8, 2026",
+      "tracks": [
+        {
+          "trackId": "0IbD8xojkJgwh9lLu8hoxg",
+          "name": "Rhythm-A-Ning",
+          "artists": [
+            "Thelonious Monk"
+          ],
+          "song": "Rhythm-a-ning"
+        },
+        {
+          "trackId": "2VaOoXFfdlrHyhORSq9H1v",
+          "name": "Stompin' At The Savoy",
+          "artists": [
+            "Clifford Brown",
+            "Max Roach"
+          ],
+          "song": "Stompin' at the Savoy"
+        },
+        {
+          "trackId": "3zqVCujN4nNryzTCwLGO3G",
+          "name": "What Is This Thing Called Love",
+          "artists": [
+            "Clifford Brown",
+            "Max Roach Quintet"
+          ],
+          "song": "What Is This Thing Called Love?"
+        },
+        {
+          "trackId": "3bT0UkPPSIZAAWZcro6QvP",
+          "name": "All Of You - Live At The London House, Chicago, 1958",
+          "artists": [
+            "Sarah Vaughan"
+          ],
+          "song": "All of You"
+        },
+        {
+          "trackId": "7tZDxcJeLzyjBKYc7TWbsr",
+          "name": "Everytime We Say Goodbye",
+          "artists": [
+            "John Coltrane"
+          ],
+          "song": "everytime we say goodbye"
+        },
+        {
+          "trackId": "2dC71mbRBTewkyeHTXPzGz",
+          "name": "Lady Bird (Live) - Live At Cafe Bohemia, NY/1955 / Rudy Van Gelder Edition/2001",
+          "artists": [
+            "Art Blakey & The Jazz Messengers"
+          ],
+          "song": "Lady Bird"
+        }
+      ],
       "filled": true
     }
   ]

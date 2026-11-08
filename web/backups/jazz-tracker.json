@@ -1200,7 +1200,7 @@
       "baseLevel": 0,
       "currentLevel": 2,
       "status": "active",
-      "intervalIdx": 0,
+      "intervalIdx": 1,
       "learnedDate": 20260822,
       "reviews": [
         {
@@ -1220,6 +1220,11 @@
         {
           "date": 20261031,
           "passed": false,
+          "key": "Eb"
+        },
+        {
+          "date": 20261107,
+          "passed": true,
           "key": "Eb"
         }
       ],
@@ -1247,6 +1252,12 @@
         }
       ],
       "pointsOfInterest": [
+        {
+          "trackId": "1Ku5vu9Crncz8ixeT4Ijxc",
+          "album": "Maiden Voyage (Remastered 1999/Rudy Van Gelder Edition)",
+          "at": 368,
+          "text": "Herbie Hancock ii-V line"
+        },
         {
           "trackId": "1Ku5vu9Crncz8ixeT4Ijxc",
           "album": "Maiden Voyage (Remastered 1999/Rudy Van Gelder Edition)",
@@ -4064,7 +4075,8 @@
         "intro-outro": true,
         "bass-track": true,
         "points": true,
-        "substitutions": true
+        "substitutions": true,
+        "comping": true
       },
       "otherRecordings": [
         {
@@ -5711,8 +5723,8 @@
     }
   },
   "currentNewSong": "Rhythm-a-ning",
-  "streak": 2,
-  "lastPracticeDay": 20261106,
+  "streak": 3,
+  "lastPracticeDay": 20261107,
   "activity": [
     {
       "ts": 1776634938073,
@@ -8254,6 +8266,64 @@
       "date": 20261106,
       "type": "repertoire_practiced",
       "name": "Basin Street Blues"
+    },
+    {
+      "ts": 1794056340184,
+      "date": 20261107,
+      "type": "practice_time",
+      "area": "voicing",
+      "name": "Half dim: Full range",
+      "secs": 1255
+    },
+    {
+      "ts": 1794056340184,
+      "date": 20261107,
+      "type": "voicing_session",
+      "name": "Half dim: Full range"
+    },
+    {
+      "ts": 1794057490435,
+      "date": 20261107,
+      "type": "practice_time",
+      "area": "rep",
+      "name": "Basin Street Blues",
+      "secs": 1058
+    },
+    {
+      "ts": 1794057490435,
+      "date": 20261107,
+      "type": "repertoire_practiced",
+      "name": "Basin Street Blues"
+    },
+    {
+      "ts": 1794060709834,
+      "date": 20261107,
+      "type": "practice_time",
+      "area": "review",
+      "name": "Dolphin Dance",
+      "secs": 1856
+    },
+    {
+      "ts": 1794060709834,
+      "date": 20261107,
+      "type": "review",
+      "name": "Dolphin Dance",
+      "passed": true,
+      "key": "Eb"
+    },
+    {
+      "ts": 1794061836888,
+      "date": 20261107,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "Rhythm-a-ning",
+      "secs": 1123
+    },
+    {
+      "ts": 1794061836888,
+      "date": 20261107,
+      "type": "practiced",
+      "name": "Rhythm-a-ning"
     }
   ],
   "extraReviewsToday": {
@@ -8343,7 +8413,7 @@
       "notes": "Always tends to rush. Practice with a metronome on 2 and 4 at 54 bpm.",
       "addedDate": 20260502,
       "lastReviewed": null,
-      "pinnedDate": 20261106,
+      "pinnedDate": 20261107,
       "practiceFocus": [
         {
           "text": "Last turnaround of head in",
@@ -8935,7 +9005,7 @@
       "addedDate": 20261029,
       "sortSeed": 0.40227082791889424,
       "lastPracticed": null,
-      "pinnedDate": 20261102
+      "pinnedDate": 20261107
     },
     {
       "name": "B-7(♭5) · Full · top F",
