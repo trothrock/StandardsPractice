@@ -297,7 +297,8 @@ function listeningKey(title) {
     .replace(/&/g, ' and ')
     .replace(/[‘’'"`.,!?]/g, '')
     .replace(/[^a-z0-9]+/g, ' ').trim()
-    .replace(/^(the|an?) /, '');
+    .replace(/^(the|an?) /, '')
+    .replace(/ /g, '');
 }
 
 function librarySongFor(title, byKey) {
