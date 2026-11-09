@@ -3395,6 +3395,27 @@ function collectPlayers(db, references) {
     return { ...p, instrument:top ? top[0] : '', appearances:p.albums.size + p.recordings.size };
   });
 }
+// db.hiddenPlayers holds who has been taken off the tab. They stay credited on their albums, which
+// is why they're filtered out here rather than left out of the lineups.
+function tabPlayers(db) {
+  const hidden = new Set(db.hiddenPlayers||[]);
+  return collectPlayers(db, playerReferences).filter(p => !hidden.has(p.id));
+}
+function removePlayer(id) {
+  const db = getDB(), player = collectPlayers(db, playerReferences).find(p => p.id===id);
+  if(!player) return;
+  db.adhocPlayers = (db.adhocPlayers||[]).filter(p => String(p.id)!==id);
+  if(player.appearances) db.hiddenPlayers = [...(db.hiddenPlayers||[]), id];
+  saveDB(db);
+  toast(`Removed ${player.name} from Players.`);
+  drawPlayers();
+}
+function restorePlayer(id) {
+  const db = getDB();
+  db.hiddenPlayers = (db.hiddenPlayers||[]).filter(x => x!==id);
+  saveDB(db);
+  if(detailType==='album') drawAlbumPersonnel(currentDetailName);
+}
 function sortedPlayers(players, sort) {
   const cmp = (a,b) => a.localeCompare(b, undefined, { sensitivity:'base', numeric:true });
   const byName = (a,b) => cmp(artistSortName(a.name), artistSortName(b.name)) || cmp(a.name, b.name);
@@ -3491,7 +3512,12 @@ function addAdhocPlayer(i) {
   if(!found?.name) return;
   const db = getDB();
   if(!db.adhocPlayers) db.adhocPlayers = [];
-  if(!db.adhocPlayers.some(p => String(p.id)===String(found.id))) {
+  if((db.hiddenPlayers||[]).includes(String(found.id))) {
+    db.hiddenPlayers = db.hiddenPlayers.filter(x => x!==String(found.id));
+    saveDB(db);
+    toast(`Added ${found.name} back`);
+  }
+  else if(!db.adhocPlayers.some(p => String(p.id)===String(found.id))) {
     db.adhocPlayers.push({ id:found.id, name:found.name, instruments:instrument ? [instrument] : [] });
     saveDB(db);
     toast(`Added ${found.name}`);
@@ -3499,12 +3525,6 @@ function addAdhocPlayer(i) {
   playerAdd = freshPlayerAdd();
   drawPlayers();
   loadPlayerPhotos();
-}
-function removeAdhocPlayer(id) {
-  const db = getDB();
-  db.adhocPlayers = (db.adhocPlayers||[]).filter(p => String(p.id)!==id);
-  saveDB(db);
-  drawPlayers();
 }
 function playerAddFormHTML(players) {
   const s = playerAdd;
@@ -3521,14 +3541,13 @@ function playerAddFormHTML(players) {
   return `<div class="rec-add-form"><div style="display:flex;gap:8px"><input class="focus-input" id="player-add-q" placeholder="Search Discogs for a player" value="${escHTML(s.q)}" ${keys}><input class="focus-input" id="player-add-instrument" style="flex:0 1 130px" placeholder="Instrument" value="${escHTML(s.instrument)}" ${keys}><button class="btn-action" onclick="searchPlayerAdd()">Search</button><button class="btn-action" onclick="togglePlayerAdd()">Close</button></div><div id="player-add-results">${results}</div></div>`;
 }
 function playersHTML(db) {
-  const players = collectPlayers(db, playerReferences);
+  const players = tabPlayers(db);
   const sort = db.playersSort || 'name', view = db.playersView==='list' ? 'list' : 'grid';
   const toggle = (options, current, setter, tip) => players.length>1 ? `<div class="kw-toggle">${options.map(([m,l]) => `<button class="${m===current?'sel':''}" title="${tip(l)}" onclick="${setter}('${m}')">${l}</button>`).join('')}</div>` : '';
   const sortToggle = toggle(PLAYER_SORTS, sort, 'setPlayersSort', l => `Sort by ${l.toLowerCase()}`);
   const viewToggle = toggle(RECORD_VIEWS, view, 'setPlayersView', l => `Show as a ${l.toLowerCase()}`);
   const sorted = sortedPlayers(players, sort);
-  // Someone who came from a lineup leaves by correcting it, so only an ad hoc addition has a remove button
-  const remove = p => p.adhoc && !p.appearances ? `<button class="focus-del" title="Remove player" aria-label="Remove ${escHTML(p.name)}" onclick="removeAdhocPlayer('${escHTML(p.id)}')">&times;</button>` : '';
+  const remove = p => `<button class="focus-del" title="Remove from Players" aria-label="Remove ${escHTML(p.name)} from Players" data-player="${escHTML(p.id)}" onclick="removePlayer(this.dataset.player)">&times;</button>`;
   const grid = () => `<div class="record-grid">${sorted.map(p => `<div class="record-cell">${playerPhoto(p,'record-cell-art',true)}${remove(p)}<div class="record-cell-title album-link" title="${escHTML(p.name)}" data-player="${escHTML(p.id)}" onclick="showPlayerDetail(this.dataset.player)">${escHTML(p.name)}</div>${p.instrument?`<div class="record-cell-meta">${escHTML(p.instrument)}</div>`:''}<div class="record-cell-when">${escHTML(playerAppearances(p))}</div></div>`).join('')}</div>`;
   const list = () => sorted.map(p => `<div class="song-row">${playerPhoto(p,'listen-thumb',true)}<div style="flex:1;min-width:0">${playerLink(p)}${p.instrument?`<div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${escHTML(p.instrument)}</div>`:''}</div><span class="key-stat">${escHTML(playerAppearances(p))}</span>${remove(p)}</div>`).join('');
   const rows = sorted.length ? (view==='grid' ? grid() : list()) : (playerAdd.open ? '' : '<div class="empty">No players yet. Confirm an album’s lineup, or add someone with +.</div>');
@@ -3911,12 +3930,24 @@ function playerRecordingsHTML(db, items) {
   }).join('');
   return items.length ? `<div class="section"><div class="section-head"><h2>On your recordings</h2><span class="count">${items.length}</span></div>${rows}</div>` : '';
 }
-function playerAlbumsHTML(db, p) {
-  const albums = sortedRecords((db.records||[]).filter(a => p.albums.has(a.albumId)), 'year');
+// Their albums on Records, plus the album of any recording they're credited on. Only albums on
+// Records have a page to open.
+function playerAlbums(db, p) {
+  const onRecords = (db.records||[]).filter(a => p.albums.has(a.albumId));
+  const known = new Set((db.records||[]).map(a => a.albumId)), fromRecordings = new Map();
+  p.recordings.forEach(t => {
+    if(t.albumId && !known.has(t.albumId) && !fromRecordings.has(t.albumId)) fromRecordings.set(t.albumId, { albumId:t.albumId, album:t.album, artists:t.artists||[], albumImage:t.albumImage });
+  });
+  return sortedRecords([...onRecords, ...fromRecordings.values()], 'year').map(a => ({ ...a, hasPage:known.has(a.albumId) }));
+}
+function playerAlbumsHTML(albums) {
   if(!albums.length) return '';
   const cells = albums.map(a => {
     const art = a.albumImage ? `<img class="record-cell-art" src="${escHTML(a.albumImage)}" alt="" loading="lazy">` : '<div class="record-cell-art"></div>';
-    return `<div class="record-cell"><a class="listen-thumb-link" href="spotify:album:${escHTML(a.albumId)}" title="Open in Spotify">${art}</a><div class="record-cell-title album-link" title="${escHTML(a.album)}" onclick="showAlbumDetail('${escHTML(a.albumId)}')">${escHTML(a.album)}</div><div class="record-cell-meta">${albumMeta(a)}</div></div>`;
+    const title = a.hasPage
+      ? `<div class="record-cell-title album-link" title="${escHTML(a.album)}" onclick="showAlbumDetail('${escHTML(a.albumId)}')">${escHTML(a.album)}</div>`
+      : `<div class="record-cell-title" title="${escHTML(a.album)}">${escHTML(a.album)}</div>`;
+    return `<div class="record-cell"><a class="listen-thumb-link" href="spotify:album:${escHTML(a.albumId)}" title="Open in Spotify">${art}</a>${title}<div class="record-cell-meta">${albumMeta(a)}</div></div>`;
   }).join('');
   return `<div class="section"><div class="section-head"><h2>Albums</h2><span class="count">${albums.length}</span></div><div class="record-grid">${cells}</div></div>`;
 }
@@ -3929,11 +3960,12 @@ function drawPlayerDetail(id) {
   }
   const db = getDB(), players = collectPlayers(db, playerReferences), p = players.find(x => x.id===id);
   if(!p) { document.getElementById('detail-body').innerHTML = '<div class="empty">This player is no longer on any of your albums or recordings.</div>'; return; }
-  const recordingItems = playerRecordingItems(db, p, players);
+  const recordingItems = playerRecordingItems(db, p, players), albums = playerAlbums(db, p);
   const instruments = [...p.instrumentCounts].sort((a,b) => b[1]-a[1]).map(([i]) => i).join(' · ');
   const field = (label, value, tip) => `<div class="detail-meta-field"${tip?` title="${tip}"`:''}><div class="label">${label}</div><div class="value">${value}</div></div>`;
-  const header = `<div class="detail-header"><div class="album-detail-top">${playerPhoto(p,'album-feature-art')}<div style="flex:1;min-width:0"><div class="detail-title" style="margin-bottom:6px;overflow-wrap:anywhere">${escHTML(p.name)}</div><div class="album-feature-meta" id="player-realname"></div><div class="album-feature-meta">${escHTML(instruments)}</div></div></div><div class="detail-meta-grid">${field('Albums', p.albums.size)}${field('Recordings', recordingItems.length)}${field('Plays', playerPlayCount(p), 'Spotify plays of the albums and recordings this player is on')}</div></div>`;
-  main.innerHTML = header + playerRecordingsHTML(db, recordingItems) + playerAlbumsHTML(db, p);
+  const header = `<div class="detail-header"><div class="album-detail-top">${playerPhoto(p,'album-feature-art')}<div style="flex:1;min-width:0"><div class="detail-title" style="margin-bottom:6px;overflow-wrap:anywhere">${escHTML(p.name)}</div><div class="album-feature-meta" id="player-realname"></div><div class="album-feature-meta">${escHTML(instruments)}</div></div></div><div class="detail-meta-grid">${field('Albums', albums.length)}${field('Recordings', recordingItems.length)}${field('Plays', playerPlayCount(p), 'Spotify plays of the albums and recordings this player is on')}</div></div>`;
+  // A recording is only worth listing for what's been marked on it; the rest are covered by Albums
+  main.innerHTML = header + playerRecordingsHTML(db, recordingItems.filter(item => item.pois.length)) + playerAlbumsHTML(albums);
   placePlayerPhotos();
   showPlayerRealName(id);
 }
@@ -4029,7 +4061,13 @@ function drawAlbumPersonnel(albumId) {
   const release = link.releaseId ? confirmedReleases[link.releaseId] : null;
   if(link.releaseId && !release) { slot.innerHTML = ''; return; }
   const people = confirmedLineup(link, release).map(p => ({ ...p, id:String(p.id) }));
-  const rows = people.map(p => `<div class="song-row">${playerPhoto(p,'listen-thumb',true)}<div style="flex:1;min-width:0">${playerLink(p)}</div><span class="key-stat" style="white-space:normal;text-align:right">${escHTML([(p.instruments||[]).join(', '), p.leader?'leader':''].filter(Boolean).join(' · '))}</span></div>`).join('');
+  // Someone taken off the Players tab is still on the album, but has no page to link to
+  const hidden = new Set(getDB().hiddenPlayers||[]);
+  const rows = people.map(p => {
+    const off = hidden.has(p.id);
+    const restore = off ? `<button class="btn-action poi-add-btn" title="Add back to Players" aria-label="Add ${escHTML(p.name)} back to Players" data-player="${escHTML(p.id)}" onclick="restorePlayer(this.dataset.player)">+</button>` : '';
+    return `<div class="song-row">${playerPhoto(p,'listen-thumb',!off)}<div style="flex:1;min-width:0">${off ? `<span class="song-name">${escHTML(p.name)}</span>` : playerLink(p)}</div><span class="key-stat" style="white-space:normal;text-align:right">${escHTML([(p.instruments||[]).join(', '), p.leader?'leader':''].filter(Boolean).join(' · '))}</span>${restore}</div>`;
+  }).join('');
   slot.innerHTML = `<div class="section"><div class="section-head"><h2>Personnel</h2><div style="display:flex;align-items:center;gap:10px">${people.length?`<span class="count">${people.length}</span>`:''}${change}</div></div>${rows || '<div class="empty">No players on this lineup.</div>'}</div>`;
   placePlayerPhotos();
 }
@@ -4409,7 +4447,7 @@ function poiTextHTML(pt, matchPlayer) {
 }
 function poiListHTML(name, pts, trackId, album) {
   const safeName = escHTML(name.replace(/\\/g,'\\\\').replace(/'/g,"\\'"));
-  const matchPlayer = pts.length && playerReferences && releasesLoaded ? poiPlayerMatcher(collectPlayers(getDB(), playerReferences)) : null;
+  const matchPlayer = pts.length && playerReferences && releasesLoaded ? poiPlayerMatcher(tabPlayers(getDB())) : null;
   const rows = pts.map(pt => `<div class="poi-row"><a class="poi-time" href="spotify:track:${escHTML(pt.trackId)}#${formatPoiTime(pt.at)}" title="Play in Spotify from ${formatPoiTime(pt.at)}" onclick="event.preventDefault();playPoi('${escHTML(pt.trackId)}',${pt.at})">${formatPoiTime(pt.at)}</a><span class="poi-text" title="Click to edit" onclick="editPoi(this,'${safeName}',${pt.i})">${poiTextHTML(pt, matchPlayer)}</span><button class="focus-del" title="Remove" onclick="removePoi('${safeName}',${pt.i})">&times;</button></div>`).join('');
   const form = `<div class="poi-form" id="poi-form-${escHTML(trackId)}" data-track="${escHTML(trackId)}" data-album="${escHTML(album||'')}" style="display:none"><input class="focus-input poi-time-input" placeholder="m:ss" onkeydown="if(event.key==='Enter')addPoi(this,'${safeName}');else if(event.key==='Escape')hidePoiForm(this)"><input class="focus-input" placeholder="What's here, e.g. Oscar Peterson piano lick" onkeydown="if(event.key==='Enter')addPoi(this,'${safeName}');else if(event.key==='Escape')hidePoiForm(this)"><button class="btn-action" onclick="addPoi(this,'${safeName}')">Add</button></div>`;
   return (rows ? `<div class="poi-list">${rows}</div>` : '') + form;
