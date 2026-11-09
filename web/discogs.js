@@ -21,7 +21,7 @@ let cache = null;
 function getCache() {
   if (!cache) {
     try { cache = JSON.parse(fs.readFileSync(CACHE_FILE, 'utf8')); } catch { cache = {}; }
-    cache = { releases: {}, masters: {}, candidates: {}, ...cache };
+    cache = { releases: {}, masters: {}, candidates: {}, artists: {}, ...cache };
   }
   return cache;
 }
@@ -91,12 +91,30 @@ function readRole(role) {
 
 const GROUP_NAME = /\b(quintet|quartet|trio|sextet|septet|octet|nonet|orchestra|band|group|ensemble|messengers|experiment|singers|incorporated|all[- ]stars|combo|brothers|sisters)\b|\s(and|&)\s/i;
 
+// Discogs writes which tracks a credit covers like "A1 to B2, B4". Returns the positions named, or
+// null if it can't be read against the track list, in which case the credit counts for the album.
+function positionsIn(spec, tracks) {
+  const order = tracks.map(t => t.position);
+  const found = [];
+  for (const part of String(spec).split(',').map(s => s.trim()).filter(Boolean)) {
+    const range = part.split(/\s+to\s+/i).map(s => s.trim());
+    if (range.length === 2) {
+      const from = order.indexOf(range[0]), to = order.indexOf(range[1]);
+      if (from < 0 || to < from) return null;
+      found.push(...order.slice(from, to + 1));
+    } else if (order.includes(part)) found.push(part);
+    else return null;
+  }
+  return found.length ? found : null;
+}
+
 // The people a release credits. Leaders are often only named as the release's main artist, so they
 // are added from there; bands named that way are left out since their members are credited anyway.
+// Each person is either on the whole album or on the listed track positions.
 function lineupOf(release) {
   const people = new Map();
   const person = (id, name) => {
-    if (!people.has(id)) people.set(id, { id, name: displayName(name), instruments: [], status: null, leader: false });
+    if (!people.has(id)) people.set(id, { id, name: displayName(name), instruments: [], status: null, leader: false, playing: [], other: [] });
     return people.get(id);
   };
   release.credits.forEach(c => {
@@ -104,8 +122,8 @@ function lineupOf(release) {
     if (!instruments.length && !unknown) return;
     const p = person(c.id, c.name);
     instruments.forEach(i => { if (!p.instruments.includes(i)) p.instruments.push(i); });
-    if (instruments.length) p.status = 'player';
-    else if (!p.status) p.status = 'unsure';
+    if (instruments.length) { p.status = 'player'; p.playing.push(c.tracks); }
+    else { if (!p.status) p.status = 'unsure'; p.other.push(c.tracks); }
   });
   release.artists.forEach(a => {
     if (!a.id || a.id === VARIOUS_ARTISTS_ID || (GROUP_NAME.test(a.name) && !people.has(a.id))) return;
@@ -113,7 +131,12 @@ function lineupOf(release) {
     p.status = 'player';
     p.leader = true;
   });
-  return [...people.values()].sort((a, b) => (b.leader - a.leader) || (a.status === b.status ? 0 : a.status === 'player' ? -1 : 1));
+  return [...people.values()].map(({ playing, other, ...p }) => {
+    const specs = playing.length ? playing : other;
+    const read = specs.map(spec => (spec ? positionsIn(spec, release.tracks) : null));
+    const whole = p.leader || !specs.length || read.includes(null);
+    return { ...p, whole, positions: whole ? [] : [...new Set(read.flat())] };
+  }).sort((a, b) => (b.leader - a.leader) || (a.status === b.status ? 0 : a.status === 'player' ? -1 : 1));
 }
 
 function normalizeRelease(rel) {
@@ -166,8 +189,64 @@ const lineupReply = release => ({
   year: release.year,
   url: release.url,
   artists: release.artists,
+  tracks: release.tracks,
   lineup: lineupOf(release),
 });
+
+// ── Artists ──
+
+const artistQueue = new Set();
+let artistPumpRunning = false;
+
+function normalizeArtist(a) {
+  const images = a.images || [];
+  const image = images.find(i => i.type === 'primary') || images[0];
+  return {
+    id: a.id,
+    name: displayName(a.name),
+    realname: a.realname || null,
+    profile: a.profile || '',
+    photo: image?.uri || image?.uri150 || null, // the 150px version looks soft in the grid on a retina screen
+    images: images.map(i => i.uri).filter(Boolean),
+    urls: a.urls || [],
+    groups: (a.groups || []).map(g => ({ id: g.id, name: displayName(g.name) })),
+    url: a.uri || `https://www.discogs.com/artist/${a.id}`,
+  };
+}
+
+// One artist at a time and each waiting its own turn, so a first load of everyone's photos can't
+// hold up a search made in the meantime
+async function pumpArtists() {
+  if (artistPumpRunning) return;
+  artistPumpRunning = true;
+  try {
+    for (const id of artistQueue) {
+      try {
+        const artist = await discogsGet(`/artists/${id}`);
+        const store = getCache();
+        store.artists[id] = artist ? normalizeArtist(artist) : { id: Number(id), photo: null };
+        saveCache();
+      } catch (e) {
+        console.error('Discogs artist lookup failed:', e.message);
+      }
+      artistQueue.delete(id);
+    }
+  } finally {
+    artistPumpRunning = false;
+  }
+}
+
+// Photos known so far. Anyone not looked up yet is fetched in the background for the page to ask again.
+function artistPhotos(ids) {
+  const store = getCache(), photos = {};
+  let missing = 0;
+  ids.forEach(id => {
+    if (store.artists[id]) photos[id] = store.artists[id].photo;
+    else { missing++; artistQueue.add(id); }
+  });
+  pumpArtists();
+  return { photos, missing };
+}
 
 // ── Finding an album ──
 
@@ -273,6 +352,7 @@ async function searchArtists(q) {
 const SPOTIFY_ALBUM_ID = /^[A-Za-z0-9]{22}$/;
 const NUMERIC_ID = /^\d{1,12}$/;
 const MAX_BULK_RELEASES = 200;
+const MAX_BULK_ARTISTS = 500;
 
 function handleRequest(req, res) {
   if (req.method !== 'GET' || !req.url.startsWith('/api/discogs/')) return false;
@@ -308,6 +388,12 @@ function handleRequest(req, res) {
     })());
     return true;
   }
+  if (url.pathname === '/api/discogs/artists') {
+    const ids = (params.get('ids') || '').split(',').filter(Boolean).slice(0, MAX_BULK_ARTISTS);
+    if (!ids.every(id => NUMERIC_ID.test(id))) { reply(400, { ok: false, error: 'ids must be numbers' }); return true; }
+    reply(200, { ok: true, ...artistPhotos(ids) });
+    return true;
+  }
   if (url.pathname === '/api/discogs/search') {
     const q = (params.get('q') || '').trim();
     if (!q) { reply(400, { ok: false, error: 'q is required' }); return true; }
@@ -320,4 +406,4 @@ function handleRequest(req, res) {
   return true;
 }
 
-module.exports = { handleRequest, lineupOf, readRole, normalizeRelease, rankCandidates, titleWithoutArtists, findCandidates, getRelease, masterRelease };
+module.exports = { handleRequest, lineupOf, positionsIn, readRole, normalizeRelease, rankCandidates, titleWithoutArtists, findCandidates, getRelease, masterRelease };

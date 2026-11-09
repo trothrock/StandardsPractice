@@ -257,7 +257,11 @@
   .poi-form { gap: 8px; margin-top: 8px; }
   .rec-add-form { padding: 12px 20px; border-bottom: 1px solid var(--border); }
   .rec-add-form .focus-input { flex: 1; }
-  .rec-add-form #rec-add-results, .rec-add-form #album-add-results { margin: 8px -20px -12px; }
+  .rec-add-form #rec-add-results, .rec-add-form #album-add-results, .rec-add-form #player-add-results { margin: 8px -20px -12px; }
+  .player-photo { position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; font-family: 'Playfair Display', serif; color: var(--text3); }
+  .record-cell-art.player-photo { font-size: 44px; }
+  .listen-thumb.player-photo { font-size: 16px; }
+  .player-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
   .album-week-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr)); }
   .album-feature { display: flex; align-items: flex-start; gap: 20px; padding: 20px; }
   .album-feature-era { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: var(--gold2); margin-bottom: 6px; }
@@ -3250,8 +3254,15 @@ function drawAlbumDetail(albumId) {
 // because searching by title sometimes finds the wrong album.
 let playerReferences = null, playerLoadError = null;
 let playerReview = null, playerReviewRun = 0;
-let confirmedReleases = {};
+let confirmedReleases = {}, releasesLoaded = false, releaseLoadError = null;
+let playersMode = 'grid';
+let playerPhotos = {}, photoLoading = false, photoRetry = null, photoLastMissing = null, photoStalls = 0;
+let playerAdd = freshPlayerAdd();
 const reviewSkipped = new Set();
+const PLAYER_SORTS = [['name','Name'],['instrument','Instrument'],['appearances','Appearances']];
+const PHOTO_RETRY_MS = 4000, PHOTO_MAX_STALLS = 3;
+function freshPlayerAdd() { return { open:false, q:'', instrument:'', results:null, error:null, searching:false }; }
+const manualPlayerId = name => 'manual:' + (listeningKey(name) || encodeURIComponent(name));
 
 async function discogsGet(url) {
   let res;
@@ -3295,19 +3306,205 @@ async function renderPlayers() {
   catch(e) { playerLoadError = e.message; drawPlayers(); return; }
   playerReferences = data.references || [];
   playerLoadError = null;
-  loadConfirmedReleases();
-  if(!playerReview) nextReview();
+  await loadConfirmedReleases();
+  if(playersMode==='lineups' && !playerReview) nextReview();
   else drawPlayers();
+  loadPlayerPhotos();
 }
 async function loadConfirmedReleases() {
   const links = Object.values(getDB().creditLinks||{});
   const ids = [...new Set(links.map(l => l.releaseId).filter(id => id && !confirmedReleases[id]))];
+  releaseLoadError = null;
+  if(ids.length) {
+    try {
+      const r = await discogsGet('/api/discogs/lineups?ids='+ids.join(','));
+      Object.assign(confirmedReleases, r.releases);
+    } catch(e) { releaseLoadError = e.message; }
+  }
+  releasesLoaded = true;
+}
+const titleKeys = title => [listeningKey(title), ...[...String(title).matchAll(/[\(\[]([^\)\]]*)[\)\]]/g)].map(m => listeningKey(m[1]))].filter(Boolean);
+// Who played on one recording. When Discogs credits that track specifically, only those players
+// and anyone credited for the whole album count; otherwise it has to be the album's whole lineup.
+function recordingLineup(lineup, release, trackName) {
+  const keys = titleKeys(trackName);
+  const row = release?.tracks?.find(t => titleKeys(t.title).some(k => keys.includes(k)));
+  const onTrack = p => row && p.positions?.includes(row.position);
+  if(!lineup.some(onTrack)) return { players:lineup, albumWide:true };
+  return { players:lineup.filter(p => !p.positions?.length || onTrack(p)), albumWide:false };
+}
+// Worked out fresh each time from what's currently chosen, so it can't fall out of step with it
+function collectPlayers(db, references) {
+  const players = new Map();
+  const entry = p => {
+    const key = String(p.id);
+    if(!players.has(key)) players.set(key, { id:key, name:p.name, instrumentCounts:new Map(), albums:new Set(), recordings:new Map(), adhoc:false });
+    return players.get(key);
+  };
+  const credit = p => {
+    const e = entry(p);
+    (p.instruments||[]).forEach(i => e.instrumentCounts.set(i, (e.instrumentCounts.get(i)||0)+1));
+    return e;
+  };
+  const confirmed = albumId => {
+    const link = db.creditLinks?.[albumId];
+    if(!link || link.none) return null;
+    const release = link.releaseId ? confirmedReleases[link.releaseId] : null;
+    if(link.releaseId && !release) return null;
+    return { release, lineup:confirmedLineup(link, release) };
+  };
+  (db.records||[]).forEach(a => confirmed(a.albumId)?.lineup.forEach(p => credit(p).albums.add(a.albumId)));
+  const seen = new Set();
+  const recordings = [...(references||[]).flatMap(pl => pl.tracks), ...Object.values(db.songs).flatMap(s => s.otherRecordings||[])];
+  recordings.filter(t => t.albumId && t.trackId && !seen.has(t.trackId) && seen.add(t.trackId)).forEach(t => {
+    const found = confirmed(t.albumId);
+    if(!found) return;
+    const { players, albumWide } = recordingLineup(found.lineup, found.release, t.name);
+    players.forEach(p => credit(p).recordings.set(t.trackId, { ...t, albumWide }));
+  });
+  (db.adhocPlayers||[]).forEach(p => { credit(p).adhoc = true; });
+  return [...players.values()].map(p => {
+    const top = [...p.instrumentCounts].sort((a,b) => b[1]-a[1])[0];
+    return { ...p, instrument:top ? top[0] : '', appearances:p.albums.size + p.recordings.size };
+  });
+}
+function sortedPlayers(players, sort) {
+  const cmp = (a,b) => a.localeCompare(b, undefined, { sensitivity:'base', numeric:true });
+  const byName = (a,b) => cmp(artistSortName(a.name), artistSortName(b.name)) || cmp(a.name, b.name);
+  const orders = {
+    name: byName,
+    instrument: (a,b) => (!a.instrument - !b.instrument) || cmp(a.instrument, b.instrument) || byName(a,b),
+    appearances: (a,b) => (b.appearances - a.appearances) || byName(a,b),
+  };
+  return [...players].sort(orders[sort] || byName);
+}
+function setPlayersSort(sort) {
+  const db = getDB();
+  db.playersSort = sort;
+  saveDB(db);
+  drawPlayers();
+}
+function setPlayersView(view) {
+  const db = getDB();
+  db.playersView = view;
+  saveDB(db);
+  drawPlayers();
+}
+function playerAppearances(p) {
+  const n = p.albums.size, r = p.recordings.size;
+  const parts = [n && `${n} album${n===1?'':'s'}`, r && `${r} recording${r===1?'':'s'}`].filter(Boolean);
+  return parts.join(' · ') || 'Added by you';
+}
+function photoImg(id) {
+  const url = playerPhotos[id];
+  return url ? `<img src="${escHTML(url)}" alt="" loading="lazy" onerror="this.remove()">` : '';
+}
+function playerPhoto(p, kind) {
+  const initial = escHTML((p.name.replace(/[^\p{L}]/gu,'')[0] || '?').toUpperCase());
+  return `<div class="${kind} player-photo" data-photo-id="${escHTML(p.id)}">${initial}${photoImg(p.id)}</div>`;
+}
+// Photos arrive a few at a time on the first visit, so they're dropped into place rather than
+// redrawing the tab under someone who's using it
+function placePlayerPhotos() {
+  document.querySelectorAll('#players-body [data-photo-id]').forEach(slot => {
+    if(!slot.querySelector('img') && playerPhotos[slot.dataset.photoId]) slot.insertAdjacentHTML('beforeend', photoImg(slot.dataset.photoId));
+  });
+}
+async function loadPlayerPhotos() {
+  clearTimeout(photoRetry);
+  if(photoLoading || !playerReferences || !releasesLoaded) return;
+  const ids = collectPlayers(getDB(), playerReferences).map(p => p.id).filter(id => /^\d+$/.test(id) && !(id in playerPhotos));
   if(!ids.length) return;
-  try {
-    const r = await discogsGet('/api/discogs/lineups?ids='+ids.join(','));
-    Object.assign(confirmedReleases, r.releases);
-    drawPlayers();
-  } catch(e) { /* the counts just stay blank until the next visit */ }
+  photoLoading = true;
+  let r = null;
+  try { r = await discogsGet('/api/discogs/artists?ids='+ids.join(',')); } catch(e) { /* initials stay in place */ }
+  photoLoading = false;
+  if(!r) return;
+  Object.assign(playerPhotos, r.photos);
+  placePlayerPhotos();
+  photoStalls = r.missing===photoLastMissing ? photoStalls+1 : 0;
+  photoLastMissing = r.missing;
+  const onTab = document.getElementById('panel-players')?.classList.contains('active');
+  if(r.missing && onTab && photoStalls<PHOTO_MAX_STALLS) photoRetry = setTimeout(loadPlayerPhotos, PHOTO_RETRY_MS);
+}
+function openLineups() {
+  playersMode = 'lineups';
+  if(playerReview) drawPlayers();
+  else nextReview();
+}
+function closeLineups() {
+  playersMode = 'grid';
+  playerReview = null;
+  playerReviewRun++;
+  drawPlayers();
+  loadPlayerPhotos();
+}
+function togglePlayerAdd() {
+  playerAdd = playerAdd.open ? freshPlayerAdd() : { ...freshPlayerAdd(), open:true };
+  drawPlayers();
+  if(playerAdd.open) document.getElementById('player-add-q').focus();
+}
+async function searchPlayerAdd() {
+  const q = document.getElementById('player-add-q').value.trim();
+  if(!q) return;
+  const instrument = document.getElementById('player-add-instrument').value.trim();
+  playerAdd = { ...playerAdd, q, instrument, results:null, error:null, searching:true };
+  drawPlayers();
+  let results = null, error = null;
+  try { results = (await discogsGet('/api/discogs/search?type=artist&q='+encodeURIComponent(q))).artists; }
+  catch(e) { error = e.message; }
+  if(!playerAdd.open || playerAdd.q!==q) return;
+  playerAdd = { ...playerAdd, results, error, searching:false };
+  drawPlayers();
+}
+function addAdhocPlayer(i) {
+  const { q, instrument, results } = playerAdd;
+  const found = i>=0 ? results?.[i] : { id:manualPlayerId(q), name:q };
+  if(!found?.name) return;
+  const db = getDB();
+  if(!db.adhocPlayers) db.adhocPlayers = [];
+  if(!db.adhocPlayers.some(p => String(p.id)===String(found.id))) {
+    db.adhocPlayers.push({ id:found.id, name:found.name, instruments:instrument ? [instrument] : [] });
+    saveDB(db);
+    toast(`Added ${found.name}`);
+  }
+  playerAdd = freshPlayerAdd();
+  drawPlayers();
+  loadPlayerPhotos();
+}
+function removeAdhocPlayer(id) {
+  const db = getDB();
+  db.adhocPlayers = (db.adhocPlayers||[]).filter(p => String(p.id)!==id);
+  saveDB(db);
+  drawPlayers();
+}
+function playerAddFormHTML(players) {
+  const s = playerAdd;
+  if(!s.open) return '';
+  const have = new Set(players.map(p => p.id));
+  let results = '';
+  if(s.searching) results = '<div class="empty">Searching…</div>';
+  else if(s.error) results = `<div class="empty">Search failed: ${escHTML(s.error)}.</div>`;
+  else if(s.results) {
+    const rows = s.results.map((a,i) => `<div class="song-row"><div class="song-name" style="flex:1;min-width:0">${escHTML(a.name)}</div>${have.has(String(a.id)) ? '<span class="key-stat">added</span>' : `<button class="btn-action" onclick="addAdhocPlayer(${i})">Add</button>`}</div>`).join('');
+    results = rows + `<div class="song-row"><div style="flex:1;min-width:0;font-size:13px;color:var(--text2)">Not listed? Add as typed: ${escHTML(s.q)}</div><button class="btn-action" onclick="addAdhocPlayer(-1)">Add</button></div>`;
+  }
+  const keys = `onkeydown="if(event.key==='Enter')searchPlayerAdd();else if(event.key==='Escape')togglePlayerAdd()"`;
+  return `<div class="rec-add-form"><div style="display:flex;gap:8px"><input class="focus-input" id="player-add-q" placeholder="Search Discogs for a player" value="${escHTML(s.q)}" ${keys}><input class="focus-input" id="player-add-instrument" style="flex:0 1 130px" placeholder="Instrument" value="${escHTML(s.instrument)}" ${keys}><button class="btn-action" onclick="searchPlayerAdd()">Search</button><button class="btn-action" onclick="togglePlayerAdd()">Close</button></div><div id="player-add-results">${results}</div></div>`;
+}
+function playersHTML(db) {
+  const players = collectPlayers(db, playerReferences);
+  const sort = db.playersSort || 'name', view = db.playersView==='list' ? 'list' : 'grid';
+  const toggle = (options, current, setter, tip) => players.length>1 ? `<div class="kw-toggle">${options.map(([m,l]) => `<button class="${m===current?'sel':''}" title="${tip(l)}" onclick="${setter}('${m}')">${l}</button>`).join('')}</div>` : '';
+  const sortToggle = toggle(PLAYER_SORTS, sort, 'setPlayersSort', l => `Sort by ${l.toLowerCase()}`);
+  const viewToggle = toggle(RECORD_VIEWS, view, 'setPlayersView', l => `Show as a ${l.toLowerCase()}`);
+  const sorted = sortedPlayers(players, sort);
+  // Someone who came from a lineup leaves by correcting it, so only an ad hoc addition has a remove button
+  const remove = p => p.adhoc && !p.appearances ? `<button class="focus-del" title="Remove player" aria-label="Remove ${escHTML(p.name)}" onclick="removeAdhocPlayer('${escHTML(p.id)}')">&times;</button>` : '';
+  const grid = () => `<div class="record-grid">${sorted.map(p => `<div class="record-cell">${playerPhoto(p,'record-cell-art')}${remove(p)}<div class="record-cell-title" title="${escHTML(p.name)}">${escHTML(p.name)}</div>${p.instrument?`<div class="record-cell-meta">${escHTML(p.instrument)}</div>`:''}<div class="record-cell-when">${escHTML(playerAppearances(p))}</div></div>`).join('')}</div>`;
+  const list = () => sorted.map(p => `<div class="song-row">${playerPhoto(p,'listen-thumb')}<div style="flex:1;min-width:0"><div class="song-name">${escHTML(p.name)}</div>${p.instrument?`<div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${escHTML(p.instrument)}</div>`:''}</div><span class="key-stat">${escHTML(playerAppearances(p))}</span>${remove(p)}</div>`).join('');
+  const rows = sorted.length ? (view==='grid' ? grid() : list()) : (playerAdd.open ? '' : '<div class="empty">No players yet. Confirm an album’s lineup, or add someone with +.</div>');
+  return `<div class="section"><div class="section-head"><h2>Players</h2><div style="display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:10px">${players.length?`<span class="count">${players.length} player${players.length===1?'':'s'}</span>`:''}${sortToggle}${viewToggle}<button class="btn-action" title="Confirm or change album lineups" onclick="openLineups()">Lineups</button><button class="btn-action poi-add-btn" title="Add a player" aria-label="Add a player" onclick="togglePlayerAdd()">+</button></div></div>${playerAddFormHTML(players)}${rows}</div>`;
 }
 function nextReview() {
   const db = getDB(), current = playerReview?.albumId;
@@ -3425,7 +3622,7 @@ function addReviewPerson(i) {
   if(!review) return;
   const { q, instrument, results } = review.person;
   // Someone Discogs doesn't list is kept under the name as typed
-  const found = i>=0 ? results?.[i] : { id:'manual:'+listeningKey(q), name:q };
+  const found = i>=0 ? results?.[i] : { id:manualPlayerId(q), name:q };
   if(!found || !found.name) return;
   const onRelease = review.release?.lineup.find(p => p.id===found.id);
   if(onRelease) {
@@ -3536,10 +3733,17 @@ function drawPlayers() {
     return;
   }
   const db = getDB(), sources = creditSources(db, playerReferences), left = pendingAlbums(db, sources).length;
-  const top = playerReview
-    ? reviewCardHTML(playerReview, left, sources.length)
-    : `<div class="section"><div class="section-head"><h2>Confirm lineups</h2></div><div class="empty">${sources.length ? 'Every album is confirmed.' : 'Add an album or choose a recording to get started.'}</div></div>`;
-  body.innerHTML = top + confirmedAlbumsHTML(db, sources);
+  if(playersMode==='lineups') {
+    const top = playerReview
+      ? reviewCardHTML(playerReview, left, sources.length)
+      : `<div class="section"><div class="section-head"><h2>Confirm lineups</h2></div><div class="empty">${sources.length ? 'Every album is confirmed.' : 'Add an album or choose a recording to get started.'}</div></div>`;
+    body.innerHTML = `<button class="btn-back" onclick="closeLineups()">← Players</button>` + top + confirmedAlbumsHTML(db, sources);
+    return;
+  }
+  if(!releasesLoaded) { body.innerHTML = '<div class="section"><div class="empty">Loading players…</div></div>'; return; }
+  const problem = releaseLoadError ? `<div class="section"><div class="empty">Couldn't load every lineup: ${escHTML(releaseLoadError)}.</div></div>` : '';
+  const banner = left ? `<div class="section"><div class="song-row" style="border-bottom:0"><div style="flex:1;min-width:0;font-size:13px;color:var(--text)">${left} album${left===1?'':'s'} to confirm</div><button class="btn-action primary" onclick="openLineups()">Review</button></div></div>` : '';
+  body.innerHTML = problem + banner + playersHTML(db);
 }
 function showRepertoireDetail(name) {
   const active = document.querySelector('.panel.active');

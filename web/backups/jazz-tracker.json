@@ -10144,5 +10144,14 @@
       "added": [],
       "confirmedAt": 20261108
     }
+  },
+  "playersSort": "name",
+  "playersView": "grid",
+  "timer": {
+    "area": "learn",
+    "name": "What Is This Thing Called Love?",
+    "start": 1794227746679,
+    "runStart": null,
+    "accMs": 1730572
   }
 }
