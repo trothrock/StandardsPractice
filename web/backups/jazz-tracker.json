@@ -771,11 +771,16 @@
       "baseLevel": 0,
       "currentLevel": 2,
       "status": "active",
-      "intervalIdx": 1,
+      "intervalIdx": 2,
       "learnedDate": 20261012,
       "reviews": [
         {
           "date": 20261023,
+          "passed": true,
+          "key": "F"
+        },
+        {
+          "date": 20261109,
           "passed": true,
           "key": "F"
         }
@@ -8416,6 +8421,36 @@
       "date": 20261109,
       "type": "voicing_session",
       "name": "Half dim: Full range"
+    },
+    {
+      "ts": 1794229779159,
+      "date": 20261109,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "What Is This Thing Called Love?",
+      "secs": 1731
+    },
+    {
+      "ts": 1794229779159,
+      "date": 20261109,
+      "type": "practiced",
+      "name": "What Is This Thing Called Love?"
+    },
+    {
+      "ts": 1794230525298,
+      "date": 20261109,
+      "type": "practice_time",
+      "area": "review",
+      "name": "Bye Bye Blackbird",
+      "secs": 746
+    },
+    {
+      "ts": 1794230525299,
+      "date": 20261109,
+      "type": "review",
+      "name": "Bye Bye Blackbird",
+      "passed": true,
+      "key": "F"
     }
   ],
   "extraReviewsToday": {
@@ -10146,12 +10181,5 @@
     }
   },
   "playersSort": "name",
-  "playersView": "grid",
-  "timer": {
-    "area": "learn",
-    "name": "What Is This Thing Called Love?",
-    "start": 1794227746679,
-    "runStart": null,
-    "accMs": 1730572
-  }
+  "playersView": "grid"
 }
