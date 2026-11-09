@@ -254,6 +254,9 @@
   .poi-time { cursor: pointer; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--gold); text-decoration: none; min-width: 38px; }
   .poi-time:hover { color: var(--gold2); }
   .poi-text { flex: 1; min-width: 0; color: var(--text2); cursor: text; }
+  .player-name { cursor: text; transition: color 0.15s; }
+  .player-name:hover { color: var(--gold2); }
+  .focus-input.player-name-input { display: block; width: 100%; margin-bottom: 6px; font-family: 'Playfair Display', serif; font-size: 20px; padding: 2px 8px; }
   .poi-player { color: var(--text); cursor: pointer; transition: color 0.15s; }
   .poi-player:hover { color: var(--gold2); }
   .poi-form { gap: 8px; margin-top: 8px; }
@@ -3392,7 +3395,7 @@ function collectPlayers(db, references) {
   (db.adhocPlayers||[]).forEach(p => { credit(p).adhoc = true; });
   return [...players.values()].map(p => {
     const top = [...p.instrumentCounts].sort((a,b) => b[1]-a[1])[0];
-    return { ...p, instrument:top ? top[0] : '', appearances:p.albums.size + p.recordings.size };
+    return { ...p, name:db.playerNames?.[p.id] || p.name, discogsName:p.name, instrument:top ? top[0] : '', appearances:p.albums.size + p.recordings.size };
   });
 }
 // db.hiddenPlayers holds who has been taken off the tab. They stay credited on their albums, which
@@ -3715,11 +3718,12 @@ function roleLine(p) {
 }
 function reviewLineupHTML(review) {
   if(review.loadingLineup) return '<div class="empty">Loading lineup…</div>';
+  const names = getDB().playerNames || {};
   const fromRelease = (review.release?.lineup||[]).map(p => {
     const on = p.status==='player' ? !review.excluded.has(p.id) : review.included.has(p.id);
-    return `<label class="review-option"><input type="checkbox" ${on?'checked':''} onchange="toggleReviewPlayer(${Number(p.id)})"><span class="review-option-main">${escHTML(p.name)}</span><span class="key-stat" style="white-space:normal;text-align:right">${escHTML(roleLine(p))}</span></label>`;
+    return `<label class="review-option"><input type="checkbox" ${on?'checked':''} onchange="toggleReviewPlayer(${Number(p.id)})"><span class="review-option-main">${escHTML(names[p.id] || p.name)}</span><span class="key-stat" style="white-space:normal;text-align:right">${escHTML(roleLine(p))}</span></label>`;
   }).join('');
-  const added = review.added.map((p,i) => `<div class="review-option"><span class="review-option-main">${escHTML(p.name)}</span><span class="key-stat">${escHTML(p.instruments.join(', ') || 'added by you')}</span><button class="focus-del" style="opacity:1" title="Remove" aria-label="Remove ${escHTML(p.name)}" onclick="removeReviewPerson(${i})">&times;</button></div>`).join('');
+  const added = review.added.map((p,i) => `<div class="review-option"><span class="review-option-main">${escHTML(names[p.id] || p.name)}</span><span class="key-stat">${escHTML(p.instruments.join(', ') || 'added by you')}</span><button class="focus-del" style="opacity:1" title="Remove" aria-label="Remove ${escHTML(p.name)}" onclick="removeReviewPerson(${i})">&times;</button></div>`).join('');
   const none = !fromRelease && !added ? `<div class="empty">${review.release ? 'Discogs lists no musicians on this release.' : 'No release chosen.'}</div>` : '';
   return fromRelease + added + none;
 }
@@ -3846,14 +3850,13 @@ function nameWords(text) {
 function poiPlayerMatcher(players) {
   const byName = new Map();
   let longest = 0;
-  players.forEach(p => {
-    const words = nameWords(p.name).map(w => w.key);
-    if(!words.length) return;
-    const key = words.join(' ');
+  // Someone renamed locally still answers to the name Discogs has for them
+  players.forEach(p => new Set([p.name, p.discogsName].filter(Boolean).map(n => nameWords(n).map(w => w.key).join(' '))).forEach(key => {
+    if(!key) return;
     if(!byName.has(key)) byName.set(key, []);
     byName.get(key).push(p);
-    longest = Math.max(longest, words.length);
-  });
+    longest = Math.max(longest, key.split(' ').length);
+  }));
   return (text, trackId) => {
     const words = nameWords(text);
     for(let n = Math.min(longest, words.length); n>0; n--) {
@@ -3963,11 +3966,40 @@ function drawPlayerDetail(id) {
   const recordingItems = playerRecordingItems(db, p, players), albums = playerAlbums(db, p);
   const instruments = [...p.instrumentCounts].sort((a,b) => b[1]-a[1]).map(([i]) => i).join(' · ');
   const field = (label, value, tip) => `<div class="detail-meta-field"${tip?` title="${tip}"`:''}><div class="label">${label}</div><div class="value">${value}</div></div>`;
-  const header = `<div class="detail-header"><div class="album-detail-top">${playerPhoto(p,'album-feature-art')}<div style="flex:1;min-width:0"><div class="detail-title" style="margin-bottom:6px;overflow-wrap:anywhere">${escHTML(p.name)}</div><div class="album-feature-meta" id="player-realname"></div><div class="album-feature-meta">${escHTML(instruments)}</div></div></div><div class="detail-meta-grid">${field('Albums', albums.length)}${field('Recordings', recordingItems.length)}${field('Plays', playerPlayCount(p), 'Spotify plays of the albums and recordings this player is on')}</div></div>`;
+  const header = `<div class="detail-header"><div class="album-detail-top">${playerPhoto(p,'album-feature-art')}<div style="flex:1;min-width:0"><div class="detail-title player-name" style="margin-bottom:6px;overflow-wrap:anywhere" title="Click to rename" data-player="${escHTML(p.id)}" onclick="editPlayerName(this, this.dataset.player)">${escHTML(p.name)}</div>${p.name!==p.discogsName ? `<div class="album-feature-meta" style="margin-bottom:4px">Listed on Discogs as ${escHTML(p.discogsName)}</div>` : ''}<div class="album-feature-meta" id="player-realname"></div><div class="album-feature-meta">${escHTML(instruments)}</div></div></div><div class="detail-meta-grid">${field('Albums', albums.length)}${field('Recordings', recordingItems.length)}${field('Plays', playerPlayCount(p), 'Spotify plays of the albums and recordings this player is on')}</div></div>`;
   // A recording is only worth listing for what's been marked on it; the rest are covered by Albums
   main.innerHTML = header + playerRecordingsHTML(db, recordingItems.filter(item => item.pois.length)) + playerAlbumsHTML(albums);
   placePlayerPhotos();
   showPlayerRealName(id);
+}
+// The name is only what's displayed: Discogs and everything saved about a player go by their id.
+// Enter or clicking away saves, Escape leaves it as it was, and an empty box returns to Discogs' name.
+function editPlayerName(title, id) {
+  const player = collectPlayers(getDB(), playerReferences).find(p => p.id===id);
+  if(!player) return;
+  const input = document.createElement('input');
+  input.className = 'focus-input player-name-input';
+  input.value = player.name;
+  input.placeholder = player.discogsName;
+  let finished = false;
+  const finish = save => {
+    if(finished) return;
+    finished = true;
+    const name = input.value.trim();
+    if(save && name!==player.name) {
+      const db = getDB();
+      if(!db.playerNames) db.playerNames = {};
+      if(!name || name===player.discogsName) delete db.playerNames[id];
+      else db.playerNames[id] = name;
+      saveDB(db);
+    }
+    drawPlayerDetail(id);
+  };
+  input.onkeydown = e => { if(e.key==='Enter') finish(true); else if(e.key==='Escape') finish(false); };
+  input.onblur = () => finish(true);
+  title.replaceWith(input);
+  input.focus();
+  input.select();
 }
 function showPlayerRealName(id) {
   const slot = document.getElementById('player-realname'), about = playerPage.id===id ? playerPage.about : null;
@@ -4060,7 +4092,8 @@ function drawAlbumPersonnel(albumId) {
   }
   const release = link.releaseId ? confirmedReleases[link.releaseId] : null;
   if(link.releaseId && !release) { slot.innerHTML = ''; return; }
-  const people = confirmedLineup(link, release).map(p => ({ ...p, id:String(p.id) }));
+  const names = getDB().playerNames || {};
+  const people = confirmedLineup(link, release).map(p => ({ ...p, id:String(p.id), name:names[p.id] || p.name }));
   // Someone taken off the Players tab is still on the album, but has no page to link to
   const hidden = new Set(getDB().hiddenPlayers||[]);
   const rows = people.map(p => {
