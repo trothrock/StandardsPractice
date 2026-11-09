@@ -254,6 +254,8 @@
   .poi-time { cursor: pointer; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--gold); text-decoration: none; min-width: 38px; }
   .poi-time:hover { color: var(--gold2); }
   .poi-text { flex: 1; min-width: 0; color: var(--text2); cursor: text; }
+  .poi-player { color: var(--text); cursor: pointer; transition: color 0.15s; }
+  .poi-player:hover { color: var(--gold2); }
   .poi-form { gap: 8px; margin-top: 8px; }
   .rec-add-form { padding: 12px 20px; border-bottom: 1px solid var(--border); }
   .rec-add-form .focus-input { flex: 1; }
@@ -3235,7 +3237,11 @@ async function renderAlbumDetail(albumId) {
   renderNotesView('album', albumId);
   drawAlbumDetail(albumId);
   drawAlbumPersonnel(albumId);
-  ensurePlayerData().then(() => drawAlbumPersonnel(albumId)).catch(() => {});
+  const firstLoad = !releasesLoaded;
+  ensurePlayerData().then(() => {
+    drawAlbumPersonnel(albumId);
+    if(firstLoad) drawAlbumDetail(albumId); // its points of interest can now link to players
+  }).catch(() => {});
   let data;
   try { data = await fetchListening(); } catch(e) { return; }
   const changed = data.plays.length !== albumPlays?.length;
@@ -3811,6 +3817,75 @@ async function renderPlayerDetail(id) {
   drawPlayerDetail(id);
   loadPlayerAbout(id);
 }
+// A name's words, ignoring case, accents and punctuation, so "Philly" Joe Jones matches Philly Joe
+// Jones. Each remembers where it ends in the original text.
+function nameWords(text) {
+  return [...String(text).matchAll(/[\p{L}\p{M}\p{N}]+/gu)].map(m => ({ key:m[0].normalize('NFD').replace(/\p{M}/gu,'').toLowerCase(), end:m.index+m[0].length }));
+}
+// Builds a lookup for the player a piece of text opens with. The longest name wins, and if two
+// players share a name, the one credited on that recording does.
+function poiPlayerMatcher(players) {
+  const byName = new Map();
+  let longest = 0;
+  players.forEach(p => {
+    const words = nameWords(p.name).map(w => w.key);
+    if(!words.length) return;
+    const key = words.join(' ');
+    if(!byName.has(key)) byName.set(key, []);
+    byName.get(key).push(p);
+    longest = Math.max(longest, words.length);
+  });
+  return (text, trackId) => {
+    const words = nameWords(text);
+    for(let n = Math.min(longest, words.length); n>0; n--) {
+      const found = byName.get(words.slice(0,n).map(w => w.key).join(' '));
+      if(found) return { player:found.find(p => p.recordings.has(trackId)) || found[0], nameEnd:words[n-1].end };
+    }
+    return null;
+  };
+}
+// The player's points of interest, by the recording each is marked on
+function playerPoisByTrack(db, p, players) {
+  const matchPlayer = poiPlayerMatcher(players), byTrack = new Map();
+  const collect = (pts, owner) => (pts||[]).forEach(pt => {
+    const found = matchPlayer(pt.text, pt.trackId);
+    if(found?.player.id!==p.id) return;
+    if(!byTrack.has(pt.trackId)) byTrack.set(pt.trackId, { owner, list:[] });
+    byTrack.get(pt.trackId).list.push({ pt, found });
+  });
+  Object.entries(db.songs).forEach(([name, song]) => collect(song.pointsOfInterest, { song:name }));
+  (db.records||[]).forEach(a => collect(a.pointsOfInterest, { album:a }));
+  byTrack.forEach(entry => entry.list.sort((a,b) => a.pt.at-b.pt.at));
+  return byTrack;
+}
+// The recordings for the page: those the player is credited on, plus any other recording that has
+// a point of interest naming them, so that none of those go missing
+function playerRecordingItems(db, p, players) {
+  const pois = playerPoisByTrack(db, p, players);
+  const items = [...p.recordings.values()].map(t => ({ t, pois:pois.get(t.trackId)?.list || [] }));
+  const known = [...(playerReferences||[]).flatMap(pl => pl.tracks), ...Object.values(db.songs).flatMap(s => s.otherRecordings||[]), ...(albumPlays||[])];
+  pois.forEach(({ owner, list }, trackId) => {
+    if(p.recordings.has(trackId)) return;
+    const seen = known.find(k => k.trackId===trackId), album = owner.album, onAlbum = album?.tracks?.find(t => t.id===trackId);
+    items.push({ owner, pois:list, t:{
+      trackId,
+      name:seen?.name || onAlbum?.name || owner.song || list[0].pt.album || 'Recording',
+      artists:seen?.artists || album?.artists || [],
+      album:seen?.album || album?.album || list[0].pt.album,
+      albumId:seen?.albumId || album?.albumId,
+      albumImage:seen?.albumImage || album?.albumImage,
+    }});
+  });
+  return items;
+}
+function playerPoiListHTML(pois) {
+  if(!pois.length) return '';
+  const rows = pois.map(({pt, found}) => {
+    const rest = pt.text.slice(found.nameEnd).replace(/^[\s:,;.–—-]+/, '') || pt.text;
+    return `<div class="poi-row" style="padding:3px 0"><a class="poi-time" href="spotify:track:${escHTML(pt.trackId)}#${formatPoiTime(pt.at)}" title="Play in Spotify from ${formatPoiTime(pt.at)}" onclick="event.preventDefault();playPoi('${escHTML(pt.trackId)}',${pt.at})">${formatPoiTime(pt.at)}</a><span style="flex:1;min-width:0;color:var(--text2);overflow-wrap:anywhere">${escHTML(rest)}</span></div>`;
+  }).join('');
+  return `<div class="poi-list">${rows}</div>`;
+}
 const isPlayerOpen = id => detailType==='player' && currentDetailName===id;
 const isDiscogsPlayer = id => /^\d+$/.test(id);
 function playerPlayCount(p) {
@@ -3820,21 +3895,21 @@ function playerPlayCount(p) {
 function playerLink(p) {
   return `<span class="song-name album-link" data-player="${escHTML(p.id)}" onclick="showPlayerDetail(this.dataset.player)">${escHTML(p.name)}</span>`;
 }
-function playerRecordingsHTML(db, p) {
+function playerRecordingsHTML(db, items) {
   const byKey = libraryKeyMap(db), groups = new Map();
-  [...p.recordings.values()].forEach(t => {
-    const song = librarySongFor(t.name, byKey);
-    const label = song || t.name.replace(/\s+-\s+.*$/, '').replace(/\s*[\(\[].*?[\)\]]/g, '');
+  items.forEach(item => {
+    const song = item.owner?.song || librarySongFor(item.t.name, byKey);
+    const label = song || item.t.name.replace(/\s+-\s+.*$/, '').replace(/\s*[\(\[].*?[\)\]]/g, '');
     if(!groups.has(label)) groups.set(label, { song, list:[] });
-    groups.get(label).list.push(t);
+    groups.get(label).list.push(item);
   });
   const ordered = [...groups].sort((a,b) => withoutArticle(a[0]).localeCompare(withoutArticle(b[0]), undefined, { sensitivity:'base' }));
   const rows = ordered.map(([label, g]) => {
     const heading = g.song ? `<span class="album-link" data-song="${escHTML(g.song)}" onclick="showSongDetail(this.dataset.song)">${escHTML(label)}</span>` : escHTML(label);
-    const tracks = g.list.map(t => `<div class="song-row">${listenThumb(t.albumImage, t.albumId, t.trackId)}<div style="flex:1;min-width:0"><a class="song-name album-track-name" href="spotify:track:${escHTML(t.trackId)}" title="Open in Spotify">${escHTML(t.name)}</a><div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace;overflow-wrap:anywhere">${escHTML([(t.artists||[]).join(', '), t.album].filter(Boolean).join(' · '))}</div></div>${t.albumWide ? `<span class="key-stat" title="Discogs doesn't credit this track separately, so this is the album's lineup">album lineup</span>` : ''}</div>`).join('');
+    const tracks = g.list.map(({t, pois}) => `<div class="song-row" style="align-items:flex-start">${listenThumb(t.albumImage, t.albumId, t.trackId)}<div style="flex:1;min-width:0"><a class="song-name album-track-name" href="spotify:track:${escHTML(t.trackId)}" title="Open in Spotify">${escHTML(t.name)}</a><div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace;overflow-wrap:anywhere">${escHTML([(t.artists||[]).join(', '), t.album].filter(Boolean).join(' · '))}</div>${playerPoiListHTML(pois)}</div>${t.albumWide ? `<span class="key-stat" title="Discogs doesn't credit this track separately, so this is the album's lineup">album lineup</span>` : ''}</div>`).join('');
     return `<div class="review-label">${heading}</div>${tracks}`;
   }).join('');
-  return p.recordings.size ? `<div class="section"><div class="section-head"><h2>On your recordings</h2><span class="count">${p.recordings.size}</span></div>${rows}</div>` : '';
+  return items.length ? `<div class="section"><div class="section-head"><h2>On your recordings</h2><span class="count">${items.length}</span></div>${rows}</div>` : '';
 }
 function playerAlbumsHTML(db, p) {
   const albums = sortedRecords((db.records||[]).filter(a => p.albums.has(a.albumId)), 'year');
@@ -3852,12 +3927,13 @@ function drawPlayerDetail(id) {
     main.innerHTML = `<div class="section"><div class="empty">${playerLoadError ? `Couldn't load this player: ${escHTML(playerLoadError)}.` : 'Loading…'}</div></div>`;
     return;
   }
-  const db = getDB(), p = collectPlayers(db, playerReferences).find(x => x.id===id);
+  const db = getDB(), players = collectPlayers(db, playerReferences), p = players.find(x => x.id===id);
   if(!p) { document.getElementById('detail-body').innerHTML = '<div class="empty">This player is no longer on any of your albums or recordings.</div>'; return; }
+  const recordingItems = playerRecordingItems(db, p, players);
   const instruments = [...p.instrumentCounts].sort((a,b) => b[1]-a[1]).map(([i]) => i).join(' · ');
   const field = (label, value, tip) => `<div class="detail-meta-field"${tip?` title="${tip}"`:''}><div class="label">${label}</div><div class="value">${value}</div></div>`;
-  const header = `<div class="detail-header"><div class="album-detail-top">${playerPhoto(p,'album-feature-art')}<div style="flex:1;min-width:0"><div class="detail-title" style="margin-bottom:6px;overflow-wrap:anywhere">${escHTML(p.name)}</div><div class="album-feature-meta" id="player-realname"></div><div class="album-feature-meta">${escHTML(instruments)}</div></div></div><div class="detail-meta-grid">${field('Albums', p.albums.size)}${field('Recordings', p.recordings.size)}${field('Plays', playerPlayCount(p), 'Spotify plays of the albums and recordings this player is on')}</div></div>`;
-  main.innerHTML = header + playerRecordingsHTML(db, p) + playerAlbumsHTML(db, p);
+  const header = `<div class="detail-header"><div class="album-detail-top">${playerPhoto(p,'album-feature-art')}<div style="flex:1;min-width:0"><div class="detail-title" style="margin-bottom:6px;overflow-wrap:anywhere">${escHTML(p.name)}</div><div class="album-feature-meta" id="player-realname"></div><div class="album-feature-meta">${escHTML(instruments)}</div></div></div><div class="detail-meta-grid">${field('Albums', p.albums.size)}${field('Recordings', recordingItems.length)}${field('Plays', playerPlayCount(p), 'Spotify plays of the albums and recordings this player is on')}</div></div>`;
+  main.innerHTML = header + playerRecordingsHTML(db, recordingItems) + playerAlbumsHTML(db, p);
   placePlayerPhotos();
   showPlayerRealName(id);
 }
@@ -4188,6 +4264,8 @@ let songListeningData = null;
 async function renderSongListening(name) {
   let data;
   try { data = await fetchListening(); } catch(e) { return; }
+  // The lineups are needed to know which names in its points of interest are players
+  if(!releasesLoaded) await ensurePlayerData().catch(() => {});
   if(detailType!=='song' || currentDetailName!==name) return;
   songListeningData = data;
   drawSongListening(name);
@@ -4322,9 +4400,17 @@ function parsePoiTime(str) {
 function poiAddButton(trackId) {
   return `<button class="btn-action poi-add-btn" title="Add point of interest" onclick="showPoiForm('${escHTML(trackId)}')">+</button>`;
 }
+// Each point of interest usually opens with who's playing. That name links to the player's page,
+// and clicking the rest of the text still edits it.
+function poiTextHTML(pt, matchPlayer) {
+  const found = matchPlayer?.(pt.text, pt.trackId);
+  if(!found) return escHTML(pt.text);
+  return `<span class="poi-player" title="Open player page" data-player="${escHTML(found.player.id)}" onclick="event.stopPropagation();showPlayerDetail(this.dataset.player)">${escHTML(pt.text.slice(0, found.nameEnd))}</span>${escHTML(pt.text.slice(found.nameEnd))}`;
+}
 function poiListHTML(name, pts, trackId, album) {
   const safeName = escHTML(name.replace(/\\/g,'\\\\').replace(/'/g,"\\'"));
-  const rows = pts.map(pt => `<div class="poi-row"><a class="poi-time" href="spotify:track:${escHTML(pt.trackId)}#${formatPoiTime(pt.at)}" title="Play in Spotify from ${formatPoiTime(pt.at)}" onclick="event.preventDefault();playPoi('${escHTML(pt.trackId)}',${pt.at})">${formatPoiTime(pt.at)}</a><span class="poi-text" title="Click to edit" onclick="editPoi(this,'${safeName}',${pt.i})">${escHTML(pt.text)}</span><button class="focus-del" title="Remove" onclick="removePoi('${safeName}',${pt.i})">&times;</button></div>`).join('');
+  const matchPlayer = pts.length && playerReferences && releasesLoaded ? poiPlayerMatcher(collectPlayers(getDB(), playerReferences)) : null;
+  const rows = pts.map(pt => `<div class="poi-row"><a class="poi-time" href="spotify:track:${escHTML(pt.trackId)}#${formatPoiTime(pt.at)}" title="Play in Spotify from ${formatPoiTime(pt.at)}" onclick="event.preventDefault();playPoi('${escHTML(pt.trackId)}',${pt.at})">${formatPoiTime(pt.at)}</a><span class="poi-text" title="Click to edit" onclick="editPoi(this,'${safeName}',${pt.i})">${poiTextHTML(pt, matchPlayer)}</span><button class="focus-del" title="Remove" onclick="removePoi('${safeName}',${pt.i})">&times;</button></div>`).join('');
   const form = `<div class="poi-form" id="poi-form-${escHTML(trackId)}" data-track="${escHTML(trackId)}" data-album="${escHTML(album||'')}" style="display:none"><input class="focus-input poi-time-input" placeholder="m:ss" onkeydown="if(event.key==='Enter')addPoi(this,'${safeName}');else if(event.key==='Escape')hidePoiForm(this)"><input class="focus-input" placeholder="What's here, e.g. Oscar Peterson piano lick" onkeydown="if(event.key==='Enter')addPoi(this,'${safeName}');else if(event.key==='Escape')hidePoiForm(this)"><button class="btn-action" onclick="addPoi(this,'${safeName}')">Add</button></div>`;
   return (rows ? `<div class="poi-list">${rows}</div>` : '') + form;
 }
