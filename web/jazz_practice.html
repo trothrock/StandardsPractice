@@ -261,6 +261,7 @@
   .player-photo { position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; font-family: 'Playfair Display', serif; color: var(--text3); }
   .record-cell-art.player-photo { font-size: 44px; }
   .listen-thumb.player-photo { font-size: 16px; }
+  .album-feature-art.player-photo { font-size: 44px; flex-shrink: 0; }
   .player-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
   .album-week-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr)); }
   .album-feature { display: flex; align-items: flex-start; gap: 20px; padding: 20px; }
@@ -564,7 +565,7 @@
       <div id="players-body"></div>
     </div>
     <div id="panel-detail" class="panel">
-      <button class="btn-back" onclick="showPanel(detailOriginPanel)">← Back</button>
+      <button class="btn-back" onclick="detailBack()">← Back</button>
       <div id="detail-body"></div>
     </div>
     <div id="panel-settings" class="panel">
@@ -3197,17 +3198,30 @@ async function renderListening() {
 let detailOriginPanel = 'library';
 let detailType = 'song';
 let currentDetailName = null;
+let detailTrail = [];
+// Going from one detail page to another remembers the page being left, so Back retraces the steps
+function beginDetail(fallbackPanel) {
+  const active = document.querySelector('.panel.active')?.id.replace('panel-','');
+  if(active==='detail') detailTrail.push({ type:detailType, name:currentDetailName });
+  else detailOriginPanel = active || fallbackPanel;
+}
+function detailBack() {
+  const previous = detailTrail.pop();
+  if(!previous) { showPanel(detailOriginPanel); return; }
+  detailType = previous.type;
+  currentDetailName = previous.name;
+  refreshCurrentDetail();
+  showPanel('detail');
+}
 function showSongDetail(name) {
-  const active = document.querySelector('.panel.active');
-  detailOriginPanel = active ? active.id.replace('panel-','') : 'library';
+  beginDetail('library');
   detailType = 'song';
   currentDetailName = name;
   renderSongDetail(name);
   showPanel('detail');
 }
 function showAlbumDetail(albumId) {
-  const active = document.querySelector('.panel.active');
-  detailOriginPanel = active ? active.id.replace('panel-','') : 'records';
+  beginDetail('records');
   detailType = 'album';
   currentDetailName = albumId;
   albumTracksFailed.delete(albumId);
@@ -3217,9 +3231,11 @@ function showAlbumDetail(albumId) {
 // Draws at once from what's known, then again only if there are new plays, which keeps an open
 // point of interest form from being lost. Notes sit outside what redraws, so an open edit survives.
 async function renderAlbumDetail(albumId) {
-  document.getElementById('detail-body').innerHTML = `<div id="album-detail-main"></div><div class="section"><div class="section-head"><h2>Notes</h2></div><div class="notes-body" id="notes-body"></div></div>`;
+  document.getElementById('detail-body').innerHTML = `<div id="album-detail-main"></div><div id="album-personnel"></div><div class="section"><div class="section-head"><h2>Notes</h2></div><div class="notes-body" id="notes-body"></div></div>`;
   renderNotesView('album', albumId);
   drawAlbumDetail(albumId);
+  drawAlbumPersonnel(albumId);
+  ensurePlayerData().then(() => drawAlbumPersonnel(albumId)).catch(() => {});
   let data;
   try { data = await fetchListening(); } catch(e) { return; }
   const changed = data.plays.length !== albumPlays?.length;
@@ -3307,7 +3323,12 @@ async function renderPlayers() {
   playerReferences = data.references || [];
   playerLoadError = null;
   await loadConfirmedReleases();
-  if(playersMode==='lineups' && !playerReview) nextReview();
+  if(pendingLineupChange) {
+    const albumId = pendingLineupChange;
+    pendingLineupChange = null;
+    startReview(albumId);
+  }
+  else if(playersMode==='lineups' && !playerReview) nextReview();
   else drawPlayers();
   loadPlayerPhotos();
 }
@@ -3399,14 +3420,15 @@ function photoImg(id) {
   const url = playerPhotos[id];
   return url ? `<img src="${escHTML(url)}" alt="" loading="lazy" onerror="this.remove()">` : '';
 }
-function playerPhoto(p, kind) {
+function playerPhoto(p, kind, linked) {
   const initial = escHTML((p.name.replace(/[^\p{L}]/gu,'')[0] || '?').toUpperCase());
-  return `<div class="${kind} player-photo" data-photo-id="${escHTML(p.id)}">${initial}${photoImg(p.id)}</div>`;
+  const open = linked ? ` data-player="${escHTML(p.id)}" onclick="showPlayerDetail(this.dataset.player)" style="cursor:pointer"` : '';
+  return `<div class="${kind} player-photo" data-photo-id="${escHTML(p.id)}"${open}>${initial}${photoImg(p.id)}</div>`;
 }
 // Photos arrive a few at a time on the first visit, so they're dropped into place rather than
 // redrawing the tab under someone who's using it
 function placePlayerPhotos() {
-  document.querySelectorAll('#players-body [data-photo-id]').forEach(slot => {
+  document.querySelectorAll('[data-photo-id]').forEach(slot => {
     if(!slot.querySelector('img') && playerPhotos[slot.dataset.photoId]) slot.insertAdjacentHTML('beforeend', photoImg(slot.dataset.photoId));
   });
 }
@@ -3424,8 +3446,8 @@ async function loadPlayerPhotos() {
   placePlayerPhotos();
   photoStalls = r.missing===photoLastMissing ? photoStalls+1 : 0;
   photoLastMissing = r.missing;
-  const onTab = document.getElementById('panel-players')?.classList.contains('active');
-  if(r.missing && onTab && photoStalls<PHOTO_MAX_STALLS) photoRetry = setTimeout(loadPlayerPhotos, PHOTO_RETRY_MS);
+  const showing = document.querySelector('#panel-players.active, #panel-detail.active');
+  if(r.missing && showing && photoStalls<PHOTO_MAX_STALLS) photoRetry = setTimeout(loadPlayerPhotos, PHOTO_RETRY_MS);
 }
 function openLineups() {
   playersMode = 'lineups';
@@ -3501,8 +3523,8 @@ function playersHTML(db) {
   const sorted = sortedPlayers(players, sort);
   // Someone who came from a lineup leaves by correcting it, so only an ad hoc addition has a remove button
   const remove = p => p.adhoc && !p.appearances ? `<button class="focus-del" title="Remove player" aria-label="Remove ${escHTML(p.name)}" onclick="removeAdhocPlayer('${escHTML(p.id)}')">&times;</button>` : '';
-  const grid = () => `<div class="record-grid">${sorted.map(p => `<div class="record-cell">${playerPhoto(p,'record-cell-art')}${remove(p)}<div class="record-cell-title" title="${escHTML(p.name)}">${escHTML(p.name)}</div>${p.instrument?`<div class="record-cell-meta">${escHTML(p.instrument)}</div>`:''}<div class="record-cell-when">${escHTML(playerAppearances(p))}</div></div>`).join('')}</div>`;
-  const list = () => sorted.map(p => `<div class="song-row">${playerPhoto(p,'listen-thumb')}<div style="flex:1;min-width:0"><div class="song-name">${escHTML(p.name)}</div>${p.instrument?`<div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${escHTML(p.instrument)}</div>`:''}</div><span class="key-stat">${escHTML(playerAppearances(p))}</span>${remove(p)}</div>`).join('');
+  const grid = () => `<div class="record-grid">${sorted.map(p => `<div class="record-cell">${playerPhoto(p,'record-cell-art',true)}${remove(p)}<div class="record-cell-title album-link" title="${escHTML(p.name)}" data-player="${escHTML(p.id)}" onclick="showPlayerDetail(this.dataset.player)">${escHTML(p.name)}</div>${p.instrument?`<div class="record-cell-meta">${escHTML(p.instrument)}</div>`:''}<div class="record-cell-when">${escHTML(playerAppearances(p))}</div></div>`).join('')}</div>`;
+  const list = () => sorted.map(p => `<div class="song-row">${playerPhoto(p,'listen-thumb',true)}<div style="flex:1;min-width:0">${playerLink(p)}${p.instrument?`<div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${escHTML(p.instrument)}</div>`:''}</div><span class="key-stat">${escHTML(playerAppearances(p))}</span>${remove(p)}</div>`).join('');
   const rows = sorted.length ? (view==='grid' ? grid() : list()) : (playerAdd.open ? '' : '<div class="empty">No players yet. Confirm an album’s lineup, or add someone with +.</div>');
   return `<div class="section"><div class="section-head"><h2>Players</h2><div style="display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:10px">${players.length?`<span class="count">${players.length} player${players.length===1?'':'s'}</span>`:''}${sortToggle}${viewToggle}<button class="btn-action" title="Confirm or change album lineups" onclick="openLineups()">Lineups</button><button class="btn-action poi-add-btn" title="Add a player" aria-label="Add a player" onclick="togglePlayerAdd()">+</button></div></div>${playerAddFormHTML(players)}${rows}</div>`;
 }
@@ -3744,6 +3766,196 @@ function drawPlayers() {
   const problem = releaseLoadError ? `<div class="section"><div class="empty">Couldn't load every lineup: ${escHTML(releaseLoadError)}.</div></div>` : '';
   const banner = left ? `<div class="section"><div class="song-row" style="border-bottom:0"><div style="flex:1;min-width:0;font-size:13px;color:var(--text)">${left} album${left===1?'':'s'} to confirm</div><button class="btn-action primary" onclick="openLineups()">Review</button></div></div>` : '';
   body.innerHTML = problem + banner + playersHTML(db);
+}
+// ── Player page ──
+let playerDataLoad = null, pendingLineupChange = null;
+let playerPage = { id:null, about:null, aboutLoading:false, aboutError:null, discography:null };
+const DISCOGRAPHY_ROLES = { Main:'Leader', TrackAppearance:'Track appearance', UnofficialRelease:'Unofficial' };
+
+// Everything the player and album pages draw from, for arriving there without visiting the tab
+function ensurePlayerData() {
+  if(!playerDataLoad) {
+    playerDataLoad = (async () => {
+      const data = await fetchListening();
+      playerReferences = data.references || [];
+      albumPlays = data.plays;
+      playerLoadError = null;
+      await loadConfirmedReleases();
+      loadPlayerPhotos();
+    })().finally(() => { playerDataLoad = null; });
+  }
+  return playerDataLoad;
+}
+function changeAlbumLineup(albumId) {
+  playersMode = 'lineups';
+  playerReview = null;
+  pendingLineupChange = albumId;
+  showPanel('players');
+}
+function showPlayerDetail(id) {
+  beginDetail('players');
+  detailType = 'player';
+  currentDetailName = id;
+  renderPlayerDetail(id);
+  showPanel('detail');
+}
+async function renderPlayerDetail(id) {
+  document.getElementById('detail-body').innerHTML = `<div id="player-detail-main"></div><div id="player-about"></div><div id="player-discography"></div><div class="section" id="player-notes-section"><div class="section-head"><h2>Notes</h2></div><div class="notes-body" id="notes-body"></div></div>`;
+  if(playerPage.id!==id) playerPage = { id, about:null, aboutLoading:false, aboutError:null, discography:null };
+  renderNotesView('player', id);
+  drawPlayerDetail(id);
+  drawPlayerAbout(id);
+  drawPlayerDiscography(id);
+  try { await ensurePlayerData(); }
+  catch(e) { playerLoadError = e.message; }
+  drawPlayerDetail(id);
+  loadPlayerAbout(id);
+}
+const isPlayerOpen = id => detailType==='player' && currentDetailName===id;
+const isDiscogsPlayer = id => /^\d+$/.test(id);
+function playerPlayCount(p) {
+  const recordings = [...p.recordings.values()];
+  return (albumPlays||[]).filter(play => p.albums.has(play.albumId) || recordings.some(ref => sameRecording(play, ref))).length;
+}
+function playerLink(p) {
+  return `<span class="song-name album-link" data-player="${escHTML(p.id)}" onclick="showPlayerDetail(this.dataset.player)">${escHTML(p.name)}</span>`;
+}
+function playerRecordingsHTML(db, p) {
+  const byKey = libraryKeyMap(db), groups = new Map();
+  [...p.recordings.values()].forEach(t => {
+    const song = librarySongFor(t.name, byKey);
+    const label = song || t.name.replace(/\s+-\s+.*$/, '').replace(/\s*[\(\[].*?[\)\]]/g, '');
+    if(!groups.has(label)) groups.set(label, { song, list:[] });
+    groups.get(label).list.push(t);
+  });
+  const ordered = [...groups].sort((a,b) => withoutArticle(a[0]).localeCompare(withoutArticle(b[0]), undefined, { sensitivity:'base' }));
+  const rows = ordered.map(([label, g]) => {
+    const heading = g.song ? `<span class="album-link" data-song="${escHTML(g.song)}" onclick="showSongDetail(this.dataset.song)">${escHTML(label)}</span>` : escHTML(label);
+    const tracks = g.list.map(t => `<div class="song-row">${listenThumb(t.albumImage, t.albumId, t.trackId)}<div style="flex:1;min-width:0"><a class="song-name album-track-name" href="spotify:track:${escHTML(t.trackId)}" title="Open in Spotify">${escHTML(t.name)}</a><div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace;overflow-wrap:anywhere">${escHTML([(t.artists||[]).join(', '), t.album].filter(Boolean).join(' · '))}</div></div>${t.albumWide ? `<span class="key-stat" title="Discogs doesn't credit this track separately, so this is the album's lineup">album lineup</span>` : ''}</div>`).join('');
+    return `<div class="review-label">${heading}</div>${tracks}`;
+  }).join('');
+  return p.recordings.size ? `<div class="section"><div class="section-head"><h2>On your recordings</h2><span class="count">${p.recordings.size}</span></div>${rows}</div>` : '';
+}
+function playerAlbumsHTML(db, p) {
+  const albums = sortedRecords((db.records||[]).filter(a => p.albums.has(a.albumId)), 'year');
+  if(!albums.length) return '';
+  const cells = albums.map(a => {
+    const art = a.albumImage ? `<img class="record-cell-art" src="${escHTML(a.albumImage)}" alt="" loading="lazy">` : '<div class="record-cell-art"></div>';
+    return `<div class="record-cell"><a class="listen-thumb-link" href="spotify:album:${escHTML(a.albumId)}" title="Open in Spotify">${art}</a><div class="record-cell-title album-link" title="${escHTML(a.album)}" onclick="showAlbumDetail('${escHTML(a.albumId)}')">${escHTML(a.album)}</div><div class="record-cell-meta">${albumMeta(a)}</div></div>`;
+  }).join('');
+  return `<div class="section"><div class="section-head"><h2>Albums</h2><span class="count">${albums.length}</span></div><div class="record-grid">${cells}</div></div>`;
+}
+function drawPlayerDetail(id) {
+  const main = document.getElementById('player-detail-main');
+  if(!main || !isPlayerOpen(id)) return;
+  if(!playerReferences || !releasesLoaded) {
+    main.innerHTML = `<div class="section"><div class="empty">${playerLoadError ? `Couldn't load this player: ${escHTML(playerLoadError)}.` : 'Loading…'}</div></div>`;
+    return;
+  }
+  const db = getDB(), p = collectPlayers(db, playerReferences).find(x => x.id===id);
+  if(!p) { document.getElementById('detail-body').innerHTML = '<div class="empty">This player is no longer on any of your albums or recordings.</div>'; return; }
+  const instruments = [...p.instrumentCounts].sort((a,b) => b[1]-a[1]).map(([i]) => i).join(' · ');
+  const field = (label, value, tip) => `<div class="detail-meta-field"${tip?` title="${tip}"`:''}><div class="label">${label}</div><div class="value">${value}</div></div>`;
+  const header = `<div class="detail-header"><div class="album-detail-top">${playerPhoto(p,'album-feature-art')}<div style="flex:1;min-width:0"><div class="detail-title" style="margin-bottom:6px;overflow-wrap:anywhere">${escHTML(p.name)}</div><div class="album-feature-meta" id="player-realname"></div><div class="album-feature-meta">${escHTML(instruments)}</div></div></div><div class="detail-meta-grid">${field('Albums', p.albums.size)}${field('Recordings', p.recordings.size)}${field('Plays', playerPlayCount(p), 'Spotify plays of the albums and recordings this player is on')}</div></div>`;
+  main.innerHTML = header + playerRecordingsHTML(db, p) + playerAlbumsHTML(db, p);
+  placePlayerPhotos();
+  showPlayerRealName(id);
+}
+function showPlayerRealName(id) {
+  const slot = document.getElementById('player-realname'), about = playerPage.id===id ? playerPage.about : null;
+  if(!slot || !about?.realname || about.realname===about.name) return;
+  slot.textContent = about.realname;
+  slot.style.marginBottom = '4px';
+}
+async function loadPlayerAbout(id) {
+  if(!isDiscogsPlayer(id) || playerPage.id!==id || playerPage.about || playerPage.aboutLoading) return;
+  playerPage.aboutLoading = true;
+  playerPage.aboutError = null;
+  drawPlayerAbout(id);
+  try {
+    const r = await discogsGet('/api/discogs/artist?id='+encodeURIComponent(id));
+    if(playerPage.id!==id) return;
+    playerPage.about = r.artist;
+    if(r.artist.photo) playerPhotos[id] = r.artist.photo;
+  } catch(e) {
+    if(playerPage.id!==id) return;
+    playerPage.aboutError = e.message;
+  }
+  playerPage.aboutLoading = false;
+  drawPlayerAbout(id);
+  showPlayerRealName(id);
+  placePlayerPhotos();
+}
+function drawPlayerAbout(id) {
+  const slot = document.getElementById('player-about');
+  if(!slot || !isPlayerOpen(id)) return;
+  if(!isDiscogsPlayer(id)) { slot.innerHTML = ''; return; }
+  const { about, aboutError } = playerPage;
+  const link = about?.url ? `<a class="key-stat" style="color:var(--gold)" href="${escHTML(about.url)}" target="_blank" rel="noopener">View on Discogs</a>` : '';
+  let content = '<div class="empty">Loading…</div>';
+  if(aboutError) content = `<div class="empty">Couldn't reach Discogs: ${escHTML(aboutError)}.</div>`;
+  else if(about) content = about.bio ? '<div class="notes-body"><div class="notes-view" id="player-bio"></div></div>' : '<div class="empty">Discogs has no biography for this player.</div>';
+  slot.innerHTML = `<div class="section"><div class="section-head"><h2>About</h2>${link}</div>${content}</div>`;
+  if(about?.bio) document.getElementById('player-bio').textContent = about.bio;
+}
+function openPlayerDiscography(id) {
+  playerPage.discography = { items:[], page:0, pages:1, total:0, loading:false, error:null };
+  loadDiscographyPage(id);
+}
+async function loadDiscographyPage(id) {
+  const d = playerPage.discography;
+  if(!d || d.loading || playerPage.id!==id) return;
+  d.loading = true;
+  d.error = null;
+  drawPlayerDiscography(id);
+  try {
+    const r = await discogsGet(`/api/discogs/discography?id=${encodeURIComponent(id)}&page=${d.page+1}`);
+    if(playerPage.discography!==d) return;
+    d.items.push(...r.items);
+    d.page = r.page;
+    d.pages = r.pages;
+    d.total = r.total;
+  } catch(e) {
+    if(playerPage.discography!==d) return;
+    d.error = e.message;
+  }
+  d.loading = false;
+  drawPlayerDiscography(id);
+}
+function drawPlayerDiscography(id) {
+  const slot = document.getElementById('player-discography');
+  if(!slot || !isPlayerOpen(id)) return;
+  if(!isDiscogsPlayer(id)) { slot.innerHTML = ''; return; }
+  const d = playerPage.discography;
+  if(!d) {
+    slot.innerHTML = `<div class="section"><div class="section-head"><h2>Discography</h2><button class="btn-action" data-player="${escHTML(id)}" onclick="openPlayerDiscography(this.dataset.player)">Show</button></div></div>`;
+    return;
+  }
+  const rows = d.items.map(r => `<div class="song-row"><span class="key-stat" style="flex:0 0 36px">${r.year || '—'}</span><div style="flex:1;min-width:0"><a class="song-name album-track-name" href="${escHTML(r.url)}" target="_blank" rel="noopener" title="View on Discogs">${escHTML(r.title)}</a><div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace;overflow-wrap:anywhere">${escHTML(r.artist)}</div></div><span class="key-stat">${escHTML(DISCOGRAPHY_ROLES[r.role] || r.role)}</span></div>`).join('');
+  const more = d.loading ? '<div class="empty">Loading…</div>'
+    : d.error ? `<div class="empty">Couldn't reach Discogs: ${escHTML(d.error)}.</div>`
+    : d.page<d.pages ? `<div style="padding:14px 20px;text-align:center"><button class="btn-action" data-player="${escHTML(id)}" onclick="loadDiscographyPage(this.dataset.player)">Show more</button></div>`
+    : (!d.items.length ? '<div class="empty">Discogs lists nothing for this player.</div>' : '');
+  slot.innerHTML = `<div class="section"><div class="section-head"><h2>Discography</h2>${d.total?`<span class="count">${d.items.length} of ${d.total}</span>`:''}</div>${rows}${more}</div>`;
+}
+// The album's musicians, linking through to their pages. It stays outside what the album page
+// redraws, so an open point of interest form isn't lost.
+function drawAlbumPersonnel(albumId) {
+  const slot = document.getElementById('album-personnel');
+  if(!slot || detailType!=='album' || currentDetailName!==albumId) return;
+  const link = getDB().creditLinks?.[albumId];
+  if(link?.none || !playerReferences || !releasesLoaded) { slot.innerHTML = ''; return; }
+  const change = `<button class="btn-action" onclick="changeAlbumLineup('${escHTML(albumId)}')">Change</button>`;
+  if(!link) {
+    slot.innerHTML = `<div class="section"><div class="section-head"><h2>Personnel</h2></div><div class="empty">This album's lineup hasn't been confirmed yet. <a href="#" style="color:var(--gold)" onclick="event.preventDefault();showPanel('players')">Go to Players</a></div></div>`;
+    return;
+  }
+  const release = link.releaseId ? confirmedReleases[link.releaseId] : null;
+  if(link.releaseId && !release) { slot.innerHTML = ''; return; }
+  const people = confirmedLineup(link, release).map(p => ({ ...p, id:String(p.id) }));
+  const rows = people.map(p => `<div class="song-row">${playerPhoto(p,'listen-thumb',true)}<div style="flex:1;min-width:0">${playerLink(p)}</div><span class="key-stat" style="white-space:normal;text-align:right">${escHTML([(p.instruments||[]).join(', '), p.leader?'leader':''].filter(Boolean).join(' · '))}</span></div>`).join('');
+  slot.innerHTML = `<div class="section"><div class="section-head"><h2>Personnel</h2><div style="display:flex;align-items:center;gap:10px">${people.length?`<span class="count">${people.length}</span>`:''}${change}</div></div>${rows || '<div class="empty">No players on this lineup.</div>'}</div>`;
+  placePlayerPhotos();
 }
 function showRepertoireDetail(name) {
   const active = document.querySelector('.panel.active');
@@ -4281,6 +4493,12 @@ function resetPracticeFocus(type, name) {
 }
 function getDetailEntity(type, db, name) {
   if(type==='album') return (db.records||[]).find(a=>a.albumId===name);
+  // Kept apart from who the players are, so notes survive someone leaving the tab and coming back
+  if(type==='player') {
+    if(!db.playerNotes) db.playerNotes = {};
+    if(!db.playerNotes[name]) db.playerNotes[name] = {};
+    return db.playerNotes[name];
+  }
   if(type==='repertoire') return (db.repertoire||[]).find(p=>p.name===name);
   if(type==='voicing') return (db.voicings||[]).find(v=>v.name===name);
   if(type==='vocab') return (db.vocabulary||[]).find(c=>c.name===name);
@@ -4306,7 +4524,7 @@ function editSongNotes(type, name) {
   const nb = document.getElementById('notes-body');
   if(!nb || !entity) return;
   const safeName = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-  nb.innerHTML = `<textarea class="notes-textarea" id="notes-input" placeholder="Add notes about this ${type==='album'?'album':'song'}..."></textarea><div class="notes-actions"><button class="btn-confirm" onclick="saveSongNotes('${type}','${safeName}')">Save</button><button class="btn-cancel" onclick="cancelEditSongNotes('${type}','${safeName}')">Cancel</button></div>`;
+  nb.innerHTML = `<textarea class="notes-textarea" id="notes-input" placeholder="Add notes about this ${type==='album'||type==='player'?type:'song'}..."></textarea><div class="notes-actions"><button class="btn-confirm" onclick="saveSongNotes('${type}','${safeName}')">Save</button><button class="btn-cancel" onclick="cancelEditSongNotes('${type}','${safeName}')">Cancel</button></div>`;
   const input = document.getElementById('notes-input');
   input.value = entity.notes || '';
   input.focus();
@@ -4324,6 +4542,7 @@ function cancelEditSongNotes(type, name) {
   renderNotesView(type, name);
 }
 function showPanel(id) {
+  if(id!=='detail') detailTrail = [];
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
@@ -4365,6 +4584,7 @@ function renderAll() {
 }
 function refreshCurrentDetail() {
   if(detailType==='album') renderAlbumDetail(currentDetailName);
+  else if(detailType==='player') renderPlayerDetail(currentDetailName);
   else if(detailType==='repertoire') renderRepertoireDetail(currentDetailName);
   else if(detailType==='voicing') renderVoicingDetail(currentDetailName);
   else if(detailType==='vocab') renderVocabDetail(currentDetailName);

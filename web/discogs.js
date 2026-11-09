@@ -14,6 +14,7 @@ const CACHE_FILE = path.join(__dirname, 'data', 'discogs-cache.json');
 const REQUEST_GAP_MS = 1100;
 const BUSY_GAP_MS = 3500;       // once few requests are left in the current minute
 const MAX_CANDIDATES = 6;
+const MAX_BIO_REFERENCES = 15;  // each one is a request, so a very long bio can't stall its page
 const VARIOUS_ARTISTS_ID = 194; // Discogs' placeholder for compilations
 
 let cache = null;
@@ -21,7 +22,7 @@ let cache = null;
 function getCache() {
   if (!cache) {
     try { cache = JSON.parse(fs.readFileSync(CACHE_FILE, 'utf8')); } catch { cache = {}; }
-    cache = { releases: {}, masters: {}, candidates: {}, artists: {}, ...cache };
+    cache = { releases: {}, masters: {}, candidates: {}, artists: {}, bioNames: {}, ...cache };
   }
   return cache;
 }
@@ -214,6 +215,81 @@ function normalizeArtist(a) {
   };
 }
 
+const BIO_REFERENCE_PATHS = { a: 'artists', r: 'releases', m: 'masters', l: 'labels' };
+
+// The name behind a reference like [a12345], or '' if it can't be found
+async function bioReferenceName(kind, id) {
+  const store = getCache(), key = kind + id;
+  if (store.bioNames[key] !== undefined) return store.bioNames[key];
+  let name = '';
+  try {
+    const found = await discogsGet(`/${BIO_REFERENCE_PATHS[kind]}/${id}`);
+    name = found ? displayName(found.name || found.title || '') : '';
+  } catch (e) {
+    return ''; // not saved, so it's tried again next time
+  }
+  store.bioNames[key] = name;
+  return name;
+}
+
+// Discogs writes bios with its own tags: [a=Name], [a12345], [url=...]text[/url], [b]bold[/b]
+async function readableBio(profile) {
+  const text = String(profile || '');
+  const references = [...new Set([...text.matchAll(/\[([arml])=?(\d+)\]/g)].map(m => m[1] + m[2]))].slice(0, MAX_BIO_REFERENCES);
+  const names = {};
+  for (const ref of references) names[ref] = await bioReferenceName(ref[0], ref.slice(1));
+  return text
+    .replace(/\[([arml])=?(\d+)\]/g, (_, kind, id) => names[kind + id] || '')
+    .replace(/\[[arml]=([^\]]+)\]/g, (_, name) => displayName(name))
+    .replace(/\[url=[^\]]*\]([\s\S]*?)\[\/url\]/gi, '$1')
+    .replace(/\[\/?(?:url|b|i|u|s)\]/gi, '')
+    .replace(/[ \t]+$/gm, '')
+    .trim();
+}
+
+async function getArtist(id) {
+  const store = getCache();
+  if (!store.artists[id] || store.artists[id].profile === undefined) {
+    const artist = await discogsGet(`/artists/${id}`);
+    if (!artist) throw new Error('Discogs has no record of this artist');
+    store.artists[id] = normalizeArtist(artist);
+    saveCache();
+  }
+  const artist = store.artists[id];
+  if (artist.bio === undefined) {
+    artist.bio = await readableBio(artist.profile);
+    saveCache();
+  }
+  const { name, realname, photo, bio, url } = artist;
+  return { id: artist.id, name, realname: realname ? await readableBio(realname) : null, photo, bio, url };
+}
+
+const DISCOGRAPHY_PAGE_SIZE = 50;
+const discographyPages = new Map();
+
+// Long careers run to thousands of entries, so these come a page at a time and aren't kept on disk
+async function getDiscography(id, page) {
+  const key = `${id}:${page}`;
+  if (!discographyPages.has(key)) {
+    const found = await discogsGet(`/artists/${id}/releases`, { sort: 'year', sort_order: 'asc', per_page: DISCOGRAPHY_PAGE_SIZE, page });
+    if (!found) throw new Error('Discogs has no discography for this artist');
+    discographyPages.set(key, {
+      page: found.pagination?.page || page,
+      pages: found.pagination?.pages || 1,
+      total: found.pagination?.items || 0,
+      items: (found.releases || []).map(r => ({
+        id: r.id,
+        title: r.title,
+        artist: String(r.artist || '').replace(/\s\(\d+\)/g, '').replace(/\*(?=,|\s|$)/g, ''), // often several names joined
+        year: r.year || null,
+        role: r.role || '',
+        url: `https://www.discogs.com/${r.type === 'master' ? 'master' : 'release'}/${r.id}`,
+      })),
+    });
+  }
+  return discographyPages.get(key);
+}
+
 // One artist at a time and each waiting its own turn, so a first load of everyone's photos can't
 // hold up a search made in the meantime
 async function pumpArtists() {
@@ -388,6 +464,18 @@ function handleRequest(req, res) {
     })());
     return true;
   }
+  if (url.pathname === '/api/discogs/artist') {
+    const id = params.get('id') || '';
+    if (!NUMERIC_ID.test(id)) { reply(400, { ok: false, error: 'an artist id is required' }); return true; }
+    respond(getArtist(id).then(artist => ({ artist })));
+    return true;
+  }
+  if (url.pathname === '/api/discogs/discography') {
+    const id = params.get('id') || '', page = Number(params.get('page') || 1);
+    if (!NUMERIC_ID.test(id) || !Number.isInteger(page) || page < 1) { reply(400, { ok: false, error: 'an artist id is required' }); return true; }
+    respond(getDiscography(id, page));
+    return true;
+  }
   if (url.pathname === '/api/discogs/artists') {
     const ids = (params.get('ids') || '').split(',').filter(Boolean).slice(0, MAX_BULK_ARTISTS);
     if (!ids.every(id => NUMERIC_ID.test(id))) { reply(400, { ok: false, error: 'ids must be numbers' }); return true; }
@@ -406,4 +494,4 @@ function handleRequest(req, res) {
   return true;
 }
 
-module.exports = { handleRequest, lineupOf, positionsIn, readRole, normalizeRelease, rankCandidates, titleWithoutArtists, findCandidates, getRelease, masterRelease };
+module.exports = { handleRequest, readableBio, lineupOf, positionsIn, readRole, normalizeRelease, rankCandidates, titleWithoutArtists, findCandidates, getRelease, masterRelease };

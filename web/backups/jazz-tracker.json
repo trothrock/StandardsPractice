@@ -8451,6 +8451,14 @@
       "name": "Bye Bye Blackbird",
       "passed": true,
       "key": "F"
+    },
+    {
+      "ts": 1794231162606,
+      "date": 20261109,
+      "type": "practice_time",
+      "area": "keys",
+      "name": "Autumn Leaves",
+      "secs": 496
     }
   ],
   "extraReviewsToday": {
@@ -9447,7 +9455,69 @@
         "Max Roach"
       ],
       "albumImage": "https://i.scdn.co/image/ab67616d00001e021f8972135b07af1f0d59c47e",
-      "year": "1956"
+      "year": "1956",
+      "tracks": [
+        {
+          "id": "3zqVCujN4nNryzTCwLGO3G",
+          "name": "What Is This Thing Called Love"
+        },
+        {
+          "id": "5pTuJH96AK3erpxaVqryHZ",
+          "name": "Love Is A Many Splendored Thing"
+        },
+        {
+          "id": "3xEAZQNPiwucPdGagdoD5j",
+          "name": "I'll Remember April"
+        },
+        {
+          "id": "0kHsFeDp6Oq5f6k3Couumf",
+          "name": "Powell's Prances"
+        },
+        {
+          "id": "4p8aUCVU3V4k578GmctzJO",
+          "name": "Time"
+        },
+        {
+          "id": "4uUWK8io5JFE4aEc1a4Kgg",
+          "name": "The Scene Is Clean"
+        },
+        {
+          "id": "3kIzzLJGbzhwiKrVCRD3L3",
+          "name": "Gertrude's Bounce"
+        },
+        {
+          "id": "1xTRWYfE8IXBWqpxIMC3U5",
+          "name": "Step Lightly (Junior's Arrival)"
+        },
+        {
+          "id": "5Vdsu3HtYGWZZlsm1jH7Na",
+          "name": "Flossie Lou"
+        },
+        {
+          "id": "0VtsrFb0TU2o6pQBlBTSHL",
+          "name": "What Is This Thing Called Love - Alternate Take"
+        },
+        {
+          "id": "2cP2UZULcLLxxQUFK1kekc",
+          "name": "Love Is A Many Splendored Thing - Alternate Take 1 / Breakdown"
+        },
+        {
+          "id": "1Vmb6ZuOzUedxgNkRFQ6I8",
+          "name": "Love Is A Many Splendored Thing - Alternate Take 2"
+        },
+        {
+          "id": "4ZInj0odgS5yItrBEO7Pon",
+          "name": "I'll Remember April - Alternate Take 1 / Breakdown"
+        },
+        {
+          "id": "4VUpwZQ75ohO9PQA7ivOqs",
+          "name": "I'll Remember April - Alternate Take 2"
+        },
+        {
+          "id": "7vfZze36KYA9Zs3ieb9a8W",
+          "name": "Flossie Lou - Alternate Take 2"
+        }
+      ]
     },
     {
       "albumId": "5fmIolILp5NAtNYiRPjhzA",
