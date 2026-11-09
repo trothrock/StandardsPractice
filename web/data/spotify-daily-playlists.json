@@ -408,6 +408,65 @@
           "song": "Lady Bird"
         }
       ],
+      "filled": true,
+      "removedOn": "2026-11-09"
+    },
+    {
+      "date": "2026-11-09",
+      "id": "6ikhsOYoQ4sIiPSU27lJ2v",
+      "name": "Daily Standards – Nov 9, 2026",
+      "tracks": [
+        {
+          "trackId": "3zqVCujN4nNryzTCwLGO3G",
+          "name": "What Is This Thing Called Love",
+          "artists": [
+            "Clifford Brown",
+            "Max Roach Quintet"
+          ],
+          "song": "What Is This Thing Called Love?"
+        },
+        {
+          "trackId": "5Li88NjZlTMl8v68GIJJ5v",
+          "name": "If I Should Lose You - Remastered 1999/Rudy Van Gelder Edition",
+          "artists": [
+            "Hank Mobley"
+          ],
+          "song": "If I Should Lose You"
+        },
+        {
+          "trackId": "6gDOH2uybXcEkB6CumPX1J",
+          "name": "A Night In Tunisia - Live At Newport Jazz Festival, 1957",
+          "artists": [
+            "Dizzy Gillespie"
+          ],
+          "song": "Night in Tunisia"
+        },
+        {
+          "trackId": "38xcUjiTP1ivfb7ObwjyGA",
+          "name": "Watermelon Man - Remastered 2007",
+          "artists": [
+            "Herbie Hancock"
+          ],
+          "song": "Watermelon Man"
+        },
+        {
+          "trackId": "5uLFo8xWQq4zd9Sh2xPB5t",
+          "name": "More Than You Know",
+          "artists": [
+            "Sonny Rollins",
+            "Thelonious Monk"
+          ],
+          "song": "More Than You Know"
+        },
+        {
+          "trackId": "59vZ4sIpNRXW9QCxT1Xr4P",
+          "name": "Fly Me To The Moon",
+          "artists": [
+            "Vince Guaraldi Trio"
+          ],
+          "song": "Fly Me to the Moon"
+        }
+      ],
       "filled": true
     }
   ]

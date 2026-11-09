@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-11-08",
+  "lastSyncDate": "2026-11-09",
   "plays": [
     {
       "playedAt": "2026-10-01T01:25:15.151Z",
@@ -4410,6 +4410,45 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e020ddd7e736f870994f4707947",
       "durationMs": 357041,
       "context": "spotify:playlist:37i9dQZF1E4ljikG4oUmEm"
+    },
+    {
+      "playedAt": "2026-11-08T19:24:51.301Z",
+      "trackId": "3e0FzZjTXOUtiJGSClOBrI",
+      "name": "Fly Like An Eagle",
+      "artists": [
+        "Steve Miller Band"
+      ],
+      "album": "Fly Like An Eagle",
+      "albumId": "0fjJOLqG3v7vXRYhz2wxPC",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e022fc23e78e87d793054bba090",
+      "durationMs": 282693,
+      "context": "spotify:playlist:37i9dQZF1E4ljikG4oUmEm"
+    },
+    {
+      "playedAt": "2026-11-09T00:07:02.622Z",
+      "trackId": "2BhU0Hl5OatWiCW93pE2b8",
+      "name": "Remember - 1999/ Remastered",
+      "artists": [
+        "Hank Mobley"
+      ],
+      "album": "Soul Station",
+      "albumId": "731OW49heGHCMrMOREHYlY",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028d277396016ea9ea46d55ce0",
+      "durationMs": 342333,
+      "context": "spotify:album:731OW49heGHCMrMOREHYlY"
+    },
+    {
+      "playedAt": "2026-11-09T01:09:30.423Z",
+      "trackId": "5f0n6K8hW2RIVXuZjxO0bu",
+      "name": "This I Dig Of You - Remastered 1999/Rudy Van Gelder Edition",
+      "artists": [
+        "Hank Mobley"
+      ],
+      "album": "Soul Station",
+      "albumId": "731OW49heGHCMrMOREHYlY",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028d277396016ea9ea46d55ce0",
+      "durationMs": 385866,
+      "context": "spotify:album:731OW49heGHCMrMOREHYlY"
     }
   ]
 }
