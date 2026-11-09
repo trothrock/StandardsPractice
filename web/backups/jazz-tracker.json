@@ -401,8 +401,8 @@
         "Jam"
       ],
       "practiceKey": {
-        "date": 20261102,
-        "key": "Ebm"
+        "date": 20261109,
+        "key": "G#m"
       }
     },
     "Bags' Groove": {
@@ -630,8 +630,8 @@
       "multiKey": true,
       "staleFrom": 20261002,
       "practiceKey": {
-        "date": 20261102,
-        "key": "Gb"
+        "date": 20261109,
+        "key": "B"
       },
       "tags": [
         "Songbook"
@@ -2650,8 +2650,8 @@
         "Jam"
       ],
       "practiceKey": {
-        "date": 20261102,
-        "key": "Gb"
+        "date": 20261109,
+        "key": "B"
       }
     },
     "Just One of Those Things": {
@@ -5727,8 +5727,8 @@
     }
   },
   "currentNewSong": "What Is This Thing Called Love?",
-  "streak": 4,
-  "lastPracticeDay": 20261108,
+  "streak": 5,
+  "lastPracticeDay": 20261109,
   "activity": [
     {
       "ts": 1776634938073,
@@ -8402,6 +8402,20 @@
       "date": 20261108,
       "type": "practiced",
       "name": "What Is This Thing Called Love?"
+    },
+    {
+      "ts": 1794227520918,
+      "date": 20261109,
+      "type": "practice_time",
+      "area": "voicing",
+      "name": "Half dim: Full range",
+      "secs": 1192
+    },
+    {
+      "ts": 1794227520918,
+      "date": 20261109,
+      "type": "voicing_session",
+      "name": "Half dim: Full range"
     }
   ],
   "extraReviewsToday": {
@@ -9082,7 +9096,7 @@
       "addedDate": 20261029,
       "sortSeed": 0.40227082791889424,
       "lastPracticed": null,
-      "pinnedDate": 20261108
+      "pinnedDate": 20261109
     },
     {
       "name": "B-7(♭5) · Full · top F",
@@ -9196,8 +9210,8 @@
   "cadenceVersion": 7,
   "multiKeyPerWeek": 3,
   "multiKeyWeek": {
-    "weekStart": 20261102,
-    "key": "Gb"
+    "weekStart": 20261109,
+    "key": "B"
   },
   "exitChecklistOpen": false,
   "exitChecklistDetailOpen": false,
@@ -9232,12 +9246,12 @@
   "voicingActivityNamesFixed": true,
   "albumOfWeek": {
     "classic": {
-      "albumId": "3nLStxdTkSzihxm7FTLzCP",
-      "weekStart": 20261102
+      "albumId": "5fGj14UbUEMl2v8tu7sqi4",
+      "weekStart": 20261109
     },
     "contemporary": {
-      "albumId": "0Bb8tnCWkiCrZFJ4BSXx9e",
-      "weekStart": 20261102
+      "albumId": "0H2PGA1jUGuUQgxdW3Oyzn",
+      "weekStart": 20261109
     }
   },
   "records": [
@@ -9285,7 +9299,46 @@
         "Dizzy Gillespie"
       ],
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02555943f813d6e4a80d26bf19",
-      "year": "1957"
+      "year": "1957",
+      "featuredWeek": 20261109,
+      "tracks": [
+        {
+          "id": "1TStHbhCHEn7vUGzr4JnZt",
+          "name": "Dizzy's Blues - Live"
+        },
+        {
+          "id": "2D1ViTpNpIOuTMM9lTixuy",
+          "name": "School Days - Live"
+        },
+        {
+          "id": "6WdVfVok5BXDZVoiOIEEu6",
+          "name": "Doodlin' - Live"
+        },
+        {
+          "id": "21Hs1Luiz9evoOIlmkrOw8",
+          "name": "Manteca - Live"
+        },
+        {
+          "id": "7wHVSiF42bbSkA9B7B1HLq",
+          "name": "I Remember Clifford - Live"
+        },
+        {
+          "id": "42TH3ptgPMQxVazk0SUzvj",
+          "name": "Cool Breeze - Live"
+        },
+        {
+          "id": "5dgXwhUDP9IggNFbiEOPEy",
+          "name": "Selections From \"Zodiac Suite\" - Live"
+        },
+        {
+          "id": "0e4KTa9LhtI0UK4OdmWpuD",
+          "name": "Carioca - Live"
+        },
+        {
+          "id": "0ebETPrz5eA4nuB5Vi9muo",
+          "name": "A Night In Tunisia - Live At Newport Jazz Festival, 1957"
+        }
+      ]
     },
     {
       "albumId": "6aUQ6zb8XRvxfoa2Zhx8yj",
@@ -9596,7 +9649,54 @@
         "Aaron Parks"
       ],
       "albumImage": "https://i.scdn.co/image/ab67616d00001e024a172631c1284a161e73373b",
-      "year": "2013"
+      "year": "2013",
+      "featuredWeek": 20261109,
+      "tracks": [
+        {
+          "id": "49Q0dU66bx2r0YXauvkWM8",
+          "name": "Asleep In The Forest"
+        },
+        {
+          "id": "2rrYE3jRrnMo2bgsm9mcNc",
+          "name": "Toward Awakening"
+        },
+        {
+          "id": "0CyHI8OMAjlZRiKRFYFotg",
+          "name": "Past Presence"
+        },
+        {
+          "id": "6f1fCXsyEUvR3ztu2a3Ple",
+          "name": "Elsewhere"
+        },
+        {
+          "id": "2VmV2EhH1BcFcGBX01nfHq",
+          "name": "In Pursuit"
+        },
+        {
+          "id": "3Q141tOdiJy6eQvMh5jXM6",
+          "name": "Squirrels"
+        },
+        {
+          "id": "55dPtMRZbqneqFqh0ns4dC",
+          "name": "Branchings"
+        },
+        {
+          "id": "2ZhUMib5XrJefRQF0HPD76",
+          "name": "River Ways"
+        },
+        {
+          "id": "4iIjYvFbN6ERU4iS0Djrde",
+          "name": "A Curious Bloom"
+        },
+        {
+          "id": "0dVUdLURUbR3h3xFZmIoZp",
+          "name": "Reverie"
+        },
+        {
+          "id": "7Lh3fJDaMlC64DkRfDRiFU",
+          "name": "Homestead"
+        }
+      ]
     }
   ],
   "recordsSort": "year",
