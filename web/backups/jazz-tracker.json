@@ -9436,7 +9436,37 @@
         "Max Roach"
       ],
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02889a6f7c981fea2ecdf9c59e",
-      "year": "1954"
+      "year": "1954",
+      "tracks": [
+        {
+          "id": "0AUw7Fl0GJ1xztBSC7V0BV",
+          "name": "Sweet Clifford"
+        },
+        {
+          "id": "6xfNZK0l5GNBXgaet5ITkz",
+          "name": "I Don't Stand A Ghost Of A Chance With You"
+        },
+        {
+          "id": "2VaOoXFfdlrHyhORSq9H1v",
+          "name": "Stompin' At The Savoy"
+        },
+        {
+          "id": "07NIvonXlQAdViiJbyZ4LC",
+          "name": "I'll String Along With You"
+        },
+        {
+          "id": "6g8n5kj5nogYuGHByRtxqz",
+          "name": "Mildama"
+        },
+        {
+          "id": "4Bp8TWarxK0IDmzHI6WUnB",
+          "name": "Darn That Dream"
+        },
+        {
+          "id": "1pS2DESSe22OaoOSz1lr4s",
+          "name": "I Get A Kick Out Of You"
+        }
+      ]
     },
     {
       "albumId": "731OW49heGHCMrMOREHYlY",

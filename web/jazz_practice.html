@@ -308,6 +308,7 @@
   .song-row > .focus-del { padding: 4px 0 4px 4px; }
   .song-row:hover > .focus-del { opacity: 1; }
   .poi-form .poi-time-input { flex: 0 0 64px; }
+  .poi-form select { flex: 0 1 220px; min-width: 0; font-size: 13px; }
   .listen-title { display: flex; align-items: center; gap: 8px; }
   .timeline-entry { display: flex; gap: 14px; padding: 12px 20px; border-bottom: 1px solid var(--border); align-items: flex-start; }
   .timeline-entry:last-child { border-bottom: none; }
@@ -3268,7 +3269,7 @@ function drawAlbumDetail(albumId) {
   const rows = tracks.map((t,i) => {
     const n = counts?.[i], stat = n===undefined ? '' : n ? `${n} play${n===1?'':'s'}` : 'not played yet';
     const rowPois = poisFor(pois, shown, pt => pt.trackId===t.id);
-    return `<div class="song-row" style="align-items:flex-start"><span class="album-track-num">${i+1}</span><div style="flex:1;min-width:0"><a class="song-name album-track-name" href="spotify:track:${escHTML(t.id)}" title="Open in Spotify">${escHTML(t.name)}</a>${poiListHTML(owner, rowPois, t.id, a.album)}</div><span class="key-stat">${stat}</span>${poiAddButton(t.id)}</div>`;
+    return `<div class="song-row" style="align-items:flex-start"><span class="album-track-num">${i+1}</span><div style="flex:1;min-width:0"><a class="song-name album-track-name" href="spotify:track:${escHTML(t.id)}" title="Open in Spotify">${escHTML(t.name)}</a>${poiListHTML(owner, rowPois, t.id, a.album, albumId)}</div><span class="key-stat">${stat}</span>${poiAddButton(t.id)}</div>`;
   }).join('');
   const empty = `<div class="empty">${albumTracksFailed.has(albumId) ? "Couldn't load this album's songs." : 'Loading songs…'}</div>`;
   container.innerHTML = header + `<div class="section"><div class="section-head"><h2>Tracks</h2>${tracks.length?`<span class="count">${tracks.length} song${tracks.length===1?'':'s'}</span>`:''}</div>${rows || empty}</div>`;
@@ -4078,6 +4079,13 @@ function drawPlayerDiscography(id) {
     : (!d.items.length ? '<div class="empty">Discogs lists nothing for this player.</div>' : '');
   slot.innerHTML = `<div class="section"><div class="section-head"><h2>Discography</h2>${d.total?`<span class="count">${d.items.length} of ${d.total}</span>`:''}</div>${rows}${more}</div>`;
 }
+// An album's confirmed musicians under the names shown in the app, empty if it has no lineup yet
+function albumPersonnel(db, albumId) {
+  const link = db.creditLinks?.[albumId], release = link?.releaseId ? confirmedReleases[link.releaseId] : null;
+  if(!link || link.none || (link.releaseId && !release)) return [];
+  const names = db.playerNames || {};
+  return confirmedLineup(link, release).map(p => ({ ...p, id:String(p.id), name:names[p.id] || p.name }));
+}
 // The album's musicians, linking through to their pages. It stays outside what the album page
 // redraws, so an open point of interest form isn't lost.
 function drawAlbumPersonnel(albumId) {
@@ -4092,8 +4100,7 @@ function drawAlbumPersonnel(albumId) {
   }
   const release = link.releaseId ? confirmedReleases[link.releaseId] : null;
   if(link.releaseId && !release) { slot.innerHTML = ''; return; }
-  const names = getDB().playerNames || {};
-  const people = confirmedLineup(link, release).map(p => ({ ...p, id:String(p.id), name:names[p.id] || p.name }));
+  const people = albumPersonnel(getDB(), albumId);
   // Someone taken off the Players tab is still on the album, but has no page to link to
   const hidden = new Set(getDB().hiddenPlayers||[]);
   const rows = people.map(p => {
@@ -4357,7 +4364,7 @@ function drawSongListening(name) {
     const last = n ? `last played ${new Date(mine[0].ts).toLocaleDateString('en-US',{month:'short',day:'numeric'})}` : 'not played yet';
     const meta = [ref.label, ref.artists.join(', '), ref.album].filter(Boolean).map(escHTML).join(' · ');
     const rowPois = poisFor(pois, shown, pt => pt.trackId===ref.trackId);
-    return `<div class="song-row" style="align-items:flex-start">${listenThumb(ref.albumImage, ref.albumId, ref.trackId)}<div style="flex:1;min-width:0"><div style="display:flex;justify-content:space-between;gap:12px;margin-bottom:4px"><span class="song-name">${escHTML(ref.name)}</span><span class="key-stat">${n} of ${goal}</span></div><div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${meta}</div><div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div><div style="font-size:11px;color:var(--text3);margin-top:6px">${pct}% · ${last}</div>${poiListHTML(name, rowPois, ref.trackId, ref.album)}</div>${poiAddButton(ref.trackId)}</div>`;
+    return `<div class="song-row" style="align-items:flex-start">${listenThumb(ref.albumImage, ref.albumId, ref.trackId)}<div style="flex:1;min-width:0"><div style="display:flex;justify-content:space-between;gap:12px;margin-bottom:4px"><span class="song-name">${escHTML(ref.name)}</span><span class="key-stat">${n} of ${goal}</span></div><div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${meta}</div><div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div><div style="font-size:11px;color:var(--text3);margin-top:6px">${pct}% · ${last}</div>${poiListHTML(name, rowPois, ref.trackId, ref.album, ref.albumId)}</div>${poiAddButton(ref.trackId)}</div>`;
   }).join('');
   const others = plays.filter(p => !counted.has(p));
   const albums = new Map();
@@ -4379,7 +4386,7 @@ function drawSongListening(name) {
     const rowPois = poisFor(pois, shown, pt => a.trackIds.has(pt.trackId) || (!!pt.album && pt.album===a.album));
     const stat = a.n ? `${a.n} play${a.n===1?'':'s'}` : 'not played yet';
     const del = !a.n && a.addedIdx!==undefined ? `<button class="focus-del" title="Remove recording" onclick="removeOtherRecording('${safeName}',${a.addedIdx})">&times;</button>` : '';
-    return `<div class="song-row" style="align-items:flex-start">${listenThumb(a.image, a.albumId, a.trackId)}<div style="flex:1;min-width:0"><div class="song-name" style="margin-bottom:4px">${escHTML(a.album||'Unknown album')}</div><div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${escHTML(a.artists.join(', '))}</div>${poiListHTML(name, rowPois, a.trackId, a.album)}</div><span class="key-stat">${stat}</span>${poiAddButton(a.trackId)}${del}</div>`;
+    return `<div class="song-row" style="align-items:flex-start">${listenThumb(a.image, a.albumId, a.trackId)}<div style="flex:1;min-width:0"><div class="song-name" style="margin-bottom:4px">${escHTML(a.album||'Unknown album')}</div><div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${escHTML(a.artists.join(', '))}</div>${poiListHTML(name, rowPois, a.trackId, a.album, a.albumId)}</div><span class="key-stat">${stat}</span>${poiAddButton(a.trackId)}${del}</div>`;
   }).join('');
   const refPlays = plays.length - others.length;
   const plural = n => `${n} play${n===1?'':'s'}`;
@@ -4478,11 +4485,14 @@ function poiTextHTML(pt, matchPlayer) {
   if(!found) return escHTML(pt.text);
   return `<span class="poi-player" title="Open player page" data-player="${escHTML(found.player.id)}" onclick="event.stopPropagation();showPlayerDetail(this.dataset.player)">${escHTML(pt.text.slice(0, found.nameEnd))}</span>${escHTML(pt.text.slice(found.nameEnd))}`;
 }
-function poiListHTML(name, pts, trackId, album) {
+function poiListHTML(name, pts, trackId, album, albumId) {
   const safeName = escHTML(name.replace(/\\/g,'\\\\').replace(/'/g,"\\'"));
   const matchPlayer = pts.length && playerReferences && releasesLoaded ? poiPlayerMatcher(tabPlayers(getDB())) : null;
+  // Without a confirmed lineup there's nobody to choose from, so the form is just free text
+  const personnel = albumPersonnel(getDB(), albumId);
+  const personnelSelect = personnel.length ? `<select aria-label="Player" onkeydown="if(event.key==='Escape')hidePoiForm(this)"><option value="">Player</option>${personnel.map(p => `<option value="${escHTML(p.name)}">${escHTML([p.name, (p.instruments||[]).join(', ')].filter(Boolean).join(' — '))}</option>`).join('')}</select>` : '';
   const rows = pts.map(pt => `<div class="poi-row"><a class="poi-time" href="spotify:track:${escHTML(pt.trackId)}#${formatPoiTime(pt.at)}" title="Play in Spotify from ${formatPoiTime(pt.at)}" onclick="event.preventDefault();playPoi('${escHTML(pt.trackId)}',${pt.at})">${formatPoiTime(pt.at)}</a><span class="poi-text" title="Click to edit" onclick="editPoi(this,'${safeName}',${pt.i})">${poiTextHTML(pt, matchPlayer)}</span><button class="focus-del" title="Remove" onclick="removePoi('${safeName}',${pt.i})">&times;</button></div>`).join('');
-  const form = `<div class="poi-form" id="poi-form-${escHTML(trackId)}" data-track="${escHTML(trackId)}" data-album="${escHTML(album||'')}" style="display:none"><input class="focus-input poi-time-input" placeholder="m:ss" onkeydown="if(event.key==='Enter')addPoi(this,'${safeName}');else if(event.key==='Escape')hidePoiForm(this)"><input class="focus-input" placeholder="What's here, e.g. Oscar Peterson piano lick" onkeydown="if(event.key==='Enter')addPoi(this,'${safeName}');else if(event.key==='Escape')hidePoiForm(this)"><button class="btn-action" onclick="addPoi(this,'${safeName}')">Add</button></div>`;
+  const form = `<div class="poi-form" id="poi-form-${escHTML(trackId)}" data-track="${escHTML(trackId)}" data-album="${escHTML(album||'')}" style="display:none"><input class="focus-input poi-time-input" placeholder="m:ss" onkeydown="if(event.key==='Enter')addPoi(this,'${safeName}');else if(event.key==='Escape')hidePoiForm(this)">${personnelSelect}<input class="focus-input" placeholder="${personnel.length ? 'Label, e.g. piano lick' : 'What&#39;s here, e.g. Oscar Peterson piano lick'}" onkeydown="if(event.key==='Enter')addPoi(this,'${safeName}');else if(event.key==='Escape')hidePoiForm(this)"><button class="btn-action" onclick="addPoi(this,'${safeName}')">Add</button></div>`;
   return (rows ? `<div class="poi-list">${rows}</div>` : '') + form;
 }
 // Asks the local server to start the track at the timestamp on the user's Spotify. With no
@@ -4520,13 +4530,14 @@ function showPoiForm(trackId) {
 }
 function hidePoiForm(el) {
   const form = el.closest('.poi-form');
-  form.querySelectorAll('input').forEach(i => { i.value = ''; });
+  form.querySelectorAll('input, select').forEach(i => { i.value = ''; });
   form.style.display = 'none';
 }
 function addPoi(el, name) {
   const form = el.closest('.poi-form');
   const [timeIn, textIn] = form.querySelectorAll('input');
-  const at = parsePoiTime(timeIn.value), text = textIn.value.trim();
+  // Saved as "Player label", the same form as one typed by hand, so the name links to their page
+  const at = parsePoiTime(timeIn.value), text = [form.querySelector('select')?.value, textIn.value.trim()].filter(Boolean).join(' ');
   if(at===null) { timeIn.focus(); toast('Enter a time like 2:15.'); return; }
   if(!text) { textIn.focus(); return; }
   const db = getDB(), sg = poiOwner(db, name);
