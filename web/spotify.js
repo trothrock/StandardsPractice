@@ -321,17 +321,18 @@ function weightedPick(items, weightOf, random) {
   return items[i === -1 ? items.length - 1 : i];
 }
 
-// Picks today's recordings: the song being learned first (from the reference playlists, else its
-// added recordings), then other songs at random, favoring those furthest from the listening goal.
-// One song from the previous playlist sits out, so two days in a row can't match while the pool
-// has enough songs. No song appears twice, even when both reference playlists have a recording.
+// Picks today's recordings: the song being learned first (one recording from each reference playlist
+// that has it, else its added recordings), then other songs at random, favoring those furthest from
+// the listening goal. One song from the previous playlist sits out, so two days in a row can't match
+// while the pool has enough songs. Apart from the song being learned, no song appears twice, even
+// when both reference playlists have a recording.
 function selectDailyTracks({ references, plays, db, previousTrackIds = [], random = Math.random }) {
   const goal = db.listeningGoal || LISTENING_GOAL_DEFAULT;
   const byKey = new Map(Object.keys(db.songs || {}).map(name => [listeningKey(name), name]));
   const seen = new Set();
-  const pool = references.flatMap(pl => pl.tracks)
+  const pool = references.flatMap(pl => pl.tracks
     .filter(t => !seen.has(t.trackId) && seen.add(t.trackId))
-    .map(t => ({ ...t, song: librarySongFor(t.name, byKey) || listeningKey(t.name) }));
+    .map(t => ({ ...t, playlist: pl.name, song: librarySongFor(t.name, byKey) || listeningKey(t.name) })));
   const weights = new Map();
   const weightOf = t => {
     if (!weights.has(t.trackId)) {
@@ -342,11 +343,12 @@ function selectDailyTracks({ references, plays, db, previousTrackIds = [], rando
   };
 
   const current = db.currentNewSong;
-  const currentOptions = pool.filter(t => t.song === current);
-  if (!currentOptions.length && current) {
-    currentOptions.push(...(db.songs?.[current]?.otherRecordings || []).map(t => ({ ...t, song: current })));
-  }
-  const picks = currentOptions.length ? [weightedPick(currentOptions, weightOf, random)] : [];
+  const currentOptions = references
+    .map(pl => pool.filter(t => t.song === current && t.playlist === pl.name))
+    .filter(options => options.length);
+  const added = (current && db.songs?.[current]?.otherRecordings || []).map(t => ({ ...t, song: current }));
+  if (!currentOptions.length && added.length) currentOptions.push(added);
+  const picks = currentOptions.map(options => weightedPick(options, weightOf, random));
 
   let rest = pool.filter(t => t.song !== current);
   const repeats = rest.filter(t => previousTrackIds.includes(t.trackId));

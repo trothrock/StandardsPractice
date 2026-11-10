@@ -10319,5 +10319,12 @@
   ],
   "playerNames": {
     "261295": "Tony Williams"
+  },
+  "timer": {
+    "area": "learn",
+    "name": "What Is This Thing Called Love?",
+    "start": 1794313136590,
+    "runStart": 1794313136590,
+    "accMs": 0
   }
 }
