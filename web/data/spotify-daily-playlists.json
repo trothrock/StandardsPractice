@@ -467,6 +467,65 @@
           "song": "Fly Me to the Moon"
         }
       ],
+      "filled": true,
+      "removedOn": "2026-11-10"
+    },
+    {
+      "date": "2026-11-10",
+      "id": "6HYT2M5zePf4WNKRvvW4D2",
+      "name": "Daily Standards – Nov 10, 2026",
+      "tracks": [
+        {
+          "trackId": "4edBxVVQL76ObsFj9ABbSX",
+          "name": "What Is This Thing Called Love - Single Version",
+          "artists": [
+            "Billie Holiday"
+          ],
+          "song": "What Is This Thing Called Love?"
+        },
+        {
+          "trackId": "2jZgFEONQS7Bk64IytEBU8",
+          "name": "In A Mellow Tone",
+          "artists": [
+            "Ben Webster"
+          ],
+          "song": "In a Mellow Tone"
+        },
+        {
+          "trackId": "4lm669ZRk2EkTHg8An9n8T",
+          "name": "Anthropology",
+          "artists": [
+            "Charlie Parker"
+          ],
+          "song": "Anthropology"
+        },
+        {
+          "trackId": "5AodXZjIg8C6Trar4dTapB",
+          "name": "Corcovado",
+          "artists": [
+            "João Gilberto"
+          ],
+          "song": "Corcovado"
+        },
+        {
+          "trackId": "73SLdRn1IbciLWyK4e2d8p",
+          "name": "After You've Gone",
+          "artists": [
+            "Dinah Washington"
+          ],
+          "song": "After You've Gone"
+        },
+        {
+          "trackId": "0aWMVrwxPNYkKmFthzmpRi",
+          "name": "Blue in Green (feat. John Coltrane & Bill Evans)",
+          "artists": [
+            "Miles Davis",
+            "John Coltrane",
+            "Bill Evans"
+          ],
+          "song": "Blue in Green"
+        }
+      ],
       "filled": true
     }
   ]

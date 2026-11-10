@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-11-09",
+  "lastSyncDate": "2026-11-10",
   "plays": [
     {
       "playedAt": "2026-10-01T01:25:15.151Z",
@@ -4449,6 +4449,332 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e028d277396016ea9ea46d55ce0",
       "durationMs": 385866,
       "context": "spotify:album:731OW49heGHCMrMOREHYlY"
+    },
+    {
+      "playedAt": "2026-11-09T16:26:27.750Z",
+      "trackId": "1Ku5vu9Crncz8ixeT4Ijxc",
+      "name": "Dolphin Dance - Remastered 1999/Rudy Van Gelder Edition",
+      "artists": [
+        "Herbie Hancock"
+      ],
+      "album": "Maiden Voyage (Remastered 1999/Rudy Van Gelder Edition)",
+      "albumId": "7huPJTTsWVt854oZkr88mf",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b6f936d535913e3f425e5bbe",
+      "durationMs": 556133,
+      "context": "spotify:album:7huPJTTsWVt854oZkr88mf"
+    },
+    {
+      "playedAt": "2026-11-09T16:30:42.993Z",
+      "trackId": "49Q0dU66bx2r0YXauvkWM8",
+      "name": "Asleep In The Forest",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "Arborescence",
+      "albumId": "0H2PGA1jUGuUQgxdW3Oyzn",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024a172631c1284a161e73373b",
+      "durationMs": 254666,
+      "context": "spotify:album:0H2PGA1jUGuUQgxdW3Oyzn"
+    },
+    {
+      "playedAt": "2026-11-09T16:36:59.314Z",
+      "trackId": "2rrYE3jRrnMo2bgsm9mcNc",
+      "name": "Toward Awakening",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "Arborescence",
+      "albumId": "0H2PGA1jUGuUQgxdW3Oyzn",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024a172631c1284a161e73373b",
+      "durationMs": 376320,
+      "context": "spotify:album:0H2PGA1jUGuUQgxdW3Oyzn"
+    },
+    {
+      "playedAt": "2026-11-09T16:41:27.611Z",
+      "trackId": "0CyHI8OMAjlZRiKRFYFotg",
+      "name": "Past Presence",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "Arborescence",
+      "albumId": "0H2PGA1jUGuUQgxdW3Oyzn",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024a172631c1284a161e73373b",
+      "durationMs": 268253,
+      "context": "spotify:album:0H2PGA1jUGuUQgxdW3Oyzn"
+    },
+    {
+      "playedAt": "2026-11-09T16:48:31.918Z",
+      "trackId": "6f1fCXsyEUvR3ztu2a3Ple",
+      "name": "Elsewhere",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "Arborescence",
+      "albumId": "0H2PGA1jUGuUQgxdW3Oyzn",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024a172631c1284a161e73373b",
+      "durationMs": 424333,
+      "context": "spotify:album:0H2PGA1jUGuUQgxdW3Oyzn"
+    },
+    {
+      "playedAt": "2026-11-09T16:54:07.453Z",
+      "trackId": "2VmV2EhH1BcFcGBX01nfHq",
+      "name": "In Pursuit",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "Arborescence",
+      "albumId": "0H2PGA1jUGuUQgxdW3Oyzn",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024a172631c1284a161e73373b",
+      "durationMs": 335533,
+      "context": "spotify:album:0H2PGA1jUGuUQgxdW3Oyzn"
+    },
+    {
+      "playedAt": "2026-11-09T16:56:29.118Z",
+      "trackId": "3Q141tOdiJy6eQvMh5jXM6",
+      "name": "Squirrels",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "Arborescence",
+      "albumId": "0H2PGA1jUGuUQgxdW3Oyzn",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024a172631c1284a161e73373b",
+      "durationMs": 141626,
+      "context": "spotify:album:0H2PGA1jUGuUQgxdW3Oyzn"
+    },
+    {
+      "playedAt": "2026-11-09T17:01:40.509Z",
+      "trackId": "55dPtMRZbqneqFqh0ns4dC",
+      "name": "Branchings",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "Arborescence",
+      "albumId": "0H2PGA1jUGuUQgxdW3Oyzn",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024a172631c1284a161e73373b",
+      "durationMs": 311440,
+      "context": "spotify:album:0H2PGA1jUGuUQgxdW3Oyzn"
+    },
+    {
+      "playedAt": "2026-11-09T17:07:47.521Z",
+      "trackId": "2ZhUMib5XrJefRQF0HPD76",
+      "name": "River Ways",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "Arborescence",
+      "albumId": "0H2PGA1jUGuUQgxdW3Oyzn",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024a172631c1284a161e73373b",
+      "durationMs": 186666,
+      "context": "spotify:album:0H2PGA1jUGuUQgxdW3Oyzn"
+    },
+    {
+      "playedAt": "2026-11-09T17:11:11.603Z",
+      "trackId": "4iIjYvFbN6ERU4iS0Djrde",
+      "name": "A Curious Bloom",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "Arborescence",
+      "albumId": "0H2PGA1jUGuUQgxdW3Oyzn",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024a172631c1284a161e73373b",
+      "durationMs": 204080,
+      "context": "spotify:album:0H2PGA1jUGuUQgxdW3Oyzn"
+    },
+    {
+      "playedAt": "2026-11-09T17:15:29.064Z",
+      "trackId": "0dVUdLURUbR3h3xFZmIoZp",
+      "name": "Reverie",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "Arborescence",
+      "albumId": "0H2PGA1jUGuUQgxdW3Oyzn",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024a172631c1284a161e73373b",
+      "durationMs": 257453,
+      "context": "spotify:album:0H2PGA1jUGuUQgxdW3Oyzn"
+    },
+    {
+      "playedAt": "2026-11-09T17:19:28.354Z",
+      "trackId": "7Lh3fJDaMlC64DkRfDRiFU",
+      "name": "Homestead",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "Arborescence",
+      "albumId": "0H2PGA1jUGuUQgxdW3Oyzn",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024a172631c1284a161e73373b",
+      "durationMs": 239306,
+      "context": "spotify:album:0H2PGA1jUGuUQgxdW3Oyzn"
+    },
+    {
+      "playedAt": "2026-11-09T20:07:50.511Z",
+      "trackId": "1TStHbhCHEn7vUGzr4JnZt",
+      "name": "Dizzy's Blues - Live",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "album": "Dizzy Gillespie At Newport",
+      "albumId": "5fGj14UbUEMl2v8tu7sqi4",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02555943f813d6e4a80d26bf19",
+      "durationMs": 711373,
+      "context": "spotify:album:5fGj14UbUEMl2v8tu7sqi4"
+    },
+    {
+      "playedAt": "2026-11-09T20:13:38.414Z",
+      "trackId": "2D1ViTpNpIOuTMM9lTixuy",
+      "name": "School Days - Live",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "album": "Dizzy Gillespie At Newport",
+      "albumId": "5fGj14UbUEMl2v8tu7sqi4",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02555943f813d6e4a80d26bf19",
+      "durationMs": 347893,
+      "context": "spotify:album:5fGj14UbUEMl2v8tu7sqi4"
+    },
+    {
+      "playedAt": "2026-11-09T20:21:34.412Z",
+      "trackId": "6WdVfVok5BXDZVoiOIEEu6",
+      "name": "Doodlin' - Live",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "album": "Dizzy Gillespie At Newport",
+      "albumId": "5fGj14UbUEMl2v8tu7sqi4",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02555943f813d6e4a80d26bf19",
+      "durationMs": 476000,
+      "context": "spotify:album:5fGj14UbUEMl2v8tu7sqi4"
+    },
+    {
+      "playedAt": "2026-11-09T20:28:46.140Z",
+      "trackId": "21Hs1Luiz9evoOIlmkrOw8",
+      "name": "Manteca - Live",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "album": "Dizzy Gillespie At Newport",
+      "albumId": "5fGj14UbUEMl2v8tu7sqi4",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02555943f813d6e4a80d26bf19",
+      "durationMs": 431800,
+      "context": "spotify:album:5fGj14UbUEMl2v8tu7sqi4"
+    },
+    {
+      "playedAt": "2026-11-09T20:33:33.756Z",
+      "trackId": "7wHVSiF42bbSkA9B7B1HLq",
+      "name": "I Remember Clifford - Live",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "album": "Dizzy Gillespie At Newport",
+      "albumId": "5fGj14UbUEMl2v8tu7sqi4",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02555943f813d6e4a80d26bf19",
+      "durationMs": 287640,
+      "context": "spotify:album:5fGj14UbUEMl2v8tu7sqi4"
+    },
+    {
+      "playedAt": "2026-11-09T20:44:07.186Z",
+      "trackId": "42TH3ptgPMQxVazk0SUzvj",
+      "name": "Cool Breeze - Live",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "album": "Dizzy Gillespie At Newport",
+      "albumId": "5fGj14UbUEMl2v8tu7sqi4",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02555943f813d6e4a80d26bf19",
+      "durationMs": 633493,
+      "context": "spotify:album:5fGj14UbUEMl2v8tu7sqi4"
+    },
+    {
+      "playedAt": "2026-11-09T20:55:00.767Z",
+      "trackId": "5dgXwhUDP9IggNFbiEOPEy",
+      "name": "Selections From \"Zodiac Suite\" - Live",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "album": "Dizzy Gillespie At Newport",
+      "albumId": "5fGj14UbUEMl2v8tu7sqi4",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02555943f813d6e4a80d26bf19",
+      "durationMs": 628173,
+      "context": "spotify:album:5fGj14UbUEMl2v8tu7sqi4"
+    },
+    {
+      "playedAt": "2026-11-09T20:58:43.428Z",
+      "trackId": "0e4KTa9LhtI0UK4OdmWpuD",
+      "name": "Carioca - Live",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "album": "Dizzy Gillespie At Newport",
+      "albumId": "5fGj14UbUEMl2v8tu7sqi4",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02555943f813d6e4a80d26bf19",
+      "durationMs": 222632,
+      "context": "spotify:album:5fGj14UbUEMl2v8tu7sqi4"
+    },
+    {
+      "playedAt": "2026-11-09T21:08:44.155Z",
+      "trackId": "0ebETPrz5eA4nuB5Vi9muo",
+      "name": "A Night In Tunisia - Live At Newport Jazz Festival, 1957",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "album": "Dizzy Gillespie At Newport",
+      "albumId": "5fGj14UbUEMl2v8tu7sqi4",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02555943f813d6e4a80d26bf19",
+      "durationMs": 600733,
+      "context": "spotify:album:5fGj14UbUEMl2v8tu7sqi4"
+    },
+    {
+      "playedAt": "2026-11-09T23:04:05.236Z",
+      "trackId": "38xcUjiTP1ivfb7ObwjyGA",
+      "name": "Watermelon Man - Remastered 2007",
+      "artists": [
+        "Herbie Hancock"
+      ],
+      "album": "Takin' Off (Expanded Edition)",
+      "albumId": "61bXefFZqGbVkmb7qzIIOl",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02d1bac93adf4492db2e6ff9f8",
+      "durationMs": 429266,
+      "context": "spotify:playlist:6ikhsOYoQ4sIiPSU27lJ2v"
+    },
+    {
+      "playedAt": "2026-11-09T23:14:54.847Z",
+      "trackId": "5uLFo8xWQq4zd9Sh2xPB5t",
+      "name": "More Than You Know",
+      "artists": [
+        "Sonny Rollins",
+        "Thelonious Monk"
+      ],
+      "album": "The Complete Prestige 10-Inch LP Collection",
+      "albumId": "5DPy4HeXMnoxi3PODdklOC",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02d1053d4d169474b26f605ca3",
+      "durationMs": 649059,
+      "context": "spotify:playlist:6ikhsOYoQ4sIiPSU27lJ2v"
+    },
+    {
+      "playedAt": "2026-11-09T23:23:51.720Z",
+      "trackId": "59vZ4sIpNRXW9QCxT1Xr4P",
+      "name": "Fly Me To The Moon",
+      "artists": [
+        "Vince Guaraldi Trio"
+      ],
+      "album": "A Boy Named Charlie Brown",
+      "albumId": "4bNE83zw6uZs5FyDFnSCui",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02ca0e612db478fb9cebbce8bb",
+      "durationMs": 536453,
+      "context": "spotify:playlist:6ikhsOYoQ4sIiPSU27lJ2v"
+    },
+    {
+      "playedAt": "2026-11-10T00:34:35.102Z",
+      "trackId": "0iifjjuozo6r5fh2GWI6Pq",
+      "name": "Will It Go Round In Circles",
+      "artists": [
+        "Billy Preston"
+      ],
+      "album": "Music Is My Life",
+      "albumId": "3BEPwGxd1N9LEUo37s54Is",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02f6a63c213454c738a6bb4391",
+      "durationMs": 267000,
+      "context": "spotify:playlist:37i9dQZF1E4ljikG4oUmEm"
     }
   ]
 }
