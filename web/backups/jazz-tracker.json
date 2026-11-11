@@ -5406,13 +5406,22 @@
         {
           "trackId": "3zqVCujN4nNryzTCwLGO3G",
           "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+          "at": 167,
+          "text": "Sonny Rollins ii-V bop language"
+        },
+        {
+          "trackId": "3zqVCujN4nNryzTCwLGO3G",
+          "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
           "at": 383,
           "text": "Clifford Brown bop language"
         }
       ],
       "learningSteps": {
         "history": true,
-        "recording": true
+        "recording": true,
+        "melody-shell": true,
+        "melody-rootless": true,
+        "bass-track": true
       }
     },
     "What's New?": {
@@ -5732,8 +5741,8 @@
     }
   },
   "currentNewSong": "What Is This Thing Called Love?",
-  "streak": 5,
-  "lastPracticeDay": 20261109,
+  "streak": 6,
+  "lastPracticeDay": 20261110,
   "activity": [
     {
       "ts": 1776634938073,
@@ -8459,6 +8468,35 @@
       "area": "keys",
       "name": "Autumn Leaves",
       "secs": 496
+    },
+    {
+      "ts": 1794316857546,
+      "date": 20261110,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "What Is This Thing Called Love?",
+      "secs": 3900,
+      "origSecs": 1698
+    },
+    {
+      "ts": 1794316857546,
+      "date": 20261110,
+      "type": "practiced",
+      "name": "What Is This Thing Called Love?"
+    },
+    {
+      "ts": 1794317623572,
+      "date": 20261110,
+      "type": "practice_time",
+      "area": "rep",
+      "name": "A Sleepin' Bee",
+      "secs": 739
+    },
+    {
+      "ts": 1794317623572,
+      "date": 20261110,
+      "type": "repertoire_practiced",
+      "name": "A Sleepin' Bee"
     }
   ],
   "extraReviewsToday": {
@@ -8572,7 +8610,8 @@
       "composer": "Harold Arlen",
       "notes": null,
       "addedDate": 20260502,
-      "lastReviewed": null
+      "lastReviewed": null,
+      "pinnedDate": 20261110
     },
     {
       "name": "Do You Know What It Means (To Miss New Orleans)",
@@ -10319,12 +10358,5 @@
   ],
   "playerNames": {
     "261295": "Tony Williams"
-  },
-  "timer": {
-    "area": "learn",
-    "name": "What Is This Thing Called Love?",
-    "start": 1794313136590,
-    "runStart": 1794313136590,
-    "accMs": 0
   }
 }

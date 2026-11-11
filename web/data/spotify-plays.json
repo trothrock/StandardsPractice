@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-11-10",
+  "lastSyncDate": "2026-11-11",
   "plays": [
     {
       "playedAt": "2026-10-01T01:25:15.151Z",
@@ -4775,6 +4775,296 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02f6a63c213454c738a6bb4391",
       "durationMs": 267000,
       "context": "spotify:playlist:37i9dQZF1E4ljikG4oUmEm"
+    },
+    {
+      "playedAt": "2026-11-10T02:26:26.184Z",
+      "trackId": "2yBVeksU2EtrPJbTu4ZslK",
+      "name": "What a Fool Believes",
+      "artists": [
+        "The Doobie Brothers"
+      ],
+      "album": "Minute by Minute",
+      "albumId": "7je2uv9QBH65HhADDZitbB",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02ba6340ac3b1653b6ea0e5da5",
+      "durationMs": 223866,
+      "context": "spotify:playlist:37i9dQZF1E4ljikG4oUmEm"
+    },
+    {
+      "playedAt": "2026-11-10T12:22:14.699Z",
+      "trackId": "5Li88NjZlTMl8v68GIJJ5v",
+      "name": "If I Should Lose You - Remastered 1999/Rudy Van Gelder Edition",
+      "artists": [
+        "Hank Mobley"
+      ],
+      "album": "Soul Station",
+      "albumId": "731OW49heGHCMrMOREHYlY",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028d277396016ea9ea46d55ce0",
+      "durationMs": 310520,
+      "context": "spotify:playlist:6ikhsOYoQ4sIiPSU27lJ2v"
+    },
+    {
+      "playedAt": "2026-11-10T15:22:08.837Z",
+      "trackId": "49Q0dU66bx2r0YXauvkWM8",
+      "name": "Asleep In The Forest",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "Arborescence",
+      "albumId": "0H2PGA1jUGuUQgxdW3Oyzn",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024a172631c1284a161e73373b",
+      "durationMs": 254666,
+      "context": "spotify:album:0H2PGA1jUGuUQgxdW3Oyzn"
+    },
+    {
+      "playedAt": "2026-11-10T15:28:25.216Z",
+      "trackId": "2rrYE3jRrnMo2bgsm9mcNc",
+      "name": "Toward Awakening",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "Arborescence",
+      "albumId": "0H2PGA1jUGuUQgxdW3Oyzn",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024a172631c1284a161e73373b",
+      "durationMs": 376320,
+      "context": "spotify:album:0H2PGA1jUGuUQgxdW3Oyzn"
+    },
+    {
+      "playedAt": "2026-11-10T15:30:07.462Z",
+      "trackId": "3zqVCujN4nNryzTCwLGO3G",
+      "name": "What Is This Thing Called Love",
+      "artists": [
+        "Clifford Brown",
+        "Max Roach Quintet"
+      ],
+      "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+      "albumId": "6PuVuJwyxyBZXMz73teSoV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021f8972135b07af1f0d59c47e",
+      "durationMs": 453146,
+      "context": "spotify:playlist:6HYT2M5zePf4WNKRvvW4D2"
+    },
+    {
+      "playedAt": "2026-11-10T15:32:53.416Z",
+      "trackId": "0CyHI8OMAjlZRiKRFYFotg",
+      "name": "Past Presence",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "Arborescence",
+      "albumId": "0H2PGA1jUGuUQgxdW3Oyzn",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024a172631c1284a161e73373b",
+      "durationMs": 268253,
+      "context": "spotify:album:0H2PGA1jUGuUQgxdW3Oyzn"
+    },
+    {
+      "playedAt": "2026-11-10T15:40:06.316Z",
+      "trackId": "6f1fCXsyEUvR3ztu2a3Ple",
+      "name": "Elsewhere",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "Arborescence",
+      "albumId": "0H2PGA1jUGuUQgxdW3Oyzn",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024a172631c1284a161e73373b",
+      "durationMs": 424333,
+      "context": "spotify:album:0H2PGA1jUGuUQgxdW3Oyzn"
+    },
+    {
+      "playedAt": "2026-11-10T15:45:41.798Z",
+      "trackId": "2VmV2EhH1BcFcGBX01nfHq",
+      "name": "In Pursuit",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "Arborescence",
+      "albumId": "0H2PGA1jUGuUQgxdW3Oyzn",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024a172631c1284a161e73373b",
+      "durationMs": 335533,
+      "context": "spotify:album:0H2PGA1jUGuUQgxdW3Oyzn"
+    },
+    {
+      "playedAt": "2026-11-10T15:48:03.396Z",
+      "trackId": "3Q141tOdiJy6eQvMh5jXM6",
+      "name": "Squirrels",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "Arborescence",
+      "albumId": "0H2PGA1jUGuUQgxdW3Oyzn",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024a172631c1284a161e73373b",
+      "durationMs": 141626,
+      "context": "spotify:album:0H2PGA1jUGuUQgxdW3Oyzn"
+    },
+    {
+      "playedAt": "2026-11-10T17:43:21.855Z",
+      "trackId": "55dPtMRZbqneqFqh0ns4dC",
+      "name": "Branchings",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "Arborescence",
+      "albumId": "0H2PGA1jUGuUQgxdW3Oyzn",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024a172631c1284a161e73373b",
+      "durationMs": 311440,
+      "context": "spotify:album:0H2PGA1jUGuUQgxdW3Oyzn"
+    },
+    {
+      "playedAt": "2026-11-10T17:46:28.447Z",
+      "trackId": "2ZhUMib5XrJefRQF0HPD76",
+      "name": "River Ways",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "Arborescence",
+      "albumId": "0H2PGA1jUGuUQgxdW3Oyzn",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024a172631c1284a161e73373b",
+      "durationMs": 186666,
+      "context": "spotify:album:0H2PGA1jUGuUQgxdW3Oyzn"
+    },
+    {
+      "playedAt": "2026-11-10T17:49:52.541Z",
+      "trackId": "4iIjYvFbN6ERU4iS0Djrde",
+      "name": "A Curious Bloom",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "Arborescence",
+      "albumId": "0H2PGA1jUGuUQgxdW3Oyzn",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024a172631c1284a161e73373b",
+      "durationMs": 204080,
+      "context": "spotify:album:0H2PGA1jUGuUQgxdW3Oyzn"
+    },
+    {
+      "playedAt": "2026-11-10T17:54:10.043Z",
+      "trackId": "0dVUdLURUbR3h3xFZmIoZp",
+      "name": "Reverie",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "Arborescence",
+      "albumId": "0H2PGA1jUGuUQgxdW3Oyzn",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024a172631c1284a161e73373b",
+      "durationMs": 257453,
+      "context": "spotify:album:0H2PGA1jUGuUQgxdW3Oyzn"
+    },
+    {
+      "playedAt": "2026-11-10T17:58:09.264Z",
+      "trackId": "7Lh3fJDaMlC64DkRfDRiFU",
+      "name": "Homestead",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "Arborescence",
+      "albumId": "0H2PGA1jUGuUQgxdW3Oyzn",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024a172631c1284a161e73373b",
+      "durationMs": 239306,
+      "context": "spotify:album:0H2PGA1jUGuUQgxdW3Oyzn"
+    },
+    {
+      "playedAt": "2026-11-10T20:13:02.826Z",
+      "trackId": "3zqVCujN4nNryzTCwLGO3G",
+      "name": "What Is This Thing Called Love",
+      "artists": [
+        "Clifford Brown",
+        "Max Roach Quintet"
+      ],
+      "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+      "albumId": "6PuVuJwyxyBZXMz73teSoV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021f8972135b07af1f0d59c47e",
+      "durationMs": 453146,
+      "context": "spotify:playlist:6HYT2M5zePf4WNKRvvW4D2"
+    },
+    {
+      "playedAt": "2026-11-10T20:16:12.378Z",
+      "trackId": "4edBxVVQL76ObsFj9ABbSX",
+      "name": "What Is This Thing Called Love - Single Version",
+      "artists": [
+        "Billie Holiday"
+      ],
+      "album": "The Complete Commodore/Decca Masters",
+      "albumId": "1FqBsGdAki04wMMPst8iZK",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e023ef5677049d3e4a2a7f4747d",
+      "durationMs": 189066,
+      "context": "spotify:playlist:6HYT2M5zePf4WNKRvvW4D2"
+    },
+    {
+      "playedAt": "2026-11-10T20:21:22.179Z",
+      "trackId": "2jZgFEONQS7Bk64IytEBU8",
+      "name": "In A Mellow Tone",
+      "artists": [
+        "Ben Webster"
+      ],
+      "album": "Verve Jazz Masters 43: Ben Webster",
+      "albumId": "4hafeOXr4qO4FqaFGRgCOe",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02588e03ea1909d877161cce5c",
+      "durationMs": 309333,
+      "context": "spotify:playlist:6HYT2M5zePf4WNKRvvW4D2"
+    },
+    {
+      "playedAt": "2026-11-10T20:26:30.575Z",
+      "trackId": "4lm669ZRk2EkTHg8An9n8T",
+      "name": "Anthropology",
+      "artists": [
+        "Charlie Parker"
+      ],
+      "album": "Burnin' Bird",
+      "albumId": "2y3dGQKlcxl9KagD6QfHUY",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b48ed6e56a1e3cd589b20d10",
+      "durationMs": 307866,
+      "context": "spotify:playlist:6HYT2M5zePf4WNKRvvW4D2"
+    },
+    {
+      "playedAt": "2026-11-10T20:28:30.350Z",
+      "trackId": "2lJ9PKvyERL3usJySsGG6I",
+      "name": "Corcovado - Ultimate Mix",
+      "artists": [
+        "João Gilberto"
+      ],
+      "album": "O Amor, O Sorriso e a Flor (Ultimate Mix)",
+      "albumId": "31wFbkHhgPP1c8S3wYx7it",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02937268cc4480e4ae7dcc6570",
+      "durationMs": 119328,
+      "context": "spotify:playlist:6HYT2M5zePf4WNKRvvW4D2"
+    },
+    {
+      "playedAt": "2026-11-10T20:32:08.870Z",
+      "trackId": "73SLdRn1IbciLWyK4e2d8p",
+      "name": "After You've Gone",
+      "artists": [
+        "Dinah Washington"
+      ],
+      "album": "The Complete Dinah Washington On Mercury Vol.5 (1956-1958)",
+      "albumId": "53UuPjzjPZdVorCmDewJSI",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02af5da5bb6f2b37f6c2f5cb80",
+      "durationMs": 218000,
+      "context": "spotify:playlist:6HYT2M5zePf4WNKRvvW4D2"
+    },
+    {
+      "playedAt": "2026-11-10T20:37:47.125Z",
+      "trackId": "0aWMVrwxPNYkKmFthzmpRi",
+      "name": "Blue in Green (feat. John Coltrane & Bill Evans)",
+      "artists": [
+        "Miles Davis",
+        "John Coltrane",
+        "Bill Evans"
+      ],
+      "album": "Kind Of Blue (Legacy Edition)",
+      "albumId": "4sb0eMpDn3upAFfyi4q2rw",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e020ebc17239b6b18ba88cfb8ca",
+      "durationMs": 337733,
+      "context": "spotify:playlist:6HYT2M5zePf4WNKRvvW4D2"
+    },
+    {
+      "playedAt": "2026-11-10T20:55:16.157Z",
+      "trackId": "4ToeD7bGmiRDr8W99n5ETj",
+      "name": "For María José",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "By All Means",
+      "albumId": "0Bb8tnCWkiCrZFJ4BSXx9e",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0298ed63ef035ba53d5a6ab87e",
+      "durationMs": 294504,
+      "context": "spotify:playlist:2OSwpY0bEqqwEoVOxO5Cwy"
     }
   ]
 }

@@ -534,6 +534,68 @@
           "song": "Blue in Green"
         }
       ],
+      "filled": true,
+      "removedOn": "2026-11-11"
+    },
+    {
+      "date": "2026-11-11",
+      "id": "7do1PqeDKjLixY3rz1UC6g",
+      "name": "Daily Standards – Nov 11, 2026",
+      "tracks": [
+        {
+          "trackId": "3zqVCujN4nNryzTCwLGO3G",
+          "name": "What Is This Thing Called Love",
+          "artists": [
+            "Clifford Brown",
+            "Max Roach Quintet"
+          ],
+          "song": "What Is This Thing Called Love?"
+        },
+        {
+          "trackId": "4edBxVVQL76ObsFj9ABbSX",
+          "name": "What Is This Thing Called Love - Single Version",
+          "artists": [
+            "Billie Holiday"
+          ],
+          "song": "What Is This Thing Called Love?"
+        },
+        {
+          "trackId": "5AodXZjIg8C6Trar4dTapB",
+          "name": "Corcovado",
+          "artists": [
+            "João Gilberto"
+          ],
+          "song": "Corcovado"
+        },
+        {
+          "trackId": "4cNtmZZ6OGq2UESnPLn94y",
+          "name": "Donna Lee",
+          "artists": [
+            "Clifford Brown"
+          ],
+          "song": "Donna Lee"
+        },
+        {
+          "trackId": "6xPwn3TDhmKr2LWwg15a3i",
+          "name": "Oleo - RVG Remastered 2008",
+          "artists": [
+            "Miles Davis",
+            "Sonny Rollins",
+            "Horace Silver",
+            "Kenny Clarke",
+            "Percy Heath"
+          ],
+          "song": "Oleo"
+        },
+        {
+          "trackId": "2zQl59dZMzwhrmeSBEgiXY",
+          "name": "Watermelon Man",
+          "artists": [
+            "Herbie Hancock"
+          ],
+          "song": "Watermelon Man"
+        }
+      ],
       "filled": true
     }
   ]
