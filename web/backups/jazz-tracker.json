@@ -8524,6 +8524,20 @@
       "name": "More Than You Know",
       "passed": true,
       "key": "Ab"
+    },
+    {
+      "ts": 1794401215540,
+      "date": 20261111,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "What Is This Thing Called Love?",
+      "secs": 368
+    },
+    {
+      "ts": 1794401215540,
+      "date": 20261111,
+      "type": "practiced",
+      "name": "What Is This Thing Called Love?"
     }
   ],
   "extraReviewsToday": {
@@ -10385,12 +10399,5 @@
   ],
   "playerNames": {
     "261295": "Tony Williams"
-  },
-  "timer": {
-    "area": "learn",
-    "name": "What Is This Thing Called Love?",
-    "start": 1794400847868,
-    "runStart": 1794400847868,
-    "accMs": 0
   }
 }
