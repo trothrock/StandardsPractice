@@ -486,10 +486,41 @@ function startDailySync() {
 
 // ── Playback ──
 
-// Starts a track at a position on the user's Spotify. Plays on the active device, or on the
-// first available one when nothing is active (an open but idle Spotify app). Failures come
-// back as { ok:false, reason } — scope (reconnect needed), premium, no-device — not thrown.
+// On a Mac the server shares with the Spotify app, drive the app directly. The Web API can
+// accept a play command (204) that a stale desktop client then silently ignores, which looks
+// like success but plays nothing. Opens Spotify if it isn't running. Resolves true once playing.
+const LOCAL_PLAY_SCRIPT = `on run argv
+  set trackUri to item 1 of argv
+  set startAt to (item 2 of argv) as real
+  tell application "Spotify"
+    repeat 20 times
+      try
+        play track trackUri
+        exit repeat
+      on error
+        delay 0.5
+      end try
+    end repeat
+    delay 0.3
+    set player position to startAt
+    return player state as text
+  end tell
+end run`;
+function playLocally(trackId, positionMs) {
+  if (process.platform !== 'darwin') return Promise.resolve(false);
+  const { execFile } = require('child_process');
+  return new Promise(resolve => {
+    execFile('osascript', ['-e', LOCAL_PLAY_SCRIPT, `spotify:track:${trackId}`, String(Math.max(0, positionMs) / 1000)],
+      { timeout: 15000 }, (err, stdout) => resolve(!err && stdout.trim() === 'playing'));
+  });
+}
+
+// Starts a track at a position on the user's Spotify: the Mac's own Spotify app when there is
+// one, otherwise the active device, or the first available one when nothing is active (an open
+// but idle Spotify app). Failures come back as { ok:false, reason } — scope (reconnect
+// needed), premium, no-device — not thrown.
 async function playTrackAt(trackId, positionMs) {
+  if (await playLocally(trackId, positionMs)) return { ok: true };
   const granted = (readJson(TOKEN_FILE, null)?.scope || '').split(' ');
   if (!PLAYBACK_SCOPES.every(s => granted.includes(s))) return { ok: false, reason: 'scope' };
   const put = (deviceId, attempt = 0) => getAccessToken('user').then(async token => {

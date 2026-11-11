@@ -3283,11 +3283,16 @@
       "baseLevel": 0,
       "currentLevel": 2,
       "status": "active",
-      "intervalIdx": 1,
+      "intervalIdx": 2,
       "learnedDate": 20261005,
       "reviews": [
         {
           "date": 20261023,
+          "passed": true,
+          "key": "Ab"
+        },
+        {
+          "date": 20261111,
           "passed": true,
           "key": "Ab"
         }
@@ -5412,6 +5417,12 @@
         {
           "trackId": "3zqVCujN4nNryzTCwLGO3G",
           "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+          "at": 274,
+          "text": "Shout chorus 1"
+        },
+        {
+          "trackId": "3zqVCujN4nNryzTCwLGO3G",
+          "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
           "at": 383,
           "text": "Clifford Brown bop language"
         }
@@ -5741,8 +5752,8 @@
     }
   },
   "currentNewSong": "What Is This Thing Called Love?",
-  "streak": 6,
-  "lastPracticeDay": 20261110,
+  "streak": 7,
+  "lastPracticeDay": 20261111,
   "activity": [
     {
       "ts": 1776634938073,
@@ -8497,6 +8508,22 @@
       "date": 20261110,
       "type": "repertoire_practiced",
       "name": "A Sleepin' Bee"
+    },
+    {
+      "ts": 1794400755575,
+      "date": 20261111,
+      "type": "practice_time",
+      "area": "review",
+      "name": "More Than You Know",
+      "secs": 1182
+    },
+    {
+      "ts": 1794400755575,
+      "date": 20261111,
+      "type": "review",
+      "name": "More Than You Know",
+      "passed": true,
+      "key": "Ab"
     }
   ],
   "extraReviewsToday": {
@@ -9209,7 +9236,7 @@
     "voicing": true,
     "review": true,
     "vocabulary": false,
-    "multikey": true
+    "multikey": false
   },
   "vocabulary": [],
   "keyCenters": {
@@ -9287,7 +9314,7 @@
     }
   },
   "standardKeysSeeded": true,
-  "reviewsPerWeek": 4,
+  "reviewsPerWeek": 7,
   "rotationMax": 12,
   "cadenceVersion": 7,
   "multiKeyPerWeek": 3,
@@ -9295,7 +9322,7 @@
     "weekStart": 20261109,
     "key": "B"
   },
-  "exitChecklistOpen": false,
+  "exitChecklistOpen": true,
   "exitChecklistDetailOpen": false,
   "practiceFocusMigrated": true,
   "repertoireFocusMigrated": true,
@@ -10358,5 +10385,12 @@
   ],
   "playerNames": {
     "261295": "Tony Williams"
+  },
+  "timer": {
+    "area": "learn",
+    "name": "What Is This Thing Called Love?",
+    "start": 1794400847868,
+    "runStart": 1794400847868,
+    "accMs": 0
   }
 }
