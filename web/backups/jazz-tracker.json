@@ -3033,7 +3033,7 @@
       "baseLevel": 0,
       "currentLevel": 2,
       "status": "active",
-      "intervalIdx": 2,
+      "intervalIdx": 3,
       "learnedDate": 20260831,
       "reviews": [
         {
@@ -3042,6 +3042,11 @@
         },
         {
           "date": 20260929,
+          "passed": true,
+          "key": "D"
+        },
+        {
+          "date": 20261111,
           "passed": true,
           "key": "D"
         }
@@ -5417,6 +5422,12 @@
         {
           "trackId": "3zqVCujN4nNryzTCwLGO3G",
           "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+          "at": 238,
+          "text": "Richie Powell Chromatic descending run"
+        },
+        {
+          "trackId": "3zqVCujN4nNryzTCwLGO3G",
+          "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
           "at": 274,
           "text": "Shout chorus 1"
         },
@@ -5432,7 +5443,8 @@
         "recording": true,
         "melody-shell": true,
         "melody-rootless": true,
-        "bass-track": true
+        "bass-track": true,
+        "intro-outro": true
       }
     },
     "What's New?": {
@@ -8538,6 +8550,31 @@
       "date": 20261111,
       "type": "practiced",
       "name": "What Is This Thing Called Love?"
+    },
+    {
+      "ts": 1794403199542,
+      "date": 20261111,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "What Is This Thing Called Love?",
+      "secs": 1500,
+      "origSecs": 843
+    },
+    {
+      "ts": 1794404259313,
+      "date": 20261111,
+      "type": "practice_time",
+      "area": "review",
+      "name": "Maiden Voyage",
+      "secs": 1039
+    },
+    {
+      "ts": 1794404259313,
+      "date": 20261111,
+      "type": "review",
+      "name": "Maiden Voyage",
+      "passed": true,
+      "key": "D"
     }
   ],
   "extraReviewsToday": {
@@ -10398,6 +10435,7 @@
     "79742"
   ],
   "playerNames": {
+    "259083": "Bud Powell",
     "261295": "Tony Williams"
   }
 }
