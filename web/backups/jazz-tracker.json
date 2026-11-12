@@ -315,7 +315,7 @@
       "baseLevel": 1,
       "currentLevel": 2,
       "status": "active",
-      "intervalIdx": 2,
+      "intervalIdx": 3,
       "learnedDate": 20260429,
       "reviews": [
         {
@@ -324,6 +324,11 @@
         },
         {
           "date": 20260929,
+          "passed": true,
+          "key": "Bb"
+        },
+        {
+          "date": 20261112,
           "passed": true,
           "key": "Bb"
         }
@@ -345,6 +350,12 @@
           "album": "Burnin' Bird",
           "at": 45,
           "text": "Charlie Parker long line"
+        }
+      ],
+      "practiceFocus": [
+        {
+          "text": "Ends of A sections",
+          "done": false
         }
       ]
     },
@@ -5414,6 +5425,12 @@
       ],
       "pointsOfInterest": [
         {
+          "trackId": "55oys15i8n52CkkseCiDca",
+          "album": "At The Lighthouse",
+          "at": 0,
+          "text": "Repeating A section figure"
+        },
+        {
           "trackId": "3zqVCujN4nNryzTCwLGO3G",
           "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
           "at": 167,
@@ -5444,7 +5461,10 @@
         "melody-shell": true,
         "melody-rootless": true,
         "bass-track": true,
-        "intro-outro": true
+        "intro-outro": true,
+        "points": true,
+        "lyrics": true,
+        "substitutions": true
       }
     },
     "What's New?": {
@@ -5764,8 +5784,8 @@
     }
   },
   "currentNewSong": "What Is This Thing Called Love?",
-  "streak": 7,
-  "lastPracticeDay": 20261111,
+  "streak": 8,
+  "lastPracticeDay": 20261112,
   "activity": [
     {
       "ts": 1776634938073,
@@ -8575,6 +8595,59 @@
       "name": "Maiden Voyage",
       "passed": true,
       "key": "D"
+    },
+    {
+      "ts": 1794487018823,
+      "date": 20261112,
+      "type": "practice_time",
+      "area": "review",
+      "name": "Anthropology",
+      "secs": 480,
+      "origSecs": 10
+    },
+    {
+      "ts": 1794487152833,
+      "date": 20261112,
+      "type": "practice_time",
+      "area": "review",
+      "name": "Anthropology",
+      "secs": 108
+    },
+    {
+      "ts": 1794487152833,
+      "date": 20261112,
+      "type": "review",
+      "name": "Anthropology",
+      "passed": true,
+      "key": "Bb"
+    },
+    {
+      "ts": 1794489492930,
+      "date": 20261112,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "What Is This Thing Called Love?",
+      "secs": 1695
+    },
+    {
+      "ts": 1794489492930,
+      "date": 20261112,
+      "type": "practiced",
+      "name": "What Is This Thing Called Love?"
+    },
+    {
+      "ts": 1794490043209,
+      "date": 20261112,
+      "type": "practice_time",
+      "area": "rep",
+      "name": "A Sleepin' Bee",
+      "secs": 515
+    },
+    {
+      "ts": 1794490043209,
+      "date": 20261112,
+      "type": "repertoire_practiced",
+      "name": "A Sleepin' Bee"
     }
   ],
   "extraReviewsToday": {
@@ -8689,7 +8762,7 @@
       "notes": null,
       "addedDate": 20260502,
       "lastReviewed": null,
-      "pinnedDate": 20261110
+      "pinnedDate": 20261112
     },
     {
       "name": "Do You Know What It Means (To Miss New Orleans)",
