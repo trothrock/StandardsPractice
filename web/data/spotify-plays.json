@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-11-11",
+  "lastSyncDate": "2026-11-12",
   "plays": [
     {
       "playedAt": "2026-10-01T01:25:15.151Z",
@@ -5065,6 +5065,271 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e0298ed63ef035ba53d5a6ab87e",
       "durationMs": 294504,
       "context": "spotify:playlist:2OSwpY0bEqqwEoVOxO5Cwy"
+    },
+    {
+      "playedAt": "2026-11-11T12:44:22.401Z",
+      "trackId": "1gddh8EbZdpNX8BNV1T5DZ",
+      "name": "Girl Talk - From the Motion Picture \"Harlow\"",
+      "artists": [
+        "The Peddlers"
+      ],
+      "album": "Part One",
+      "albumId": "2daztqZc0TzfydECOYKy1t",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0262d124c1fe1b7ce4ab2a92bf",
+      "durationMs": 223760,
+      "context": "spotify:album:2daztqZc0TzfydECOYKy1t"
+    },
+    {
+      "playedAt": "2026-11-11T15:46:48.223Z",
+      "trackId": "0T1EaGm6b9eM7xBf4F1hlc",
+      "name": "Maiden Voyage - Remastered 1999/Rudy Van Gelder Edition",
+      "artists": [
+        "Herbie Hancock"
+      ],
+      "album": "Maiden Voyage (Remastered 1999/Rudy Van Gelder Edition)",
+      "albumId": "7huPJTTsWVt854oZkr88mf",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b6f936d535913e3f425e5bbe",
+      "durationMs": 477093,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-11-11T16:03:27.231Z",
+      "trackId": "02u7fhPmh85JIH0zXBmPe0",
+      "name": "Sack O Woe - Live",
+      "artists": [
+        "The Cannonball Adderley Quintet"
+      ],
+      "album": "At The Lighthouse",
+      "albumId": "5liXliTB3HfiWNmgntRl2f",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02db47ff449d1e260a96a4e329",
+      "durationMs": 644826,
+      "context": "spotify:album:5liXliTB3HfiWNmgntRl2f"
+    },
+    {
+      "playedAt": "2026-11-11T16:35:29.736Z",
+      "trackId": "6zEYfHjIw593sk0JgfAkVB",
+      "name": "Big \"P\" - Live",
+      "artists": [
+        "The Cannonball Adderley Quintet"
+      ],
+      "album": "At The Lighthouse",
+      "albumId": "5liXliTB3HfiWNmgntRl2f",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02db47ff449d1e260a96a4e329",
+      "durationMs": 354706,
+      "context": "spotify:album:5liXliTB3HfiWNmgntRl2f"
+    },
+    {
+      "playedAt": "2026-11-11T16:43:00.637Z",
+      "trackId": "4oDzBGbVOKh8i1WloIOQfh",
+      "name": "Blue Daniel - Live",
+      "artists": [
+        "The Cannonball Adderley Quintet"
+      ],
+      "album": "At The Lighthouse",
+      "albumId": "5liXliTB3HfiWNmgntRl2f",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02db47ff449d1e260a96a4e329",
+      "durationMs": 450826,
+      "context": "spotify:album:5liXliTB3HfiWNmgntRl2f"
+    },
+    {
+      "playedAt": "2026-11-11T16:52:29.719Z",
+      "trackId": "70FWIRrkqpxyJRMe6ldyRb",
+      "name": "Azule Serape - Live At The Lighthouse, Hermosa Beach/1960",
+      "artists": [
+        "The Cannonball Adderley Quintet"
+      ],
+      "album": "At The Lighthouse",
+      "albumId": "5liXliTB3HfiWNmgntRl2f",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02db47ff449d1e260a96a4e329",
+      "durationMs": 569133,
+      "context": "spotify:album:5liXliTB3HfiWNmgntRl2f"
+    },
+    {
+      "playedAt": "2026-11-11T17:00:10.007Z",
+      "trackId": "4R6IJsYHnYobG0zfAO3oxn",
+      "name": "Exodus - Live",
+      "artists": [
+        "The Cannonball Adderley Quintet"
+      ],
+      "album": "At The Lighthouse",
+      "albumId": "5liXliTB3HfiWNmgntRl2f",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02db47ff449d1e260a96a4e329",
+      "durationMs": 460306,
+      "context": "spotify:album:5liXliTB3HfiWNmgntRl2f"
+    },
+    {
+      "playedAt": "2026-11-11T17:04:58.211Z",
+      "trackId": "55oys15i8n52CkkseCiDca",
+      "name": "What Is This Thing Called Love? - Live",
+      "artists": [
+        "The Cannonball Adderley Quintet"
+      ],
+      "album": "At The Lighthouse",
+      "albumId": "5liXliTB3HfiWNmgntRl2f",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02db47ff449d1e260a96a4e329",
+      "durationMs": 288200,
+      "context": "spotify:album:5liXliTB3HfiWNmgntRl2f"
+    },
+    {
+      "playedAt": "2026-11-11T18:01:56.170Z",
+      "trackId": "6VT91RAENGKK00udhgruXE",
+      "name": "Our Delight - Live",
+      "artists": [
+        "The Cannonball Adderley Quintet"
+      ],
+      "album": "At The Lighthouse",
+      "albumId": "5liXliTB3HfiWNmgntRl2f",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02db47ff449d1e260a96a4e329",
+      "durationMs": 413533,
+      "context": "spotify:album:5liXliTB3HfiWNmgntRl2f"
+    },
+    {
+      "playedAt": "2026-11-11T20:35:23.265Z",
+      "trackId": "4edBxVVQL76ObsFj9ABbSX",
+      "name": "What Is This Thing Called Love - Single Version",
+      "artists": [
+        "Billie Holiday"
+      ],
+      "album": "The Complete Commodore/Decca Masters",
+      "albumId": "1FqBsGdAki04wMMPst8iZK",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e023ef5677049d3e4a2a7f4747d",
+      "durationMs": 189066,
+      "context": "spotify:playlist:7do1PqeDKjLixY3rz1UC6g"
+    },
+    {
+      "playedAt": "2026-11-11T20:37:23.059Z",
+      "trackId": "2lJ9PKvyERL3usJySsGG6I",
+      "name": "Corcovado - Ultimate Mix",
+      "artists": [
+        "João Gilberto"
+      ],
+      "album": "O Amor, O Sorriso e a Flor (Ultimate Mix)",
+      "albumId": "31wFbkHhgPP1c8S3wYx7it",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02937268cc4480e4ae7dcc6570",
+      "durationMs": 119328,
+      "context": "spotify:playlist:7do1PqeDKjLixY3rz1UC6g"
+    },
+    {
+      "playedAt": "2026-11-11T20:43:54.048Z",
+      "trackId": "2zQl59dZMzwhrmeSBEgiXY",
+      "name": "Watermelon Man",
+      "artists": [
+        "Herbie Hancock"
+      ],
+      "album": "Head Hunters",
+      "albumId": "5fmIolILp5NAtNYiRPjhzA",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b170840d6fdbc754ba304058",
+      "durationMs": 390432,
+      "context": "spotify:playlist:7do1PqeDKjLixY3rz1UC6g"
+    },
+    {
+      "playedAt": "2026-11-11T20:49:07.048Z",
+      "trackId": "6xPwn3TDhmKr2LWwg15a3i",
+      "name": "Oleo - RVG Remastered 2008",
+      "artists": [
+        "Miles Davis",
+        "Sonny Rollins",
+        "Horace Silver",
+        "Kenny Clarke",
+        "Percy Heath"
+      ],
+      "album": "Bags' Groove (Rudy Van Gelder 2008 Remaster)",
+      "albumId": "3rs2Wq1755vGmXxIioU7Xo",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0242a04303e6eb1100df3ea036",
+      "durationMs": 312480,
+      "context": "spotify:playlist:7do1PqeDKjLixY3rz1UC6g"
+    },
+    {
+      "playedAt": "2026-11-11T20:56:40.625Z",
+      "trackId": "3zqVCujN4nNryzTCwLGO3G",
+      "name": "What Is This Thing Called Love",
+      "artists": [
+        "Clifford Brown",
+        "Max Roach Quintet"
+      ],
+      "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+      "albumId": "6PuVuJwyxyBZXMz73teSoV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021f8972135b07af1f0d59c47e",
+      "durationMs": 453146,
+      "context": "spotify:playlist:7do1PqeDKjLixY3rz1UC6g"
+    },
+    {
+      "playedAt": "2026-11-11T21:18:31.900Z",
+      "trackId": "4TpyVq3cwuQ6Tf3My565eB",
+      "name": "Come Sunday",
+      "artists": [
+        "Dave Douglas"
+      ],
+      "album": "Transcend",
+      "albumId": "4bOH4cErFKWCoURDRoaayr",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b694981b5afd7740ab19d125",
+      "durationMs": 422453,
+      "context": "spotify:album:4bOH4cErFKWCoURDRoaayr"
+    },
+    {
+      "playedAt": "2026-11-11T21:43:59.105Z",
+      "trackId": "4p1MIXb5DeCJviKPeZBZst",
+      "name": "School Days - Live At Newport Jazz Festival, 1957",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "album": "At Newport (Live at Newport Jazz Festival, 1957 / Expanded Edition)",
+      "albumId": "40uojcqOk5czLzsO4P2OOV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a39b0f5822068ccedd1a9eae",
+      "durationMs": 347720,
+      "context": "spotify:album:40uojcqOk5czLzsO4P2OOV"
+    },
+    {
+      "playedAt": "2026-11-11T21:51:51.735Z",
+      "trackId": "1zjXm6Hey5Zsen8Lm0pw45",
+      "name": "Doodlin' - Live At Newport Jazz Festival, 1957",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "album": "At Newport (Live at Newport Jazz Festival, 1957 / Expanded Edition)",
+      "albumId": "40uojcqOk5czLzsO4P2OOV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a39b0f5822068ccedd1a9eae",
+      "durationMs": 472613,
+      "context": "spotify:album:40uojcqOk5czLzsO4P2OOV"
+    },
+    {
+      "playedAt": "2026-11-11T21:59:02.941Z",
+      "trackId": "6H4aGBZMjwQXMmlCTSIvjk",
+      "name": "Manteca - Live At Newport Jazz Festival, 1957",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "album": "At Newport (Live at Newport Jazz Festival, 1957 / Expanded Edition)",
+      "albumId": "40uojcqOk5czLzsO4P2OOV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a39b0f5822068ccedd1a9eae",
+      "durationMs": 431266,
+      "context": "spotify:album:40uojcqOk5czLzsO4P2OOV"
+    },
+    {
+      "playedAt": "2026-11-11T22:03:51.039Z",
+      "trackId": "6ny5BKo6qNsauz5MENXyi3",
+      "name": "I Remember Clifford - Live At Newport Jazz Festival, 1957",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "album": "At Newport (Live at Newport Jazz Festival, 1957 / Expanded Edition)",
+      "albumId": "40uojcqOk5czLzsO4P2OOV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a39b0f5822068ccedd1a9eae",
+      "durationMs": 288053,
+      "context": "spotify:album:40uojcqOk5czLzsO4P2OOV"
+    },
+    {
+      "playedAt": "2026-11-11T23:34:01.922Z",
+      "trackId": "3Lbxie6whOW4eMt4jtI32k",
+      "name": "Yakety Yak - 2007 Remaster",
+      "artists": [
+        "The Coasters"
+      ],
+      "album": "There's A Riot Goin' On: The Coasters On Atco",
+      "albumId": "1oi6aLPgSAwv3352Jtmjku",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02ccdfe154fe251276f5ed16d7",
+      "durationMs": 116026,
+      "context": null
     }
   ]
 }

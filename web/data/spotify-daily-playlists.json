@@ -596,6 +596,64 @@
           "song": "Watermelon Man"
         }
       ],
+      "filled": true,
+      "removedOn": "2026-11-12"
+    },
+    {
+      "date": "2026-11-12",
+      "id": "5Qd9vOeUyX4vkvH0lahkiU",
+      "name": "Daily Standards – Nov 12, 2026",
+      "tracks": [
+        {
+          "trackId": "3zqVCujN4nNryzTCwLGO3G",
+          "name": "What Is This Thing Called Love",
+          "artists": [
+            "Clifford Brown",
+            "Max Roach Quintet"
+          ],
+          "song": "What Is This Thing Called Love?"
+        },
+        {
+          "trackId": "4edBxVVQL76ObsFj9ABbSX",
+          "name": "What Is This Thing Called Love - Single Version",
+          "artists": [
+            "Billie Holiday"
+          ],
+          "song": "What Is This Thing Called Love?"
+        },
+        {
+          "trackId": "4lm669ZRk2EkTHg8An9n8T",
+          "name": "Anthropology",
+          "artists": [
+            "Charlie Parker"
+          ],
+          "song": "Anthropology"
+        },
+        {
+          "trackId": "5B2xSO7OOIWNeoCbkIy1lB",
+          "name": "Don't Blame Me",
+          "artists": [
+            "Coleman Hawkins"
+          ],
+          "song": "Don't Blame Me"
+        },
+        {
+          "trackId": "5BxzqNLhwISk6IN5RZFkt8",
+          "name": "Blues For Alice",
+          "artists": [
+            "Charlie Parker"
+          ],
+          "song": "Blues for Alice"
+        },
+        {
+          "trackId": "2zQl59dZMzwhrmeSBEgiXY",
+          "name": "Watermelon Man",
+          "artists": [
+            "Herbie Hancock"
+          ],
+          "song": "Watermelon Man"
+        }
+      ],
       "filled": true
     }
   ]

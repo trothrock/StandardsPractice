@@ -9373,7 +9373,7 @@
     "weekStart": 20261109,
     "key": "B"
   },
-  "exitChecklistOpen": true,
+  "exitChecklistOpen": false,
   "exitChecklistDetailOpen": false,
   "practiceFocusMigrated": true,
   "repertoireFocusMigrated": true,
@@ -9949,6 +9949,34 @@
           "name": "Homestead"
         }
       ]
+    },
+    {
+      "albumId": "5liXliTB3HfiWNmgntRl2f",
+      "album": "At The Lighthouse",
+      "artists": [
+        "The Cannonball Adderley Quintet"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02db47ff449d1e260a96a4e329",
+      "year": "1986"
+    },
+    {
+      "albumId": "4vuijqNCK71JTiACBmdCTo",
+      "album": "Earfood",
+      "artists": [
+        "Roy Hargrove"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e5fb416c8afaa471d5bc9220",
+      "year": "2008"
+    },
+    {
+      "albumId": "6g0hUzE7MozpOpJR0Y8uuk",
+      "album": "A Supreme Blue",
+      "artists": [
+        "Nicholas Payton",
+        "Butcher Brown"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02923994f2a27fe6b5d7f47e38",
+      "year": "2026"
     }
   ],
   "recordsSort": "year",
