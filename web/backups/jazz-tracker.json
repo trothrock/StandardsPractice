@@ -10560,5 +10560,12 @@
   "playerNames": {
     "259083": "Bud Powell",
     "261295": "Tony Williams"
+  },
+  "timer": {
+    "area": "review",
+    "name": "Footprints",
+    "start": 1794571757357,
+    "runStart": 1794571757357,
+    "accMs": 0
   }
 }
