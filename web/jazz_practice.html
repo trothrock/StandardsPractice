@@ -3246,6 +3246,7 @@ async function renderListening() {
   body.innerHTML = calendar + albumSlot + playlistSection;
 }
 let detailOriginPanel = 'library';
+let detailOriginScroll = 0;
 let detailType = 'song';
 let currentDetailName = null;
 let detailTrail = [];
@@ -3257,7 +3258,11 @@ function beginDetail(fallbackPanel) {
 }
 function detailBack() {
   const previous = detailTrail.pop();
-  if(!previous) { showPanel(detailOriginPanel); return; }
+  if(!previous) {
+    showPanel(detailOriginPanel);
+    document.querySelector('.main').scrollTop = detailOriginScroll;
+    return;
+  }
   detailType = previous.type;
   currentDetailName = previous.name;
   refreshCurrentDetail();
@@ -4754,7 +4759,14 @@ function cancelEditSongNotes(type, name) {
   renderNotesView(type, name);
 }
 function showPanel(id) {
+  // The page scrolls as one, so a detail page would otherwise open wherever the last view was left.
+  // The list it was opened from keeps its place for Back.
+  const main = document.querySelector('.main');
   if(id!=='detail') detailTrail = [];
+  else {
+    if(!document.getElementById('panel-detail').classList.contains('active')) detailOriginScroll = main.scrollTop;
+    main.scrollTop = 0;
+  }
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');

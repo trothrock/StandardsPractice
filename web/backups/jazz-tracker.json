@@ -5471,7 +5471,17 @@
         "lyrics": true,
         "substitutions": true,
         "comping": true
-      }
+      },
+      "practiceFocus": [
+        {
+          "text": "Basin Street shout choruses",
+          "done": false
+        },
+        {
+          "text": "Cannonball vamp",
+          "done": false
+        }
+      ]
     },
     "What's New?": {
       "name": "What's New?",
@@ -10612,7 +10622,6 @@
     "79742"
   ],
   "playerNames": {
-    "259083": "Bud Powell",
     "261295": "Tony Williams"
   }
 }
