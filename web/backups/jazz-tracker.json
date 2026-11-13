@@ -10169,6 +10169,54 @@
       ],
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02160aa011e35301c4fdff9d78",
       "year": "1958"
+    },
+    {
+      "albumId": "1OjLx8J4i6GhNLBIJztwnC",
+      "album": "Play",
+      "artists": [
+        "Theo Croker",
+        "Sullivan Fortner"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028026968e101bc746f871cbb9",
+      "year": "2025"
+    },
+    {
+      "albumId": "5apzPGL9pMN4bLMaNG4pQ6",
+      "album": "Audience With the Queen",
+      "artists": [
+        "Galactic",
+        "Irma Thomas"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e023609f6fbc510b790b86dd6ad",
+      "year": "2025"
+    },
+    {
+      "albumId": "0ZtyPgjVZsMzwxeDYYgllf",
+      "album": "Alive at the Village Vanguard",
+      "artists": [
+        "Fred Hersch",
+        "Esperanza Spalding"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02604e20232b5cadb1b1a0eafc",
+      "year": "2023"
+    },
+    {
+      "albumId": "7uiAPDnBrbgujLp0p9E32Z",
+      "album": "Oh Snap",
+      "artists": [
+        "Cécile McLorin Salvant"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e029ceda0154450fd11fd723821",
+      "year": "2025"
+    },
+    {
+      "albumId": "6Th84PCh52k1N7doUHQR3P",
+      "album": "New African Orleans",
+      "artists": [
+        "Alune Wade"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0202fcf0446ec1e69b75acd3d7",
+      "year": "2025"
     }
   ],
   "recordsSort": "year",
