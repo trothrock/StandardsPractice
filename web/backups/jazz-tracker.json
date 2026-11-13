@@ -1653,7 +1653,7 @@
       "baseLevel": 1,
       "currentLevel": 2,
       "status": "active",
-      "intervalIdx": 2,
+      "intervalIdx": 1,
       "learnedDate": 20260723,
       "reviews": [
         {
@@ -1678,6 +1678,11 @@
         {
           "date": 20261001,
           "passed": true,
+          "key": "Cm"
+        },
+        {
+          "date": 20261113,
+          "passed": false,
           "key": "Cm"
         }
       ],
@@ -5464,7 +5469,8 @@
         "intro-outro": true,
         "points": true,
         "lyrics": true,
-        "substitutions": true
+        "substitutions": true,
+        "comping": true
       }
     },
     "What's New?": {
@@ -5784,8 +5790,8 @@
     }
   },
   "currentNewSong": "What Is This Thing Called Love?",
-  "streak": 8,
-  "lastPracticeDay": 20261112,
+  "streak": 9,
+  "lastPracticeDay": 20261113,
   "activity": [
     {
       "ts": 1776634938073,
@@ -8664,6 +8670,36 @@
       "area": "rep",
       "name": "A Sleepin' Bee",
       "secs": 739
+    },
+    {
+      "ts": 1794573685977,
+      "date": 20261113,
+      "type": "practice_time",
+      "area": "review",
+      "name": "Footprints",
+      "secs": 1929
+    },
+    {
+      "ts": 1794573685977,
+      "date": 20261113,
+      "type": "review",
+      "name": "Footprints",
+      "passed": false,
+      "key": "Cm"
+    },
+    {
+      "ts": 1794574483640,
+      "date": 20261113,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "What Is This Thing Called Love?",
+      "secs": 795
+    },
+    {
+      "ts": 1794574483640,
+      "date": 20261113,
+      "type": "practiced",
+      "name": "What Is This Thing Called Love?"
     }
   ],
   "extraReviewsToday": {
@@ -10560,12 +10596,5 @@
   "playerNames": {
     "259083": "Bud Powell",
     "261295": "Tony Williams"
-  },
-  "timer": {
-    "area": "review",
-    "name": "Footprints",
-    "start": 1794571757357,
-    "runStart": 1794571757357,
-    "accMs": 0
   }
 }
