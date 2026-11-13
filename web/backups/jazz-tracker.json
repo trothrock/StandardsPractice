@@ -10108,6 +10108,24 @@
       ],
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02923994f2a27fe6b5d7f47e38",
       "year": "2026"
+    },
+    {
+      "albumId": "2lPb2KYIudWUQcaL0vAlUm",
+      "album": "Seymour Reads the Constitution!",
+      "artists": [
+        "Brad Mehldau Trio"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02faa2a2c69dcba7d70a425ed9",
+      "year": "2018"
+    },
+    {
+      "albumId": "5BymHphSwXImKUTljcMJvu",
+      "album": "Ellington Indigos (Expanded Edition)",
+      "artists": [
+        "Duke Ellington"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02160aa011e35301c4fdff9d78",
+      "year": "1958"
     }
   ],
   "recordsSort": "year",

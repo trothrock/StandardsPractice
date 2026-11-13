@@ -1,6 +1,6 @@
 // discogs.js — Discogs API client (server-side only; the token never reaches the browser)
 // The token comes from the environment as DISCOGS_TOKEN.
-// Everything fetched for the Players tab is kept in data/discogs-cache.json, which is not committed:
+// Everything fetched for the Players tab and the Records tab's owned-record badges is kept in data/discogs-cache.json, which is not committed:
 // it can always be downloaded again, while the choices made about it live in the practice data.
 // Requests run one at a time, within Discogs' limit of 60 a minute.
 
@@ -423,6 +423,50 @@ async function searchArtists(q) {
   return (found?.results || []).map(r => ({ id: r.id, name: displayName(r.title) }));
 }
 
+// ── Collection ──
+
+// The records owned, read from the token holder's Discogs collection. A day-old copy is good enough
+// for marking album covers; one that's older is fetched again, a page of 100 at a time.
+const COLLECTION_MAX_AGE_MS = 24 * 60 * 60 * 1000;
+let collectionLoad = null;
+
+async function fetchCollection() {
+  const me = await discogsGet('/oauth/identity');
+  if (!me?.username) throw new Error('Discogs did not say whose token this is');
+  const items = [];
+  for (let page = 1, pages = 1; page <= pages; page++) {
+    const body = await discogsGet(`/users/${encodeURIComponent(me.username)}/collection/folders/0/releases`, { per_page: 100, page });
+    pages = body?.pagination?.pages || 1;
+    (body?.releases || []).forEach(r => {
+      const b = r.basic_information || {};
+      items.push({ releaseId: b.id || r.id, masterId: b.master_id || null, title: b.title || '', artists: (b.artists || []).map(a => displayName(a.name)) });
+    });
+  }
+  return { fetchedAt: Date.now(), items };
+}
+
+async function getCollection(refresh) {
+  const store = getCache();
+  if (!refresh && store.collection && Date.now() - store.collection.fetchedAt < COLLECTION_MAX_AGE_MS) return store.collection;
+  if (!collectionLoad) {
+    collectionLoad = fetchCollection()
+      .then(c => { store.collection = c; saveCache(); return c; })
+      .finally(() => { collectionLoad = null; });
+  }
+  try { return await collectionLoad; } catch (e) {
+    if (store.collection) return store.collection; // a stale copy beats none
+    throw e;
+  }
+}
+
+// The master each confirmed release belongs to, so a different pressing of the same album still counts.
+// Only releases already fetched are answered; none is looked up for this.
+function knownMasters(releaseIds) {
+  const store = getCache(), masters = {};
+  releaseIds.forEach(id => { if (store.releases[id]?.masterId) masters[id] = store.releases[id].masterId; });
+  return masters;
+}
+
 // ── Routes ──
 
 const SPOTIFY_ALBUM_ID = /^[A-Za-z0-9]{22}$/;
@@ -488,6 +532,12 @@ function handleRequest(req, res) {
     respond(params.get('type') === 'artist'
       ? searchArtists(q).then(artists => ({ artists }))
       : searchReleases(q).then(candidates => ({ candidates })));
+    return true;
+  }
+  if (url.pathname === '/api/discogs/collection') {
+    const ids = (params.get('releases') || '').split(',').filter(Boolean).slice(0, MAX_BULK_RELEASES);
+    if (!ids.every(id => NUMERIC_ID.test(id))) { reply(400, { ok: false, error: 'releases must be numbers' }); return true; }
+    respond(getCollection(params.get('refresh') === '1').then(c => ({ items: c.items, fetchedAt: c.fetchedAt, masters: knownMasters(ids) })));
     return true;
   }
   reply(404, { ok: false, error: 'Unknown Discogs route' });

@@ -283,6 +283,10 @@
   .album-track-name:hover { color: var(--gold2); }
   .record-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 24px 20px; padding: 20px; }
   .record-cell { position: relative; min-width: 0; }
+  .owned-wrap { position: relative; flex-shrink: 0; }
+  .owned-badge { position: absolute; right: 6px; bottom: 6px; width: 24px; height: 24px; border-radius: 50%; background: rgba(0,0,0,0.75); color: var(--gold2); display: flex; align-items: center; justify-content: center; pointer-events: none; }
+  .owned-badge svg { width: 70%; height: 70%; }
+  .owned-wrap.small .owned-badge { right: 2px; bottom: 2px; width: 15px; height: 15px; }
   .record-cell-art { display: block; width: 100%; aspect-ratio: 1; border-radius: var(--radius); object-fit: cover; background: var(--bg3); }
   .record-cell-title { margin-top: 10px; font-size: 13px; color: var(--text); overflow-wrap: anywhere; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
   .record-cell-meta { margin-top: 4px; font-size: 11px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; overflow-wrap: anywhere; }
@@ -2993,6 +2997,43 @@ function albumOfWeekHTML(db) {
   });
   return `<div class="section"><div class="section-head"><h2>Albums of the Week</h2></div><div class="album-week-pair">${features.join('')}</div></div>`;
 }
+// Records owned on vinyl or CD, from the Discogs collection. An album counts when its confirmed release,
+// or another pressing of the same master, is in the collection, or when one there has the same title
+// and artist. Unconfirmed albums only have the title to go by.
+let ownedCollection = null, ownedLoading = false, ownedReleasesKey = null;
+const OWNED_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6.5" stroke-width="1" opacity="0.6"/><circle cx="12" cy="12" r="3" fill="currentColor" stroke="none"/></svg>';
+const ownedBadge = '<span class="owned-badge" title="In your Discogs collection" aria-label="In your Discogs collection">'+OWNED_ICON+'</span>';
+const ownedKey = s => String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/&/g,' and ').replace(/[^a-z0-9]+/g,' ').trim().replace(/^the /,'').replace(/ /g,'');
+// "Maiden Voyage (Remastered 1999/Rudy Van Gelder Edition)" is "Maiden Voyage" on Discogs
+const ownedTitle = s => ownedKey(String(s||'').replace(/\s*[\(\[].*?[\)\]]/g,'').replace(/\s+-\s+.*$/,''));
+async function loadOwnedCollection() {
+  const db = getDB();
+  const key = [...new Set((db.records||[]).map(a => db.creditLinks?.[a.albumId]?.releaseId).filter(Boolean))].sort().join(',');
+  if(ownedLoading || (ownedCollection && ownedReleasesKey===key)) return;
+  ownedLoading = true;
+  try {
+    const r = await discogsGet('/api/discogs/collection?releases='+key);
+    ownedCollection = { items:r.items, masters:r.masters };
+    ownedReleasesKey = key;
+    drawRecords();
+  } catch(e) { /* no badges until the tracker can reach Discogs */ }
+  finally { ownedLoading = false; }
+}
+function ownsRecord(db, a) {
+  if(!ownedCollection) return false;
+  const link = db.creditLinks?.[a.albumId], master = link && ownedCollection.masters[link.releaseId];
+  if(link && ownedCollection.items.some(c => c.releaseId===link.releaseId || (master && c.masterId===master))) return true;
+  const artists = (a.artists||[]).map(ownedKey).filter(Boolean);
+  // Spotify's "Clifford Brown And Max Roach At Basin Street" is "At Basin Street" on Discogs
+  const titles = new Set([ownedTitle(a.album)]);
+  (a.artists||[]).forEach(n => {
+    const album = String(a.album||'');
+    if(n && album.toLowerCase().startsWith(n.toLowerCase()+' ')) titles.add(ownedTitle(album.slice(n.length).replace(/^\s*(and|&|with)\s+/i,'')));
+  });
+  titles.delete('');
+  return ownedCollection.items.some(c => titles.has(ownedTitle(c.title))
+    && c.artists.map(ownedKey).some(ca => ca && artists.some(sa => ca.includes(sa) || sa.includes(ca))));
+}
 function recordsHTML(db) {
   const current = new Set(RECORD_ERAS.map(([era]) => currentAlbumOfWeek(db, era))), records = db.records || [];
   const sort = db.recordsSort || 'year';
@@ -3004,11 +3045,13 @@ function recordsHTML(db) {
   const cells = view==='grid' && sorted.length ? `<div class="record-grid">${sorted.map(a => {
     const art = a.albumImage ? `<img class="record-cell-art" src="${escHTML(a.albumImage)}" alt="" loading="lazy">` : '<div class="record-cell-art"></div>';
     const when = whenFor(a);
-    return `<div class="record-cell"><a class="listen-thumb-link" href="spotify:album:${escHTML(a.albumId)}" title="Open in Spotify">${art}</a><button class="focus-del" title="Remove album" aria-label="Remove album" onclick="removeRecord('${escHTML(a.albumId)}')">&times;</button><div class="record-cell-title album-link" title="${escHTML(a.album)}" onclick="showAlbumDetail('${escHTML(a.albumId)}')">${escHTML(a.album)}</div><div class="record-cell-meta">${albumMeta(a, true)}</div>${when?`<div class="record-cell-when${current.has(a)?' current':''}">${when}</div>`:''}</div>`;
+    const owned = ownsRecord(db, a);
+    return `<div class="record-cell"><div class="owned-wrap"><a class="listen-thumb-link" href="spotify:album:${escHTML(a.albumId)}" title="Open in Spotify">${art}</a>${owned?ownedBadge:''}</div><button class="focus-del" title="Remove album" aria-label="Remove album" onclick="removeRecord('${escHTML(a.albumId)}')">&times;</button><div class="record-cell-title album-link" title="${escHTML(a.album)}" onclick="showAlbumDetail('${escHTML(a.albumId)}')">${escHTML(a.album)}</div><div class="record-cell-meta">${albumMeta(a, true)}</div>${when?`<div class="record-cell-when${current.has(a)?' current':''}">${when}</div>`:''}</div>`;
   }).join('')}</div>` : '';
   const rows = view==='grid' ? cells : sorted.map(a => {
     const when = whenFor(a);
-    return `<div class="song-row">${listenThumb(a.albumImage, a.albumId)}<div style="flex:1;min-width:0"><div class="song-name album-link" onclick="showAlbumDetail('${escHTML(a.albumId)}')">${escHTML(a.album)}</div><div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${albumMeta(a, true)}</div></div>${when?`<span class="key-stat">${when}</span>`:''}<button class="focus-del" title="Remove album" aria-label="Remove album" onclick="removeRecord('${escHTML(a.albumId)}')">&times;</button></div>`;
+    const thumb = ownsRecord(db, a) ? `<div class="owned-wrap small">${listenThumb(a.albumImage, a.albumId)}${ownedBadge}</div>` : listenThumb(a.albumImage, a.albumId);
+    return `<div class="song-row">${thumb}<div style="flex:1;min-width:0"><div class="song-name album-link" onclick="showAlbumDetail('${escHTML(a.albumId)}')">${escHTML(a.album)}</div><div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${albumMeta(a, true)}</div></div>${when?`<span class="key-stat">${when}</span>`:''}<button class="focus-del" title="Remove album" aria-label="Remove album" onclick="removeRecord('${escHTML(a.albumId)}')">&times;</button></div>`;
   }).join('');
   const s = albumSearch;
   let results = '';
@@ -3028,6 +3071,7 @@ function recordsHTML(db) {
 function drawRecords() {
   const db = getDB(), slot = document.getElementById('album-week-slot');
   document.getElementById('records-body').innerHTML = recordsHTML(db);
+  loadOwnedCollection();
   if(slot) slot.innerHTML = albumOfWeekHTML(db);
   if(detailType==='album') drawAlbumDetail(currentDetailName);
 }
