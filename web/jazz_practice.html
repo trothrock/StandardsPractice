@@ -4679,6 +4679,7 @@ function addPoi(el, name) {
   sg.pointsOfInterest.sort((a,b) => a.at-b.at);
   saveDB(db);
   redrawPois(name);
+  revealPoiPlayer(name, text, form.dataset.track);
 }
 // Clicking a point's text swaps the row for time and text inputs. Enter or clicking away saves;
 // Escape, or clicking away with a field invalid, cancels. Moving between the two inputs keeps
@@ -4686,7 +4687,7 @@ function addPoi(el, name) {
 function editPoi(span, name, i) {
   const pt = poiOwner(getDB(), name)?.pointsOfInterest?.[i];
   if(!pt) return;
-  const row = span.closest('.poi-row');
+  const row = span.closest('.poi-row'), oldText = pt.text, trackId = pt.trackId;
   const form = document.createElement('div');
   form.className = 'poi-form'; form.style.display = 'flex'; form.style.marginTop = '0';
   form.innerHTML = '<input class="focus-input poi-time-input" placeholder="m:ss"><input class="focus-input">';
@@ -4707,6 +4708,7 @@ function editPoi(span, name, i) {
       }
     }
     redrawPois(name);
+    if(save && text!==oldText) revealPoiPlayer(name, text, trackId);
   };
   form.onkeydown = e => { if(e.key==='Enter') finish(true); else if(e.key==='Escape') finish(false); };
   form.addEventListener('focusout', e => {
@@ -4716,6 +4718,22 @@ function editPoi(span, name, i) {
   row.replaceWith(form);
   textIn.focus();
   textIn.select();
+}
+// Naming a hidden player in a point of interest puts them back on the Players tab. Matching needs
+// the lineups, so it waits for them on a page that hasn't loaded them yet.
+async function revealPoiPlayer(name, text, trackId) {
+  if(!(getDB().hiddenPlayers||[]).length) return;
+  if(!playerReferences || !releasesLoaded) {
+    try { await ensurePlayerData(); } catch(e) { return; }
+  }
+  const db = getDB(), found = poiPlayerMatcher(collectPlayers(db, playerReferences))(text, trackId);
+  if(!found || !(db.hiddenPlayers||[]).includes(found.player.id)) return;
+  db.hiddenPlayers = db.hiddenPlayers.filter(x => x!==found.player.id);
+  saveDB(db);
+  toast(`${found.player.name} is back on Players.`);
+  drawPlayers();
+  redrawPois(name); // the name now links to their page
+  if(detailType==='album') drawAlbumPersonnel(currentDetailName);
 }
 function removePoi(name, i) {
   const db = getDB(), sg = poiOwner(db, name);
