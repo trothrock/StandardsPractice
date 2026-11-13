@@ -654,6 +654,65 @@
           "song": "Watermelon Man"
         }
       ],
+      "filled": true,
+      "removedOn": "2026-11-13"
+    },
+    {
+      "date": "2026-11-13",
+      "id": "1NsnwOgN4BqZcHtoUkX0gB",
+      "name": "Daily Standards – Nov 13, 2026",
+      "tracks": [
+        {
+          "trackId": "3zqVCujN4nNryzTCwLGO3G",
+          "name": "What Is This Thing Called Love",
+          "artists": [
+            "Clifford Brown",
+            "Max Roach Quintet"
+          ],
+          "song": "What Is This Thing Called Love?"
+        },
+        {
+          "trackId": "4edBxVVQL76ObsFj9ABbSX",
+          "name": "What Is This Thing Called Love - Single Version",
+          "artists": [
+            "Billie Holiday"
+          ],
+          "song": "What Is This Thing Called Love?"
+        },
+        {
+          "trackId": "2VaOoXFfdlrHyhORSq9H1v",
+          "name": "Stompin' At The Savoy",
+          "artists": [
+            "Clifford Brown",
+            "Max Roach"
+          ],
+          "song": "Stompin' at the Savoy"
+        },
+        {
+          "trackId": "0T1EaGm6b9eM7xBf4F1hlc",
+          "name": "Maiden Voyage - Remastered 1999/Rudy Van Gelder Edition",
+          "artists": [
+            "Herbie Hancock"
+          ],
+          "song": "Maiden Voyage"
+        },
+        {
+          "trackId": "5zJgpPfTCLdrbDSwviV4nl",
+          "name": "Come Rain or Come Shine",
+          "artists": [
+            "Ray Charles"
+          ],
+          "song": "Come Rain or Come Shine"
+        },
+        {
+          "trackId": "59vZ4sIpNRXW9QCxT1Xr4P",
+          "name": "Fly Me To The Moon",
+          "artists": [
+            "Vince Guaraldi Trio"
+          ],
+          "song": "Fly Me to the Moon"
+        }
+      ],
       "filled": true
     }
   ]

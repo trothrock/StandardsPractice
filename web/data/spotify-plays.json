@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-11-12",
+  "lastSyncDate": "2026-11-13",
   "plays": [
     {
       "playedAt": "2026-10-01T01:25:15.151Z",
@@ -5329,6 +5329,286 @@
       "albumId": "1oi6aLPgSAwv3352Jtmjku",
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02ccdfe154fe251276f5ed16d7",
       "durationMs": 116026,
+      "context": null
+    },
+    {
+      "playedAt": "2026-11-12T12:36:40.522Z",
+      "trackId": "4lm669ZRk2EkTHg8An9n8T",
+      "name": "Anthropology",
+      "artists": [
+        "Charlie Parker"
+      ],
+      "album": "Burnin' Bird",
+      "albumId": "2y3dGQKlcxl9KagD6QfHUY",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b48ed6e56a1e3cd589b20d10",
+      "durationMs": 307866,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-11-12T12:53:21.941Z",
+      "trackId": "7w9rguuCblUaPZJZFIYv2i",
+      "name": "Cool Breeze - Live At Newport Jazz Festival, 1957",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "album": "At Newport (Live at Newport Jazz Festival, 1957 / Expanded Edition)",
+      "albumId": "40uojcqOk5czLzsO4P2OOV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a39b0f5822068ccedd1a9eae",
+      "durationMs": 630093,
+      "context": "spotify:album:40uojcqOk5czLzsO4P2OOV"
+    },
+    {
+      "playedAt": "2026-11-12T16:06:12.322Z",
+      "trackId": "4edBxVVQL76ObsFj9ABbSX",
+      "name": "What Is This Thing Called Love - Single Version",
+      "artists": [
+        "Billie Holiday"
+      ],
+      "album": "The Complete Commodore/Decca Masters",
+      "albumId": "1FqBsGdAki04wMMPst8iZK",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e023ef5677049d3e4a2a7f4747d",
+      "durationMs": 189066,
+      "context": "spotify:playlist:5Qd9vOeUyX4vkvH0lahkiU"
+    },
+    {
+      "playedAt": "2026-11-12T16:12:33.698Z",
+      "trackId": "55oys15i8n52CkkseCiDca",
+      "name": "What Is This Thing Called Love? - Live",
+      "artists": [
+        "The Cannonball Adderley Quintet"
+      ],
+      "album": "At The Lighthouse",
+      "albumId": "5liXliTB3HfiWNmgntRl2f",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02db47ff449d1e260a96a4e329",
+      "durationMs": 288200,
+      "context": "spotify:album:5liXliTB3HfiWNmgntRl2f"
+    },
+    {
+      "playedAt": "2026-11-12T16:12:43.325Z",
+      "trackId": "2zQl59dZMzwhrmeSBEgiXY",
+      "name": "Watermelon Man",
+      "artists": [
+        "Herbie Hancock"
+      ],
+      "album": "Head Hunters",
+      "albumId": "5fmIolILp5NAtNYiRPjhzA",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b170840d6fdbc754ba304058",
+      "durationMs": 390432,
+      "context": "spotify:playlist:5Qd9vOeUyX4vkvH0lahkiU"
+    },
+    {
+      "playedAt": "2026-11-12T16:20:26.038Z",
+      "trackId": "2xm9ihELo6xwrRKrBbPql9",
+      "name": "Body and Soul",
+      "artists": [
+        "Coleman Hawkins"
+      ],
+      "album": "Body & Soul",
+      "albumId": "6Ieo4Lrku0sQ63Pd9G8j3L",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021c81e5a1581f1ee86535c40f",
+      "durationMs": 182360,
+      "context": "spotify:album:6Ieo4Lrku0sQ63Pd9G8j3L"
+    },
+    {
+      "playedAt": "2026-11-12T16:23:42.741Z",
+      "trackId": "4hhnrxfQlEzeBUirtpWXdH",
+      "name": "When Day Is Done - 1996 Remastered",
+      "artists": [
+        "Coleman Hawkins' All Star Octet",
+        "Coleman Hawkins"
+      ],
+      "album": "Body & Soul",
+      "albumId": "6Ieo4Lrku0sQ63Pd9G8j3L",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021c81e5a1581f1ee86535c40f",
+      "durationMs": 196733,
+      "context": "spotify:album:6Ieo4Lrku0sQ63Pd9G8j3L"
+    },
+    {
+      "playedAt": "2026-11-12T16:26:41.448Z",
+      "trackId": "2wFBdsviDWyA8hzBGWWDAc",
+      "name": "The Sheik of Araby",
+      "artists": [
+        "Coleman Hawkins' All Star Octet"
+      ],
+      "album": "Body & Soul",
+      "albumId": "6Ieo4Lrku0sQ63Pd9G8j3L",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021c81e5a1581f1ee86535c40f",
+      "durationMs": 178640,
+      "context": "spotify:album:6Ieo4Lrku0sQ63Pd9G8j3L"
+    },
+    {
+      "playedAt": "2026-11-12T16:29:29.537Z",
+      "trackId": "4OpbVIAvxB3qNzTTxdEonA",
+      "name": "My Blue Heaven - 1996 Remastered",
+      "artists": [
+        "Coleman Hawkins' All Star Octet",
+        "Coleman Hawkins"
+      ],
+      "album": "Body & Soul",
+      "albumId": "6Ieo4Lrku0sQ63Pd9G8j3L",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021c81e5a1581f1ee86535c40f",
+      "durationMs": 168133,
+      "context": "spotify:album:6Ieo4Lrku0sQ63Pd9G8j3L"
+    },
+    {
+      "playedAt": "2026-11-12T16:32:34.527Z",
+      "trackId": "7pr1wgELD4V9EGTG4vjJGs",
+      "name": "Bouncing With Bean - 1996 Remastered",
+      "artists": [
+        "Coleman Hawkins' All Star Octet",
+        "Coleman Hawkins"
+      ],
+      "album": "Body & Soul",
+      "albumId": "6Ieo4Lrku0sQ63Pd9G8j3L",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021c81e5a1581f1ee86535c40f",
+      "durationMs": 185026,
+      "context": "spotify:album:6Ieo4Lrku0sQ63Pd9G8j3L"
+    },
+    {
+      "playedAt": "2026-11-12T16:35:28.224Z",
+      "trackId": "6nfPhbxXB8to2m8yJjqFEF",
+      "name": "Say It Isn't So - 1996 Remastered",
+      "artists": [
+        "Coleman Hawkins' 52nd Street All-Stars",
+        "Coleman Hawkins"
+      ],
+      "album": "Body & Soul",
+      "albumId": "6Ieo4Lrku0sQ63Pd9G8j3L",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021c81e5a1581f1ee86535c40f",
+      "durationMs": 173706,
+      "context": "spotify:album:6Ieo4Lrku0sQ63Pd9G8j3L"
+    },
+    {
+      "playedAt": "2026-11-12T16:38:35.923Z",
+      "trackId": "1pUhI34soilCivRWnHeTqp",
+      "name": "Spotlite - 1996 Remastered",
+      "artists": [
+        "Coleman Hawkins' 52nd Street All-Stars",
+        "Coleman Hawkins"
+      ],
+      "album": "Body & Soul",
+      "albumId": "6Ieo4Lrku0sQ63Pd9G8j3L",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021c81e5a1581f1ee86535c40f",
+      "durationMs": 187666,
+      "context": "spotify:album:6Ieo4Lrku0sQ63Pd9G8j3L"
+    },
+    {
+      "playedAt": "2026-11-12T16:41:43.821Z",
+      "trackId": "6jViGcoDfDbur0OvYNTJup",
+      "name": "April in Paris - 1996 Remastered",
+      "artists": [
+        "Coleman Hawkins",
+        "Manny Albam"
+      ],
+      "album": "Body & Soul",
+      "albumId": "6Ieo4Lrku0sQ63Pd9G8j3L",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021c81e5a1581f1ee86535c40f",
+      "durationMs": 187893,
+      "context": "spotify:album:6Ieo4Lrku0sQ63Pd9G8j3L"
+    },
+    {
+      "playedAt": "2026-11-12T16:44:47.522Z",
+      "trackId": "5p65EUxtIzcN3E4uRvkLwV",
+      "name": "How Strange - 1996 Remastered",
+      "artists": [
+        "Coleman Hawkins"
+      ],
+      "album": "Body & Soul",
+      "albumId": "6Ieo4Lrku0sQ63Pd9G8j3L",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021c81e5a1581f1ee86535c40f",
+      "durationMs": 183733,
+      "context": "spotify:album:6Ieo4Lrku0sQ63Pd9G8j3L"
+    },
+    {
+      "playedAt": "2026-11-12T17:02:12.185Z",
+      "trackId": "6H4aGBZMjwQXMmlCTSIvjk",
+      "name": "Manteca - Live At Newport Jazz Festival, 1957",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "album": "At Newport (Live at Newport Jazz Festival, 1957 / Expanded Edition)",
+      "albumId": "40uojcqOk5czLzsO4P2OOV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a39b0f5822068ccedd1a9eae",
+      "durationMs": 431266,
+      "context": "spotify:album:40uojcqOk5czLzsO4P2OOV"
+    },
+    {
+      "playedAt": "2026-11-12T17:07:00.235Z",
+      "trackId": "6ny5BKo6qNsauz5MENXyi3",
+      "name": "I Remember Clifford - Live At Newport Jazz Festival, 1957",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "album": "At Newport (Live at Newport Jazz Festival, 1957 / Expanded Edition)",
+      "albumId": "40uojcqOk5czLzsO4P2OOV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a39b0f5822068ccedd1a9eae",
+      "durationMs": 288053,
+      "context": "spotify:album:40uojcqOk5czLzsO4P2OOV"
+    },
+    {
+      "playedAt": "2026-11-12T21:45:25.902Z",
+      "trackId": "6aYhosnY1YFmUyyyCIa7fk",
+      "name": "What is This Thing Called Love? - Live",
+      "artists": [
+        "Wynton Marsalis"
+      ],
+      "album": "Live at the House of Tribes",
+      "albumId": "6pYEOR7pGqy3mXUERIA8kY",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024e720d99eeeddbd26c19131a",
+      "durationMs": 627813,
+      "context": null
+    },
+    {
+      "playedAt": "2026-11-12T21:57:40.069Z",
+      "trackId": "1A2ioCDTc0lDVuCUpBwh3v",
+      "name": "What Is This Thing Called Love? - Instrumental",
+      "artists": [
+        "Red Garland Trio"
+      ],
+      "album": "A Garland Of Red",
+      "albumId": "0B0bQQoqyrMqbelYvcbVEs",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0288434f8225ca2e811db9dbb5",
+      "durationMs": 290040,
+      "context": null
+    },
+    {
+      "playedAt": "2026-11-12T22:01:36.669Z",
+      "trackId": "7jON0b4kLDNY0sWyGtyKAA",
+      "name": "What Is This Thing Called Love?",
+      "artists": [
+        "Kenny Garrett"
+      ],
+      "album": "Triology",
+      "albumId": "3hbxsG0MNq1k5SblPQ2CJc",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e025a2df1b5ed7bf63f1001cc34",
+      "durationMs": 217013,
+      "context": null
+    },
+    {
+      "playedAt": "2026-11-12T22:18:00.726Z",
+      "trackId": "7uwEQccVDaRZwz3zp09e5M",
+      "name": "What Is This Thing Called Love?",
+      "artists": [
+        "Art Pepper"
+      ],
+      "album": "Modern Art",
+      "albumId": "49HY44cDZDZ3iytyXdajQ6",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0209aac0dff72e3f1144f3be8e",
+      "durationMs": 363026,
+      "context": null
+    },
+    {
+      "playedAt": "2026-11-12T22:29:35.747Z",
+      "trackId": "7p3Sk9ALtaPZLrxUrs0mug",
+      "name": "What Is This Thing Called Love? - Live",
+      "artists": [
+        "Roy Hargrove",
+        "Mulgrew Miller"
+      ],
+      "album": "In Harmony (Live)",
+      "albumId": "26YRLzA8FZdZcUD8jpc0uL",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02407e369a18a0284d9af1d40f",
+      "durationMs": 549152,
       "context": null
     }
   ]

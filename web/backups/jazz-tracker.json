@@ -8648,6 +8648,22 @@
       "date": 20261112,
       "type": "repertoire_practiced",
       "name": "A Sleepin' Bee"
+    },
+    {
+      "ts": 1794496816971,
+      "date": 20261112,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "What Is This Thing Called Love?",
+      "secs": 1176
+    },
+    {
+      "ts": 1794497559645,
+      "date": 20261112,
+      "type": "practice_time",
+      "area": "rep",
+      "name": "A Sleepin' Bee",
+      "secs": 739
     }
   ],
   "extraReviewsToday": {
@@ -8762,7 +8778,13 @@
       "notes": null,
       "addedDate": 20260502,
       "lastReviewed": null,
-      "pinnedDate": 20261112
+      "pinnedDate": 20261112,
+      "practiceFocus": [
+        {
+          "text": "Head out chord subs",
+          "done": false
+        }
+      ]
     },
     {
       "name": "Do You Know What It Means (To Miss New Orleans)",
