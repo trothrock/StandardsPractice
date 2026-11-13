@@ -1646,6 +1646,14 @@
       ],
       "tags": [
         "Songbook"
+      ],
+      "pointsOfInterest": [
+        {
+          "trackId": "59vZ4sIpNRXW9QCxT1Xr4P",
+          "album": "A Boy Named Charlie Brown",
+          "at": 222,
+          "text": "Vince Guaraldi Guaraldi hunting horns"
+        }
       ]
     },
     "Footprints": {
@@ -5456,8 +5464,20 @@
         {
           "trackId": "3zqVCujN4nNryzTCwLGO3G",
           "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+          "at": 292,
+          "text": "Richie Powell End of bridge chords"
+        },
+        {
+          "trackId": "3zqVCujN4nNryzTCwLGO3G",
+          "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
           "at": 383,
-          "text": "Clifford Brown bop language"
+          "text": "Clifford Brown Minor bop language"
+        },
+        {
+          "trackId": "3zqVCujN4nNryzTCwLGO3G",
+          "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+          "at": 399,
+          "text": "Shout chorus 2"
         }
       ],
       "learningSteps": {
