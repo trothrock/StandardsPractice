@@ -10168,7 +10168,69 @@
         "Duke Ellington"
       ],
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02160aa011e35301c4fdff9d78",
-      "year": "1958"
+      "year": "1958",
+      "tracks": [
+        {
+          "id": "2YTEOOZ5pxUDwkfS9MyG4B",
+          "name": "Solitude"
+        },
+        {
+          "id": "2CRSV0N5UCxR4Qrj4pBGPx",
+          "name": "Where or When"
+        },
+        {
+          "id": "5PgSSjSTgTi1nrKyzZMqEJ",
+          "name": "Mood Indigo"
+        },
+        {
+          "id": "0GEwr2oP0FfX9AIjYIiMc6",
+          "name": "Autumn Leaves - Full Version"
+        },
+        {
+          "id": "7wdct6bK6n29N4D4soMNId",
+          "name": "The Sky Fell Down - Mono Version"
+        },
+        {
+          "id": "6iae60XLrvUIELZ2Ynymsd",
+          "name": "Prelude to a Kiss"
+        },
+        {
+          "id": "3U8STrSrwhIGqS9PRr0DYm",
+          "name": "Willow Weep for Me"
+        },
+        {
+          "id": "19UXKfWPm2qqZIdPQpYdTz",
+          "name": "Tenderly"
+        },
+        {
+          "id": "6jQ4V2mcYIvWs8XgkTkV9Y",
+          "name": "Dancing in the Dark"
+        },
+        {
+          "id": "67F0QNja9KPCSHSzhlsh3p",
+          "name": "Night and Day - Mono Version"
+        },
+        {
+          "id": "4tDb1XYhpSZlKP1OyoYiB9",
+          "name": "Cop Out"
+        },
+        {
+          "id": "6MLBsnuzlf6Pgy0AtmUyXU",
+          "name": "Under the Balcony"
+        },
+        {
+          "id": "4RId52JYRDG5oMZyrg6NgV",
+          "name": "Strange Feeling"
+        },
+        {
+          "id": "5SU0k7iNERbRPkQx2EuHrm",
+          "name": "Dancers in Love"
+        },
+        {
+          "id": "2TaTp53VWQLMCvfZAPdOXa",
+          "name": "Coloratura"
+        }
+      ]
     },
     {
       "albumId": "1OjLx8J4i6GhNLBIJztwnC",
@@ -10357,7 +10419,41 @@
         "Wynton Kelly Sextet"
       ],
       "albumImage": "https://i.scdn.co/image/ab67616d00001e0249c343da81f4f877064ababe",
-      "year": "1959"
+      "year": "1959",
+      "tracks": [
+        {
+          "id": "33xzjaFwbJz2gOawBBKJPG",
+          "name": "Kelly Blue"
+        },
+        {
+          "id": "3HqRFlE4syvpvdrycMyrwI",
+          "name": "Softly, As In A Morning Sunrise"
+        },
+        {
+          "id": "54LSytOqmO3lIDBQr6rJNC",
+          "name": "Do Nothin' Till You Hear From Me"
+        },
+        {
+          "id": "2ZgyEd5d2FrX1rKI5BQRYm",
+          "name": "On Green Dolphin Street"
+        },
+        {
+          "id": "3buN3lZRi9D238koT25GzT",
+          "name": "Willow Weep For Me"
+        },
+        {
+          "id": "1MgVxPeJF6xWbIpE7fBnjT",
+          "name": "Keep It Moving - Take 4"
+        },
+        {
+          "id": "5jBeEmKh5qqnBkncHXmTia",
+          "name": "Keep It Moving - Take 3"
+        },
+        {
+          "id": "1XOkg5N7d70STvZUKyF2yD",
+          "name": "Old Clothes"
+        }
+      ]
     },
     {
       "albumId": "5PzlTnVafjgt5RtjTdIKoC",
@@ -11092,7 +11188,104 @@
     "1209049",
     "1209043",
     "2032523",
-    "79742"
+    "79742",
+    "267099",
+    "329251",
+    "45008",
+    "401732",
+    "974072",
+    "274390",
+    "678784",
+    "430827",
+    "337785",
+    "256581",
+    "321922",
+    "1769617",
+    "135870",
+    "339273",
+    "661928",
+    "263441",
+    "75375",
+    "339954",
+    "253064",
+    "339952",
+    "595653",
+    "253063",
+    "255752",
+    "272017",
+    "254065",
+    "3555480",
+    "272655",
+    "251333",
+    "253067",
+    "257025",
+    "233016",
+    "339953",
+    "323259",
+    "257394",
+    "326975",
+    "272081",
+    "298943",
+    "256091",
+    "253066",
+    "817302",
+    "282557",
+    "252611",
+    "272018",
+    "64652",
+    "15448",
+    "312526",
+    "262129",
+    "307692",
+    "253240",
+    "259080",
+    "373293",
+    "497429",
+    "2254186",
+    "253345",
+    "119997",
+    "306398",
+    "292995",
+    "10095",
+    "253065",
+    "3442278",
+    "845514",
+    "220594",
+    "244729",
+    "251780",
+    "312929",
+    "231641",
+    "414107",
+    "252607",
+    "522540",
+    "312519",
+    "271155",
+    "967686",
+    "368808",
+    "323261",
+    "926046",
+    "303420",
+    "426653",
+    "500040",
+    "306395",
+    "2299261",
+    "1818",
+    "261196",
+    "348887",
+    "262587",
+    "656892",
+    "128396",
+    "4391104",
+    "282540",
+    "252748",
+    "327340",
+    "254176",
+    "312994",
+    "10096",
+    "327341",
+    "282089",
+    "1194674",
+    "274984"
   ],
   "playerNames": {
     "261295": "Tony Williams"

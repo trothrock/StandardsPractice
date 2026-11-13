@@ -3736,7 +3736,9 @@ async function startReview(albumId) {
   if(link?.releaseId) {
     playerReview.candidates = [{ kind:'release', id:link.releaseId, label:link.title, year:link.year ? String(link.year) : null, current:true }, ...found.candidates.filter(c => !(c.kind==='release' && c.id===link.releaseId))];
   }
-  if(playerReview.candidates.length) chooseCandidate(0, true);
+  // An album marked as having no credits opens with no release chosen, ready for players to be
+  // added by hand, rather than on Discogs' best guess
+  if(playerReview.candidates.length && !link?.none) chooseCandidate(0, true);
   else drawPlayers();
 }
 async function chooseCandidate(i, keepChoices) {
@@ -4225,8 +4227,13 @@ function drawAlbumPersonnel(albumId) {
   const slot = document.getElementById('album-personnel');
   if(!slot || detailType!=='album' || currentDetailName!==albumId) return;
   const link = getDB().creditLinks?.[albumId];
-  if(link?.none || !playerReferences || !releasesLoaded) { slot.innerHTML = ''; return; }
+  if(!playerReferences || !releasesLoaded) { slot.innerHTML = ''; return; }
   const change = `<button class="btn-action" onclick="changeAlbumLineup('${escHTML(albumId)}')">Change</button>`;
+  // Marked as having no credits, but someone can still be added by hand through Change
+  if(link?.none) {
+    slot.innerHTML = `<div class="section"><div class="section-head"><h2>Personnel</h2>${change}</div><div class="empty">Marked as having no credits. Use Change to add players.</div></div>`;
+    return;
+  }
   if(!link) {
     slot.innerHTML = `<div class="section"><div class="section-head"><h2>Personnel</h2></div><div class="empty">This album's lineup hasn't been confirmed yet. <a href="#" style="color:var(--gold)" onclick="event.preventDefault();showPanel('players')">Go to Players</a></div></div>`;
     return;

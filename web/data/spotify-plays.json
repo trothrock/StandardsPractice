@@ -5610,6 +5610,73 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02407e369a18a0284d9af1d40f",
       "durationMs": 549152,
       "context": null
+    },
+    {
+      "playedAt": "2026-11-13T15:44:03.201Z",
+      "trackId": "2VaOoXFfdlrHyhORSq9H1v",
+      "name": "Stompin' At The Savoy",
+      "artists": [
+        "Clifford Brown",
+        "Max Roach"
+      ],
+      "album": "Brown And Roach Incorporated",
+      "albumId": "6Wub7N4F0jXoqt66E5j2ql",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02889a6f7c981fea2ecdf9c59e",
+      "durationMs": 387000,
+      "context": "spotify:playlist:1NsnwOgN4BqZcHtoUkX0gB"
+    },
+    {
+      "playedAt": "2026-11-13T15:52:00.812Z",
+      "trackId": "0T1EaGm6b9eM7xBf4F1hlc",
+      "name": "Maiden Voyage - Remastered 1999/Rudy Van Gelder Edition",
+      "artists": [
+        "Herbie Hancock"
+      ],
+      "album": "Maiden Voyage (Remastered 1999/Rudy Van Gelder Edition)",
+      "albumId": "7huPJTTsWVt854oZkr88mf",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b6f936d535913e3f425e5bbe",
+      "durationMs": 477093,
+      "context": "spotify:playlist:1NsnwOgN4BqZcHtoUkX0gB"
+    },
+    {
+      "playedAt": "2026-11-13T15:56:06.806Z",
+      "trackId": "5zJgpPfTCLdrbDSwviV4nl",
+      "name": "Come Rain or Come Shine",
+      "artists": [
+        "Ray Charles"
+      ],
+      "album": "The Atlantic Hits",
+      "albumId": "6vbwAQCAYy8Vj7bXAPq5bz",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02251f9ed8769d5c58720a7dd1",
+      "durationMs": 221906,
+      "context": "spotify:playlist:1NsnwOgN4BqZcHtoUkX0gB"
+    },
+    {
+      "playedAt": "2026-11-13T15:59:16.287Z",
+      "trackId": "4edBxVVQL76ObsFj9ABbSX",
+      "name": "What Is This Thing Called Love - Single Version",
+      "artists": [
+        "Billie Holiday"
+      ],
+      "album": "The Complete Commodore/Decca Masters",
+      "albumId": "1FqBsGdAki04wMMPst8iZK",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e023ef5677049d3e4a2a7f4747d",
+      "durationMs": 189066,
+      "context": "spotify:playlist:1NsnwOgN4BqZcHtoUkX0gB"
+    },
+    {
+      "playedAt": "2026-11-13T16:09:09.325Z",
+      "trackId": "3zqVCujN4nNryzTCwLGO3G",
+      "name": "What Is This Thing Called Love",
+      "artists": [
+        "Clifford Brown",
+        "Max Roach Quintet"
+      ],
+      "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+      "albumId": "6PuVuJwyxyBZXMz73teSoV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021f8972135b07af1f0d59c47e",
+      "durationMs": 453146,
+      "context": "spotify:playlist:1NsnwOgN4BqZcHtoUkX0gB"
     }
   ]
 }
