@@ -526,7 +526,17 @@
       <div id="queue-body"></div>
     </div>
     <div id="panel-activity" class="panel">
-      <div class="panel-title">Activity</div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+        <div class="panel-title">Activity</div>
+        <select id="activity-range" onchange="setActivityRange(this.value)" style="font-size:12px;padding:5px 8px" aria-label="Timeframe">
+          <option value="7">Past 7 days</option>
+          <option value="30">Past 30 days</option>
+          <option value="90">Past 90 days</option>
+          <option value="180">Past 180 days</option>
+          <option value="365">Past 365 days</option>
+          <option value="all">Lifetime</option>
+        </select>
+      </div>
       <div class="panel-sub">All actions across your library</div>
       <div class="stats-row" style="grid-template-columns:repeat(2,1fr);margin-bottom:12px">
         <div class="stat-card"><div class="label">At level 2+</div><div class="value gold" id="p-2">—</div></div>
@@ -2456,10 +2466,11 @@ function renderProgressStats(db) {
   document.getElementById('prog-label').textContent = `${grad} of ${total} at level 2+`;
   document.getElementById('prog-pct').textContent = `${pct}%`;
   document.getElementById('prog-bar').style.width = pct+'%';
-  const learnedEvents = (db.activity||[]).filter(e=>e.type==='learned').sort((a,b)=>b.ts-a.ts).slice(0,20);
+  const start = activityRangeStart(db, todayInt());
+  const learnedEvents = (db.activity||[]).filter(e=>e.type==='learned' && e.date>=start).sort((a,b)=>b.ts-a.ts).slice(0,20);
   const rlb = document.getElementById('recent-learned-body');
   if(!learnedEvents.length) {
-    rlb.innerHTML = '<div class="empty">No songs learned yet.</div>';
+    rlb.innerHTML = `<div class="empty">No songs learned ${activityRange()==='all'?'yet':'in this timeframe'}.</div>`;
   } else {
     rlb.innerHTML = learnedEvents.map(e=>{
       const sg = db.songs[e.name];
@@ -2572,26 +2583,29 @@ function vizStreaks(days, tod) {
 }
 // Columns are Monday-start weeks shared by the calendar and the weekly bars, so a week
 // lines up across both charts.
-function vizWeekX(i) { return VIZ_LEFT + i * (VIZ_W - VIZ_LEFT) / VIZ_WEEKS; }
-function vizMonthTicks(firstWeek) {
+function vizWeekX(i, step = (VIZ_W - VIZ_LEFT) / VIZ_WEEKS) { return VIZ_LEFT + i * step; }
+function vizMonthTicks(firstWeek, n = VIZ_WEEKS) {
   const ticks = [];
-  for(let i=0;i<VIZ_WEEKS;i++) {
+  for(let i=0;i<n;i++) {
     const wk = addDays(firstWeek, i*7);
     const prev = i ? addDays(firstWeek, (i-1)*7) : null;
     if(!prev || Math.floor(wk/100)%100 !== Math.floor(prev/100)%100) ticks.push({ i, label: vizDate(wk).toLocaleDateString('en-US',{month:'short'}) });
   }
   return ticks;
 }
-function practiceCalendarHTML(days, firstWeek, tod, since) {
-  const step = (VIZ_W - VIZ_LEFT) / VIZ_WEEKS, cell = step - 4, top = 20;
+// Columns are Monday-start weeks. Cells keep their 26-week size for shorter ranges (the chart
+// then takes part of the width) and shrink to fit longer ones.
+function practiceCalendarHTML(days, start, tod, since) {
+  const firstWeek = weekStartInt(start), cols = daysBetween(firstWeek, weekStartInt(tod)) / 7 + 1;
+  const step = (VIZ_W - VIZ_LEFT) / Math.max(cols, VIZ_WEEKS), cell = step - Math.min(4, step * 0.2), top = 20;
   const countLevel = n => n===0 ? 0 : n<=2 ? 1 : n<=4 ? 2 : n<=7 ? 3 : 4;
   const minLevel = m => m<=15 ? 1 : m<=30 ? 2 : m<=60 ? 3 : 4;
   let svg = '';
-  vizMonthTicks(firstWeek).forEach(t => { svg += `<text x="${vizWeekX(t.i)}" y="11" font-size="11">${t.label}</text>`; });
+  vizMonthTicks(firstWeek, cols).forEach(t => { svg += `<text x="${vizWeekX(t.i, step)}" y="11" font-size="11">${t.label}</text>`; });
   ['Mon','','Wed','','Fri','',''].forEach((l,r) => { if(l) svg += `<text x="0" y="${top + r*step + cell/2 + 4}" font-size="10">${l}</text>`; });
-  for(let i=0;i<VIZ_WEEKS;i++) for(let r=0;r<7;r++) {
+  for(let i=0;i<cols;i++) for(let r=0;r<7;r++) {
     const d = addDays(firstWeek, i*7 + r);
-    if(d > tod) continue;
+    if(d > tod || d < start) continue;
     const c = days.get(d) || vizDay();
     const when = vizDate(d).toLocaleDateString('en-US',{weekday:'short', month:'short', day:'numeric'});
     const items = `${c.total} item${c.total===1?'':'s'}`;
@@ -2604,12 +2618,15 @@ function practiceCalendarHTML(days, firstWeek, tod, since) {
       lvl = countLevel(c.total);
       tip = c.total ? `${when} · ${items}\n${vizBreakdown(c)}` : `${when} · no practice`;
     }
-    svg += `<rect class="viz-cell" x="${vizWeekX(i)}" y="${top + r*step}" width="${cell}" height="${cell}" rx="3" fill="${VIZ_HEAT[lvl]}" data-tip="${vizEsc(tip)}"/>`;
+    svg += `<rect class="viz-cell" x="${vizWeekX(i, step)}" y="${top + r*step}" width="${cell}" height="${cell}" rx="${Math.min(3, cell/4)}" fill="${VIZ_HEAT[lvl]}" data-tip="${vizEsc(tip)}"/>`;
   }
-  if(since && since > firstWeek) svg += vizDividerSVG(since, firstWeek, top - 4, top + 7*step);
-  const h = top + 7*step;
+  if(since && since > firstWeek) svg += vizDividerSVG(vizWeekX(daysBetween(firstWeek, since) / 7, step) - 2, top - 4, top + 7*step);
+  const h = top + 7*step, vbW = VIZ_LEFT + cols*step + VIZ_RIGHT, full = VIZ_W + VIZ_RIGHT;
   const scale = VIZ_HEAT.map(c => `<i style="background:${c}"></i>`).join('');
-  return `<svg viewBox="0 0 ${VIZ_W + VIZ_RIGHT} ${h}" role="img" aria-label="Practice calendar, last ${VIZ_WEEKS} weeks">${svg}</svg><div class="viz-scale"><em>Less</em>${scale}<em>More</em></div>`;
+  // A narrow calendar sits at the left, with the key left-aligned under its first column.
+  const narrow = vbW < full;
+  const key = `<div class="viz-scale" style="${narrow ? `justify-content:flex-start;margin-left:${VIZ_LEFT / full * 100}%` : ''}"><em style="margin-left:0">Less</em>${scale}<em>More</em></div>`;
+  return `<div style="width:${Math.min(100, vbW / full * 100)}%"><svg viewBox="0 0 ${Math.min(vbW, full)} ${h}" role="img" aria-label="Practice calendar">${svg}</svg></div>${key}`;
 }
 // Same grid and palette as the practice calendar, shaded by library-song plays per day
 function listeningCalendarHTML(days, firstWeek, tod) {
@@ -2633,8 +2650,7 @@ function listeningCalendarHTML(days, firstWeek, tod) {
   const scale = VIZ_HEAT.map(c => `<i style="background:${c}"></i>`).join('');
   return `<svg viewBox="0 0 ${VIZ_W + VIZ_RIGHT} ${h}" role="img" aria-label="Listening calendar, last ${VIZ_WEEKS} weeks">${svg}</svg><div class="viz-scale"><em>Less</em>${scale}<em>More</em></div>`;
 }
-function vizDividerSVG(since, firstWeek, y0, y1) {
-  const x = vizWeekX(daysBetween(firstWeek, since) / 7) - 2;
+function vizDividerSVG(x, y0, y1) {
   return `<line x1="${x}" x2="${x}" y1="${y0}" y2="${y1}" stroke="#555" stroke-dasharray="3 3"/>`;
 }
 function vizScale(max, steps) {
@@ -2644,11 +2660,22 @@ function vizScale(max, steps) {
 const VIZ_ITEM_STEPS = [[8,2],[20,5],[50,10],[Infinity,20]];
 const VIZ_MIN_STEPS = [[60,15],[180,30],[480,60],[Infinity,120]];
 const vizMinLabel = v => v < 60 ? `${v}m` : `${+(v/60).toFixed(1)}h`;
-function weeklyMixHTML(days, firstWeek, since) {
-  const weeks = Array.from({length:VIZ_WEEKS}, (_,i) => {
-    const w = { start: addDays(firstWeek, i*7), timed: !!since && addDays(firstWeek, i*7) >= since, v:{}, total:0, n:{}, t:{}, mins:0 };
-    for(let r=0;r<7;r++) {
-      const c = days.get(addDays(w.start, r));
+// Ranges up to a month get one bar per day; longer ones one bar per Monday-start week.
+// Only days inside the range count, so the first week of a range can be partial.
+function practiceBuckets(start, tod) {
+  const daily = daysBetween(start, tod) < 31, len = daily ? 1 : 7;
+  const first = daily ? start : weekStartInt(start);
+  return { daily, len, first, n: Math.floor(daysBetween(first, tod) / len) + 1 };
+}
+function practiceMixHTML(days, start, tod, since) {
+  const { daily, len, first, n } = practiceBuckets(start, tod);
+  const weeks = Array.from({length:n}, (_,i) => {
+    const bStart = addDays(first, i*len);
+    const w = { start: bStart, timed: !!since && bStart >= since, partial: bStart < start, v:{}, total:0, n:{}, t:{}, mins:0 };
+    for(let r=0;r<len;r++) {
+      const d = addDays(bStart, r);
+      if(d < start || d > tod) continue;
+      const c = days.get(d);
       if(!c) continue;
       VIZ_CATS.forEach(cat => {
         if(c.n[cat.id]) w.n[cat.id] = (w.n[cat.id]||0) + c.n[cat.id];
@@ -2662,12 +2689,13 @@ function weeklyMixHTML(days, firstWeek, since) {
   });
   const counted = weeks.filter(w=>!w.timed), timed = weeks.filter(w=>w.timed);
   const top = 6, plotH = 150, base = top + plotH;
-  const step = (VIZ_W - VIZ_LEFT) / VIZ_WEEKS, bw = step - 6;
+  const step = (VIZ_W - VIZ_LEFT) / n, bw = Math.min(36, step - Math.min(6, step * 0.3));
+  const pad = Math.max(0, (step - 6 - bw) / 2);
   // Items and minutes each get their own scale: items on the left axis, minutes on the right
-  // (or on the left once the item weeks have scrolled out of view).
-  const cutX = timed.length ? vizWeekX(weeks.indexOf(timed[0])) - 2 : VIZ_W;
+  // (or on the left once the item bars have scrolled out of view).
+  const cutX = timed.length ? vizWeekX(weeks.indexOf(timed[0]), step) - 2 : VIZ_W;
   const itemScale = counted.length ? vizScale(Math.max(4, ...counted.map(w=>w.value)), VIZ_ITEM_STEPS) : null;
-  const minScale = timed.length ? vizScale(Math.max(60, ...timed.map(w=>w.value)), VIZ_MIN_STEPS) : null;
+  const minScale = timed.length ? vizScale(Math.max(daily ? 30 : 60, ...timed.map(w=>w.value)), VIZ_MIN_STEPS) : null;
   const yOf = (sc, v) => base - v / sc.top * plotH;
   let svg = '';
   const axis = (sc, x1, x2, labelX, anchor, fmt) => {
@@ -2678,9 +2706,9 @@ function weeklyMixHTML(days, firstWeek, since) {
   };
   if(itemScale) axis(itemScale, VIZ_LEFT, cutX, VIZ_LEFT-8, 'end', v=>v);
   if(minScale) itemScale ? axis(minScale, cutX, VIZ_W, VIZ_W+6, 'start', vizMinLabel) : axis(minScale, VIZ_LEFT, VIZ_W, VIZ_LEFT-8, 'end', vizMinLabel);
-  if(itemScale && minScale) svg += vizDividerSVG(timed[0].start, firstWeek, top - 6, base);
+  if(itemScale && minScale) svg += vizDividerSVG(cutX, top - 6, base);
   weeks.forEach((w,i) => {
-    const x = vizWeekX(i), sc = w.timed ? minScale : itemScale;
+    const x = vizWeekX(i, step) + pad, sc = w.timed ? minScale : itemScale;
     let acc = 0;
     const segs = VIZ_CATS.filter(c => w.v[c.id]);
     segs.forEach((c,k) => {
@@ -2694,15 +2722,21 @@ function weeklyMixHTML(days, firstWeek, since) {
         svg += `<rect x="${x}" y="${yTop}" width="${bw}" height="${hgt}" fill="${c.color}"/>`;
       }
     });
-    const head = `Week of ${vizDate(w.start).toLocaleDateString('en-US',{month:'short',day:'numeric'})}`;
+    const head = daily
+      ? vizDate(w.start).toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})
+      : `Week of ${vizDate(w.start).toLocaleDateString('en-US',{month:'short',day:'numeric'})}${w.partial ? ' (partial)' : ''}`;
     const tip = w.timed
       ? `${head} · ${w.mins ? formatMinutes(w.mins) : 'no timed practice'}` + (w.mins ? `\n${vizBreakdown(w, true)}` : '') + (w.total && !w.mins ? `\n${w.total} untimed item${w.total===1?'':'s'}` : '')
       : `${head} · ${w.total} item${w.total===1?'':'s'}` + (w.total ? `\n${vizBreakdown(w)}` : '');
-    svg += `<rect class="viz-hit" x="${x-3}" y="${top}" width="${step}" height="${plotH}" data-tip="${vizEsc(tip)}"/>`;
+    svg += `<rect class="viz-hit" x="${vizWeekX(i, step)-3}" y="${top}" width="${step}" height="${plotH}" data-tip="${vizEsc(tip)}"/>`;
   });
-  vizMonthTicks(firstWeek).forEach(t => { svg += `<text x="${vizWeekX(t.i)}" y="${base+16}" font-size="11">${t.label}</text>`; });
+  // Ticks: every day for a week, Mondays for a month, month starts for weekly bars.
+  const ticks = !daily ? vizMonthTicks(first, n)
+    : weeks.map((w,i) => ({ i, d: vizDate(w.start) })).filter(t => n <= 7 || t.d.getDay() === 1)
+        .map(t => ({ i: t.i, label: t.d.toLocaleDateString('en-US', n <= 7 ? {weekday:'short', day:'numeric'} : {month:'short', day:'numeric'}) }));
+  ticks.forEach(t => { svg += `<text x="${vizWeekX(t.i, step) + pad}" y="${base+16}" font-size="11">${t.label}</text>`; });
   const legend = VIZ_CATS.map(c => `<span><i style="background:${c.color}"></i>${c.label}</span>`).join('');
-  return `<div class="viz-legend">${legend}</div><svg viewBox="0 0 ${VIZ_W + VIZ_RIGHT} ${base+22}" role="img" aria-label="Practice per week by area">${svg}</svg>`;
+  return `<div class="viz-legend">${legend}</div><svg viewBox="0 0 ${VIZ_W + VIZ_RIGHT} ${base+22}" role="img" aria-label="Practice per ${daily ? 'day' : 'week'} by area">${svg}</svg>`;
 }
 // Pairs each "started learning" with the "marked level 2" that follows it; a switch away
 // (stopped learning) drops the open stint. The song still in progress gets an open bar.
@@ -2716,22 +2750,27 @@ function learningStints(db, tod) {
   if(db.currentNewSong && open.has(db.currentNewSong)) stints.push({ name:db.currentNewSong, start:open.get(db.currentNewSong), end:tod, done:false });
   return stints;
 }
-function learningTimelineHTML(db, tod) {
-  const stints = learningStints(db, tod);
-  if(!stints.length) return '<div class="empty">No songs learned yet.</div>';
+function learningTimelineHTML(db, tod, start, all) {
+  const stints = learningStints(db, tod).filter(st => st.end >= start);
+  if(!stints.length) return `<div class="empty">No songs ${all ? 'learned yet' : 'in progress or learned in this timeframe'}.</div>`;
   const label = 170, right = 70, rowH = 26, top = 22;
-  const t0 = addDays(stints[0].start, -3), span = Math.max(14, daysBetween(t0, addDays(tod, 3)));
-  const x = d => label + daysBetween(t0, d) / span * (VIZ_W - label - right);
+  const t0 = all ? addDays(stints[0].start, -3) : start;
+  const span = Math.max(all ? 14 : 1, daysBetween(t0, addDays(tod, all ? 3 : 1)));
+  const x = d => label + Math.max(0, daysBetween(t0, d)) / span * (VIZ_W - label - right);
   const h = top + stints.length * rowH;
   let svg = '';
-  // Month gridlines
-  let m = vizDate(t0); m.setDate(1); m.setMonth(m.getMonth()+1);
-  while(true) {
-    const mi = m.getFullYear()*10000+(m.getMonth()+1)*100+1;
-    if(mi > tod) break;
-    const mx = x(mi);
-    svg += `<line x1="${mx}" x2="${mx}" y1="${top-4}" y2="${h}" stroke="#232323"/><text x="${mx+4}" y="12" font-size="11">${m.toLocaleDateString('en-US',{month:'short'})}</text>`;
-    m.setMonth(m.getMonth()+1);
+  // Gridlines at month starts, or at Mondays when the range is a month or less
+  const grid = d => svg += `<line x1="${x(d)}" x2="${x(d)}" y1="${top-4}" y2="${h}" stroke="#232323"/><text x="${x(d)+4}" y="12" font-size="11">${vizDate(d).toLocaleDateString('en-US', span <= 35 ? {month:'short',day:'numeric'} : {month:'short'})}</text>`;
+  if(span <= 35) {
+    for(let d = addDays(weekStartInt(t0), 7); d <= tod; d = addDays(d, 7)) grid(d);
+  } else {
+    let m = vizDate(t0); m.setDate(1); m.setMonth(m.getMonth()+1);
+    while(true) {
+      const mi = m.getFullYear()*10000+(m.getMonth()+1)*100+1;
+      if(mi > tod) break;
+      grid(mi);
+      m.setMonth(m.getMonth()+1);
+    }
   }
   stints.forEach((st,i) => {
     const yy = top + i*rowH, x0 = x(st.start), x1 = Math.max(x(st.end), x0 + 6);
@@ -2748,24 +2787,46 @@ function learningTimelineHTML(db, tod) {
   });
   return `<svg viewBox="0 0 ${VIZ_W} ${h}" role="img" aria-label="Time from starting each song to level 2">${svg}</svg>`;
 }
+// Timeframe for the Activity page: a number of days back from today, or 'all'.
+const ACTIVITY_RANGES = ['7','30','90','180','365','all'];
+const ACTIVITY_RANGE_KEY = 'jazz_activity_range';
+function activityRange() {
+  try { const r = localStorage.getItem(ACTIVITY_RANGE_KEY); if(ACTIVITY_RANGES.includes(r)) return r; } catch(e) {}
+  return '180';
+}
+function setActivityRange(r) {
+  try { localStorage.setItem(ACTIVITY_RANGE_KEY, r); } catch(e) {}
+  renderActivity();
+}
+function activityRangeStart(db, tod) {
+  const r = activityRange();
+  if(r !== 'all') return addDays(tod, -(Number(r) - 1));
+  return (db.activity||[]).reduce((m,e) => { const d = e.date || dateIntOf(e.ts); return d < m ? d : m; }, tod);
+}
+function activityRangeLabel() {
+  const r = activityRange();
+  return r === 'all' ? 'all time' : `last ${r} days`;
+}
 function renderActivityViz(db) {
   const box = document.getElementById('activity-viz');
   if(!box) return;
-  const tod = todayInt(), days = practiceByDay(db), since = vizTimedSince(db);
-  const firstWeek = weekStartInt(addDays(tod, -7*(VIZ_WEEKS-1)));
+  const tod = todayInt(), all = activityRange()==='all', start = activityRangeStart(db, tod), since = vizTimedSince(db);
+  const days = new Map([...practiceByDay(db)].filter(([d]) => d >= start && d <= tod));
+  const { daily, first } = practiceBuckets(start, tod);
+  const unit = daily ? 'day' : 'week', range = activityRangeLabel();
   const sinceLabel = since && vizDate(since).toLocaleDateString('en-US',{month:'short',day:'numeric'});
-  const mixMeta = !since ? `practice items per week · last ${VIZ_WEEKS} weeks`
-    : since <= firstWeek ? `minutes per week · last ${VIZ_WEEKS} weeks`
-    : `items per week, minutes from ${sinceLabel} · last ${VIZ_WEEKS} weeks`;
+  const mixMeta = !since || since > tod ? `practice items per ${unit} · ${range}`
+    : since <= first ? `minutes per ${unit} · ${range}`
+    : `items per ${unit}, minutes from ${sinceLabel} · ${range}`;
   const { longest, current } = vizStreaks(days, tod);
-  const active = [...days.keys()].filter(d => d >= firstWeek).length;
-  const stints = learningStints(db, tod).filter(s=>s.done);
+  const active = days.size;
+  const stints = learningStints(db, tod).filter(s => s.done && s.end >= start);
   const avg = stints.length ? Math.round(stints.reduce((n,s)=>n+daysBetween(s.start,s.end),0)/stints.length) : null;
   const sec = (title, meta, body) => `<div class="section"><div class="section-head"><h2>${title}</h2><span class="count">${meta}</span></div><div class="viz-body">${body}</div></div>`;
   box.innerHTML =
-    sec('Practice calendar', `${active} active days · ${current}-day streak · longest ${longest}`, practiceCalendarHTML(days, firstWeek, tod, since)) +
-    sec('Weekly mix', mixMeta, weeklyMixHTML(days, firstWeek, since)) +
-    sec('Learning timeline', avg!==null ? `${stints.length} songs to level 2 · ${avg} days on average` : '', learningTimelineHTML(db, tod));
+    sec('Practice calendar', `${active} active day${active===1?'':'s'} · ${current}-day streak · longest ${longest}`, practiceCalendarHTML(days, start, tod, since)) +
+    sec(daily ? 'Daily mix' : 'Weekly mix', mixMeta, practiceMixHTML(days, start, tod, since)) +
+    sec('Learning timeline', avg!==null ? `${stints.length} song${stints.length===1?'':'s'} to level 2 · ${avg} days on average` : '', learningTimelineHTML(db, tod, start, all));
 }
 function vizTipInit() {
   if(document.getElementById('viz-tip')) return;
@@ -2791,11 +2852,16 @@ function renderActivity() {
   renderActivityViz(db);
   vizTipInit();
   const ab = document.getElementById('activity-body');
+  const rangeSel = document.getElementById('activity-range');
+  if(rangeSel) rangeSel.value = activityRange();
   if(!db.activity||!db.activity.length){ ab.innerHTML='<div class="empty">No activity yet.</div>'; return; }
   const period = (document.getElementById('activity-group')||{}).value || 'day';
+  const start = activityRangeStart(db, todayInt());
+  const inRange = db.activity.filter(e => (e.date||dateIntOf(e.ts)) >= start);
+  if(!inRange.length){ ab.innerHTML='<div class="empty">No activity in this timeframe.</div>'; return; }
   // A timed session also logs a plain "practiced" marker; the timed row says it all.
-  const timed = new Set(db.activity.filter(e=>e.type==='practice_time').map(e=>`${e.date}|${e.name}`));
-  const sorted = db.activity
+  const timed = new Set(inRange.filter(e=>e.type==='practice_time').map(e=>`${e.date}|${e.name}`));
+  const sorted = inRange
     .filter(e => !(TIMED_MARKER_TYPES.has(e.type) && timed.has(`${e.date||dateIntOf(e.ts)}|${e.name}`)))
     .sort((a,b)=>b.ts-a.ts);
   const groups = [];

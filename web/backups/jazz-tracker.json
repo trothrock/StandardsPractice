@@ -3922,7 +3922,7 @@
     },
     "Ornithology": {
       "name": "Ornithology",
-      "baseLevel": 1,
+      "baseLevel": 2,
       "currentLevel": 1,
       "status": "untouched",
       "intervalIdx": -1,
@@ -8710,6 +8710,19 @@
       "date": 20261113,
       "type": "practiced",
       "name": "What Is This Thing Called Love?"
+    },
+    {
+      "ts": 1794583849572,
+      "date": 20261113,
+      "type": "song_edited",
+      "oldName": "Ornithology",
+      "name": "Ornithology",
+      "tags": [
+        "Bop",
+        "Contrafact"
+      ],
+      "level": 2,
+      "oldLevel": 1
     }
   ],
   "extraReviewsToday": {
