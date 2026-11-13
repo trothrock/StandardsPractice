@@ -10178,7 +10178,65 @@
         "Sullivan Fortner"
       ],
       "albumImage": "https://i.scdn.co/image/ab67616d00001e028026968e101bc746f871cbb9",
-      "year": "2025"
+      "year": "2025",
+      "tracks": [
+        {
+          "id": "5R3e5tMI5Ugr2HCzH90hpx",
+          "name": "A Prayer for Peace"
+        },
+        {
+          "id": "096NVYogRjB7iUlPWVgHtu",
+          "name": "First Light"
+        },
+        {
+          "id": "6zNPmaxzNpHg1tkqTBcMHS",
+          "name": "We Laugh Because We Must"
+        },
+        {
+          "id": "2Se9bwzYTRu8lidyCvgBUy",
+          "name": "Midnight Bloom"
+        },
+        {
+          "id": "2rym1xDzQOcAwQUzociIu4",
+          "name": "The Space Within"
+        },
+        {
+          "id": "0Nz0ZkxDkDkElaG5cPsnNc",
+          "name": "Let the Quiet Speak"
+        },
+        {
+          "id": "3mKpLQdnmIrNCtHPMGkS5a",
+          "name": "Open Palms"
+        },
+        {
+          "id": "5sn1HYVEpMnJ54GEFSBmBb",
+          "name": "Light Remains"
+        },
+        {
+          "id": "7wmPIF4MGgS65IsyAwzYYZ",
+          "name": "Beneath the Noise"
+        },
+        {
+          "id": "2tRmDCu8P0XKRFtJjFDkdJ",
+          "name": "Mouth Full of Sky"
+        },
+        {
+          "id": "3UC1xehc21phQOYSh8t1Nr",
+          "name": "Grace Is Not Gentle"
+        },
+        {
+          "id": "71UuDx4XmuTdiHICtAT7b2",
+          "name": "As We Are"
+        },
+        {
+          "id": "6H5ZF2PNom6ygYT7rJScK3",
+          "name": "Then We Danced"
+        },
+        {
+          "id": "1BnF2vjmVIS74Smu7aCcax",
+          "name": "Here and Now"
+        }
+      ]
     },
     {
       "albumId": "5apzPGL9pMN4bLMaNG4pQ6",
@@ -10764,6 +10822,239 @@
       "included": [],
       "added": [],
       "confirmedAt": 20261108
+    },
+    "5liXliTB3HfiWNmgntRl2f": {
+      "releaseId": 2534888,
+      "title": "The Cannonball Adderley Quintet - At The Lighthouse",
+      "year": 1960,
+      "url": "https://www.discogs.com/release/2534888-The-Cannonball-Adderley-Quintet-At-The-Lighthouse",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261113
+    },
+    "4vuijqNCK71JTiACBmdCTo": {
+      "releaseId": 2209558,
+      "title": "Roy Hargrove Quintet - Earfood",
+      "year": 2008,
+      "url": "https://www.discogs.com/release/2209558-Roy-Hargrove-Quintet-Earfood",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261113
+    },
+    "6g0hUzE7MozpOpJR0Y8uuk": {
+      "releaseId": 37962054,
+      "title": "Nicholas Payton, Butcher Brown - A Supreme Blue",
+      "year": 2026,
+      "url": "https://www.discogs.com/release/37962054-Nicholas-Payton-Butcher-Brown-A-Supreme-Blue",
+      "excluded": [
+        3959482
+      ],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261113
+    },
+    "2lPb2KYIudWUQcaL0vAlUm": {
+      "releaseId": 12017418,
+      "title": "Brad Mehldau Trio - Seymour Reads The Constitution!",
+      "year": 2018,
+      "url": "https://www.discogs.com/release/12017418-Brad-Mehldau-Trio-Seymour-Reads-The-Constitution",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261113
+    },
+    "5BymHphSwXImKUTljcMJvu": {
+      "none": true,
+      "confirmedAt": 20261113
+    },
+    "1OjLx8J4i6GhNLBIJztwnC": {
+      "releaseId": 35629633,
+      "title": "Theo Croker & Sullivan Fortner - Play",
+      "year": 2025,
+      "url": "https://www.discogs.com/release/35629633-Theo-Croker-Sullivan-Fortner-Play",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261113
+    },
+    "5apzPGL9pMN4bLMaNG4pQ6": {
+      "none": true,
+      "confirmedAt": 20261113
+    },
+    "0ZtyPgjVZsMzwxeDYYgllf": {
+      "releaseId": 25680223,
+      "title": "Fred Hersch & Esperanza Spalding - Alive At The Village Vanguard",
+      "year": 2023,
+      "url": "https://www.discogs.com/release/25680223-Fred-Hersch-Esperanza-Spalding-Alive-At-The-Village-Vanguard",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261113
+    },
+    "7uiAPDnBrbgujLp0p9E32Z": {
+      "releaseId": 35143097,
+      "title": "Cécile McLorin Salvant - Oh Snap",
+      "year": 2025,
+      "url": "https://www.discogs.com/release/35143097-Cécile-McLorin-Salvant-Oh-Snap",
+      "excluded": [],
+      "included": [],
+      "added": [
+        {
+          "id": 3843255,
+          "name": "Sullivan Fortner",
+          "instruments": [
+            "Piano"
+          ],
+          "status": "player"
+        },
+        {
+          "id": 6399335,
+          "name": "Kyle Poole",
+          "instruments": [
+            "Drums"
+          ],
+          "status": "player"
+        },
+        {
+          "id": 2254186,
+          "name": "Yasushi Nakamura",
+          "instruments": [
+            "Bass"
+          ],
+          "status": "player"
+        },
+        {
+          "id": 1194674,
+          "name": "Evan Wright",
+          "instruments": [
+            "Guitar"
+          ],
+          "status": "player"
+        }
+      ],
+      "confirmedAt": 20261113
+    },
+    "6Th84PCh52k1N7doUHQR3P": {
+      "releaseId": 34478491,
+      "title": "Alune Wade - New African Orleans",
+      "year": 2025,
+      "url": "https://www.discogs.com/release/34478491-Alune-Wade-New-African-Orleans",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261113
+    },
+    "5V1WcC2ldcMBdFwQg0LltV": {
+      "releaseId": 1171516,
+      "title": "Chick Corea - My Spanish Heart",
+      "year": 1976,
+      "url": "https://www.discogs.com/release/1171516-Chick-Corea-My-Spanish-Heart",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261113
+    },
+    "4Z8nWz3dGybOP7lhMZpcOo": {
+      "releaseId": 1355742,
+      "title": "Charles Mingus - Mingus Ah Um",
+      "year": 1959,
+      "url": "https://www.discogs.com/release/1355742-Charles-Mingus-Mingus-Ah-Um",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261113
+    },
+    "2IJMiFlEXfzFqGgotYpB5p": {
+      "releaseId": 1405202,
+      "title": "Keith Jarrett - Facing You",
+      "year": 1972,
+      "url": "https://www.discogs.com/release/1405202-Keith-Jarrett-Facing-You",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261113
+    },
+    "1Fquufzod0wEcCXt6oYnCJ": {
+      "releaseId": 14386345,
+      "title": "Louis Armstrong And Duke Ellington - The Making Of The Great Summit",
+      "year": 2000,
+      "url": "https://www.discogs.com/release/14386345-Louis-Armstrong-And-Duke-Ellington-The-Making-Of-The-Great-Summit",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261113
+    },
+    "25O87tsszynGtWsvyctoSx": {
+      "releaseId": 3142940,
+      "title": "Joe Henderson - Mode For Joe",
+      "year": 1966,
+      "url": "https://www.discogs.com/release/3142940-Joe-Henderson-Mode-For-Joe",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261113
+    },
+    "2Amg9J3U9jEUUJUxCW5OgI": {
+      "releaseId": 1192202,
+      "title": "Joe Henderson - Inner Urge",
+      "year": 1966,
+      "url": "https://www.discogs.com/release/1192202-Joe-Henderson-Inner-Urge",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261113
+    },
+    "2fdnSzyVkyG5R0VJgo9Gv5": {
+      "releaseId": 14386998,
+      "title": "John Coltrane Quartet* - Ballads",
+      "year": 1963,
+      "url": "https://www.discogs.com/release/14386998-John-Coltrane-Quartet-Ballads",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261113
+    },
+    "5VTlqV8lZH3YspQ1cDcjrL": {
+      "releaseId": 735430,
+      "title": "The Thelonious Monk Quartet - Monk's Dream",
+      "year": 1963,
+      "url": "https://www.discogs.com/release/735430-The-Thelonious-Monk-Quartet-Monks-Dream",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261113
+    },
+    "4zTejY7fDPs9UUezo8vN8e": {
+      "releaseId": 33015789,
+      "title": "Wynton Kelly - Kelly Blue",
+      "year": 1989,
+      "url": "https://www.discogs.com/release/33015789-Wynton-Kelly-Kelly-Blue",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261113
+    },
+    "5PzlTnVafjgt5RtjTdIKoC": {
+      "releaseId": 382081,
+      "title": "Art Blakey & The Jazz Messengers - Moanin'",
+      "year": 1958,
+      "url": "https://www.discogs.com/release/382081-Art-Blakey-The-Jazz-Messengers-Moanin",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261113
+    },
+    "135aIJyWjXEeswpr9yTFCf": {
+      "releaseId": 1617453,
+      "title": "Ray Bryant Trio - Gotta Travel On",
+      "year": 1966,
+      "url": "https://www.discogs.com/release/1617453-Ray-Bryant-Trio-Gotta-Travel-On",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261113
     }
   },
   "playersSort": "name",

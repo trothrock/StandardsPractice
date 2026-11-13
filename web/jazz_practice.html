@@ -3230,6 +3230,20 @@ function skipAlbumOfWeek(era) {
   currentAlbumOfWeek(db, era, cur.albumId);
   drawRecords();
 }
+// Choosing an album puts it in its era's slot for the rest of the week. The album it replaces
+// wasn't listened to, so like a skipped one it stays in the running for a later week.
+function featureAlbumThisWeek(albumId) {
+  const db = getDB(), album = db.records?.find(a => a.albumId===albumId), era = recordEra(album);
+  if(!era) return;
+  const cur = currentAlbumOfWeek(db, era), week = weekStartInt(todayInt());
+  if(cur?.albumId===albumId) return;
+  if(cur) delete cur.featuredWeek;
+  album.featuredWeek = week;
+  db.albumOfWeek = { ...db.albumOfWeek, [era]:{ albumId, weekStart:week } };
+  saveDB(db);
+  toast(`${album.album} is this week's ${era} album.`);
+  drawRecords();
+}
 // Pulls the latest plays and reference playlists from Spotify now, outside the daily schedule
 async function refreshListening() {
   const btn = document.getElementById('listening-refresh');
@@ -3376,10 +3390,14 @@ function drawAlbumDetail(albumId) {
   if(!tracks.length) loadAlbumTracks(albumId);
   const counts = tracks.length && albumPlays ? albumSongPlays(a) : null;
   const era = RECORD_ERAS.find(([id]) => id===recordEra(a));
+  const featured = era && currentAlbumOfWeek(getDB(), era[0])?.albumId===albumId;
+  const feature = !era ? '' : featured
+    ? `<div class="album-feature-meta" style="margin-top:10px;color:var(--gold2)">This week's ${era[1].toLowerCase()} album</div>`
+    : `<button class="btn-action" style="margin-top:10px" title="Make this the ${era[1].toLowerCase()} album of the week in place of the current one" onclick="featureAlbumThisWeek('${escHTML(albumId)}')">Feature this week</button>`;
   const art = a.albumImage ? `<img class="album-feature-art" src="${escHTML(a.albumImage)}" alt="">` : '<div class="album-feature-art"></div>';
   const field = (label, value, tip) => `<div class="detail-meta-field"${tip?` title="${tip}"`:''}><div class="label">${label}</div><div class="value">${value}</div></div>`;
   const year = `<span class="album-year" title="Click to correct the year" onclick="editRecordYear(this,'${escHTML(albumId)}')">${a.year ? escHTML(a.year) : 'Add year'}</span>`;
-  const header = `<div class="detail-header"><div class="album-detail-top"><a class="listen-thumb-link" href="spotify:album:${escHTML(albumId)}" title="Open in Spotify">${art}</a><div style="flex:1;min-width:0">${era?`<div class="album-feature-era">${era[1]}</div>`:''}<div class="detail-title" style="margin-bottom:6px;overflow-wrap:anywhere">${escHTML(a.album)}</div><div class="album-feature-meta">${escHTML(a.artists.join(', '))}</div></div></div><div class="detail-meta-grid">${field('Full plays', counts ? Math.min(...counts) : '—', 'Times every song on the album has been played')}${field('Songs', tracks.length || '—')}${field('Year', year)}</div></div>`;
+  const header = `<div class="detail-header"><div class="album-detail-top"><a class="listen-thumb-link" href="spotify:album:${escHTML(albumId)}" title="Open in Spotify">${art}</a><div style="flex:1;min-width:0">${era?`<div class="album-feature-era">${era[1]}</div>`:''}<div class="detail-title" style="margin-bottom:6px;overflow-wrap:anywhere">${escHTML(a.album)}</div><div class="album-feature-meta">${escHTML(a.artists.join(', '))}</div>${feature}</div></div><div class="detail-meta-grid">${field('Full plays', counts ? Math.min(...counts) : '—', 'Times every song on the album has been played')}${field('Songs', tracks.length || '—')}${field('Year', year)}</div></div>`;
   const pois = a.pointsOfInterest || [], shown = new Set();
   const rows = tracks.map((t,i) => {
     const n = counts?.[i], stat = n===undefined ? '' : n ? `${n} play${n===1?'':'s'}` : 'not played yet';
