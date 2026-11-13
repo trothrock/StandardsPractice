@@ -2963,15 +2963,25 @@ function currentAlbumOfWeek(db, era, exclude) {
   saveDB(db);
   return pick;
 }
+// An album title reduced for matching other editions of it: listeningKey drops qualifiers such as
+// "(Expanded Edition)" or " - Remastered", and a leading artist name is dropped too, so
+// "Dizzy Gillespie At Newport" and "At Newport (Live at Newport Jazz Festival, 1957 / Expanded
+// Edition)" both become "atnewport".
+function albumKey(title, artist) {
+  const k = listeningKey(title||''), a = listeningKey(artist||'');
+  return a && k.startsWith(a) && k.length > a.length ? k.slice(a.length) : k;
+}
 // Plays of each of the album's songs since a moment in time. Spotify sometimes lists one album under
-// several ids and swaps in another copy of a song, so a matching album name and lead artist counts,
-// and then a matching song name.
+// several ids and editions and swaps in another copy of a song, so a play from an album with the
+// same lead artist and title (ignoring edition qualifiers) counts, matched by track id and then by
+// song title (ignoring suffixes like " - Live At Newport Jazz Festival, 1957").
 function albumSongPlays(album, from = 0) {
-  const name = (album.album||'').toLowerCase(), counts = album.tracks.map(() => 0);
+  const lead = album.artists[0], key = albumKey(album.album, lead), counts = album.tracks.map(() => 0);
+  const songKeys = album.tracks.map(t => listeningKey(t.name));
   (albumPlays||[]).filter(p => Date.parse(p.playedAt) >= from && (
-    p.albumId===album.albumId || ((p.album||'').toLowerCase()===name && p.artists[0]===album.artists[0]))).forEach(p => {
+    p.albumId===album.albumId || (p.artists[0]===lead && albumKey(p.album, lead)===key))).forEach(p => {
     let i = album.tracks.findIndex(t => t.id===p.trackId);
-    if(i<0) i = album.tracks.findIndex(t => t.name.toLowerCase()===(p.name||'').toLowerCase());
+    if(i<0) i = songKeys.indexOf(listeningKey(p.name||''));
     if(i>=0) counts[i]++;
   });
   return counts;
