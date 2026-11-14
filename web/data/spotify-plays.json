@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-11-13",
+  "lastSyncDate": "2026-11-14",
   "plays": [
     {
       "playedAt": "2026-10-01T01:25:15.151Z",
@@ -5898,6 +5898,123 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e023d21984d1aa4fb7958496cc4",
       "durationMs": 145400,
       "context": "spotify:album:5IrPa6hiSEhB9zxzzLBLc2"
+    },
+    {
+      "playedAt": "2026-11-13T22:24:37.426Z",
+      "trackId": "0u6wLglEUlMqoA5WJTH7AN",
+      "name": "Selections From \"Zodiac Suite\" - Live At Newport Jazz Festival, 1957",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "album": "At Newport (Live at Newport Jazz Festival, 1957 / Expanded Edition)",
+      "albumId": "40uojcqOk5czLzsO4P2OOV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a39b0f5822068ccedd1a9eae",
+      "durationMs": 628853,
+      "context": "spotify:album:40uojcqOk5czLzsO4P2OOV"
+    },
+    {
+      "playedAt": "2026-11-13T22:28:18.841Z",
+      "trackId": "0kaxFnudEfK5rFjS9gx8BT",
+      "name": "Carioca - Live At Newport Jazz Festival, 1957",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "album": "At Newport (Live at Newport Jazz Festival, 1957 / Expanded Edition)",
+      "albumId": "40uojcqOk5czLzsO4P2OOV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a39b0f5822068ccedd1a9eae",
+      "durationMs": 221386,
+      "context": "spotify:album:40uojcqOk5czLzsO4P2OOV"
+    },
+    {
+      "playedAt": "2026-11-13T22:40:50.218Z",
+      "trackId": "3x7UJDJhEHbBzXx9n49UKB",
+      "name": "Dizzy's Blues - Live At Newport Jazz Festival, 1957",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "album": "At Newport (Live at Newport Jazz Festival, 1957 / Expanded Edition)",
+      "albumId": "40uojcqOk5czLzsO4P2OOV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a39b0f5822068ccedd1a9eae",
+      "durationMs": 711346,
+      "context": "spotify:album:40uojcqOk5czLzsO4P2OOV"
+    },
+    {
+      "playedAt": "2026-11-13T22:46:37.915Z",
+      "trackId": "4p1MIXb5DeCJviKPeZBZst",
+      "name": "School Days - Live At Newport Jazz Festival, 1957",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "album": "At Newport (Live at Newport Jazz Festival, 1957 / Expanded Edition)",
+      "albumId": "40uojcqOk5czLzsO4P2OOV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a39b0f5822068ccedd1a9eae",
+      "durationMs": 347720,
+      "context": "spotify:album:40uojcqOk5czLzsO4P2OOV"
+    },
+    {
+      "playedAt": "2026-11-13T22:52:03.628Z",
+      "trackId": "0tDn82XkoueVV5q9G7OUAv",
+      "name": "Packt Like Sardines In a Crushd Tin Box",
+      "artists": [
+        "Radiohead"
+      ],
+      "album": "Amnesiac",
+      "albumId": "1HrMmB5useeZ0F5lHrMvl0",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02863e0e305637100311c91aa7",
+      "durationMs": 240333,
+      "context": "spotify:album:1HrMmB5useeZ0F5lHrMvl0"
+    },
+    {
+      "playedAt": "2026-11-13T22:56:52.389Z",
+      "trackId": "55q3Ro66yXWi9rsEddeEN4",
+      "name": "Pyramid Song",
+      "artists": [
+        "Radiohead"
+      ],
+      "album": "Amnesiac",
+      "albumId": "1HrMmB5useeZ0F5lHrMvl0",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02863e0e305637100311c91aa7",
+      "durationMs": 288733,
+      "context": "spotify:album:1HrMmB5useeZ0F5lHrMvl0"
+    },
+    {
+      "playedAt": "2026-11-13T23:00:59.472Z",
+      "trackId": "6AIq6WIkWBoRUb6kTVY8yU",
+      "name": "Pulk/Pull Revolving Doors",
+      "artists": [
+        "Radiohead"
+      ],
+      "album": "Amnesiac",
+      "albumId": "1HrMmB5useeZ0F5lHrMvl0",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02863e0e305637100311c91aa7",
+      "durationMs": 247266,
+      "context": "spotify:album:1HrMmB5useeZ0F5lHrMvl0"
+    },
+    {
+      "playedAt": "2026-11-13T23:04:10.499Z",
+      "trackId": "7Hg6a7tZsVTkXnBUepjZU6",
+      "name": "You And Whose Army?",
+      "artists": [
+        "Radiohead"
+      ],
+      "album": "Amnesiac",
+      "albumId": "1HrMmB5useeZ0F5lHrMvl0",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02863e0e305637100311c91aa7",
+      "durationMs": 191000,
+      "context": "spotify:album:1HrMmB5useeZ0F5lHrMvl0"
+    },
+    {
+      "playedAt": "2026-11-13T23:09:04.251Z",
+      "trackId": "5JZ1jTanqLWVuThmZ6XRAc",
+      "name": "I Might Be Wrong",
+      "artists": [
+        "Radiohead"
+      ],
+      "album": "Amnesiac",
+      "albumId": "1HrMmB5useeZ0F5lHrMvl0",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02863e0e305637100311c91aa7",
+      "durationMs": 293773,
+      "context": "spotify:album:1HrMmB5useeZ0F5lHrMvl0"
     }
   ]
 }

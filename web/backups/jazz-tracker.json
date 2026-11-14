@@ -10472,6 +10472,15 @@
       ],
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02c3803c2d7f51bf120046a72f",
       "year": "1966"
+    },
+    {
+      "albumId": "7qvavbhqQnIvOquRa8sNx0",
+      "album": "Tippin'",
+      "artists": [
+        "Carl Allen"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02d1f89e982a9428092a67204e",
+      "year": "2025"
     }
   ],
   "recordsSort": "year",

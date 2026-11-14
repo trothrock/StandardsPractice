@@ -713,6 +713,66 @@
           "song": "Fly Me to the Moon"
         }
       ],
+      "filled": true,
+      "removedOn": "2026-11-14"
+    },
+    {
+      "date": "2026-11-14",
+      "id": "4ZfcKyxTcPv8xZL9rzo3w2",
+      "name": "Daily Standards – Nov 14, 2026",
+      "tracks": [
+        {
+          "trackId": "3zqVCujN4nNryzTCwLGO3G",
+          "name": "What Is This Thing Called Love",
+          "artists": [
+            "Clifford Brown",
+            "Max Roach Quintet"
+          ],
+          "song": "What Is This Thing Called Love?"
+        },
+        {
+          "trackId": "4edBxVVQL76ObsFj9ABbSX",
+          "name": "What Is This Thing Called Love - Single Version",
+          "artists": [
+            "Billie Holiday"
+          ],
+          "song": "What Is This Thing Called Love?"
+        },
+        {
+          "trackId": "3xEAZQNPiwucPdGagdoD5j",
+          "name": "I'll Remember April",
+          "artists": [
+            "Clifford Brown",
+            "Max Roach Quintet"
+          ],
+          "song": "I'll Remember April"
+        },
+        {
+          "trackId": "1Ku5vu9Crncz8ixeT4Ijxc",
+          "name": "Dolphin Dance - Remastered 1999/Rudy Van Gelder Edition",
+          "artists": [
+            "Herbie Hancock"
+          ],
+          "song": "Dolphin Dance"
+        },
+        {
+          "trackId": "3ZikLQCnH3SIswlGENBcKe",
+          "name": "My Favorite Things",
+          "artists": [
+            "John Coltrane"
+          ],
+          "song": "My Favorite Things"
+        },
+        {
+          "trackId": "5uLFo8xWQq4zd9Sh2xPB5t",
+          "name": "More Than You Know",
+          "artists": [
+            "Sonny Rollins",
+            "Thelonious Monk"
+          ],
+          "song": "More Than You Know"
+        }
+      ],
       "filled": true
     }
   ]
