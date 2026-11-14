@@ -6015,6 +6015,201 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02863e0e305637100311c91aa7",
       "durationMs": 293773,
       "context": "spotify:album:1HrMmB5useeZ0F5lHrMvl0"
+    },
+    {
+      "playedAt": "2026-11-14T14:10:06.383Z",
+      "trackId": "6gbv4ESVucR3K9jSlRVNn3",
+      "name": "You Send Me",
+      "artists": [
+        "Sam Cooke"
+      ],
+      "album": "The Best of Sam Cooke",
+      "albumId": "2Dpw2XUAsBvuNdNLarNzz8",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028ae06030ae3a8dd0d3cc25ae",
+      "durationMs": 164675,
+      "context": "spotify:album:2Dpw2XUAsBvuNdNLarNzz8"
+    },
+    {
+      "playedAt": "2026-11-14T14:12:09.774Z",
+      "trackId": "2RCa9pVb2ZwzgdItSPkE5P",
+      "name": "Only Sixteen",
+      "artists": [
+        "Sam Cooke"
+      ],
+      "album": "The Best of Sam Cooke",
+      "albumId": "2Dpw2XUAsBvuNdNLarNzz8",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028ae06030ae3a8dd0d3cc25ae",
+      "durationMs": 123372,
+      "context": "spotify:album:2Dpw2XUAsBvuNdNLarNzz8"
+    },
+    {
+      "playedAt": "2026-11-14T14:14:52.422Z",
+      "trackId": "5pNtG6MWFdprihEB1fc0SB",
+      "name": "Everybody Loves to Cha Cha Cha",
+      "artists": [
+        "Sam Cooke"
+      ],
+      "album": "The Best of Sam Cooke",
+      "albumId": "2Dpw2XUAsBvuNdNLarNzz8",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028ae06030ae3a8dd0d3cc25ae",
+      "durationMs": 162642,
+      "context": "spotify:album:2Dpw2XUAsBvuNdNLarNzz8"
+    },
+    {
+      "playedAt": "2026-11-14T14:17:32.377Z",
+      "trackId": "7r3sQfHCyK958AopxFeR9w",
+      "name": "(I Love You) For Sentimental Reasons",
+      "artists": [
+        "Sam Cooke"
+      ],
+      "album": "The Best of Sam Cooke",
+      "albumId": "2Dpw2XUAsBvuNdNLarNzz8",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028ae06030ae3a8dd0d3cc25ae",
+      "durationMs": 159887,
+      "context": "spotify:album:2Dpw2XUAsBvuNdNLarNzz8"
+    },
+    {
+      "playedAt": "2026-11-14T14:19:41.370Z",
+      "trackId": "7N15WWy12QAMpGAh6QMAej",
+      "name": "(What A) Wonderful World",
+      "artists": [
+        "Sam Cooke"
+      ],
+      "album": "The Best of Sam Cooke",
+      "albumId": "2Dpw2XUAsBvuNdNLarNzz8",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028ae06030ae3a8dd0d3cc25ae",
+      "durationMs": 129061,
+      "context": "spotify:album:2Dpw2XUAsBvuNdNLarNzz8"
+    },
+    {
+      "playedAt": "2026-11-14T14:20:45.458Z",
+      "trackId": "1Ku5vu9Crncz8ixeT4Ijxc",
+      "name": "Dolphin Dance - Remastered 1999/Rudy Van Gelder Edition",
+      "artists": [
+        "Herbie Hancock"
+      ],
+      "album": "Maiden Voyage (Remastered 1999/Rudy Van Gelder Edition)",
+      "albumId": "7huPJTTsWVt854oZkr88mf",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b6f936d535913e3f425e5bbe",
+      "durationMs": 556133,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-11-14T14:22:04.122Z",
+      "trackId": "6fHXOGDMpnJk9I1JbNruEr",
+      "name": "Summertime",
+      "artists": [
+        "Sam Cooke"
+      ],
+      "album": "The Best of Sam Cooke",
+      "albumId": "2Dpw2XUAsBvuNdNLarNzz8",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028ae06030ae3a8dd0d3cc25ae",
+      "durationMs": 142748,
+      "context": "spotify:album:2Dpw2XUAsBvuNdNLarNzz8"
+    },
+    {
+      "playedAt": "2026-11-14T14:24:40.372Z",
+      "trackId": "4su143nXu1B0GDxD8teWef",
+      "name": "Chain Gang",
+      "artists": [
+        "Sam Cooke"
+      ],
+      "album": "The Best of Sam Cooke",
+      "albumId": "2Dpw2XUAsBvuNdNLarNzz8",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028ae06030ae3a8dd0d3cc25ae",
+      "durationMs": 156202,
+      "context": "spotify:album:2Dpw2XUAsBvuNdNLarNzz8"
+    },
+    {
+      "playedAt": "2026-11-14T14:27:18.322Z",
+      "trackId": "5Iev69m1Jnf7oc79VvPjpd",
+      "name": "Cupid",
+      "artists": [
+        "Sam Cooke"
+      ],
+      "album": "The Best of Sam Cooke",
+      "albumId": "2Dpw2XUAsBvuNdNLarNzz8",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028ae06030ae3a8dd0d3cc25ae",
+      "durationMs": 158013,
+      "context": "spotify:album:2Dpw2XUAsBvuNdNLarNzz8"
+    },
+    {
+      "playedAt": "2026-11-14T14:30:01.632Z",
+      "trackId": "364s5U3vBGBrtWJpFWZkGm",
+      "name": "Twistin' the Night Away",
+      "artists": [
+        "Sam Cooke"
+      ],
+      "album": "The Best of Sam Cooke",
+      "albumId": "2Dpw2XUAsBvuNdNLarNzz8",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028ae06030ae3a8dd0d3cc25ae",
+      "durationMs": 163275,
+      "context": "spotify:album:2Dpw2XUAsBvuNdNLarNzz8"
+    },
+    {
+      "playedAt": "2026-11-14T14:32:42.019Z",
+      "trackId": "1XYNrxsbgkDdPtTQLJhqNd",
+      "name": "Sad Mood",
+      "artists": [
+        "Sam Cooke"
+      ],
+      "album": "The Best of Sam Cooke",
+      "albumId": "2Dpw2XUAsBvuNdNLarNzz8",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028ae06030ae3a8dd0d3cc25ae",
+      "durationMs": 160433,
+      "context": "spotify:album:2Dpw2XUAsBvuNdNLarNzz8"
+    },
+    {
+      "playedAt": "2026-11-14T14:35:19.324Z",
+      "trackId": "0J1JdPuKQ1uUOueYLEU2BC",
+      "name": "Having a Party",
+      "artists": [
+        "Sam Cooke"
+      ],
+      "album": "The Best of Sam Cooke",
+      "albumId": "2Dpw2XUAsBvuNdNLarNzz8",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028ae06030ae3a8dd0d3cc25ae",
+      "durationMs": 157296,
+      "context": "spotify:album:2Dpw2XUAsBvuNdNLarNzz8"
+    },
+    {
+      "playedAt": "2026-11-14T14:38:03.563Z",
+      "trackId": "5EoYc5wvRYOtkudLfrjsL1",
+      "name": "Bring It On Home to Me",
+      "artists": [
+        "Sam Cooke"
+      ],
+      "album": "The Best of Sam Cooke",
+      "albumId": "2Dpw2XUAsBvuNdNLarNzz8",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028ae06030ae3a8dd0d3cc25ae",
+      "durationMs": 164252,
+      "context": "spotify:album:2Dpw2XUAsBvuNdNLarNzz8"
+    },
+    {
+      "playedAt": "2026-11-14T14:40:47.717Z",
+      "trackId": "3BrJPOkn1m29RpgjFPuUBa",
+      "name": "Another Saturday Night - Alternate Take",
+      "artists": [
+        "Sam Cooke"
+      ],
+      "album": "The Best of Sam Cooke",
+      "albumId": "2Dpw2XUAsBvuNdNLarNzz8",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028ae06030ae3a8dd0d3cc25ae",
+      "durationMs": 164111,
+      "context": "spotify:album:2Dpw2XUAsBvuNdNLarNzz8"
+    },
+    {
+      "playedAt": "2026-11-14T14:43:24.800Z",
+      "trackId": "5FWm79n2VBgTDEhHGdJ0Qe",
+      "name": "Nothing Can Change This Love",
+      "artists": [
+        "Sam Cooke"
+      ],
+      "album": "The Best of Sam Cooke",
+      "albumId": "2Dpw2XUAsBvuNdNLarNzz8",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028ae06030ae3a8dd0d3cc25ae",
+      "durationMs": 157145,
+      "context": "spotify:album:2Dpw2XUAsBvuNdNLarNzz8"
     }
   ]
 }

@@ -420,7 +420,7 @@
       "name": "Bags' Groove",
       "baseLevel": 0,
       "currentLevel": 0,
-      "status": "untouched",
+      "status": "learning",
       "intervalIdx": -1,
       "learnedDate": null,
       "reviews": [],
@@ -1216,7 +1216,7 @@
       "baseLevel": 0,
       "currentLevel": 2,
       "status": "active",
-      "intervalIdx": 1,
+      "intervalIdx": 2,
       "learnedDate": 20260822,
       "reviews": [
         {
@@ -1240,6 +1240,11 @@
         },
         {
           "date": 20261107,
+          "passed": true,
+          "key": "Eb"
+        },
+        {
+          "date": 20261114,
           "passed": true,
           "key": "Eb"
         }
@@ -1280,7 +1285,8 @@
           "at": 408,
           "text": "Herbie Hancock arpeggios"
         }
-      ]
+      ],
+      "notes": "- Ignore the Dm7 between E7 and C#m7"
     },
     "Don't Blame Me": {
       "name": "Don't Blame Me",
@@ -5422,10 +5428,10 @@
     "What Is This Thing Called Love?": {
       "name": "What Is This Thing Called Love?",
       "baseLevel": 0,
-      "currentLevel": 0,
-      "status": "learning",
-      "intervalIdx": -1,
-      "learnedDate": null,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 0,
+      "learnedDate": 20261114,
       "reviews": [],
       "sortSeed": 0.3977112388247709,
       "composer": "Cole Porter",
@@ -5501,7 +5507,11 @@
           "text": "Cannonball vamp",
           "done": false
         }
-      ]
+      ],
+      "practiceKey": {
+        "date": 20261114,
+        "key": "B"
+      }
     },
     "What's New?": {
       "name": "What's New?",
@@ -5819,9 +5829,9 @@
       ]
     }
   },
-  "currentNewSong": "What Is This Thing Called Love?",
-  "streak": 9,
-  "lastPracticeDay": 20261113,
+  "currentNewSong": "Bags' Groove",
+  "streak": 10,
+  "lastPracticeDay": 20261114,
   "activity": [
     {
       "ts": 1776634938073,
@@ -8743,6 +8753,77 @@
       ],
       "level": 2,
       "oldLevel": 1
+    },
+    {
+      "ts": 1794659389963,
+      "date": 20261114,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "What Is This Thing Called Love?",
+      "secs": 766
+    },
+    {
+      "ts": 1794659389963,
+      "date": 20261114,
+      "type": "practiced",
+      "name": "What Is This Thing Called Love?"
+    },
+    {
+      "ts": 1794659392192,
+      "date": 20261114,
+      "type": "learned",
+      "name": "What Is This Thing Called Love?"
+    },
+    {
+      "ts": 1794659420980,
+      "date": 20261114,
+      "type": "started_learning",
+      "name": "Bags' Groove"
+    },
+    {
+      "ts": 1794660661600,
+      "date": 20261114,
+      "type": "practice_time",
+      "area": "review",
+      "name": "Dolphin Dance",
+      "secs": 1200,
+      "origSecs": 784
+    },
+    {
+      "ts": 1794660675782,
+      "date": 20261114,
+      "type": "review",
+      "name": "Dolphin Dance",
+      "passed": true,
+      "key": "Eb"
+    },
+    {
+      "ts": 1794660974590,
+      "date": 20261114,
+      "type": "practice_time",
+      "area": "voicing",
+      "name": "Half dim: Full range",
+      "secs": 287
+    },
+    {
+      "ts": 1794660974591,
+      "date": 20261114,
+      "type": "voicing_session",
+      "name": "Half dim: Full range"
+    },
+    {
+      "ts": 1794661231461,
+      "date": 20261114,
+      "type": "practice_time",
+      "area": "voicing",
+      "name": "[3] Minor ii-V-i",
+      "secs": 242
+    },
+    {
+      "ts": 1794661231462,
+      "date": 20261114,
+      "type": "voicing_session",
+      "name": "[3] Minor ii-V-i"
     }
   ],
   "extraReviewsToday": {
@@ -9063,7 +9144,8 @@
         "B-7(♭5) · top E",
         "E7(♭9)",
         "A-6/9 · top E"
-      ]
+      ],
+      "pinnedDate": 20261114
     },
     {
       "name": "[2] Major ii-V-I",
@@ -9429,8 +9511,7 @@
       "familiarity": 0,
       "addedDate": 20261029,
       "sortSeed": 0.40227082791889424,
-      "lastPracticed": null,
-      "pinnedDate": 20261109
+      "lastPracticed": null
     },
     {
       "name": "B-7(♭5) · Full · top F",
