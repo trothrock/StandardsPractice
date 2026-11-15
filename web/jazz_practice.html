@@ -218,6 +218,58 @@
   ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
   ::-webkit-scrollbar-thumb:hover { background: #444; }
   @media (max-width: 700px) { .sidebar { width: 180px; } .panel { padding: 24px 20px; } .stats-row { grid-template-columns: repeat(2,1fr); } }
+  .session-card { background: var(--bg2); border: 1px solid rgba(201,168,76,0.35); border-radius: var(--radius-lg); padding: 18px 24px; margin-bottom: 20px; }
+  .session-card.idle { display: flex; align-items: center; gap: 16px; border-color: var(--border2); }
+  .session-card.paused .current-song-dot { animation: none; background: var(--text3); }
+  .session-top { display: flex; align-items: center; gap: 16px; }
+  .session-info { flex: 1; min-width: 0; }
+  .session-info .label { font-size: 11px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+  .session-info .name { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--text); }
+  .session-info .sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
+  .session-clock { font-family: 'IBM Plex Mono', monospace; font-size: 22px; color: var(--gold2); font-variant-numeric: tabular-nums; flex-shrink: 0; }
+  .session-card.paused .session-clock { color: var(--text2); }
+  .session-clock.over { color: #e07b6a; }
+  .btn-session-play { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(201,168,76,0.5); background: var(--gold-dim); color: var(--gold2); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 0; flex-shrink: 0; transition: all 0.15s; }
+  .btn-session-play:hover { background: rgba(201,168,76,0.25); }
+  .btn-session-play svg { width: 16px; height: 16px; fill: currentColor; margin-left: 2px; }
+  .session-bar { display: flex; gap: 3px; margin-top: 14px; }
+  .session-seg { height: 6px; border-radius: 2px; background: var(--border2); overflow: hidden; min-width: 6px; }
+  .session-seg i { display: block; height: 100%; background: var(--gold); }
+  .session-seg.current { background: #3a3424; }
+  .session-setting-ctrls { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+  .session-num { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; }
+  .session-total { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--gold2); }
+  .session-prompt-sub { font-size: 13px; color: var(--text2); margin-top: -8px; }
+  .session-prompt-actions { flex-wrap: wrap; }
+  .review-criteria { list-style: none; margin: 0 0 10px; font-size: 12px; color: var(--text2); }
+  .review-criteria li { padding: 2px 0 2px 14px; position: relative; }
+  .review-criteria li::before { content: '·'; position: absolute; left: 3px; color: var(--gold); }
+  .review-solo-note { font-size: 11px; color: var(--text3); margin-top: 4px; }
+  #review-modal .level-btn { font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; }
+  .btn-confirm:disabled { opacity: 0.45; cursor: default; }
+  @media (max-width: 700px) { .session-top { flex-wrap: wrap; } .session-setting-ctrls { gap: 8px; } }
+  .agenda .agenda-row { display: flex; align-items: center; gap: 14px; padding: 14px 20px; border-bottom: 1px solid var(--border); }
+  .agenda .agenda-row.has-extra { border-bottom: none; }
+  .agenda-row.current.has-extra + .agenda-learning { background: rgba(201,168,76,0.05); }
+  .agenda-mark { width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--border2); display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text3); flex-shrink: 0; }
+  .agenda-row.current .agenda-mark { border-color: var(--gold); color: var(--gold2); background: var(--gold-dim); }
+  .agenda-row.done .agenda-mark { border-color: rgba(39,174,96,0.4); color: #5dba7e; background: var(--green-dim); }
+  .agenda-row.current { background: rgba(201,168,76,0.05); }
+  .agenda-row.done .agenda-name, .agenda-row.skipped .agenda-name, .agenda-row.unplayed .agenda-name { color: var(--text2); }
+  .agenda-main { flex: 1; min-width: 0; }
+  .agenda-label { font-size: 10px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em; }
+  .agenda-name { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--text); margin-top: 1px; }
+  .agenda-name[onclick] { cursor: pointer; }
+  .agenda-name[onclick]:hover { color: var(--gold2); }
+  .agenda-name .badge { vertical-align: middle; position: relative; top: -2px; margin-left: 2px; }
+  .agenda-none { color: var(--text3); font-style: italic; }
+  .agenda-meta { font-size: 12px; color: var(--text3); margin-top: 1px; }
+  .agenda-mins { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text3); flex-shrink: 0; }
+  .agenda-hint { font-size: 11px; color: var(--text3); text-align: right; max-width: 170px; flex-shrink: 0; }
+  #panel-today .agenda .btn-primary, #panel-today .agenda .btn-action { width: 140px; text-align: center; flex-shrink: 0; }
+  .agenda-learning { border: none; border-radius: 0; margin: 0; border-bottom: 1px solid var(--border); background: transparent; }
+  .agenda-learning .learn-days { padding-left: 56px; }
+  .agenda-foot { padding: 12px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; }
   .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 200; align-items: center; justify-content: center; }
   .modal-backdrop.open { display: flex; }
   .modal { background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius-lg); width: 420px; max-width: calc(100vw - 40px); padding: 28px; }
@@ -444,6 +496,8 @@
     <div id="panel-today" class="panel active">
       <div class="panel-title" id="today-date"></div>
       <div class="panel-sub" id="today-sub"></div>
+      <div id="session-wrap"></div>
+      <div id="today-classic">
       <div id="current-song-wrap"></div>
       <div id="rep-today-wrap"></div>
       <div id="voicing-today-wrap"></div>
@@ -455,6 +509,7 @@
       <div class="section" id="multikey-section">
         <div class="section-head"><h2>Multi-key review</h2><span class="count" id="multikey-budget"></span><div class="section-menu-wrap"><button class="btn-dots" onclick="toggleMultiKeyMenu(event)">···</button><div class="dropdown" id="multikey-menu"><div class="dropdown-item" onclick="rerollWeekKeyCenter()">Pick a new key center</div><div class="dropdown-item" onclick="openReviewSettings()">Edit review settings</div></div></div></div>
         <div id="multikey-body"></div>
+      </div>
       </div>
     </div>
     <div id="panel-library" class="panel">
@@ -617,6 +672,10 @@
           <div><div class="label">Multi-key review</div><div class="sub">Known songs practiced in unfamiliar keys</div></div>
           <label class="toggle-switch"><input type="checkbox" id="section-toggle-multikey" onchange="toggleTodaySection('multikey')"><span class="toggle-slider"></span></label>
         </div>
+      </div>
+      <div class="section" style="margin-bottom:20px">
+        <div class="section-head"><h2>Practice session</h2></div>
+        <div id="session-settings"></div>
       </div>
       <div class="section" style="margin-bottom:20px">
         <div class="section-head"><h2>Queue size</h2></div>
@@ -1081,6 +1140,51 @@
   </div>
 </div>
 
+<div class="modal-backdrop" id="session-prompt-modal">
+  <div class="modal">
+    <div class="modal-title" id="session-prompt-title"></div>
+    <div class="session-prompt-sub" id="session-prompt-sub"></div>
+    <div class="modal-actions session-prompt-actions">
+      <button class="btn-cancel" onclick="sessionPromptPause()">Pause</button>
+      <button class="btn-cancel" onclick="sessionExtend()">5 more minutes</button>
+      <button class="btn-confirm" id="session-prompt-switch" onclick="sessionNext()"></button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="review-modal" onclick="handleReviewModalBackdropClick(event)">
+  <div class="modal">
+    <div class="modal-title" id="review-modal-title"></div>
+    <div class="field">
+      <label>Memorized</label>
+      <ul class="review-criteria">
+        <li>Melody from memory, start to finish</li>
+        <li>Comped the form without losing my place</li>
+        <li>Soloed through the form without getting lost</li>
+        <li>Can start and end the tune</li>
+      </ul>
+      <div class="level-picker">
+        <button class="level-btn" data-mem="pass" onclick="reviewModalSet('passed',true)">Memorized</button>
+        <button class="level-btn" data-mem="fail" onclick="reviewModalSet('passed',false)">Needs work</button>
+      </div>
+    </div>
+    <div class="field">
+      <label>Solo quality</label>
+      <div class="level-picker">
+        <button class="level-btn" data-solo="1" onclick="reviewModalSet('solo',1)">1 · Getting by</button>
+        <button class="level-btn" data-solo="2" onclick="reviewModalSet('solo',2)">2 · Saying something</button>
+        <button class="level-btn" data-solo="3" onclick="reviewModalSet('solo',3)">3 · Recordable</button>
+      </div>
+      <div class="level-desc" id="review-solo-desc"></div>
+      <div class="review-solo-note">Recorded with the review — it never changes the memorization result. <span id="review-solo-last"></span></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeReviewModal()">Cancel</button>
+      <button class="btn-confirm" id="review-modal-save" onclick="submitReviewModal()" disabled>Save review</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-backdrop" id="edit-modal" onclick="handleEditBackdropClick(event)">
   <div class="modal">
     <div class="modal-title">Edit song</div>
@@ -1297,6 +1401,7 @@ function timerStop() {
   if(document.getElementById('panel-activity').classList.contains('active')) renderActivity();
 }
 function timerControlsHTML(db, area, name) {
+  if(db.session) return '';   // the session drives the timer; its own card has the controls
   const a = `'${area}'`, n = `'${name.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}'`;
   if(!timerIs(db, area, name)) {
     return `<div class="timer"><button class="btn-timer" title="Start timing" aria-label="Start timing" onclick="timerStart(${a},${n});event.stopPropagation()"><svg viewBox="0 0 12 12"><path d="M3 1.8v8.4L10 6z"/></svg></button></div>`;
@@ -1320,6 +1425,450 @@ setInterval(() => {
   const t = (loadDB()||{}).timer;
   els.forEach(el => { el.textContent = formatClock(timerElapsedMs(t)); });
 }, 1000);
+// ── Structured practice session ──────────────────────────────────────────────
+// One play button runs the morning's plan as a series of timed blocks. Each block drives the
+// ordinary practice timer on that block's item, so its minutes are logged exactly as a hand-
+// timed session would be. When a block's time is up a chime sounds and a prompt offers to
+// switch, pause, or keep going five more minutes. Finishing the item itself (Mark reviewed,
+// a review rating, Mark as level 2) ends its block early and moves the session on.
+const SESSION_ACTIVITIES = [
+  { id:'voicing',  label:'Voicing warm-up', area:'voicing', mins:5,  on:true,  sub:"Today's voicing" },
+  { id:'language', label:'Language study',  area:'vocab',   mins:10, on:true,  sub:"Today's vocabulary item, or open study" },
+  { id:'learn',    label:'New tune',        area:'learn',   mins:25, on:true,  sub:'The song you are learning' },
+  { id:'review',   label:'Tune review',     area:'review',  mins:10, on:true,  count:2, sub:'The top of the review queue, one block per tune' },
+  { id:'rep',      label:'Solo set',        area:'rep',     mins:30, on:false, sub:"Today's repertoire piece" },
+  { id:'keys',     label:'Multi-key',       area:'keys',    mins:10, on:false, sub:'The top of the multi-key queue' },
+];
+const SESSION_EXTEND_MINS = 5;
+const SESSION_STALE_MS = 16*3600*1000;   // a session left open overnight is closed out
+function sessionPlan(db) {
+  const saved = db.sessionPlan || {};
+  return SESSION_ACTIVITIES.map(a => ({ ...a, ...(saved[a.id]||{}) }));
+}
+// The plan expanded into blocks: a review with a count of 2 is two blocks.
+function sessionBlocksFor(db) {
+  const blocks = [];
+  sessionPlan(db).filter(a=>a.on).forEach(a => {
+    const n = a.id==='review' ? Math.max(1, a.count||1) : 1;
+    for(let i=0;i<n;i++) blocks.push({ id:a.id, label: n>1 ? `${a.label} ${i+1}` : a.label, area:a.area, mins:a.mins });
+  });
+  return blocks;
+}
+function sessionPlanSummary(db) {
+  return sessionPlan(db).filter(a=>a.on).map(a =>
+    a.id==='review' && (a.count||1) > 1 ? `${a.label} ${a.count}×${a.mins}` : `${a.label} ${a.mins}`
+  ).join(' · ');
+}
+// What a block works on, decided when the block starts so the review queue reflects tunes
+// already reviewed earlier in the session. null means there is nothing to do and it is skipped.
+function sessionItemFor(db, block, used) {
+  const tod = todayInt();
+  switch(block.id) {
+    case 'voicing':  { const v = getFeaturedVoicing(db); return v ? v.name : 'Voicing warm-up'; }
+    case 'language': { const v = getFeaturedVocab(db); return v ? v.name : 'Language study'; }
+    case 'learn':    return db.currentNewSong && db.songs[db.currentNewSong] ? db.currentNewSong : null;
+    // The session's own review count is the day's budget, so it draws straight from the rotation.
+    case 'review':   { const sg = rotationSongs(db).filter(s=>!used.includes(s.name) && lastSeenInt(s)!==tod).sort((a,b)=>compareStaleness(a,b,tod))[0]; return sg ? sg.name : null; }
+    case 'rep':      { const p = getFeaturedRepertoire(db); return p ? p.name : null; }
+    case 'keys':     { const sg = multiKeyQueue(db, tod).find(s=>!used.includes(s.name)); return sg ? sg.name : null; }
+  }
+  return null;
+}
+function sessionBlockMs(db) {
+  const s = db.session;
+  return s && db.timer && db.timer.area===s.area && db.timer.name===s.name ? timerElapsedMs(db.timer) : 0;
+}
+// Starts the first block at or after idx that has something to work on; ends the session
+// when none is left.
+function sessionStartBlock(db, idx) {
+  const s = db.session;
+  finishTimer(db);
+  for(; idx < s.blocks.length; idx++) {
+    const block = s.blocks[idx];
+    const name = sessionItemFor(db, block, s.used);
+    if(!s.names) s.names = [];
+    s.names[idx] = name;
+    if(!name) { toast(`Skipping ${block.label.toLowerCase()} — nothing queued`); continue; }
+    s.idx = idx; s.area = block.area; s.name = name;
+    s.targetMs = block.mins*60000; s.alerted = false; s.prompt = false;
+    if(!s.used.includes(name)) s.used.push(name);
+    const now = Date.now();
+    db.timer = { area:block.area, name, start:now, runStart: s.paused ? null : now, accMs:0 };
+    return true;
+  }
+  sessionFinish(db);
+  return false;
+}
+function sessionFinish(db) {
+  const s = db.session;
+  if(!s) return;
+  finishTimer(db);
+  delete db.session;
+  updateStreak(db);
+  const secs = (db.activity||[]).filter(e=>e.type==='practice_time' && e.ts>=s.start).reduce((n,e)=>n+e.secs, 0);
+  // Kept so Today can show what the morning covered once the session is over. Blocks never
+  // reached (ended early) have no entry in names.
+  db.lastSession = { date: dateIntOf(s.start), start: s.start, end: Date.now(), blocks: s.blocks, names: (s.names||[]).slice(0, s.idx+1), secs };
+  toast(`Session done — ${formatMinutes(secs/60)} logged`);
+}
+function sessionStart() {
+  sessionUnlockAudio();
+  const db = getDB();
+  const blocks = sessionBlocksFor(db);
+  if(!blocks.length) { toast('Turn on at least one activity in Settings first'); return; }
+  finishTimer(db);
+  db.session = { start: Date.now(), blocks, idx:0, used:[], names:[], paused:false };
+  sessionStartBlock(db, 0);
+  saveDB(db); renderToday();
+}
+function sessionPause() {
+  const db = getDB(), s = db.session;
+  if(!s || s.paused) return;
+  s.paused = true; s.prompt = false;
+  if(db.timer && db.timer.runStart) { db.timer.accMs += Date.now() - db.timer.runStart; db.timer.runStart = null; }
+  saveDB(db); renderToday(); renderSessionPrompt(db);
+}
+function sessionResume() {
+  sessionUnlockAudio();
+  const db = getDB(), s = db.session;
+  if(!s) return;
+  s.paused = false;
+  // The block's item may have been finished while paused; if so, move on.
+  if(!db.timer || db.timer.area!==s.area || db.timer.name!==s.name) sessionStartBlock(db, s.idx+1);
+  else {
+    db.timer.runStart = Date.now();
+    if(sessionBlockMs(db) >= s.targetMs) s.prompt = true;   // still over time: ask again, quietly
+  }
+  saveDB(db); renderToday(); renderSessionPrompt(db);
+}
+function sessionTogglePause() { const s = (loadDB()||{}).session; if(s && s.paused) sessionResume(); else sessionPause(); }
+function sessionNext() {
+  const db = getDB(), s = db.session;
+  if(!s) return;
+  sessionStartBlock(db, s.idx+1);
+  saveDB(db); renderToday(); renderSessionPrompt(db);
+  if(document.getElementById('panel-activity').classList.contains('active')) renderActivity();
+}
+function sessionExtend() {
+  const db = getDB(), s = db.session;
+  if(!s) return;
+  s.targetMs = Math.max(s.targetMs, sessionBlockMs(db)) + SESSION_EXTEND_MINS*60000;
+  s.alerted = false; s.prompt = false;
+  saveDB(db); renderToday(); renderSessionPrompt(db);
+}
+function sessionEnd() {
+  const db = getDB();
+  sessionFinish(db);
+  saveDB(db); renderToday(); renderSessionPrompt(db);
+  if(document.getElementById('panel-activity').classList.contains('active')) renderActivity();
+}
+function sessionPromptPause() { sessionPause(); }
+
+// A soft three-note bell made with Web Audio — no sound files. Browsers only allow audio
+// after a click, so the context is opened on the play button and on any later click.
+let sessionAudio = null;
+function sessionUnlockAudio() {
+  try {
+    if(!sessionAudio) sessionAudio = new (window.AudioContext || window.webkitAudioContext)();
+    if(sessionAudio.state === 'suspended') sessionAudio.resume();
+  } catch(e) {}
+}
+document.addEventListener('click', () => { if(sessionAudio || (loadDB()||{}).session) sessionUnlockAudio(); }, true);
+function sessionChime(soft) {
+  if(!sessionAudio) return;
+  const notes = soft ? [880] : [659.25, 830.61, 987.77];   // E5 G#5 B5
+  const t0 = sessionAudio.currentTime + 0.02;
+  notes.forEach((f, i) => {
+    const o = sessionAudio.createOscillator(), g = sessionAudio.createGain();
+    o.type = 'sine'; o.frequency.value = f;
+    const t = t0 + i*0.28;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(soft ? 0.12 : 0.28, t + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 1.6);
+    o.connect(g).connect(sessionAudio.destination);
+    o.start(t); o.stop(t + 1.7);
+  });
+}
+
+function sessionEnabled(db) { return db.sessionEnabled !== false; }
+function sessionHTML(db) {
+  const s = db.session;
+  if(!sessionEnabled(db) && !s) return '';
+  const blocks = s ? s.blocks : sessionBlocksFor(db);
+  const total = blocks.reduce((n,b)=>n+b.mins, 0);
+  if(!s) {
+    if(!blocks.length) return `<div class="session-card idle"><div class="session-info"><div class="label">Practice session</div><div class="sub">No activities turned on — choose them in Settings</div></div></div>`;
+    const done = db.lastSession && db.lastSession.date===todayInt() ? db.lastSession : null;
+    const label = done ? `Today's session done · ${formatMinutes(done.secs/60)}` : `Practice session · ${total} min`;
+    const sub = done ? `Press play to start another ${total}-minute session` : escHTML(sessionPlanSummary(db));
+    return `<div class="session-card idle"><button class="btn-session-play" title="Start practice session" aria-label="Start practice session" onclick="sessionStart()"><svg viewBox="0 0 12 12"><path d="M3 1.8v8.4L10 6z"/></svg></button><div class="session-info"><div class="label">${label}</div><div class="sub">${sub}</div></div></div>`;
+  }
+  const block = blocks[s.idx], next = blocks[s.idx+1];
+  const ms = sessionBlockMs(db);
+  const segs = blocks.map((b,i) => {
+    const fill = i < s.idx ? 100 : i > s.idx ? 0 : Math.min(100, ms / s.targetMs * 100);
+    return `<div class="session-seg${i===s.idx?' current':''}" style="flex:${b.mins}" title="${escHTML(b.label)} · ${b.mins} min"><i${i===s.idx?' data-session-fill':''} style="width:${fill}%"></i></div>`;
+  }).join('');
+  const pauseBtn = s.paused
+    ? `<button class="btn-timer" title="Resume" aria-label="Resume" onclick="sessionResume()"><svg viewBox="0 0 12 12"><path d="M3 1.8v8.4L10 6z"/></svg></button>`
+    : `<button class="btn-timer" title="Pause" aria-label="Pause" onclick="sessionPause()"><svg viewBox="0 0 12 12"><rect x="2.5" y="2" width="2.6" height="8" rx=".5"/><rect x="6.9" y="2" width="2.6" height="8" rx=".5"/></svg></button>`;
+  const nextBtn = `<button class="btn-timer" title="${next?'Switch to '+escHTML(next.label.toLowerCase()):'Finish session'}" aria-label="Next activity" onclick="sessionNext()"><svg viewBox="0 0 12 12"><path d="M2 1.8v8.4L8 6z"/><rect x="8.4" y="2" width="1.8" height="8" rx=".4"/></svg></button>`;
+  const endBtn = `<button class="btn-timer" title="End session" aria-label="End session" onclick="sessionEnd()"><svg viewBox="0 0 12 12"><rect x="2.5" y="2.5" width="7" height="7" rx="1"/></svg></button>`;
+  return `<div class="session-card${s.paused?' paused':''}"><div class="session-top"><div class="current-song-dot"></div><div class="session-info"><div class="label">${escHTML(block.label)} · ${s.idx+1} of ${blocks.length}${s.paused?' · paused':''}</div><div class="name">${escHTML(s.name)}</div><div class="sub">${next?'Next: '+escHTML(next.label):'Last activity'}</div></div><span class="session-clock" data-session-clock>${sessionClockText(s, ms)}</span><div class="timer">${endBtn}${nextBtn}${pauseBtn}</div></div><div class="session-bar">${segs}</div></div>`;
+}
+function sessionClockText(s, ms) {
+  const left = s.targetMs - ms;
+  return left >= 0 ? formatClock(left + 999) : '+' + formatClock(-left);
+}
+// ── Structured Today: the session agenda ──
+// With structured practice on, Today is the session itself: the card above, then one row per
+// block with what it works on and the action that finishes it. Blocks already played show what
+// they covered; blocks still ahead preview what they will pick, resolved in order so two review
+// blocks never show the same tune.
+function sessionAgenda(db) {
+  const tod = todayInt(), s = db.session;
+  if(s) {
+    const used = [...s.used], names = s.names || [];
+    return s.blocks.map((block, i) => {
+      if(i < s.idx) return { block, name: names[i] || null, state: playedState(db, block, names[i]) };
+      if(i === s.idx) return { block, name: s.name, state: 'current' };
+      const name = sessionItemFor(db, block, used);
+      if(name) used.push(name);
+      return { block, name, state: 'upcoming' };
+    });
+  }
+  const last = db.lastSession && db.lastSession.date === tod ? db.lastSession : null;
+  if(last) return last.blocks.map((block, i) => ({ block, name: last.names[i] || null, state: i >= last.names.length ? 'unplayed' : playedState(db, block, last.names[i]) }));
+  const used = [];
+  return sessionBlocksFor(db).map(block => {
+    const name = sessionItemFor(db, block, used);
+    if(name) used.push(name);
+    return { block, name, state: 'upcoming' };
+  });
+}
+// A block that was reached counts as done only if time was logged on its item; one switched
+// past or ended within seconds reads as not reached rather than earning a check.
+function playedState(db, block, name) {
+  if(!name) return 'skipped';
+  return itemMinutesToday(db, block.area, name) > 0 ? 'done' : 'unplayed';
+}
+function jsArg(name) { return `'${String(name).replace(/\\/g,'\\\\').replace(/'/g,"\\'")}'`; }
+function itemMinutesToday(db, area, name) {
+  const tod = todayInt();
+  return (db.activity||[]).reduce((n,e)=>n + (e.type==='practice_time' && e.date===tod && e.area===area && e.name===name ? e.secs/60 : 0), 0);
+}
+const DONE_BTN = label => `<button class="btn-primary agenda-done" disabled>&#x2713; ${label}</button>`;
+// What a row says and offers, by activity. Each action is the same one the classic Today uses,
+// so finishing the current row's item also moves the session on.
+function agendaRowParts(db, row) {
+  const tod = todayInt(), { block, name } = row;
+  const parts = { title: name ? escHTML(name) : '<span class="agenda-none">Nothing queued</span>', meta: '', action: '', extra: '', open: '' };
+  if(!name) {
+    if(block.id==='learn') {
+      const next = getNextSong(db);
+      parts.meta = 'No tune in progress';
+      if(next) { parts.title = `<span class="agenda-none">Next suggested: ${escHTML(next.name)}</span>`; parts.action = `<button class="btn-action" onclick="startLearning(${jsArg(next.name)})">Start learning</button>`; }
+    } else if(block.id==='review') parts.meta = 'Everything in rotation has been through today';
+    return parts;
+  }
+  switch(block.id) {
+    case 'voicing': {
+      const v = (db.voicings||[]).find(x=>x.name===name);
+      if(!v) { parts.meta = 'Open warm-up'; break; }
+      parts.open = `showVoicingDetail(${jsArg(name)})`;
+      parts.meta = [v.category, `familiarity ${v.familiarity||0}`].filter(Boolean).join(' · ');
+      parts.action = v.lastPracticed===tod ? DONE_BTN('Reviewed') : `<button class="btn-primary" onclick="markVoicingReviewed(${jsArg(name)})">Mark reviewed</button>`;
+      break;
+    }
+    case 'language': {
+      const c = (db.vocabulary||[]).find(x=>x.name===name);
+      if(!c) { parts.meta = 'Open study — add Vocabulary items to rotate through them'; break; }
+      parts.open = `showVocabDetail(${jsArg(name)})`;
+      parts.meta = `familiarity ${c.familiarity||0}`;
+      parts.action = c.lastPracticed===tod ? DONE_BTN('Practiced') : `<button class="btn-primary" onclick="markVocabPracticed(${jsArg(name)})">Practiced</button>`;
+      break;
+    }
+    case 'learn': {
+      const sg = db.songs[name];
+      parts.open = `showSongDetail(${jsArg(name)})`;
+      parts.title += ' ' + lvlBadge(sg.baseLevel);
+      parts.meta = sortTags(sg.tags||[]).join(' / ') || 'Standard';
+      const blocker = learningBlocker(db, sg);
+      parts.action = blocker ? `<span class="agenda-hint" title="${escHTML(blocker)}">Level 2 after ${LEARNING_MIN_DAYS} days + exit criteria</span>` : `<button class="btn-primary" onclick="markLearned(${jsArg(name)})">Mark as level 2</button>`;
+      parts.extra = `<div class="learning-wrap agenda-learning">${learningDaysHTML(db, sg)}${learningChecklistHTML(db, sg, name.replace(/\\/g,'\\\\').replace(/'/g,"\\'"))}</div>`;
+      break;
+    }
+    case 'review': {
+      const sg = db.songs[name];
+      parts.open = `showSongDetail(${jsArg(name)})`;
+      parts.title += ' ' + lvlBadge(sg.currentLevel);
+      const today = (sg.reviews||[]).filter(r=>r.date===tod).slice(-1)[0];
+      if(today) {
+        parts.meta = `${today.passed ? 'Memorized' : 'Needs work'}${today.solo ? ' · solo ' + today.solo + ' · ' + SOLO_RATINGS[today.solo].label : ''}`;
+        parts.action = DONE_BTN('Reviewed');
+      } else {
+        const seen = lastSeenInt(sg), solo = lastSoloRating(sg);
+        parts.meta = [seen ? `${daysBetween(seen, tod)}d since last review` : 'not yet reviewed', `stage ${stageOf(sg)}`, solo ? `last solo ${solo.solo} · ${SOLO_RATINGS[solo.solo].label}` : null].filter(Boolean).join(' · ');
+        parts.action = `<button class="btn-primary" onclick="openReviewModal(${jsArg(name)})">Review</button>`;
+      }
+      break;
+    }
+    case 'rep': {
+      const pc = (db.repertoire||[]).find(x=>x.name===name);
+      parts.open = `showRepertoireDetail(${jsArg(name)})`;
+      parts.meta = pc && pc.composer ? escHTML(pc.composer) : '';
+      parts.action = pc && pc.lastReviewed===tod ? DONE_BTN('Reviewed') : `<button class="btn-primary" onclick="markRepertoireReviewed(${jsArg(name)})">Mark reviewed</button>`;
+      break;
+    }
+    case 'keys': {
+      const sg = db.songs[name];
+      parts.open = `showSongDetail(${jsArg(name)})`;
+      const key = sg.practiceKey && KEY_BY_ID[sg.practiceKey.key] ? sg.practiceKey.key : sg.standardKey;
+      parts.meta = `in ${keyLabel(key)}`;
+      parts.action = lastKeyReviewInt(sg)===tod ? DONE_BTN('Reviewed') : `<button class="btn-primary" onclick="doKeyReview(${jsArg(name)})">Reviewed</button>`;
+      break;
+    }
+  }
+  return parts;
+}
+function agendaHTML(db) {
+  const rows = sessionAgenda(db);
+  if(!rows.length) return '';
+  const tod = todayInt();
+  const body = rows.map((row, i) => {
+    const p = agendaRowParts(db, row);
+    const mark = row.state==='done' ? '&#x2713;' : row.state==='skipped' ? '&ndash;' : i+1;
+    const mins = row.name ? itemMinutesToday(db, row.block.area, row.name) : 0;
+    const minsLabel = row.state==='current' ? '' : mins >= 1 ? `<span class="agenda-mins" title="Timed on this today">${formatMinutes(mins)}</span>` : '';
+    const stateLabel = row.state==='skipped' ? ' · skipped' : row.state==='unplayed' ? ' · not reached' : '';
+    const showExtra = p.extra && (row.state==='current' || (row.state==='upcoming' && !db.session));
+    return `<div class="agenda-row ${row.state}${showExtra?' has-extra':''}"><div class="agenda-mark">${mark}</div><div class="agenda-main"><div class="agenda-label">${escHTML(row.block.label)} · ${row.block.mins} min${stateLabel}</div><div class="agenda-name"${p.open?` onclick="${p.open}"`:''}>${p.title}</div>${p.meta?`<div class="agenda-meta">${p.meta}</div>`:''}</div>${minsLabel}${p.action}</div>${showExtra?p.extra:''}`;
+  }).join('');
+  const ws = weekStartInt(tod);
+  const reviewed = Object.values(db.songs).reduce((n,s)=>n+(s.reviews||[]).filter(r=>r.date>=ws&&r.date<=tod).length, 0);
+  const weekMins = (db.activity||[]).reduce((n,e)=>n + (e.type==='practice_time' && e.date>=ws && e.date<=tod ? e.secs/60 : 0), 0);
+  const perSession = rows.filter(r=>r.block.id==='review').length;
+  const foot = `<div class="agenda-foot">This week · ${reviewed} ${reviewed===1?'tune':'tunes'} reviewed${perSession?` (${perSession} per session)`:''} · ${formatMinutes(weekMins)} practiced</div>`;
+  const head = db.session ? 'Session' : db.lastSession && db.lastSession.date===tod ? "Today's session" : 'Up next';
+  return `<div class="section agenda"><div class="section-head"><h2>${head}</h2></div>${body}${foot}</div>`;
+}
+function renderSession(db) {
+  const el = document.getElementById('session-wrap');
+  const structured = sessionEnabled(db) || !!db.session;
+  document.getElementById('today-classic').style.display = structured ? 'none' : '';
+  if(el) el.innerHTML = structured ? sessionHTML(db) + agendaHTML(db) : '';
+}
+function renderSessionPrompt(db) {
+  const modal = document.getElementById('session-prompt-modal');
+  const s = db.session;
+  if(!s || !s.prompt) { modal.classList.remove('open'); return; }
+  const block = s.blocks[s.idx], next = s.blocks[s.idx+1];
+  document.getElementById('session-prompt-title').textContent = `${block.label} time is up`;
+  document.getElementById('session-prompt-sub').textContent = next ? `Next up: ${next.label} · ${next.mins} min` : 'That was the last activity.';
+  document.getElementById('session-prompt-switch').textContent = next ? `Switch to ${next.label.toLowerCase()}` : 'Finish session';
+  modal.classList.add('open');
+}
+setInterval(() => {
+  const db = loadDB();
+  if(!db || !db.session) return;
+  const s = db.session;
+  if(Date.now() - s.start > SESSION_STALE_MS) { const d = getDB(); sessionFinish(d); saveDB(d); renderToday(); renderSessionPrompt(d); return; }
+  if(!s.paused) {
+    // The block's item was finished (reviewed, marked, rated) — on to the next block.
+    if(!db.timer || db.timer.area!==s.area || db.timer.name!==s.name) {
+      if(document.getElementById('review-modal').classList.contains('open')) return;
+      const d = getDB(); sessionStartBlock(d, d.session.idx+1); saveDB(d);
+      if(d.session) sessionChime(true);
+      renderToday(); renderSessionPrompt(d); return;
+    }
+    if(!s.alerted && sessionBlockMs(db) >= s.targetMs) {
+      s.alerted = true; s.prompt = true;
+      saveDB(db); sessionChime(false); renderSessionPrompt(db);
+    }
+  }
+  const ms = sessionBlockMs(db);
+  document.querySelectorAll('[data-session-clock]').forEach(el => { el.textContent = sessionClockText(s, ms); el.classList.toggle('over', ms > s.targetMs); });
+  document.querySelectorAll('[data-session-fill]').forEach(el => { el.style.width = Math.min(100, ms / s.targetMs * 100) + '%'; });
+}, 1000);
+
+// ── Session settings ──
+function renderSessionSettings(db) {
+  const el = document.getElementById('session-settings');
+  if(!el) return;
+  const on = sessionEnabled(db);
+  const master = `<div class="settings-row"><div><div class="label">Structured practice</div><div class="sub">A play button on Today that runs these activities as timed blocks</div></div><label class="toggle-switch"><input type="checkbox" id="session-enabled"${on?' checked':''} onchange="setSessionEnabled(this)"><span class="toggle-slider"></span></label></div>`;
+  if(!on) { el.innerHTML = master; return; }
+  el.innerHTML = master + sessionPlan(db).map(a => {
+    const count = a.id==='review'
+      ? `<label class="session-num"><input type="number" min="1" max="6" value="${a.count||1}" onchange="setSessionPlan('${a.id}','count',this)"><span>tunes</span></label>` : '';
+    return `<div class="settings-row"><div><div class="label">${a.label}</div><div class="sub">${a.sub}</div></div><div class="session-setting-ctrls">${count}<label class="session-num"><input type="number" min="1" max="120" value="${a.mins}" onchange="setSessionPlan('${a.id}','mins',this)"><span>${a.id==='review'?'min each':'min'}</span></label><label class="toggle-switch"><input type="checkbox"${a.on?' checked':''} onchange="setSessionPlan('${a.id}','on',this)"><span class="toggle-slider"></span></label></div></div>`;
+  }).join('') + `<div class="settings-row"><div><div class="label">Total</div><div class="sub">Changes apply to the next session you start</div></div><div class="session-total">${sessionBlocksFor(db).reduce((n,b)=>n+b.mins,0)} min</div></div>`;
+}
+// Turning the feature off ends a running session first, so its minutes are still logged.
+function setSessionEnabled(input) {
+  const db = getDB();
+  db.sessionEnabled = input.checked;
+  if(!input.checked && db.session) sessionFinish(db);
+  saveDB(db); renderSessionSettings(db); renderToday();
+}
+function setSessionPlan(id, field, input) {
+  const db = getDB();
+  if(!db.sessionPlan) db.sessionPlan = {};
+  const entry = db.sessionPlan[id] || (db.sessionPlan[id] = {});
+  const def = SESSION_ACTIVITIES.find(a=>a.id===id);
+  if(field==='on') entry.on = input.checked;
+  else {
+    const max = field==='count' ? 6 : 120, n = parseInt(input.value, 10);
+    if(!n || n < 1 || n > max) { input.value = entry[field] ?? def[field]; return; }
+    entry[field] = n;
+  }
+  saveDB(db); renderSessionSettings(db); renderToday();
+}
+
+// ── Review: memorization check + solo rating ──
+// A review answers two separate questions. Memorized is the pass/fail that moves the song
+// through the rotation; solo quality is recorded alongside and never affects that result.
+const SOLO_RATINGS = [
+  null,
+  { label:'Getting by',       desc:'Got through it, but not saying much yet' },
+  { label:'Saying something', desc:'Real ideas, some of them my own' },
+  { label:'Recordable',       desc:"I'd stand behind a recording of this" },
+];
+let reviewModalState = null;
+function openReviewModal(name) {
+  sessionUnlockAudio();
+  reviewModalState = { name, passed:null, solo:null };
+  document.getElementById('review-modal-title').textContent = name;
+  const sg = getDB().songs[name], last = lastSoloRating(sg);
+  document.getElementById('review-solo-last').textContent = last ? `Last time: ${last.solo} · ${SOLO_RATINGS[last.solo].label}` : '';
+  drawReviewModal();
+  document.getElementById('review-modal').classList.add('open');
+}
+function closeReviewModal() { document.getElementById('review-modal').classList.remove('open'); reviewModalState = null; }
+function handleReviewModalBackdropClick(e) { if(e.target===document.getElementById('review-modal')) closeReviewModal(); }
+function reviewModalSet(field, value) { if(!reviewModalState) return; reviewModalState[field] = value; drawReviewModal(); }
+function drawReviewModal() {
+  const st = reviewModalState;
+  document.querySelectorAll('[data-mem]').forEach(b => {
+    const v = b.dataset.mem === 'pass';
+    b.className = 'level-btn' + (st.passed===v ? (v ? ' sel-2' : ' sel-3') : '');
+  });
+  document.querySelectorAll('[data-solo]').forEach(b => {
+    const n = +b.dataset.solo;
+    b.className = 'level-btn' + (st.solo===n ? ` sel-${n}` : '');
+  });
+  document.getElementById('review-solo-desc').textContent = st.solo ? SOLO_RATINGS[st.solo].desc : '';
+  document.getElementById('review-modal-save').disabled = st.passed===null || !st.solo;
+}
+function submitReviewModal() {
+  const st = reviewModalState;
+  if(!st || st.passed===null || !st.solo) return;
+  closeReviewModal();
+  doReview(st.name, st.passed, st.solo);
+}
+function lastSoloRating(sg) {
+  return sg ? [...(sg.reviews||[])].reverse().find(r=>r.solo) || null : null;
+}
 function initDB() {
   let db = loadDB();
   if(!db) {
@@ -1973,13 +2522,16 @@ function markLearned(name) {
 // Graduation reviews are always in the song's standard key. Playing a tune in a key you
 // barely know is a different skill, so a stumble there must not cost progress here —
 // that work lives in the multi-key track instead.
-function doReview(name, passed) {
+// Memorized (passed) moves the song through the stages; the solo rating is recorded with
+// the review but never changes where the song goes.
+function doReview(name, passed, solo) {
   const db = getDB();
   const sg = db.songs[name];
   const key = sg.standardKey || null;
-  sg.reviews.push(key ? {date:todayInt(), passed, key} : {date:todayInt(), passed});
+  const extra = { ...(key ? {key} : {}), ...(solo ? {solo} : {}) };
+  sg.reviews.push({date:todayInt(), passed, ...extra});
   stopTimerFor(db, 'review', name);
-  logActivity(db, 'review', key ? { name, passed, key } : { name, passed });
+  logActivity(db, 'review', { name, passed, ...extra });
   if(passed) {
     const nextIdx = Math.min(sg.intervalIdx+1, STAGE_COUNT-1);
     sg.intervalIdx = nextIdx;
@@ -2254,6 +2806,9 @@ function reviewAnotherSong() {
 function renderToday() {
   const db = getDB(), tod = todayInt();
   const due = reviewQueue(db, tod);   // the whole week's queue, not just today's share
+  // A session's review block draws past the weekly budget; show its tune here too.
+  const ss = db.session, ssBlock = ss && ss.blocks[ss.idx];
+  if(ssBlock && ssBlock.id==='review' && db.songs[ss.name] && !due.some(s=>s.name===ss.name)) due.unshift(db.songs[ss.name]);
   const active = Object.values(db.songs).filter(s=>s.status==='active'||s.status==='graduated');
   const grad = Object.values(db.songs).filter(s=>s.currentLevel>=2);
   document.getElementById('today-date').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
@@ -2339,11 +2894,14 @@ function renderToday() {
 
     : due.map(sg=>{
         const seenAt = lastSeenInt(sg);
-        const intLabel = sg.intervalIdx>=0 ? `<span style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace" title="Stage ${stageOf(sg)} of ${STAGE_COUNT}">${seenAt?daysBetween(seenAt,tod)+'d ago':'not yet reviewed'} · stage ${stageOf(sg)}</span>` : '';
+        const solo = lastSoloRating(sg);
+        const intLabel = sg.intervalIdx>=0 ? `<span style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace" title="Stage ${stageOf(sg)} of ${STAGE_COUNT}${solo?' · last solo rating: '+SOLO_RATINGS[solo.solo].label:''}">${seenAt?daysBetween(seenAt,tod)+'d ago':'not yet reviewed'} · stage ${stageOf(sg)}${solo?' · solo '+solo.solo:''}</span>` : '';
         const safeN = sg.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-        return `<div class="song-row clickable" onclick="showSongDetail('${safeN}')">${lvlBadge(sg.currentLevel)}<div class="song-name-group"><span class="song-name">${sg.name}</span></div>${intLabel}${timerClockHTML(db, 'review', sg.name)}<button class="btn-pass" onclick="doReview('${safeN}',true);event.stopPropagation()">Reviewed</button><button class="btn-fail" onclick="doReview('${safeN}',false);event.stopPropagation()">Needs work</button>${timerControlsHTML(db, 'review', sg.name)}</div>`;
+        return `<div class="song-row clickable" onclick="showSongDetail('${safeN}')">${lvlBadge(sg.currentLevel)}<div class="song-name-group"><span class="song-name">${sg.name}</span></div>${intLabel}${timerClockHTML(db, 'review', sg.name)}<button class="btn-primary" onclick="openReviewModal('${safeN}');event.stopPropagation()">Review</button>${timerControlsHTML(db, 'review', sg.name)}</div>`;
       }).join('');
   renderMultiKeyToday(db, tod);
+  renderSession(db);
+  renderSessionPrompt(db);
 }
 function renderMultiKeyToday(db, tod) {
   // The week's key center has to be settled before the queue is built — it decides which
@@ -2488,7 +3046,7 @@ function formatActivityEntry(entry) {
     case 'started_learning': return { dot:'blue',  label:'Started learning',         detail:entry.name };
     case 'practiced':        return { dot:'gold',  label:'Practiced',                detail:entry.name };
     case 'learned':          return { dot:'green', label:'Marked as Level 2',        detail:entry.name };
-    case 'review':           return { dot:entry.passed?'green':'gold', label:(entry.passed?'Reviewed':'Continued')+(entry.key?` in ${keyLabel(entry.key)}`:''), detail:entry.name };
+    case 'review':           return { dot:entry.passed?'green':'gold', label:(entry.passed?'Reviewed':'Continued')+(entry.key?` in ${keyLabel(entry.key)}`:'')+(entry.solo&&SOLO_RATINGS[entry.solo]?` · solo ${entry.solo} (${SOLO_RATINGS[entry.solo].label})`:''), detail:entry.name };
     case 'key_review':       return { dot:entry.passed===false?'gold':'green', label:(entry.passed===undefined?'Multi-key session':entry.passed?'Multi-key cleared':'Multi-key continued')+(entry.key?` in ${keyLabel(entry.key)}`:''), detail:entry.name };
     case 'song_added':       return { dot:'blue',  label:'Added to library',         detail:entry.name };
     case 'song_edited':      return { dot:'dim',   label:(entry.oldLevel!==undefined&&entry.oldLevel!==entry.level)?`Familiarity updated to Level ${entry.level}`:'Song details updated', detail:entry.name||entry.oldName };
@@ -4443,9 +5001,13 @@ function renderSongDetail(name) {
       : seen
         ? `${daysBetween(seen, tod)} days ago · ${spacing}`
         : `Not yet reviewed · ${spacing}`;
+  const soloHist = (sg.reviews||[]).filter(r=>r.solo).map(r=>r.solo);
+  const soloField = soloHist.length
+    ? `<div class="detail-meta-field"><div class="label">Solo quality</div><div class="value">${soloHist[soloHist.length-1]} · ${SOLO_RATINGS[soloHist[soloHist.length-1]].label}${soloHist.length>1?`<span class="key-stat" style="margin-left:8px" title="Recent ratings, oldest first">${soloHist.slice(-6).join(' ')}</span>`:''}</div></div>`
+    : '';
   const books = transcriptionBooksFor(sg.name);
   const safeName = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-  const header = `<div class="detail-header"><div class="detail-header-top"><span class="detail-title">${sg.name}</span>${tagBadges(sg)}${lvlBadge(sg.currentLevel)}${statusBadge}</div>${pills}<div class="detail-meta-grid"><div class="detail-meta-field"><div class="label">Last reviewed</div><div class="value${seen?'':' placeholder'}">${lastSeenLabel}</div></div><div class="detail-meta-field"><div class="label">Standing</div><div class="value">${standing}</div></div><div class="detail-meta-field"><div class="label">Composer</div><div class="value${sg.composer?'':' placeholder'}">${sg.composer||'—'}</div></div><div class="detail-meta-field"><div class="label">Year</div><div class="value${sg.year?'':' placeholder'}">${sg.year||'—'}</div></div><div class="detail-meta-field"><div class="label">Standard key</div><div class="value${sg.standardKey?'':' placeholder'}">${sg.standardKey?keyLabel(sg.standardKey):'Not set'}</div></div><div class="detail-meta-field"><div class="label">Multi-key practice</div><div style="display:flex;align-items:center;gap:8px"><label class="toggle-switch"><input type="checkbox"${sg.multiKey?' checked':''} onchange="toggleMultiKey('${safeName}',this.checked)"><span class="toggle-slider"></span></label>${sg.multiKey&&!sg.standardKey?'<span class="key-stat">needs standard key</span>':''}</div></div>${books.length?`<div class="detail-meta-field" style="grid-column:1/-1"><div class="label">Transcriptions</div><div class="value">${books.join(' · ')}</div></div>`:''}</div><div class="notes-actions"><button class="btn-action" onclick="openEditSong('${safeName}')">Edit</button></div></div>`;
+  const header = `<div class="detail-header"><div class="detail-header-top"><span class="detail-title">${sg.name}</span>${tagBadges(sg)}${lvlBadge(sg.currentLevel)}${statusBadge}</div>${pills}<div class="detail-meta-grid"><div class="detail-meta-field"><div class="label">Last reviewed</div><div class="value${seen?'':' placeholder'}">${lastSeenLabel}</div></div><div class="detail-meta-field"><div class="label">Standing</div><div class="value">${standing}</div></div>${soloField}<div class="detail-meta-field"><div class="label">Composer</div><div class="value${sg.composer?'':' placeholder'}">${sg.composer||'—'}</div></div><div class="detail-meta-field"><div class="label">Year</div><div class="value${sg.year?'':' placeholder'}">${sg.year||'—'}</div></div><div class="detail-meta-field"><div class="label">Standard key</div><div class="value${sg.standardKey?'':' placeholder'}">${sg.standardKey?keyLabel(sg.standardKey):'Not set'}</div></div><div class="detail-meta-field"><div class="label">Multi-key practice</div><div style="display:flex;align-items:center;gap:8px"><label class="toggle-switch"><input type="checkbox"${sg.multiKey?' checked':''} onchange="toggleMultiKey('${safeName}',this.checked)"><span class="toggle-slider"></span></label>${sg.multiKey&&!sg.standardKey?'<span class="key-stat">needs standard key</span>':''}</div></div>${books.length?`<div class="detail-meta-field" style="grid-column:1/-1"><div class="label">Transcriptions</div><div class="value">${books.join(' · ')}</div></div>`:''}</div><div class="notes-actions"><button class="btn-action" onclick="openEditSong('${safeName}')">Edit</button></div></div>`;
   const entries = (db.activity||[]).filter(e=>e.name===name||e.oldName===name).sort((a,b)=>b.ts-a.ts);
   const timeline = entries.length===0
     ? '<div class="empty">No activity for this song yet.</div>'
@@ -5005,6 +5567,7 @@ function renderSettings() {
   document.getElementById('queue-size-review').value = weeklyBudget(db);
   document.getElementById('queue-size-multikey').value = multiKeyBudget(db);
   document.getElementById('listening-goal').value = listeningGoal(db);
+  renderSessionSettings(db);
 }
 function setListeningGoal() {
   const db = getDB();

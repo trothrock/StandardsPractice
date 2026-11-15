@@ -9603,7 +9603,7 @@
   "reviewQueueMode": "learnedOnly",
   "todaySections": {
     "learning": true,
-    "repertoire": true,
+    "repertoire": false,
     "voicing": true,
     "review": true,
     "vocabulary": false,
