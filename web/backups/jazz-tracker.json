@@ -8874,6 +8874,21 @@
       "name": "Watermelon Man",
       "passed": true,
       "key": "F"
+    },
+    {
+      "ts": 1794781066086,
+      "date": 20261115,
+      "type": "practice_time",
+      "area": "rep",
+      "name": "A Sleepin' Bee",
+      "secs": 720,
+      "origSecs": 26611
+    },
+    {
+      "ts": 1794781066086,
+      "date": 20261115,
+      "type": "repertoire_practiced",
+      "name": "A Sleepin' Bee"
     }
   ],
   "extraReviewsToday": {
@@ -8988,7 +9003,7 @@
       "notes": null,
       "addedDate": 20260502,
       "lastReviewed": null,
-      "pinnedDate": 20261112,
+      "pinnedDate": 20261115,
       "practiceFocus": [
         {
           "text": "Head out chord subs",
@@ -11713,12 +11728,5 @@
   ],
   "playerNames": {
     "261295": "Tony Williams"
-  },
-  "timer": {
-    "area": "rep",
-    "name": "A Sleepin' Bee",
-    "start": 1794754454715,
-    "runStart": 1794754454715,
-    "accMs": 0
   }
 }
