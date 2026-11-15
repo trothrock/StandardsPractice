@@ -433,7 +433,14 @@
         "Bop",
         "Blues",
         "Jam"
-      ]
+      ],
+      "learningSteps": {
+        "history": true,
+        "recording": true,
+        "lyrics": true,
+        "melody-rootless": true,
+        "melody-shell": true
+      }
     },
     "Basin Street Blues": {
       "name": "Basin Street Blues",
@@ -5351,7 +5358,7 @@
       "baseLevel": 0,
       "currentLevel": 2,
       "status": "active",
-      "intervalIdx": 2,
+      "intervalIdx": 3,
       "learnedDate": 20260913,
       "reviews": [
         {
@@ -5362,12 +5369,17 @@
           "date": 20261030,
           "passed": true,
           "key": "F"
+        },
+        {
+          "date": 20261115,
+          "passed": true,
+          "key": "F"
         }
       ],
       "sortSeed": 0.2362384710338169,
       "composer": "Herbie Hancock",
       "year": 1962,
-      "notes": "Listening:\nTakin' Off, Herbie Hancock\n- 2:03 trumpet lick\n- 3:43 comping pattern",
+      "notes": "",
       "standardKey": "F",
       "multiKey": false,
       "staleFrom": 20261002,
@@ -5382,6 +5394,12 @@
         "Jam"
       ],
       "pointsOfInterest": [
+        {
+          "trackId": "38xcUjiTP1ivfb7ObwjyGA",
+          "album": "Takin' Off (Expanded Edition)",
+          "at": 123,
+          "text": "Freddie Hubbard lick"
+        },
         {
           "trackId": "38xcUjiTP1ivfb7ObwjyGA",
           "album": "Takin' Off (Expanded Edition)",
@@ -5830,8 +5848,8 @@
     }
   },
   "currentNewSong": "Bags' Groove",
-  "streak": 10,
-  "lastPracticeDay": 20261114,
+  "streak": 11,
+  "lastPracticeDay": 20261115,
   "activity": [
     {
       "ts": 1776634938073,
@@ -8824,6 +8842,38 @@
       "date": 20261114,
       "type": "voicing_session",
       "name": "[3] Minor ii-V-i"
+    },
+    {
+      "ts": 1794751026828,
+      "date": 20261115,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "Bags' Groove",
+      "secs": 2400,
+      "origSecs": 2080
+    },
+    {
+      "ts": 1794751026829,
+      "date": 20261115,
+      "type": "practiced",
+      "name": "Bags' Groove"
+    },
+    {
+      "ts": 1794754044754,
+      "date": 20261115,
+      "type": "practice_time",
+      "area": "review",
+      "name": "Watermelon Man",
+      "secs": 2160,
+      "origSecs": 1856
+    },
+    {
+      "ts": 1794754044754,
+      "date": 20261115,
+      "type": "review",
+      "name": "Watermelon Man",
+      "passed": true,
+      "key": "F"
     }
   ],
   "extraReviewsToday": {
@@ -10656,6 +10706,16 @@
       ],
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02e5bd8e6421836818cddeb2d6",
       "year": "2024"
+    },
+    {
+      "albumId": "3DfX2LdvDIcrF4rdE3gxd0",
+      "album": "Wizard Of The Vibes",
+      "artists": [
+        "Milt Jackson",
+        "Thelonious Monk"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a0eb966776f5199adb48ddda",
+      "year": "1952"
     }
   ],
   "recordsSort": "year",
@@ -11488,6 +11548,16 @@
       ],
       "added": [],
       "confirmedAt": 20261114
+    },
+    "3DfX2LdvDIcrF4rdE3gxd0": {
+      "releaseId": 9932195,
+      "title": "Milt Jackson - Wizard Of The Vibes",
+      "year": 1952,
+      "url": "https://www.discogs.com/release/9932195-Milt-Jackson-Wizard-Of-The-Vibes",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261115
     }
   },
   "playersSort": "name",
@@ -11637,9 +11707,18 @@
     "4208979",
     "14527177",
     "14290297",
-    "5231529"
+    "5231529",
+    "89693",
+    "290874"
   ],
   "playerNames": {
     "261295": "Tony Williams"
+  },
+  "timer": {
+    "area": "rep",
+    "name": "A Sleepin' Bee",
+    "start": 1794754454715,
+    "runStart": 1794754454715,
+    "accMs": 0
   }
 }
