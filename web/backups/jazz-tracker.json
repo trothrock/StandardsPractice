@@ -10562,6 +10562,100 @@
       ],
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02d1f89e982a9428092a67204e",
       "year": "2025"
+    },
+    {
+      "albumId": "4bxZ8UEIrzuw2qPE5ZPfbi",
+      "album": "Night",
+      "artists": [
+        "Nils Frahm"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0275515ee14a9e5b751faceab1",
+      "year": "2025"
+    },
+    {
+      "albumId": "0X4iyYATnXLm1IvSNp3bfq",
+      "album": "The Surrounding Green",
+      "artists": [
+        "Fred Hersch",
+        "Drew Gress",
+        "Joey Baron"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e027b6e483d816eed32cf8caa37",
+      "year": "2025"
+    },
+    {
+      "albumId": "36c3L3BgJXxxkeUQwL4XGy",
+      "album": "With A Song in My Heart",
+      "artists": [
+        "Denny Zeitlin"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02f02c634e9ab64135f8a83abc",
+      "year": "2025"
+    },
+    {
+      "albumId": "4RbKJI17ImGfxt6ariFkMR",
+      "album": "Wildflowers, Vol.1",
+      "artists": [
+        "Kurt Elling",
+        "Sullivan Fortner"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02702925e6c5a577bf27f51e7f",
+      "year": "2024"
+    },
+    {
+      "albumId": "3hgjPy2aH5DGegCfdebMeM",
+      "album": "Speak To Me",
+      "artists": [
+        "Julian Lage"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0282d8cf453da3df05d48ea115",
+      "year": "2024"
+    },
+    {
+      "albumId": "0N8K2EAg5usF4fsseINiSC",
+      "album": "Riley",
+      "artists": [
+        "Riley Mulherkar"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0230602df82dc27992f627614c",
+      "year": "2024"
+    },
+    {
+      "albumId": "3ZxF7ILL2dcGcFJ3QpxqfP",
+      "album": "A New Beat",
+      "artists": [
+        "Ulysses Owens Jr."
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024ffb9c9ab9eed397bac4a194",
+      "year": "2024"
+    },
+    {
+      "albumId": "5FC0k9cIt1sd2mdNqjJrDO",
+      "album": "Eagle's Point",
+      "artists": [
+        "Chris Potter"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0239e27220c1c323b99673598e",
+      "year": "2024"
+    },
+    {
+      "albumId": "5Yke6vpulD3mfsuPS0FK1n",
+      "album": "Big Foot",
+      "artists": [
+        "Melinda Sullivan",
+        "Larry Goldings"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02787223fac7599376f566d605",
+      "year": "2024"
+    },
+    {
+      "albumId": "0Jy18n9qpKS4RyDYmaPpdL",
+      "album": "Fearless Movement",
+      "artists": [
+        "Kamasi Washington"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e5bd8e6421836818cddeb2d6",
+      "year": "2024"
     }
   ],
   "recordsSort": "year",
@@ -11256,6 +11350,144 @@
       "included": [],
       "added": [],
       "confirmedAt": 20261113
+    },
+    "7qvavbhqQnIvOquRa8sNx0": {
+      "releaseId": 34634524,
+      "title": "Carl Allen - Tippin'",
+      "year": 2025,
+      "url": "https://www.discogs.com/release/34634524-Carl-Allen-Tippin",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261114
+    },
+    "4bxZ8UEIrzuw2qPE5ZPfbi": {
+      "releaseId": 33940788,
+      "title": "Nils Frahm - Night",
+      "year": 2025,
+      "url": "https://www.discogs.com/release/33940788-Nils-Frahm-Night",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261114
+    },
+    "0X4iyYATnXLm1IvSNp3bfq": {
+      "releaseId": 34389043,
+      "title": "Fred Hersch / Drew Gress / Joey Baron - The Surrounding Green",
+      "year": 2025,
+      "url": "https://www.discogs.com/release/34389043-Fred-Hersch-Drew-Gress-Joey-Baron-The-Surrounding-Green",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261114
+    },
+    "36c3L3BgJXxxkeUQwL4XGy": {
+      "releaseId": 34839275,
+      "title": "Denny Zeitlin - With A Song In My Heart: Exploring The Music Of Richard Rodgers",
+      "year": 2025,
+      "url": "https://www.discogs.com/release/34839275-Denny-Zeitlin-With-A-Song-In-My-Heart-Exploring-The-Music-Of-Richard-Rodgers",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261114
+    },
+    "4RbKJI17ImGfxt6ariFkMR": {
+      "releaseId": 32935302,
+      "title": "Kurt Elling & Sullivan Fortner - Wildflowers, Vol. 1",
+      "year": 2025,
+      "url": "https://www.discogs.com/release/32935302-Kurt-Elling-Sullivan-Fortner-Wildflowers-Vol-1",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261114
+    },
+    "3hgjPy2aH5DGegCfdebMeM": {
+      "releaseId": 30000619,
+      "title": "Julian Lage - Speak To Me",
+      "year": 2024,
+      "url": "https://www.discogs.com/release/30000619-Julian-Lage-Speak-To-Me",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261114
+    },
+    "0N8K2EAg5usF4fsseINiSC": {
+      "releaseId": null,
+      "title": null,
+      "year": null,
+      "url": null,
+      "excluded": [],
+      "included": [],
+      "added": [
+        {
+          "id": 3904723,
+          "name": "Riley Mulherkar",
+          "instruments": [
+            "Trumpet"
+          ],
+          "status": "player"
+        }
+      ],
+      "confirmedAt": 20261114
+    },
+    "3ZxF7ILL2dcGcFJ3QpxqfP": {
+      "releaseId": 30058906,
+      "title": "Ulysses Owens Jr. And Generation Y - A New Beat",
+      "year": 2024,
+      "url": "https://www.discogs.com/release/30058906-Ulysses-Owens-Jr-And-Generation-Y-A-New-Beat",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261114
+    },
+    "5FC0k9cIt1sd2mdNqjJrDO": {
+      "releaseId": 30048256,
+      "title": "Chris Potter (2) - Eagle's Point",
+      "year": 2024,
+      "url": "https://www.discogs.com/release/30048256-Chris-Potter-2-Eagles-Point",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261114
+    },
+    "5Yke6vpulD3mfsuPS0FK1n": {
+      "releaseId": null,
+      "title": null,
+      "year": null,
+      "url": null,
+      "excluded": [],
+      "included": [],
+      "added": [
+        {
+          "id": 258663,
+          "name": "Larry Goldings",
+          "instruments": [
+            "Piano"
+          ],
+          "status": "player"
+        },
+        {
+          "id": 14527177,
+          "name": "Melinda Sullivan",
+          "instruments": [
+            "Tap"
+          ],
+          "status": "player"
+        }
+      ],
+      "confirmedAt": 20261114
+    },
+    "0Jy18n9qpKS4RyDYmaPpdL": {
+      "releaseId": 30575473,
+      "title": "Kamasi Washington - Fearless Movement",
+      "year": 2024,
+      "url": "https://www.discogs.com/release/30575473-Kamasi-Washington-Fearless-Movement",
+      "excluded": [],
+      "included": [
+        1800656
+      ],
+      "added": [],
+      "confirmedAt": 20261114
     }
   },
   "playersSort": "name",
@@ -11391,7 +11623,21 @@
     "282089",
     "1194674",
     "274984",
-    "295642"
+    "295642",
+    "306789",
+    "8123656",
+    "260851",
+    "4832025",
+    "14290300",
+    "14231155",
+    "8231450",
+    "2716628",
+    "11410151",
+    "2109514",
+    "4208979",
+    "14527177",
+    "14290297",
+    "5231529"
   ],
   "playerNames": {
     "261295": "Tony Williams"

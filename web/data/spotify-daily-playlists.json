@@ -773,6 +773,67 @@
           "song": "More Than You Know"
         }
       ],
+      "filled": true,
+      "removedOn": "2026-11-15"
+    },
+    {
+      "date": "2026-11-15",
+      "id": "1fzKIoKGYulB4ztU6oqJzA",
+      "name": "Daily Standards – Nov 15, 2026",
+      "tracks": [
+        {
+          "trackId": "2zQl59dZMzwhrmeSBEgiXY",
+          "name": "Watermelon Man",
+          "artists": [
+            "Herbie Hancock"
+          ],
+          "song": "Watermelon Man"
+        },
+        {
+          "trackId": "5BxzqNLhwISk6IN5RZFkt8",
+          "name": "Blues For Alice",
+          "artists": [
+            "Charlie Parker"
+          ],
+          "song": "Blues for Alice"
+        },
+        {
+          "trackId": "3bT0UkPPSIZAAWZcro6QvP",
+          "name": "All Of You - Live At The London House, Chicago, 1958",
+          "artists": [
+            "Sarah Vaughan"
+          ],
+          "song": "All of You"
+        },
+        {
+          "trackId": "6xPwn3TDhmKr2LWwg15a3i",
+          "name": "Oleo - RVG Remastered 2008",
+          "artists": [
+            "Miles Davis",
+            "Sonny Rollins",
+            "Horace Silver",
+            "Kenny Clarke",
+            "Percy Heath"
+          ],
+          "song": "Oleo"
+        },
+        {
+          "trackId": "7tZDxcJeLzyjBKYc7TWbsr",
+          "name": "Everytime We Say Goodbye",
+          "artists": [
+            "John Coltrane"
+          ],
+          "song": "Every Time We Say Goodbye"
+        },
+        {
+          "trackId": "2jZgFEONQS7Bk64IytEBU8",
+          "name": "In A Mellow Tone",
+          "artists": [
+            "Ben Webster"
+          ],
+          "song": "In a Mellow Tone"
+        }
+      ],
       "filled": true
     }
   ]

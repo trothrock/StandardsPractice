@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-11-14",
+  "lastSyncDate": "2026-11-15",
   "plays": [
     {
       "playedAt": "2026-10-01T01:25:15.151Z",
@@ -6210,6 +6210,322 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e028ae06030ae3a8dd0d3cc25ae",
       "durationMs": 157145,
       "context": "spotify:album:2Dpw2XUAsBvuNdNLarNzz8"
+    },
+    {
+      "playedAt": "2026-11-14T16:14:56.759Z",
+      "trackId": "5uLFo8xWQq4zd9Sh2xPB5t",
+      "name": "More Than You Know",
+      "artists": [
+        "Sonny Rollins",
+        "Thelonious Monk"
+      ],
+      "album": "The Complete Prestige 10-Inch LP Collection",
+      "albumId": "5DPy4HeXMnoxi3PODdklOC",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02d1053d4d169474b26f605ca3",
+      "durationMs": 649059,
+      "context": "spotify:playlist:4ZfcKyxTcPv8xZL9rzo3w2"
+    },
+    {
+      "playedAt": "2026-11-14T16:25:02.819Z",
+      "trackId": "3xEAZQNPiwucPdGagdoD5j",
+      "name": "I'll Remember April",
+      "artists": [
+        "Clifford Brown",
+        "Max Roach Quintet"
+      ],
+      "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+      "albumId": "6PuVuJwyxyBZXMz73teSoV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021f8972135b07af1f0d59c47e",
+      "durationMs": 553066,
+      "context": "spotify:playlist:4ZfcKyxTcPv8xZL9rzo3w2"
+    },
+    {
+      "playedAt": "2026-11-14T16:38:47.466Z",
+      "trackId": "3ZikLQCnH3SIswlGENBcKe",
+      "name": "My Favorite Things",
+      "artists": [
+        "John Coltrane"
+      ],
+      "album": "My Favorite Things",
+      "albumId": "3nLStxdTkSzihxm7FTLzCP",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02c00913832628c23c7952ae7b",
+      "durationMs": 824133,
+      "context": "spotify:playlist:4ZfcKyxTcPv8xZL9rzo3w2"
+    },
+    {
+      "playedAt": "2026-11-14T16:54:43.047Z",
+      "trackId": "3zqVCujN4nNryzTCwLGO3G",
+      "name": "What Is This Thing Called Love",
+      "artists": [
+        "Clifford Brown",
+        "Max Roach Quintet"
+      ],
+      "album": "Clifford Brown And Max Roach At Basin Street (Expanded Edition)",
+      "albumId": "6PuVuJwyxyBZXMz73teSoV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021f8972135b07af1f0d59c47e",
+      "durationMs": 453146,
+      "context": "spotify:playlist:4ZfcKyxTcPv8xZL9rzo3w2"
+    },
+    {
+      "playedAt": "2026-11-14T16:55:59.455Z",
+      "trackId": "1Ku5vu9Crncz8ixeT4Ijxc",
+      "name": "Dolphin Dance - Remastered 1999/Rudy Van Gelder Edition",
+      "artists": [
+        "Herbie Hancock"
+      ],
+      "album": "Maiden Voyage (Remastered 1999/Rudy Van Gelder Edition)",
+      "albumId": "7huPJTTsWVt854oZkr88mf",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b6f936d535913e3f425e5bbe",
+      "durationMs": 556133,
+      "context": "spotify:playlist:4ZfcKyxTcPv8xZL9rzo3w2"
+    },
+    {
+      "playedAt": "2026-11-14T16:56:24.170Z",
+      "trackId": "1Ku5vu9Crncz8ixeT4Ijxc",
+      "name": "Dolphin Dance - Remastered 1999/Rudy Van Gelder Edition",
+      "artists": [
+        "Herbie Hancock"
+      ],
+      "album": "Maiden Voyage (Remastered 1999/Rudy Van Gelder Edition)",
+      "albumId": "7huPJTTsWVt854oZkr88mf",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b6f936d535913e3f425e5bbe",
+      "durationMs": 556133,
+      "context": "spotify:playlist:4ZfcKyxTcPv8xZL9rzo3w2"
+    },
+    {
+      "playedAt": "2026-11-14T17:06:26.144Z",
+      "trackId": "1Ku5vu9Crncz8ixeT4Ijxc",
+      "name": "Dolphin Dance - Remastered 1999/Rudy Van Gelder Edition",
+      "artists": [
+        "Herbie Hancock"
+      ],
+      "album": "Maiden Voyage (Remastered 1999/Rudy Van Gelder Edition)",
+      "albumId": "7huPJTTsWVt854oZkr88mf",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b6f936d535913e3f425e5bbe",
+      "durationMs": 556133,
+      "context": "spotify:playlist:4ZfcKyxTcPv8xZL9rzo3w2"
+    },
+    {
+      "playedAt": "2026-11-14T17:09:35.708Z",
+      "trackId": "4edBxVVQL76ObsFj9ABbSX",
+      "name": "What Is This Thing Called Love - Single Version",
+      "artists": [
+        "Billie Holiday"
+      ],
+      "album": "The Complete Commodore/Decca Masters",
+      "albumId": "1FqBsGdAki04wMMPst8iZK",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e023ef5677049d3e4a2a7f4747d",
+      "durationMs": 189066,
+      "context": "spotify:playlist:4ZfcKyxTcPv8xZL9rzo3w2"
+    },
+    {
+      "playedAt": "2026-11-14T17:20:20.394Z",
+      "trackId": "7a24Bi2HZYPPuNQ6IZsxok",
+      "name": "Fourteen Reveries: 14",
+      "artists": [
+        "Brad Mehldau"
+      ],
+      "album": "Fantasy & Reveries",
+      "albumId": "5IrPa6hiSEhB9zxzzLBLc2",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e023d21984d1aa4fb7958496cc4",
+      "durationMs": 350933,
+      "context": "spotify:playlist:2OSwpY0bEqqwEoVOxO5Cwy"
+    },
+    {
+      "playedAt": "2026-11-14T17:25:15.416Z",
+      "trackId": "4ToeD7bGmiRDr8W99n5ETj",
+      "name": "For María José",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "By All Means",
+      "albumId": "0Bb8tnCWkiCrZFJ4BSXx9e",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0298ed63ef035ba53d5a6ab87e",
+      "durationMs": 294504,
+      "context": "spotify:playlist:2OSwpY0bEqqwEoVOxO5Cwy"
+    },
+    {
+      "playedAt": "2026-11-14T17:32:20.234Z",
+      "trackId": "6f1fCXsyEUvR3ztu2a3Ple",
+      "name": "Elsewhere",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "Arborescence",
+      "albumId": "0H2PGA1jUGuUQgxdW3Oyzn",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024a172631c1284a161e73373b",
+      "durationMs": 424333,
+      "context": "spotify:playlist:2OSwpY0bEqqwEoVOxO5Cwy"
+    },
+    {
+      "playedAt": "2026-11-14T17:37:29.624Z",
+      "trackId": "57zh3ivLqu95lvkdW4zISx",
+      "name": "Parks Lope",
+      "artists": [
+        "Aaron Parks"
+      ],
+      "album": "By All Means",
+      "albumId": "0Bb8tnCWkiCrZFJ4BSXx9e",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0298ed63ef035ba53d5a6ab87e",
+      "durationMs": 308880,
+      "context": "spotify:playlist:2OSwpY0bEqqwEoVOxO5Cwy"
+    },
+    {
+      "playedAt": "2026-11-14T17:39:55.505Z",
+      "trackId": "2QtQcvmlrA6n4kXv3Ezaw9",
+      "name": "Fourteen Reveries: 9",
+      "artists": [
+        "Brad Mehldau"
+      ],
+      "album": "Fantasy & Reveries",
+      "albumId": "5IrPa6hiSEhB9zxzzLBLc2",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e023d21984d1aa4fb7958496cc4",
+      "durationMs": 145400,
+      "context": "spotify:playlist:2OSwpY0bEqqwEoVOxO5Cwy"
+    },
+    {
+      "playedAt": "2026-11-14T17:46:01.913Z",
+      "trackId": "0kaxFnudEfK5rFjS9gx8BT",
+      "name": "Carioca - Live At Newport Jazz Festival, 1957",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "album": "At Newport (Live at Newport Jazz Festival, 1957 / Expanded Edition)",
+      "albumId": "40uojcqOk5czLzsO4P2OOV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a39b0f5822068ccedd1a9eae",
+      "durationMs": 221386,
+      "context": "spotify:album:40uojcqOk5czLzsO4P2OOV"
+    },
+    {
+      "playedAt": "2026-11-15T00:14:36.658Z",
+      "trackId": "2yBVeksU2EtrPJbTu4ZslK",
+      "name": "What a Fool Believes",
+      "artists": [
+        "The Doobie Brothers"
+      ],
+      "album": "Minute by Minute",
+      "albumId": "7je2uv9QBH65HhADDZitbB",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02ba6340ac3b1653b6ea0e5da5",
+      "durationMs": 223866,
+      "context": "spotify:playlist:37i9dQZF1E4ljikG4oUmEm"
+    },
+    {
+      "playedAt": "2026-11-15T00:20:44.945Z",
+      "trackId": "47oS7xB31QQUyPCgHpM3VZ",
+      "name": "Canned Heat",
+      "artists": [
+        "Jamiroquai"
+      ],
+      "album": "Synkronized",
+      "albumId": "17XrgcYNbKz2oTNm6kwVwv",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024ccb64f022a53d3e8ec84a20",
+      "durationMs": 331760,
+      "context": "spotify:playlist:37i9dQZF1DXbTxeAdrVG2l"
+    },
+    {
+      "playedAt": "2026-11-15T00:23:38.465Z",
+      "trackId": "1Je1IMUlBXcx1Fz0WE7oPT",
+      "name": "Wannabe",
+      "artists": [
+        "Spice Girls"
+      ],
+      "album": "Spice",
+      "albumId": "3x2jF7blR6bFHtk4MccsyJ",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0263facc42e4a35eb3aa182b59",
+      "durationMs": 173026,
+      "context": "spotify:playlist:37i9dQZF1DXbTxeAdrVG2l"
+    },
+    {
+      "playedAt": "2026-11-15T00:26:29.438Z",
+      "trackId": "1MQrMQwfqjgOjXEUaN9AMd",
+      "name": "I'm Too Sexy",
+      "artists": [
+        "Right Said Fred"
+      ],
+      "album": "Up (Special Edition)",
+      "albumId": "0GeBgrCuLqz4NKMiv1aRez",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02f50760066e15fada4be4fd26",
+      "durationMs": 170466,
+      "context": "spotify:playlist:37i9dQZF1DXbTxeAdrVG2l"
+    },
+    {
+      "playedAt": "2026-11-15T02:53:13.323Z",
+      "trackId": "2DPMECcSj0utOP1VLBU7sF",
+      "name": "Streets of Philadelphia - Single Edit",
+      "artists": [
+        "Bruce Springsteen"
+      ],
+      "album": "The Essential Bruce Springsteen",
+      "albumId": "0CR8Q3InJ651Wke81ihesx",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021792c65ffb7b3b1822b78d1a",
+      "durationMs": 197360,
+      "context": "spotify:playlist:37i9dQZF1DXbTxeAdrVG2l"
+    },
+    {
+      "playedAt": "2026-11-15T02:54:21.678Z",
+      "trackId": "2DPMECcSj0utOP1VLBU7sF",
+      "name": "Streets of Philadelphia - Single Edit",
+      "artists": [
+        "Bruce Springsteen"
+      ],
+      "album": "The Essential Bruce Springsteen",
+      "albumId": "0CR8Q3InJ651Wke81ihesx",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021792c65ffb7b3b1822b78d1a",
+      "durationMs": 197360,
+      "context": "spotify:playlist:37i9dQZF1DXbTxeAdrVG2l"
+    },
+    {
+      "playedAt": "2026-11-15T02:57:36.172Z",
+      "trackId": "7aQjPecQdIuNd1sz3KCDhD",
+      "name": "Lovefool",
+      "artists": [
+        "The Cardigans"
+      ],
+      "album": "First Band On The Moon (Remastered)",
+      "albumId": "56vFkneGivqQcoNQq362iZ",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e020aac8ca880151fda470e91af",
+      "durationMs": 193953,
+      "context": "spotify:playlist:37i9dQZF1DXbTxeAdrVG2l"
+    },
+    {
+      "playedAt": "2026-11-15T03:01:31.867Z",
+      "trackId": "76nvqWPFucUra1xCkN1tnD",
+      "name": "Mmm Mmm Mmm Mmm",
+      "artists": [
+        "Crash Test Dummies"
+      ],
+      "album": "God Shuffled His Feet",
+      "albumId": "6MEFBcD0a87GMYiHW3VsVI",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e7587590dfd90f55c6f79b78",
+      "durationMs": 235173,
+      "context": "spotify:playlist:37i9dQZF1DXbTxeAdrVG2l"
+    },
+    {
+      "playedAt": "2026-11-15T03:06:27.373Z",
+      "trackId": "2pX4FpOgwItRVPPUFdRcxA",
+      "name": "Smooth (feat. Rob Thomas)",
+      "artists": [
+        "Santana",
+        "Rob Thomas"
+      ],
+      "album": "Supernatural (Legacy Edition)",
+      "albumId": "1n12Kl9IoHSk65OcZDutSH",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0205517e4e2defded1e818d3d0",
+      "durationMs": 294986,
+      "context": "spotify:playlist:37i9dQZF1DXbTxeAdrVG2l"
+    },
+    {
+      "playedAt": "2026-11-15T04:22:46.732Z",
+      "trackId": "6CU0zWIWVTEnmWpSjVHM93",
+      "name": "You Gotta Be",
+      "artists": [
+        "Des'ree"
+      ],
+      "album": "I Ain't Movin'",
+      "albumId": "1Q9leCDLTJZIMmnXziq8mU",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b377dfe19197193c621ed7aa",
+      "durationMs": 245200,
+      "context": "spotify:playlist:37i9dQZF1DXbTxeAdrVG2l"
     }
   ]
 }
