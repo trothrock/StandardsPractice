@@ -281,6 +281,38 @@
   .vocab-source-owner:hover { color: var(--gold2); }
   .vocab-tag-filter { margin-left: auto; background: var(--bg3); border: 1px solid var(--border2); color: var(--text2); border-radius: var(--radius); font-size: 12px; padding: 3px 8px; }
   .agenda-meta .vocab-source.compact { margin-top: 2px; }
+  .level-body { padding: 14px 20px 16px; display: flex; flex-direction: column; gap: 12px; border-top: 1px solid var(--border); }
+  .level-cold { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .level-cold > div:first-child { flex: 1; min-width: 200px; }
+  .level-cold-label { font-size: 13px; color: var(--text); }
+  .level-note { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .cold-dots { display: flex; gap: 6px; }
+  .cold-dot { min-width: 54px; height: 24px; border-radius: var(--radius); border: 1px dashed var(--border2); display: inline-flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--text3); background: transparent; padding: 0 6px; }
+  .cold-dot.on { border: 1px solid rgba(39,174,96,0.4); background: var(--green-dim); color: #5dba7e; cursor: pointer; }
+  .level-tempo { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text2); }
+  .level-tempo input { width: 70px; text-align: center; background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius); color: var(--text); font-size: 13px; padding: 4px 6px; }
+  .level-tempo span { font-size: 11px; color: var(--text3); }
+  .level-stall { font-size: 12px; color: var(--gold2); background: var(--gold-dim); border: 1px solid rgba(201,168,76,0.25); border-radius: var(--radius); padding: 8px 12px; }
+  .level-bump { display: flex; justify-content: flex-end; }
+  .btn-action:disabled { opacity: 0.45; cursor: default; }
+  .vocab-view-toggle { margin-bottom: 16px; display: inline-flex; }
+  .poi-index-toolbar { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 16px; }
+  .poi-index-toolbar .focus-input { flex: 1; min-width: 220px; }
+  .poi-index-toolbar .count { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text3); margin-left: auto; }
+  .poi-index-hide { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text2); cursor: pointer; }
+  .poi-index-row { display: flex; align-items: center; gap: 14px; padding: 10px 20px; border-bottom: 1px solid var(--border); }
+  .poi-index-row:last-child { border-bottom: none; }
+  .poi-index-main { flex: 1; min-width: 0; }
+  .poi-index-text { font-size: 13px; color: var(--text); }
+  .poi-index-row.added .poi-index-text { color: var(--text2); }
+  .poi-index-where { font-size: 11px; color: var(--text3); margin-top: 1px; }
+  .poi-in-vocab { font-size: 12px; color: #5dba7e; text-align: right; }
+  .poi-vocab-link { cursor: pointer; }
+  .poi-vocab-link:hover { text-decoration: underline; }
+  .btn-primary.poi-add-vocab { flex-shrink: 0; }
+  .btn-action.poi-add-vocab { padding: 3px 9px; flex-shrink: 0; }
+  .poi-group-link { cursor: pointer; }
+  .poi-group-link:hover { color: var(--gold2); }
   .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 200; align-items: center; justify-content: center; }
   .modal-backdrop.open { display: flex; }
   .modal { background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius-lg); width: 420px; max-width: calc(100vw - 40px); padding: 28px; }
@@ -1703,7 +1735,7 @@ function agendaRowParts(db, row) {
       const v = (db.voicings||[]).find(x=>x.name===name);
       if(!v) { parts.meta = 'Open warm-up'; break; }
       parts.open = `showVoicingDetail(${jsArg(name)})`;
-      parts.meta = [v.category, `familiarity ${v.familiarity||0}`].filter(Boolean).join(' · ');
+      parts.meta = [v.category, `familiarity ${v.familiarity||0}`, levelSummary('voicing', v), v.targetTempo ? `${v.targetTempo} bpm` : null].filter(Boolean).join(' · ');
       parts.action = v.lastPracticed===tod ? DONE_BTN('Reviewed') : `<button class="btn-primary" onclick="markVoicingReviewed(${jsArg(name)})">Mark reviewed</button>`;
       break;
     }
@@ -1711,7 +1743,7 @@ function agendaRowParts(db, row) {
       const c = (db.vocabulary||[]).find(x=>x.name===name);
       if(!c) { parts.meta = 'Open study — add Vocabulary items to rotate through them'; break; }
       parts.open = `showVocabDetail(${jsArg(name)})`;
-      parts.meta = [`familiarity ${c.familiarity||0}`, (c.tags||[]).join(', ')].filter(Boolean).join(' · ') + vocabSourceHTML(db, c, true);
+      parts.meta = [`familiarity ${c.familiarity||0}`, levelSummary('vocab', c), c.targetTempo ? `${c.targetTempo} bpm` : null, (c.tags||[]).join(', ')].filter(Boolean).join(' · ') + vocabSourceHTML(db, c, true);
       parts.action = c.lastPracticed===tod ? DONE_BTN('Practiced') : `<button class="btn-primary" onclick="markVocabPracticed(${jsArg(name)})">Practiced</button>`;
       break;
     }
@@ -2344,8 +2376,8 @@ function toggleMultiKey(name, on) {
 }
 
 const VOICING_CATEGORIES = ['Major','Minor 7','Minor 6/9','Minor','Dominant','Half diminished','Diminished'];
-const VOCAB_FAM_DESCS = ["No familiarity — haven't worked it out yet","Getting it under my fingers","Mastered — instant recall"];
-const VOICING_FAM_DESCS = ["No familiarity — haven't worked it out yet","Getting it under my fingers","Mastered — instant recall"];
+const VOCAB_FAM_DESCS = ["Not yet in all 12 keys from memory","In 12 keys from memory, with the source's feel","Mastered — at tempo, displaced, varied and used in a tune"];
+const VOICING_FAM_DESCS = ["Not yet in all 12 keys from memory","In 12 keys from memory, voice leading as written","Mastered — at tempo, from any top note and used while comping"];
 function seedVoicings() {
   const seed = [
     ['Major 7','Major',7],
@@ -3094,6 +3126,8 @@ function formatActivityEntry(entry) {
     case 'voicing_removed':    return { dot:'red',   label:'Voicing removed',            detail:entry.name };
     case 'vocab_added':        return { dot:'blue',  label:'Vocabulary added',           detail:entry.name };
     case 'vocab_practiced':    return { dot:'green', label:entry.familiarity>=2?'Vocabulary mastered':`Vocabulary practiced — familiarity ${entry.familiarity}`, detail:entry.name };
+    case 'voicing_level_up':   return { dot:'green', label:entry.familiarity>=LEVEL_MAX?'Voicing mastered':`Voicing moved to level ${entry.familiarity}`, detail:entry.name };
+    case 'vocab_level_up':     return { dot:'green', label:entry.familiarity>=LEVEL_MAX?'Vocabulary mastered':`Vocabulary moved to level ${entry.familiarity}`, detail:entry.name };
     case 'vocab_deferred':     return { dot:'gold',  label:'Vocabulary continued',       detail:entry.name };
     case 'vocab_removed':      return { dot:'red',   label:'Vocabulary removed',         detail:entry.name };
     case 'practice_time':      return { dot:'gold',  label:`Practiced for ${formatMinutes(entry.secs/60)}`, detail:entry.name };
@@ -4921,7 +4955,7 @@ function renderVoicingDetail(name) {
   const parents = voicingExercisesFor(db, name);
   const parentsSection = parents.length ? `<div class="section"><div class="section-head"><h2>Used in</h2><span class="count">${parents.length}</span></div>${parents.map(p=>linkRow(p, voicingRoles(p)[p.chords.indexOf(name)])).join('')}</div>` : '';
   const notesSection = `<div class="section"><div class="section-head"><h2>Notes</h2></div><div class="notes-body" id="notes-body"></div></div>`;
-  container.innerHTML = header + chordsSection + parentsSection + notesSection + `<div class="section"><div class="section-head"><h2>Activity</h2></div>${timeline}</div>`;
+  container.innerHTML = header + levelSectionHTML(db, 'voicing', v) + chordsSection + parentsSection + notesSection + `<div class="section"><div class="section-head"><h2>Activity</h2></div>${timeline}</div>`;
   renderNotesView('voicing', name);
 }
 // The original ii-V-I exercises derive their labels from the category; pin them down
@@ -4992,7 +5026,7 @@ function renderVocabDetail(name) {
         return `<div class="timeline-entry"><div class="timeline-dot ${dot}"></div><div><div class="timeline-label">${label}</div><div class="timeline-meta">${dateStr} · ${timeStr}</div></div></div>`;
       }).join('');
   const notesSection = `<div class="section"><div class="section-head"><h2>Notes</h2></div><div class="notes-body" id="notes-body"></div></div>`;
-  container.innerHTML = header + notesSection + `<div class="section"><div class="section-head"><h2>Activity</h2></div>${timeline}</div>`;
+  container.innerHTML = header + levelSectionHTML(db, 'vocab', c) + notesSection + `<div class="section"><div class="section-head"><h2>Activity</h2></div>${timeline}</div>`;
   renderNotesView('vocab', name);
 }
 // Book titles are matched loosely (case, punctuation, articles, parentheticals) so
@@ -5885,7 +5919,9 @@ function getFeaturedVoicing(db) {
   if(deferredToday) return deferredToday;
   const practicedToday = voicings.find(v => v.lastPracticed === today);
   if(practicedToday) return practicedToday;
-  return [...voicings].sort((a, b) => {
+  // Mastered voicings leave the daily rotation unless every one is mastered.
+  const pool = voicings.some(v=>(v.familiarity||0) < LEVEL_MAX) ? voicings.filter(v=>(v.familiarity||0) < LEVEL_MAX) : voicings;
+  return [...pool].sort((a, b) => {
     if(!a.lastPracticed && !b.lastPracticed) return a.addedDate - b.addedDate;
     if(!a.lastPracticed) return -1;
     if(!b.lastPracticed) return 1;
@@ -6339,7 +6375,9 @@ function getFeaturedVocab(db) {
   if(deferredToday) return deferredToday;
   const practicedToday = items.find(c => c.lastPracticed === today);
   if(practicedToday) return practicedToday;
-  return [...items].sort((a, b) => {
+  // Mastered items leave the daily rotation unless every one is mastered.
+  const pool = items.some(c=>(c.familiarity||0) < LEVEL_MAX) ? items.filter(c=>(c.familiarity||0) < LEVEL_MAX) : items;
+  return [...pool].sort((a, b) => {
     if(!a.lastPracticed && !b.lastPracticed) return a.addedDate - b.addedDate;
     if(!a.lastPracticed) return -1;
     if(!b.lastPracticed) return 1;
@@ -6451,23 +6489,209 @@ function vocabTagBadges(c) {
 }
 let vocabTagFilter = '';
 function setVocabTagFilter(v) { vocabTagFilter = v; renderVocabulary(); }
+// ── Familiarity exit criteria (voicings and vocabulary) ──
+// Moving up a familiarity level takes every criterion for that level plus a cold pass —
+// played from scratch at the start of a block, before any run-through — on two separate
+// days. Progress is kept per target level, so changing the level by hand starts it fresh.
+const LEVEL_CRITERIA = {
+  voicing: {
+    1: [
+      ['keys',    'From memory in all 12 keys, any tempo, without stopping to work out a chord'],
+      ['leading', 'Voice leading and top notes as written, in every key'],
+    ],
+    2: [
+      ['tempo',   'All 12 keys around the cycle at the target tempo, no stops'],
+      ['top',     'Rebuilt from a different top note with the voice leading intact'],
+      ['tune',    'Came out unplanned while comping a tune in review'],
+    ],
+  },
+  vocab: {
+    1: [
+      ['keys',    'From memory in all 12 keys, any tempo'],
+      ['feel',    "Matches the source's time feel and articulation"],
+      ['sing',    'Can sing it'],
+    ],
+    2: [
+      ['tempo',   'All 12 keys at the target tempo'],
+      ['displace','Displaced to another beat or across the bar line and still sits right'],
+      ['vary',    'Varied on the spot (cut short, new ending, new rhythm) and still idiomatic'],
+      ['tune',    'Came out unplanned in a solo on a tune in review'],
+    ],
+  },
+};
+const LEVEL_MAX = 2;
+const LEVEL_COLD_DAYS = 2;
+const LEVEL_STALL_DAYS = 8;   // practice days at one level before suggesting a split
+const LEVEL_KIND = {
+  voicing: { list:'voicings',   noun:'voicing',    types:['voicing_practiced','voicing_session','voicing_reviewed'], area:'voicing', redraw:n=>renderVoicingDetail(n), tempoHint:'160 for ii-Vs, 80 for ballads' },
+  vocab:   { list:'vocabulary', noun:'vocabulary', types:['vocab_practiced'], area:'vocab', redraw:n=>renderVocabDetail(n), tempoHint:'tempo of the tunes you use it on' },
+};
+function levelItem(db, kind, name) { return (db[LEVEL_KIND[kind].list]||[]).find(x=>x.name===name); }
+// The in-progress record for the item's next level, or a blank one.
+function levelProgress(item) {
+  const target = (item.familiarity||0) + 1;
+  const lu = item.levelUp && item.levelUp.target===target ? item.levelUp : { target, checks:{}, passes:[] };
+  return lu;
+}
+function levelStatus(kind, item) {
+  if((item.familiarity||0) >= LEVEL_MAX) return null;
+  const lu = levelProgress(item), crit = LEVEL_CRITERIA[kind][lu.target];
+  const checked = crit.filter(([id])=>lu.checks[id]).length;
+  const passes = new Set(lu.passes).size;
+  return { target: lu.target, crit, lu, checked, total: crit.length, passes, ready: checked===crit.length && passes>=LEVEL_COLD_DAYS };
+}
+// Practice days since the item reached its current level.
+function levelDaysAtLevel(db, kind, item) {
+  const k = LEVEL_KIND[kind], since = item.levelSince || item.addedDate || 0;
+  return new Set((db.activity||[]).filter(e => e.name===item.name && e.date>=since &&
+    (k.types.includes(e.type) || (e.type==='practice_time' && e.area===k.area))).map(e=>e.date)).size;
+}
+function levelSummary(kind, item) {
+  const st = levelStatus(kind, item);
+  if(!st) return 'mastered';
+  return `to level ${st.target}: ${st.checked}/${st.total} criteria · ${Math.min(st.passes, LEVEL_COLD_DAYS)}/${LEVEL_COLD_DAYS} cold days`;
+}
+function updateLevelUp(kind, name, fn) {
+  const db = getDB(), item = levelItem(db, kind, name);
+  if(!item) return;
+  item.levelUp = levelProgress(item);
+  fn(item, db);
+  saveDB(db);
+  LEVEL_KIND[kind].redraw(name);
+}
+function toggleLevelCheck(kind, name, id) {
+  updateLevelUp(kind, name, item => { item.levelUp.checks[id] = !item.levelUp.checks[id]; });
+}
+function logColdPass(kind, name) {
+  updateLevelUp(kind, name, item => {
+    const tod = todayInt();
+    if(!item.levelUp.passes.includes(tod)) item.levelUp.passes.push(tod);
+    const n = item.levelUp.passes.length;
+    toast(n >= LEVEL_COLD_DAYS ? `Cold pass logged — ${LEVEL_COLD_DAYS} days done` : `Cold pass logged — ${LEVEL_COLD_DAYS-n} more day to go`);
+  });
+}
+function removeColdPass(kind, name, date) {
+  updateLevelUp(kind, name, item => { item.levelUp.passes = item.levelUp.passes.filter(d=>d!==date); });
+}
+function setTargetTempo(kind, name, input) {
+  const n = parseInt(input.value, 10);
+  updateLevelUp(kind, name, item => {
+    if(!input.value.trim()) delete item.targetTempo;
+    else if(n >= 30 && n <= 400) item.targetTempo = n;
+  });
+}
+function bumpLevel(kind, name) {
+  const db = getDB(), item = levelItem(db, kind, name);
+  if(!item) return;
+  const st = levelStatus(kind, item);
+  if(!st || !st.ready) return;
+  item.familiarity = st.target;
+  item.levelSince = todayInt();
+  delete item.levelUp;
+  logActivity(db, kind==='voicing' ? 'voicing_level_up' : 'vocab_level_up', { name, familiarity: st.target });
+  saveDB(db); renderAll();
+  LEVEL_KIND[kind].redraw(name);
+  toast(st.target >= LEVEL_MAX ? `"${name}" mastered — out of daily rotation; it'll come back in tunes` : `"${name}" is now level ${st.target}`);
+}
+function levelSectionHTML(db, kind, item) {
+  const k = LEVEL_KIND[kind], arg = jsArg(item.name), kArg = `'${kind}'`;
+  const tempo = `<label class="level-tempo">Target tempo <input type="number" min="30" max="400" value="${item.targetTempo||''}" placeholder="bpm" onchange="setTargetTempo(${kArg},${arg},this)"><span>${escHTML(k.tempoHint)}</span></label>`;
+  const st = levelStatus(kind, item);
+  if(!st) return `<div class="section"><div class="section-head"><h2>Familiarity</h2><span class="count">mastered</span></div><div class="level-body"><div class="level-note">Out of daily rotation. It gets tested again when it comes up in a tune during review.</div>${tempo}</div></div>`;
+  const rows = st.crit.map(([id,label]) => `<label class="exit-row${st.lu.checks[id]?' done':''}"><input type="checkbox" class="chk"${st.lu.checks[id]?' checked':''} onchange="toggleLevelCheck(${kArg},${arg},'${id}')"><span>${escHTML(label)}</span></label>`).join('');
+  const tod = todayInt(), dates = [...new Set(st.lu.passes)].sort();
+  const dots = Array.from({length: LEVEL_COLD_DAYS}, (_,i) => dates[i]
+    ? `<button class="cold-dot on" title="Cold pass ${formatIntDate(dates[i])} — click to remove" onclick="removeColdPass(${kArg},${arg},${dates[i]})">${formatIntDate(dates[i]).replace(/, \d{4}$/,'')}</button>`
+    : `<span class="cold-dot"></span>`).join('');
+  const passedToday = dates.includes(tod);
+  const allChecked = st.checked===st.total;
+  const coldBtn = passedToday ? `<button class="btn-action" disabled>Logged today</button>`
+    : `<button class="btn-action" onclick="logColdPass(${kArg},${arg})"${allChecked?'':' disabled title="Tick every criterion first"'}>Log cold pass today</button>`;
+  const bump = st.ready ? `<button class="btn-primary" onclick="bumpLevel(${kArg},${arg})">Move to level ${st.target}</button>` : '';
+  const days = levelDaysAtLevel(db, kind, item);
+  const stall = days >= LEVEL_STALL_DAYS ? `<div class="level-stall">${days} practice days at level ${item.familiarity||0}. If it isn't getting closer, split it into smaller pieces — one top-note position, or half the line — and give each its own entry.</div>` : '';
+  return `<div class="section"><div class="section-head"><h2>To level ${st.target}</h2><span class="count">${st.checked}/${st.total} criteria · ${Math.min(st.passes,LEVEL_COLD_DAYS)}/${LEVEL_COLD_DAYS} cold days</span></div>${rows}<div class="level-body"><div class="level-cold"><div><div class="level-cold-label">Cold passes</div><div class="level-note">Every criterion, played from scratch at the start of a block, on ${LEVEL_COLD_DAYS} separate days</div></div><div class="cold-dots">${dots}</div>${coldBtn}</div>${tempo}${stall}${bump?`<div class="level-bump">${bump}</div>`:''}</div></div>`;
+}
 function vocabImgHTML(c, cls) {
   if(c.image) return `<img class="${cls}" src="images/vocabulary/${c.image}" alt="" onerror="this.classList.add('voicing-thumb-empty');this.replaceWith(Object.assign(document.createElement('div'),{className:this.className,textContent:'no img'}))">`;
   return `<div class="${cls} voicing-thumb-empty">no img</div>`;
+}
+// The Vocabulary page has two views: the vocabulary itself, and every point of interest marked
+// on a recording — the raw material, each one a click away from becoming a vocabulary item.
+const VOCAB_VIEWS = [['items','Vocabulary'],['pois','Points of interest']];
+function setVocabView(view) {
+  const db = getDB();
+  db.vocabView = view;
+  saveDB(db); renderVocabulary();
+}
+function vocabViewToggleHTML(db) {
+  const view = db.vocabView==='pois' ? 'pois' : 'items';
+  return `<div class="kw-toggle vocab-view-toggle">${VOCAB_VIEWS.map(([m,l]) => `<button class="${m===view?'sel':''}" onclick="setVocabView('${m}')">${l}</button>`).join('')}</div>`;
+}
+let poiIndexQuery = '', poiIndexHideAdded = false;
+function setPoiIndexQuery(input) {
+  poiIndexQuery = input.value;
+  const pos = input.selectionStart;
+  renderVocabulary();
+  const el = document.getElementById('poi-index-search');
+  if(el) { el.focus(); el.setSelectionRange(pos, pos); }
+}
+function setPoiIndexHideAdded(on) { poiIndexHideAdded = on; renderVocabulary(); }
+function poiIndexHTML(db) {
+  const pts = allPointsOfInterest(db);
+  if(!pts.length) return '<div class="empty" style="padding:32px 0">No points of interest yet. Mark them on a song\'s or album\'s recordings and they\'ll all appear here.</div>';
+  // Vocabulary items that came from each point of interest
+  const usedBy = new Map();
+  (db.vocabulary||[]).forEach(c => { if(c.source) { const k = poiKey(c.source); if(!usedBy.has(k)) usedBy.set(k, []); usedBy.get(k).push(c); } });
+  const q = poiIndexQuery.trim().toLowerCase();
+  const shown = pts.filter(pt => (!poiIndexHideAdded || !usedBy.has(poiKey(pt))) &&
+    (!q || [pt.text, pt.group, pt.trackName, pt.album].filter(Boolean).join(' ').toLowerCase().includes(q)));
+  const groups = new Map();
+  shown.forEach(pt => { if(!groups.has(pt.group)) groups.set(pt.group, []); groups.get(pt.group).push(pt); });
+  const added = pts.filter(pt=>usedBy.has(poiKey(pt))).length;
+  const toolbar = `<div class="poi-index-toolbar"><input type="text" id="poi-index-search" class="focus-input" placeholder="Filter by player, tune or label" value="${escHTML(poiIndexQuery)}" oninput="setPoiIndexQuery(this)"><label class="poi-index-hide"><input type="checkbox"${poiIndexHideAdded?' checked':''} onchange="setPoiIndexHideAdded(this.checked)"> Hide ones already in vocabulary</label><span class="count">${pts.length} marked · ${added} in vocabulary</span></div>`;
+  const body = [...groups.entries()].sort((a,b)=>a[0].localeCompare(b[0])).map(([group, list]) => {
+    const first = list[0];
+    const open = first.song && db.songs[first.song] ? `showSongDetail(${jsArg(first.song)})` : first.albumId ? `showAlbumDetail('${escHTML(first.albumId)}')` : '';
+    const kind = first.song ? 'Song' : 'Album';
+    const rows = list.sort((a,b)=>(a.trackName||a.album||'').localeCompare(b.trackName||b.album||'') || a.trackId.localeCompare(b.trackId) || a.at-b.at).map(pt => {
+      const key = poiKey(pt), items = usedBy.get(key) || [];
+      const time = `<a class="poi-time" href="spotify:track:${escHTML(pt.trackId)}#${formatPoiTime(pt.at)}" title="Play in Spotify from ${formatPoiTime(pt.at)}" onclick="event.preventDefault();playPoi('${escHTML(pt.trackId)}',${pt.at})">${formatPoiTime(pt.at)}</a>`;
+      const where = pt.trackName || (pt.song && pt.album ? pt.album : '');
+      const action = items.length
+        ? `<span class="poi-in-vocab">${items.map(c=>`<span class="poi-vocab-link" title="Open vocabulary item" onclick="showVocabDetail(${jsArg(c.name)})">${escHTML(c.name)}</span>`).join(', ')}</span><button class="btn-action poi-add-vocab" title="Add another vocabulary item from this" onclick="addVocabFromPoi('${escHTML(key)}')">+</button>`
+        : `<button class="btn-primary poi-add-vocab" onclick="addVocabFromPoi('${escHTML(key)}')">+ Vocab</button>`;
+      return `<div class="poi-index-row${items.length?' added':''}">${time}<div class="poi-index-main"><div class="poi-index-text">${escHTML(pt.text)}</div>${where?`<div class="poi-index-where">${escHTML(where)}</div>`:''}</div>${action}</div>`;
+    }).join('');
+    return `<div class="section"><div class="section-head"><h2${open?` class="poi-group-link" onclick="${open}" title="Open ${kind.toLowerCase()} page"`:''}>${escHTML(group)}</h2><span class="count">${kind} · ${list.length}</span></div>${rows}</div>`;
+  }).join('');
+  return toolbar + (body || '<div class="empty" style="padding:24px 0">Nothing matches.</div>');
+}
+// Opens Add vocabulary with the point of interest already chosen as the source; its label
+// fills the name as a starting point, selected so typing replaces it.
+function addVocabFromPoi(key) {
+  const pt = allPointsOfInterest(getDB()).find(p=>poiKey(p)===key);
+  if(!pt) return;
+  openAddVocab();
+  document.getElementById('vocab-source').value = key;
+  const input = document.getElementById('vocab-name');
+  input.value = pt.text;
+  setTimeout(()=>{ input.focus(); input.select(); }, 60);
 }
 function renderVocabulary() {
   const db = getDB();
   const container = document.getElementById('vocabulary-body');
   const items = db.vocabulary || [];
+  if(db.vocabView==='pois') { container.innerHTML = vocabViewToggleHTML(db) + poiIndexHTML(db); return; }
   if(!items.length) {
-    container.innerHTML = '<div class="empty" style="padding:32px 0">No vocabulary yet. Add your first item to get started.</div>';
+    container.innerHTML = vocabViewToggleHTML(db) + '<div class="empty" style="padding:32px 0">No vocabulary yet. Add your first item to get started, or pick one from your points of interest.</div>';
     return;
   }
   const used = VOCAB_TAGS.filter(t => items.some(c=>(c.tags||[]).includes(t)));
   if(vocabTagFilter && !used.includes(vocabTagFilter)) vocabTagFilter = '';
   const sorted = [...items].filter(c => !vocabTagFilter || (c.tags||[]).includes(vocabTagFilter)).sort((a,b)=>a.name.localeCompare(b.name));
   const filter = used.length ? `<select class="vocab-tag-filter" onchange="setVocabTagFilter(this.value)"><option value="">All tags</option>${used.map(t=>`<option value="${escHTML(t)}"${t===vocabTagFilter?' selected':''}>${escHTML(t)}</option>`).join('')}</select>` : '';
-  let html = `<div class="section"><div class="section-head"><h2>${vocabTagFilter ? escHTML(vocabTagFilter) : 'All vocabulary'}</h2><span class="count"${filter?' style="margin-left:8px"':''}>${sorted.length}</span>${filter}</div>`;
+  let html = vocabViewToggleHTML(db) + `<div class="section"><div class="section-head"><h2>${vocabTagFilter ? escHTML(vocabTagFilter) : 'All vocabulary'}</h2><span class="count"${filter?' style="margin-left:8px"':''}>${sorted.length}</span>${filter}</div>`;
   sorted.forEach(c=>{
     const safe = c.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
     const img = vocabImgHTML(c, 'voicing-thumb');

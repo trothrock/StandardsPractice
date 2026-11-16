@@ -9617,7 +9617,7 @@
   },
   "vocabulary": [
     {
-      "name": "Maj ii-V arpeggios from 5th of ii",
+      "name": "5-7-9-11 climb on ii",
       "image": "dolphin-dance-ii-v.png",
       "source": {
         "trackId": "1Ku5vu9Crncz8ixeT4Ijxc",
@@ -11755,5 +11755,6 @@
   ],
   "playerNames": {
     "261295": "Tony Williams"
-  }
+  },
+  "vocabView": "items"
 }
