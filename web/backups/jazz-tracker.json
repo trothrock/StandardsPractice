@@ -9260,7 +9260,16 @@
         "E7(♭9)",
         "A-6/9 · top E"
       ],
-      "pinnedDate": 20261116
+      "pinnedDate": 20261116,
+      "levelUp": {
+        "target": 1,
+        "checks": {
+          "keys": false,
+          "leading": false
+        },
+        "passes": []
+      },
+      "targetTempo": 160
     },
     {
       "name": "[2] Major ii-V-I",
