@@ -488,12 +488,13 @@ function startDailySync() {
 
 // On a Mac the server shares with the Spotify app, drive the app directly. The Web API can
 // accept a play command (204) that a stale desktop client then silently ignores, which looks
-// like success but plays nothing. Opens Spotify if it isn't running. Resolves true once playing.
+// like success but plays nothing. Opens Spotify if it isn't running. Resolves true once playing at the requested position; a seek
+// that never lands resolves false so the Web API path gets a turn.
 const LOCAL_PLAY_SCRIPT = `on run argv
   set trackUri to item 1 of argv
   set startAt to (item 2 of argv) as real
   tell application "Spotify"
-    repeat 20 times
+    repeat 50 times
       try
         play track trackUri
         exit repeat
@@ -501,9 +502,23 @@ const LOCAL_PLAY_SCRIPT = `on run argv
         delay 0.5
       end try
     end repeat
-    delay 0.3
-    set player position to startAt
-    return player state as text
+    -- A cold-launched Spotify drops a seek sent before the track has loaded, so wait until
+    -- this track is current and playing, then seek and confirm it took, retrying if not.
+    repeat 50 times
+      try
+        if (id of current track) is trackUri and player state is playing then exit repeat
+      end try
+      delay 0.2
+    end repeat
+    repeat 15 times
+      set player position to startAt
+      delay 0.4
+      try
+        set pos to player position
+        if pos >= startAt - 1 and pos < startAt + 6 then return player state as text
+      end try
+    end repeat
+    return "seek-failed"
   end tell
 end run`;
 function playLocally(trackId, positionMs) {
@@ -511,7 +526,7 @@ function playLocally(trackId, positionMs) {
   const { execFile } = require('child_process');
   return new Promise(resolve => {
     execFile('osascript', ['-e', LOCAL_PLAY_SCRIPT, `spotify:track:${trackId}`, String(Math.max(0, positionMs) / 1000)],
-      { timeout: 15000 }, (err, stdout) => resolve(!err && stdout.trim() === 'playing'));
+      { timeout: 40000 }, (err, stdout) => resolve(!err && stdout.trim() === 'playing'));
   });
 }
 

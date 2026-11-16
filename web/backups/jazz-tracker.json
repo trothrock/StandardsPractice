@@ -9797,7 +9797,7 @@
   "voicingActivityNamesFixed": true,
   "albumOfWeek": {
     "classic": {
-      "albumId": "7huPJTTsWVt854oZkr88mf",
+      "albumId": "5BymHphSwXImKUTljcMJvu",
       "weekStart": 20261116
     },
     "contemporary": {
@@ -9926,7 +9926,28 @@
       ],
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02b6f936d535913e3f425e5bbe",
       "year": "1965",
-      "featuredWeek": 20261116
+      "tracks": [
+        {
+          "id": "0T1EaGm6b9eM7xBf4F1hlc",
+          "name": "Maiden Voyage - Remastered 1999/Rudy Van Gelder Edition"
+        },
+        {
+          "id": "3FBHUgNaKpWvTn9ArrGFmH",
+          "name": "The Eye Of The Hurricane - Remastered 1999/Rudy Van Gelder Edition"
+        },
+        {
+          "id": "1D8x6XmpSuobQopGIXRo8u",
+          "name": "Little One - Remastered 1999/Rudy Van Gelder Edition"
+        },
+        {
+          "id": "2LaMFV3M42B69mYVy9qf0u",
+          "name": "Survival Of The Fittest - Remastered 1999/Rudy Van Gelder Edition"
+        },
+        {
+          "id": "1Ku5vu9Crncz8ixeT4Ijxc",
+          "name": "Dolphin Dance - Remastered 1999/Rudy Van Gelder Edition"
+        }
+      ]
     },
     {
       "albumId": "61bXefFZqGbVkmb7qzIIOl",
@@ -10448,7 +10469,8 @@
           "id": "2TaTp53VWQLMCvfZAPdOXa",
           "name": "Coloratura"
         }
-      ]
+      ],
+      "featuredWeek": 20261116
     },
     {
       "albumId": "1OjLx8J4i6GhNLBIJztwnC",
@@ -10618,7 +10640,41 @@
         "John Coltrane Quartet"
       ],
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02f77fcda504e98ae5e826ee3d",
-      "year": "1963"
+      "year": "1963",
+      "tracks": [
+        {
+          "id": "6ofKG7cXdImbqsxIN8JRtz",
+          "name": "Say It (Over And Over Again)"
+        },
+        {
+          "id": "4rLjljBhMA11epEFPPXHbU",
+          "name": "You Don't Know What Love Is"
+        },
+        {
+          "id": "3YGvhMv0iFKmyHzr4yDHXV",
+          "name": "Too Young To Go Steady"
+        },
+        {
+          "id": "79lOA9cjiispflDp40oCuQ",
+          "name": "All Or Nothing At All"
+        },
+        {
+          "id": "2FqNs90xCvpEbweEoAvqeT",
+          "name": "I Wish I Knew"
+        },
+        {
+          "id": "0DfTaQoneMmzvwX3n8qnep",
+          "name": "What's New"
+        },
+        {
+          "id": "1Lha7xd3R376bZjZLJo4Lt",
+          "name": "It's Easy To Remember"
+        },
+        {
+          "id": "14zdxbSW28IVDbeXeew2ug",
+          "name": "Nancy (With The Laughing Face)"
+        }
+      ]
     },
     {
       "albumId": "5VTlqV8lZH3YspQ1cDcjrL",
@@ -10738,7 +10794,33 @@
       ],
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02702925e6c5a577bf27f51e7f",
       "year": "2024",
-      "featuredWeek": 20261116
+      "featuredWeek": 20261116,
+      "tracks": [
+        {
+          "id": "3czlfQr2aQ9wijoOPxluCR",
+          "name": "Paper Doll"
+        },
+        {
+          "id": "6wcV1wdTyTLNwTgoS2ujpS",
+          "name": "A Memory of Enchantment"
+        },
+        {
+          "id": "5iiMNtira6eUzcOzqK7UOP",
+          "name": "After the Storm"
+        },
+        {
+          "id": "3WIkEtpv5WoDKHCzjx1a94",
+          "name": "A Wish (Valentine)"
+        },
+        {
+          "id": "6t4JMLa5eLB3WVDfxtLTvV",
+          "name": "Things Ain't What They Used to Be"
+        },
+        {
+          "id": "7mRrU1wnrcVHdWDgEtItE8",
+          "name": "Ana Maria's Song"
+        }
+      ]
     },
     {
       "albumId": "3hgjPy2aH5DGegCfdebMeM",
