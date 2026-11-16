@@ -648,8 +648,8 @@
       "multiKey": true,
       "staleFrom": 20261002,
       "practiceKey": {
-        "date": 20261109,
-        "key": "B"
+        "date": 20261116,
+        "key": "A"
       },
       "tags": [
         "Songbook"
@@ -2692,8 +2692,8 @@
         "Jam"
       ],
       "practiceKey": {
-        "date": 20261109,
-        "key": "B"
+        "date": 20261116,
+        "key": "A"
       }
     },
     "Just One of Those Things": {
@@ -5527,8 +5527,8 @@
         }
       ],
       "practiceKey": {
-        "date": 20261114,
-        "key": "B"
+        "date": 20261116,
+        "key": "A"
       }
     },
     "What's New?": {
@@ -5848,8 +5848,8 @@
     }
   },
   "currentNewSong": "Bags' Groove",
-  "streak": 11,
-  "lastPracticeDay": 20261115,
+  "streak": 12,
+  "lastPracticeDay": 20261116,
   "activity": [
     {
       "ts": 1776634938073,
@@ -8895,6 +8895,50 @@
       "date": 20261115,
       "type": "vocab_added",
       "name": "Maj ii-V arpeggios from 5th of ii"
+    },
+    {
+      "ts": 1794831541238,
+      "date": 20261116,
+      "type": "practice_time",
+      "area": "voicing",
+      "name": "[3] Minor ii-V-i",
+      "secs": 611
+    },
+    {
+      "ts": 1794831541238,
+      "date": 20261116,
+      "type": "voicing_session",
+      "name": "[3] Minor ii-V-i"
+    },
+    {
+      "ts": 1794832245035,
+      "date": 20261116,
+      "type": "practice_time",
+      "area": "vocab",
+      "name": "5-7-9-11 climb on ii",
+      "secs": 605
+    },
+    {
+      "ts": 1794833503003,
+      "date": 20261116,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "Bags' Groove",
+      "secs": 1258
+    },
+    {
+      "ts": 1794833503003,
+      "date": 20261116,
+      "type": "practiced",
+      "name": "Bags' Groove"
+    },
+    {
+      "ts": 1794834425739,
+      "date": 20261116,
+      "type": "practice_time",
+      "area": "review",
+      "name": "My Favorite Things",
+      "secs": 917
     }
   ],
   "extraReviewsToday": {
@@ -9216,7 +9260,7 @@
         "E7(♭9)",
         "A-6/9 · top E"
       ],
-      "pinnedDate": 20261114
+      "pinnedDate": 20261116
     },
     {
       "name": "[2] Major ii-V-I",
@@ -9717,8 +9761,8 @@
   "cadenceVersion": 7,
   "multiKeyPerWeek": 3,
   "multiKeyWeek": {
-    "weekStart": 20261109,
-    "key": "B"
+    "weekStart": 20261116,
+    "key": "A"
   },
   "exitChecklistOpen": false,
   "exitChecklistDetailOpen": false,
@@ -9753,12 +9797,12 @@
   "voicingActivityNamesFixed": true,
   "albumOfWeek": {
     "classic": {
-      "albumId": "5fGj14UbUEMl2v8tu7sqi4",
-      "weekStart": 20261109
+      "albumId": "7huPJTTsWVt854oZkr88mf",
+      "weekStart": 20261116
     },
     "contemporary": {
-      "albumId": "0H2PGA1jUGuUQgxdW3Oyzn",
-      "weekStart": 20261109
+      "albumId": "4RbKJI17ImGfxt6ariFkMR",
+      "weekStart": 20261116
     }
   },
   "records": [
@@ -9881,7 +9925,8 @@
         "Herbie Hancock"
       ],
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02b6f936d535913e3f425e5bbe",
-      "year": "1965"
+      "year": "1965",
+      "featuredWeek": 20261116
     },
     {
       "albumId": "61bXefFZqGbVkmb7qzIIOl",
@@ -10692,7 +10737,8 @@
         "Sullivan Fortner"
       ],
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02702925e6c5a577bf27f51e7f",
-      "year": "2024"
+      "year": "2024",
+      "featuredWeek": 20261116
     },
     {
       "albumId": "3hgjPy2aH5DGegCfdebMeM",
@@ -10757,7 +10803,77 @@
         "Thelonious Monk"
       ],
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02a0eb966776f5199adb48ddda",
-      "year": "1952"
+      "year": "1952",
+      "tracks": [
+        {
+          "id": "3Jupnj3gIaAzDhEkhcswQc",
+          "name": "Tahiti"
+        },
+        {
+          "id": "46T3UpoOr4rIZkrEJvsWbP",
+          "name": "Lillie"
+        },
+        {
+          "id": "1FGP7KqNANyPi10M3PkFtY",
+          "name": "Bags' Groove"
+        },
+        {
+          "id": "5kmoEUvne02INmeKf9jCH8",
+          "name": "What's New"
+        },
+        {
+          "id": "3cf9F1WgLsMvcuFlX8IL8p",
+          "name": "Don't Get Around Much Anymore - Remastered"
+        },
+        {
+          "id": "1PXkgcfxKXZUpauPgyXbiB",
+          "name": "On The Scene"
+        },
+        {
+          "id": "7dkli185YV1ZGJBZpaQyLE",
+          "name": "Lillie - Alternate Take / Remastered 2001/Rudy Van Gelder Edition"
+        },
+        {
+          "id": "4iDfpJlD8s7i64y6cbmlPA",
+          "name": "What's New - Remastered"
+        },
+        {
+          "id": "7rTXDqGatiqVP6zhqiWlvk",
+          "name": "Don't Get Around Much Anymore - Alternate Take/Rudy Van Gelder/24-Bit 2001 Digital Remaster"
+        },
+        {
+          "id": "4jJxjK4qBDxffhYtCmyhUr",
+          "name": "Evidence - Remastered 2001/Rudy Van Gelder Edition"
+        },
+        {
+          "id": "7JXfQmzQwnGvbAVnV9ODpn",
+          "name": "Misterioso - Rudy Van Gelde 24-Bit Mastering / 2001 Digital Remaster"
+        },
+        {
+          "id": "0EgG9FjlqfUGYItZtkHUno",
+          "name": "Epistrophy"
+        },
+        {
+          "id": "001cQbdHPIVU3fuOLURKOv",
+          "name": "I Mean You - Rudy Van Gelder 24-Bit Mastering / 2001 Digital Remaster"
+        },
+        {
+          "id": "2kjlfWR0IhHdiBgaw3qg07",
+          "name": "Misterioso - Alternate Take / Remastered 2001/Rudy Van Gelder Edition"
+        },
+        {
+          "id": "6JqzRnzNNfTGpHj018yxge",
+          "name": "All The Things You Are - Rudy Van Gelder 24-Bit Mastering / 2001 Digital Remaster"
+        },
+        {
+          "id": "35QFfozf6LOiRsWazJAoNl",
+          "name": "I Should Care - Rudy Van Gelder Edition"
+        },
+        {
+          "id": "1TGt3Jp75EMVH3H5ZtIdxJ",
+          "name": "I Should Care - Remastered"
+        }
+      ]
     }
   ],
   "recordsSort": "year",
@@ -11764,5 +11880,49 @@
     "learn": {
       "mins": 20
     }
+  },
+  "lastSession": {
+    "date": 20261116,
+    "start": 1794830836178,
+    "end": 1794834425740,
+    "blocks": [
+      {
+        "id": "voicing",
+        "label": "Voicing warm-up",
+        "area": "voicing",
+        "mins": 10
+      },
+      {
+        "id": "language",
+        "label": "Language study",
+        "area": "vocab",
+        "mins": 10
+      },
+      {
+        "id": "learn",
+        "label": "New tune",
+        "area": "learn",
+        "mins": 20
+      },
+      {
+        "id": "review",
+        "label": "Tune review 1",
+        "area": "review",
+        "mins": 10
+      },
+      {
+        "id": "review",
+        "label": "Tune review 2",
+        "area": "review",
+        "mins": 10
+      }
+    ],
+    "names": [
+      "[3] Minor ii-V-i",
+      "5-7-9-11 climb on ii",
+      "Bags' Groove",
+      "My Favorite Things"
+    ],
+    "secs": 3391
   }
 }
