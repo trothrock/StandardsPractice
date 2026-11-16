@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-11-15",
+  "lastSyncDate": "2026-11-16",
   "plays": [
     {
       "playedAt": "2026-10-01T01:25:15.151Z",
@@ -6526,6 +6526,227 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02b377dfe19197193c621ed7aa",
       "durationMs": 245200,
       "context": "spotify:playlist:37i9dQZF1DXbTxeAdrVG2l"
+    },
+    {
+      "playedAt": "2026-11-15T13:26:14.508Z",
+      "trackId": "1FGP7KqNANyPi10M3PkFtY",
+      "name": "Bags' Groove",
+      "artists": [
+        "Milt Jackson"
+      ],
+      "album": "Wizard Of The Vibes",
+      "albumId": "3DfX2LdvDIcrF4rdE3gxd0",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a0eb966776f5199adb48ddda",
+      "durationMs": 185760,
+      "context": "spotify:album:3DfX2LdvDIcrF4rdE3gxd0"
+    },
+    {
+      "playedAt": "2026-11-15T14:45:22.986Z",
+      "trackId": "2zQl59dZMzwhrmeSBEgiXY",
+      "name": "Watermelon Man",
+      "artists": [
+        "Herbie Hancock"
+      ],
+      "album": "Head Hunters",
+      "albumId": "5fmIolILp5NAtNYiRPjhzA",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b170840d6fdbc754ba304058",
+      "durationMs": 390432,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-11-15T16:07:57.110Z",
+      "trackId": "4p1MIXb5DeCJviKPeZBZst",
+      "name": "School Days - Live At Newport Jazz Festival, 1957",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "album": "At Newport (Live at Newport Jazz Festival, 1957 / Expanded Edition)",
+      "albumId": "40uojcqOk5czLzsO4P2OOV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a39b0f5822068ccedd1a9eae",
+      "durationMs": 347720,
+      "context": "spotify:album:40uojcqOk5czLzsO4P2OOV"
+    },
+    {
+      "playedAt": "2026-11-15T16:13:34.084Z",
+      "trackId": "5B2xSO7OOIWNeoCbkIy1lB",
+      "name": "Don't Blame Me",
+      "artists": [
+        "Coleman Hawkins"
+      ],
+      "album": "Sirius",
+      "albumId": "1FMGRpSXO3AVAwwQS006qp",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024125f45c8cfc17a14e9097df",
+      "durationMs": 279400,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-11-15T16:15:18.150Z",
+      "trackId": "6H4aGBZMjwQXMmlCTSIvjk",
+      "name": "Manteca - Live At Newport Jazz Festival, 1957",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "album": "At Newport (Live at Newport Jazz Festival, 1957 / Expanded Edition)",
+      "albumId": "40uojcqOk5czLzsO4P2OOV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a39b0f5822068ccedd1a9eae",
+      "durationMs": 431266,
+      "context": "spotify:album:40uojcqOk5czLzsO4P2OOV"
+    },
+    {
+      "playedAt": "2026-11-15T16:20:06.236Z",
+      "trackId": "6ny5BKo6qNsauz5MENXyi3",
+      "name": "I Remember Clifford - Live At Newport Jazz Festival, 1957",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "album": "At Newport (Live at Newport Jazz Festival, 1957 / Expanded Edition)",
+      "albumId": "40uojcqOk5czLzsO4P2OOV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a39b0f5822068ccedd1a9eae",
+      "durationMs": 288053,
+      "context": "spotify:album:40uojcqOk5czLzsO4P2OOV"
+    },
+    {
+      "playedAt": "2026-11-15T18:28:41.140Z",
+      "trackId": "7w9rguuCblUaPZJZFIYv2i",
+      "name": "Cool Breeze - Live At Newport Jazz Festival, 1957",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "album": "At Newport (Live at Newport Jazz Festival, 1957 / Expanded Edition)",
+      "albumId": "40uojcqOk5czLzsO4P2OOV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a39b0f5822068ccedd1a9eae",
+      "durationMs": 630093,
+      "context": "spotify:album:40uojcqOk5czLzsO4P2OOV"
+    },
+    {
+      "playedAt": "2026-11-15T18:43:04.195Z",
+      "trackId": "5EoYc5wvRYOtkudLfrjsL1",
+      "name": "Bring It On Home to Me",
+      "artists": [
+        "Sam Cooke"
+      ],
+      "album": "The Best of Sam Cooke",
+      "albumId": "2Dpw2XUAsBvuNdNLarNzz8",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028ae06030ae3a8dd0d3cc25ae",
+      "durationMs": 164252,
+      "context": "spotify:album:2Dpw2XUAsBvuNdNLarNzz8"
+    },
+    {
+      "playedAt": "2026-11-15T18:45:42.708Z",
+      "trackId": "5Iev69m1Jnf7oc79VvPjpd",
+      "name": "Cupid",
+      "artists": [
+        "Sam Cooke"
+      ],
+      "album": "The Best of Sam Cooke",
+      "albumId": "2Dpw2XUAsBvuNdNLarNzz8",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028ae06030ae3a8dd0d3cc25ae",
+      "durationMs": 158013,
+      "context": "spotify:album:2Dpw2XUAsBvuNdNLarNzz8"
+    },
+    {
+      "playedAt": "2026-11-15T18:48:19.390Z",
+      "trackId": "4su143nXu1B0GDxD8teWef",
+      "name": "Chain Gang",
+      "artists": [
+        "Sam Cooke"
+      ],
+      "album": "The Best of Sam Cooke",
+      "albumId": "2Dpw2XUAsBvuNdNLarNzz8",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028ae06030ae3a8dd0d3cc25ae",
+      "durationMs": 156202,
+      "context": "spotify:album:2Dpw2XUAsBvuNdNLarNzz8"
+    },
+    {
+      "playedAt": "2026-11-15T18:50:28.945Z",
+      "trackId": "7N15WWy12QAMpGAh6QMAej",
+      "name": "(What A) Wonderful World",
+      "artists": [
+        "Sam Cooke"
+      ],
+      "album": "The Best of Sam Cooke",
+      "albumId": "2Dpw2XUAsBvuNdNLarNzz8",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028ae06030ae3a8dd0d3cc25ae",
+      "durationMs": 129061,
+      "context": "spotify:album:2Dpw2XUAsBvuNdNLarNzz8"
+    },
+    {
+      "playedAt": "2026-11-15T18:53:09.347Z",
+      "trackId": "7r3sQfHCyK958AopxFeR9w",
+      "name": "(I Love You) For Sentimental Reasons",
+      "artists": [
+        "Sam Cooke"
+      ],
+      "album": "The Best of Sam Cooke",
+      "albumId": "2Dpw2XUAsBvuNdNLarNzz8",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028ae06030ae3a8dd0d3cc25ae",
+      "durationMs": 159887,
+      "context": "spotify:album:2Dpw2XUAsBvuNdNLarNzz8"
+    },
+    {
+      "playedAt": "2026-11-16T03:42:49.958Z",
+      "trackId": "1Ku5vu9Crncz8ixeT4Ijxc",
+      "name": "Dolphin Dance - Remastered 1999/Rudy Van Gelder Edition",
+      "artists": [
+        "Herbie Hancock"
+      ],
+      "album": "Maiden Voyage (Remastered 1999/Rudy Van Gelder Edition)",
+      "albumId": "7huPJTTsWVt854oZkr88mf",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b6f936d535913e3f425e5bbe",
+      "durationMs": 556133,
+      "context": null
+    },
+    {
+      "playedAt": "2026-11-16T03:43:35.308Z",
+      "trackId": "1Ku5vu9Crncz8ixeT4Ijxc",
+      "name": "Dolphin Dance - Remastered 1999/Rudy Van Gelder Edition",
+      "artists": [
+        "Herbie Hancock"
+      ],
+      "album": "Maiden Voyage (Remastered 1999/Rudy Van Gelder Edition)",
+      "albumId": "7huPJTTsWVt854oZkr88mf",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b6f936d535913e3f425e5bbe",
+      "durationMs": 556133,
+      "context": null
+    },
+    {
+      "playedAt": "2026-11-16T03:43:51.802Z",
+      "trackId": "1Ku5vu9Crncz8ixeT4Ijxc",
+      "name": "Dolphin Dance - Remastered 1999/Rudy Van Gelder Edition",
+      "artists": [
+        "Herbie Hancock"
+      ],
+      "album": "Maiden Voyage (Remastered 1999/Rudy Van Gelder Edition)",
+      "albumId": "7huPJTTsWVt854oZkr88mf",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b6f936d535913e3f425e5bbe",
+      "durationMs": 556133,
+      "context": null
+    },
+    {
+      "playedAt": "2026-11-16T03:44:01.758Z",
+      "trackId": "1Ku5vu9Crncz8ixeT4Ijxc",
+      "name": "Dolphin Dance - Remastered 1999/Rudy Van Gelder Edition",
+      "artists": [
+        "Herbie Hancock"
+      ],
+      "album": "Maiden Voyage (Remastered 1999/Rudy Van Gelder Edition)",
+      "albumId": "7huPJTTsWVt854oZkr88mf",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b6f936d535913e3f425e5bbe",
+      "durationMs": 556133,
+      "context": null
+    },
+    {
+      "playedAt": "2026-11-16T03:44:05.689Z",
+      "trackId": "1Ku5vu9Crncz8ixeT4Ijxc",
+      "name": "Dolphin Dance - Remastered 1999/Rudy Van Gelder Edition",
+      "artists": [
+        "Herbie Hancock"
+      ],
+      "album": "Maiden Voyage (Remastered 1999/Rudy Van Gelder Edition)",
+      "albumId": "7huPJTTsWVt854oZkr88mf",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b6f936d535913e3f425e5bbe",
+      "durationMs": 556133,
+      "context": null
     }
   ]
 }

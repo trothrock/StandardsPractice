@@ -834,6 +834,63 @@
           "song": "In a Mellow Tone"
         }
       ],
+      "filled": true,
+      "removedOn": "2026-11-16"
+    },
+    {
+      "date": "2026-11-16",
+      "id": "71czqbiWbWSQ16IXuFoGRv",
+      "name": "Daily Standards – Nov 16, 2026",
+      "tracks": [
+        {
+          "trackId": "1FGP7KqNANyPi10M3PkFtY",
+          "name": "Bags' Groove",
+          "artists": [
+            "Milt Jackson"
+          ],
+          "song": "Bags' Groove"
+        },
+        {
+          "trackId": "6gDOH2uybXcEkB6CumPX1J",
+          "name": "A Night In Tunisia - Live At Newport Jazz Festival, 1957",
+          "artists": [
+            "Dizzy Gillespie"
+          ],
+          "song": "Night in Tunisia"
+        },
+        {
+          "trackId": "5BxzqNLhwISk6IN5RZFkt8",
+          "name": "Blues For Alice",
+          "artists": [
+            "Charlie Parker"
+          ],
+          "song": "Blues for Alice"
+        },
+        {
+          "trackId": "4lm669ZRk2EkTHg8An9n8T",
+          "name": "Anthropology",
+          "artists": [
+            "Charlie Parker"
+          ],
+          "song": "Anthropology"
+        },
+        {
+          "trackId": "59vZ4sIpNRXW9QCxT1Xr4P",
+          "name": "Fly Me To The Moon",
+          "artists": [
+            "Vince Guaraldi Trio"
+          ],
+          "song": "Fly Me to the Moon"
+        },
+        {
+          "trackId": "1sce5VJvCOYYDAR9rp9KdG",
+          "name": "Stolen Moments",
+          "artists": [
+            "Oliver Nelson"
+          ],
+          "song": "Stolen Moments"
+        }
+      ],
       "filled": true
     }
   ]
