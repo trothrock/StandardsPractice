@@ -270,6 +270,17 @@
   .agenda-learning { border: none; border-radius: 0; margin: 0; border-bottom: 1px solid var(--border); background: transparent; }
   .agenda-learning .learn-days { padding-left: 56px; }
   .agenda-foot { padding: 12px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; }
+  .vocab-row-main { flex-direction: column; align-items: flex-start; gap: 2px; min-width: 0; }
+  .vocab-row-main .badge { margin-left: 6px; vertical-align: middle; }
+  .vocab-source { font-size: 13px; color: var(--text2); }
+  .vocab-source.compact { font-size: 11px; color: var(--text3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+  .vocab-source .poi-time { margin-right: 4px; }
+  .vocab-source-where { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .vocab-source.compact .vocab-source-where { display: inline; }
+  .vocab-source-owner { cursor: pointer; text-decoration: underline; text-decoration-color: var(--border2); text-underline-offset: 2px; }
+  .vocab-source-owner:hover { color: var(--gold2); }
+  .vocab-tag-filter { margin-left: auto; background: var(--bg3); border: 1px solid var(--border2); color: var(--text2); border-radius: var(--radius); font-size: 12px; padding: 3px 8px; }
+  .agenda-meta .vocab-source.compact { margin-top: 2px; }
   .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 200; align-items: center; justify-content: center; }
   .modal-backdrop.open { display: flex; }
   .modal { background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius-lg); width: 420px; max-width: calc(100vw - 40px); padding: 28px; }
@@ -956,6 +967,14 @@
       <input type="text" id="vocab-image" placeholder="e.g. enclosure.png &mdash; in images/vocabulary/">
     </div>
     <div class="field">
+      <label>Source <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <select id="vocab-source"></select>
+    </div>
+    <div class="field">
+      <label>Tags</label>
+      <div class="tag-picker" id="vocab-tags"></div>
+    </div>
+    <div class="field">
       <label>Familiarity</label>
       <div class="level-picker">
         <button class="level-btn sel-0" data-vocab-lvl="0" onclick="vocabSelectLevel(0)">0</button>
@@ -982,6 +1001,14 @@
     <div class="field">
       <label>Image filename <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
       <input type="text" id="vocab-edit-image" placeholder="e.g. enclosure.png &mdash; in images/vocabulary/">
+    </div>
+    <div class="field">
+      <label>Source <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+      <select id="vocab-edit-source"></select>
+    </div>
+    <div class="field">
+      <label>Tags</label>
+      <div class="tag-picker" id="vocab-edit-tags"></div>
     </div>
     <div class="field">
       <label>Familiarity</label>
@@ -1684,7 +1711,7 @@ function agendaRowParts(db, row) {
       const c = (db.vocabulary||[]).find(x=>x.name===name);
       if(!c) { parts.meta = 'Open study — add Vocabulary items to rotate through them'; break; }
       parts.open = `showVocabDetail(${jsArg(name)})`;
-      parts.meta = `familiarity ${c.familiarity||0}`;
+      parts.meta = [`familiarity ${c.familiarity||0}`, (c.tags||[]).join(', ')].filter(Boolean).join(' · ') + vocabSourceHTML(db, c, true);
       parts.action = c.lastPracticed===tod ? DONE_BTN('Practiced') : `<button class="btn-primary" onclick="markVocabPracticed(${jsArg(name)})">Practiced</button>`;
       break;
     }
@@ -2581,8 +2608,8 @@ const SONG_TAGS = ['Trad','Swing','Songbook','Bop','Hard bop','Modal','Post-bop'
   'Blues','Rhythm changes','Contrafact','Minor','Waltz','Odd meter','Jam'];
 function tagBadges(sg) { return sortTags(sg.tags||[]).map(t=>`<span class="badge badge-style">${t}</span>`).join(''); }
 function sortTags(tags) { return [...tags].sort((a,b)=>SONG_TAGS.indexOf(a)-SONG_TAGS.indexOf(b)); }
-function renderTagPicker(id, selected) {
-  document.getElementById(id).innerHTML = SONG_TAGS.map(t =>
+function renderTagPicker(id, selected, tags = SONG_TAGS) {
+  document.getElementById(id).innerHTML = tags.map(t =>
     `<button type="button" class="tag-btn${selected.includes(t)?' sel':''}" data-tag="${t}" onclick="this.classList.toggle('sel')">${t}</button>`).join('');
 }
 function readTagPicker(id) {
@@ -4953,7 +4980,7 @@ function renderVocabDetail(name) {
   const container = document.getElementById('detail-body');
   if(!c){ container.innerHTML='<div class="empty">Vocabulary item not found.</div>'; return; }
   const img = vocabImgHTML(c, 'voicing-img-full');
-  const header = `<div class="detail-header">${img}<div class="detail-header-top"><span class="detail-title">${c.name}</span>${lvlBadge(c.familiarity||0)}</div><div class="detail-meta-grid"><div class="detail-meta-field"><div class="label">Added</div><div class="value${c.addedDate?'':' placeholder'}">${c.addedDate?formatIntDate(c.addedDate):'—'}</div></div><div class="detail-meta-field"><div class="label">Last practiced</div><div class="value${c.lastPracticed?'':' placeholder'}">${c.lastPracticed?formatIntDate(c.lastPracticed):'—'}</div></div></div></div>`;
+  const header = `<div class="detail-header">${img}<div class="detail-header-top"><span class="detail-title">${c.name}</span>${vocabTagBadges(c)}${lvlBadge(c.familiarity||0)}</div><div class="detail-meta-grid">${c.source ? `<div class="detail-meta-field" style="grid-column:1/-1"><div class="label">Source</div><div class="value">${vocabSourceHTML(db, c, false)}</div></div>` : ''}<div class="detail-meta-field"><div class="label">Added</div><div class="value${c.addedDate?'':' placeholder'}">${c.addedDate?formatIntDate(c.addedDate):'—'}</div></div><div class="detail-meta-field"><div class="label">Last practiced</div><div class="value${c.lastPracticed?'':' placeholder'}">${c.lastPracticed?formatIntDate(c.lastPracticed):'—'}</div></div></div></div>`;
   const entries = (db.activity||[]).filter(e=>e.name===name||e.oldName===name).sort((a,b)=>b.ts-a.ts);
   const timeline = entries.length===0
     ? '<div class="empty">No activity for this vocabulary item yet.</div>'
@@ -6353,6 +6380,77 @@ function vocabContinueTomorrow(name) {
   toast(`"${name}" queued for tomorrow.`);
 }
 
+// ── Vocabulary sources and tags ──
+// A vocabulary item can point back to the point of interest it came from — a timestamp already
+// marked on a song's or album's recording. The source is kept as a copy (track, time, text and
+// where it lives) so it survives the original being edited; when the original still exists at
+// the same track and time, its current text is shown.
+const VOCAB_TAGS = ['ii-V','iii-VI-ii-V','Major','Minor','Dominant','Diminished','Blues','Bop','Rhythm changes'];
+function allPointsOfInterest(db) {
+  const out = [];
+  Object.entries(db.songs||{}).forEach(([name, sg]) => (sg.pointsOfInterest||[]).forEach(pt =>
+    out.push({ trackId:pt.trackId, at:pt.at, text:pt.text, album:pt.album||null, song:name, group:name })));
+  (db.records||[]).forEach(a => (a.pointsOfInterest||[]).forEach(pt => {
+    const track = (a.tracks||[]).find(t=>t.id===pt.trackId);
+    out.push({ trackId:pt.trackId, at:pt.at, text:pt.text, album:a.album, albumId:a.albumId, trackName: track ? track.name : null,
+      group: `${a.album}${(a.artists||[]).length ? ' — ' + a.artists.join(', ') : ''}` });
+  }));
+  return out;
+}
+function poiKey(pt) { return `${pt.trackId}@${pt.at}`; }
+function fillVocabSourceSelect(id, source) {
+  const db = getDB(), pts = allPointsOfInterest(db), current = source ? poiKey(source) : '';
+  const groups = new Map();
+  pts.forEach(pt => { if(!groups.has(pt.group)) groups.set(pt.group, []); groups.get(pt.group).push(pt); });
+  const sorted = [...groups.entries()].sort((a,b)=>a[0].localeCompare(b[0]));
+  let html = `<option value="">None</option>`;
+  // A saved source whose point of interest has since been removed stays selectable.
+  if(source && !pts.some(pt=>poiKey(pt)===current)) html += `<option value="${escHTML(current)}" selected>${escHTML(formatPoiTime(source.at) + ' · ' + source.text)} (no longer marked)</option>`;
+  html += sorted.map(([group, list]) => `<optgroup label="${escHTML(group)}">${list.sort((a,b)=>a.trackId.localeCompare(b.trackId)||a.at-b.at).map(pt =>
+    `<option value="${escHTML(poiKey(pt))}"${poiKey(pt)===current?' selected':''}>${escHTML([formatPoiTime(pt.at), pt.trackName, pt.text].filter(Boolean).join(' · '))}</option>`).join('')}</optgroup>`).join('');
+  document.getElementById(id).innerHTML = html;
+}
+function readVocabSource(id, previous) {
+  const key = document.getElementById(id).value;
+  if(!key) return null;
+  if(previous && poiKey(previous)===key) {
+    const live = allPointsOfInterest(getDB()).find(pt=>poiKey(pt)===key);
+    return live ? vocabSourceRecord(live) : previous;
+  }
+  const pt = allPointsOfInterest(getDB()).find(pt=>poiKey(pt)===key);
+  return pt ? vocabSourceRecord(pt) : null;
+}
+function vocabSourceRecord(pt) {
+  const r = { trackId:pt.trackId, at:pt.at, text:pt.text };
+  if(pt.album) r.album = pt.album;
+  if(pt.song) r.song = pt.song;
+  if(pt.albumId) r.albumId = pt.albumId;
+  if(pt.trackName) r.trackName = pt.trackName;
+  return r;
+}
+function liveVocabSource(db, src) {
+  const live = allPointsOfInterest(db).find(pt=>poiKey(pt)===poiKey(src));
+  return live ? { ...src, text: live.text } : src;
+}
+// The source as a playable timestamp, its text, and where it lives (a song or album page link).
+function vocabSourceHTML(db, c, compact) {
+  if(!c.source) return '';
+  const s = liveVocabSource(db, c.source);
+  const time = `<a class="poi-time" href="spotify:track:${escHTML(s.trackId)}#${formatPoiTime(s.at)}" title="Play in Spotify from ${formatPoiTime(s.at)}" onclick="event.preventDefault();event.stopPropagation();playPoi('${escHTML(s.trackId)}',${s.at})">${formatPoiTime(s.at)}</a>`;
+  const ownerName = s.song || s.album || '';
+  const ownerClick = s.song && db.songs[s.song] ? `showSongDetail(${jsArg(s.song)})`
+    : s.albumId && (db.records||[]).some(a=>a.albumId===s.albumId) ? `showAlbumDetail('${escHTML(s.albumId)}')` : '';
+  const owner = ownerName ? (ownerClick ? `<span class="vocab-source-owner" onclick="event.stopPropagation();${ownerClick}">${escHTML(ownerName)}</span>` : escHTML(ownerName)) : '';
+  const where = [owner, s.trackName && s.trackName!==ownerName ? escHTML(s.trackName) : ''].filter(Boolean).join(' · ');
+  return compact
+    ? `<div class="vocab-source compact">${time} ${escHTML(s.text)}${where ? ` <span class="vocab-source-where">— ${where}</span>` : ''}</div>`
+    : `<div class="vocab-source">${time} <span>${escHTML(s.text)}</span>${where ? `<div class="vocab-source-where">${where}</div>` : ''}</div>`;
+}
+function vocabTagBadges(c) {
+  return (c.tags||[]).slice().sort((a,b)=>VOCAB_TAGS.indexOf(a)-VOCAB_TAGS.indexOf(b)).map(t=>`<span class="badge badge-style">${escHTML(t)}</span>`).join('');
+}
+let vocabTagFilter = '';
+function setVocabTagFilter(v) { vocabTagFilter = v; renderVocabulary(); }
 function vocabImgHTML(c, cls) {
   if(c.image) return `<img class="${cls}" src="images/vocabulary/${c.image}" alt="" onerror="this.classList.add('voicing-thumb-empty');this.replaceWith(Object.assign(document.createElement('div'),{className:this.className,textContent:'no img'}))">`;
   return `<div class="${cls} voicing-thumb-empty">no img</div>`;
@@ -6365,12 +6463,15 @@ function renderVocabulary() {
     container.innerHTML = '<div class="empty" style="padding:32px 0">No vocabulary yet. Add your first item to get started.</div>';
     return;
   }
-  const sorted = [...items].sort((a,b)=>a.name.localeCompare(b.name));
-  let html = `<div class="section"><div class="section-head"><h2>All vocabulary</h2><span class="count">${sorted.length}</span></div>`;
+  const used = VOCAB_TAGS.filter(t => items.some(c=>(c.tags||[]).includes(t)));
+  if(vocabTagFilter && !used.includes(vocabTagFilter)) vocabTagFilter = '';
+  const sorted = [...items].filter(c => !vocabTagFilter || (c.tags||[]).includes(vocabTagFilter)).sort((a,b)=>a.name.localeCompare(b.name));
+  const filter = used.length ? `<select class="vocab-tag-filter" onchange="setVocabTagFilter(this.value)"><option value="">All tags</option>${used.map(t=>`<option value="${escHTML(t)}"${t===vocabTagFilter?' selected':''}>${escHTML(t)}</option>`).join('')}</select>` : '';
+  let html = `<div class="section"><div class="section-head"><h2>${vocabTagFilter ? escHTML(vocabTagFilter) : 'All vocabulary'}</h2><span class="count"${filter?' style="margin-left:8px"':''}>${sorted.length}</span>${filter}</div>`;
   sorted.forEach(c=>{
     const safe = c.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
     const img = vocabImgHTML(c, 'voicing-thumb');
-    html += `<div class="song-row clickable" onclick="showVocabDetail('${safe}')">${img}<div class="song-name-group"><span class="song-name">${c.name}</span></div>${lvlBadge(c.familiarity||0)}<button class="btn-dots" onclick="openVocabMenu(event,'${safe}')">···</button></div>`;
+    html += `<div class="song-row clickable" onclick="showVocabDetail('${safe}')">${img}<div class="song-name-group vocab-row-main"><div><span class="song-name">${escHTML(c.name)}</span>${vocabTagBadges(c)}</div>${vocabSourceHTML(db, c, true)}</div>${lvlBadge(c.familiarity||0)}<button class="btn-dots" onclick="openVocabMenu(event,'${safe}')">···</button></div>`;
   });
   html += '</div>';
   container.innerHTML = html;
@@ -6386,6 +6487,8 @@ function openAddVocab() {
   vocabSelectedLevel = 0;
   document.getElementById('vocab-name').value = '';
   document.getElementById('vocab-image').value = '';
+  fillVocabSourceSelect('vocab-source', null);
+  renderTagPicker('vocab-tags', [], VOCAB_TAGS);
   document.getElementById('vocab-error').style.display = 'none';
   document.querySelectorAll('[data-vocab-lvl]').forEach(b=>b.className='level-btn');
   document.querySelector('[data-vocab-lvl="0"]').classList.add('sel-0');
@@ -6406,6 +6509,8 @@ function submitAddVocab() {
   db.vocabulary.push({
     name,
     image: document.getElementById('vocab-image').value.trim() || null,
+    source: readVocabSource('vocab-source', null),
+    tags: readTagPicker('vocab-tags'),
     familiarity: vocabSelectedLevel,
     addedDate: todayInt(),
     sortSeed: Math.random(),
@@ -6441,6 +6546,8 @@ function openEditVocab(name) {
   vocabEditSelectedLevel = c.familiarity||0;
   document.getElementById('vocab-edit-name').value = c.name;
   document.getElementById('vocab-edit-image').value = c.image || '';
+  fillVocabSourceSelect('vocab-edit-source', c.source || null);
+  renderTagPicker('vocab-edit-tags', c.tags || [], VOCAB_TAGS);
   document.getElementById('vocab-edit-error').style.display = 'none';
   vocabEditSelectLevel(vocabEditSelectedLevel);
   document.getElementById('edit-vocab-modal').classList.add('open');
@@ -6460,6 +6567,8 @@ function submitEditVocab() {
   if(!c) return;
   c.name = name;
   c.image = document.getElementById('vocab-edit-image').value.trim() || null;
+  c.source = readVocabSource('vocab-edit-source', c.source || null);
+  c.tags = readTagPicker('vocab-edit-tags');
   c.familiarity = vocabEditSelectedLevel;
   saveDB(db); closeEditVocab(); renderAll();
   toast(`"${name}" updated.`);

@@ -8889,6 +8889,12 @@
       "date": 20261115,
       "type": "repertoire_practiced",
       "name": "A Sleepin' Bee"
+    },
+    {
+      "ts": 1794787431435,
+      "date": 20261115,
+      "type": "vocab_added",
+      "name": "Maj ii-V arpeggios from 5th of ii"
     }
   ],
   "extraReviewsToday": {
@@ -9609,7 +9615,28 @@
     "vocabulary": false,
     "multikey": false
   },
-  "vocabulary": [],
+  "vocabulary": [
+    {
+      "name": "Maj ii-V arpeggios from 5th of ii",
+      "image": "dolphin-dance-ii-v.png",
+      "source": {
+        "trackId": "1Ku5vu9Crncz8ixeT4Ijxc",
+        "at": 368,
+        "text": "Herbie Hancock ii-V line",
+        "album": "Maiden Voyage (Remastered 1999/Rudy Van Gelder Edition)",
+        "song": "Dolphin Dance"
+      },
+      "tags": [
+        "ii-V",
+        "Major"
+      ],
+      "familiarity": 0,
+      "addedDate": 20261115,
+      "sortSeed": 0.6325330114596202,
+      "lastPracticed": null,
+      "pinnedDate": null
+    }
+  ],
   "keyCenters": {
     "C": {
       "familiarity": 3
