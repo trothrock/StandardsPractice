@@ -721,9 +721,20 @@
         <div id="session-settings"></div>
       </div>
       <div class="section" style="margin-bottom:20px">
-        <div class="section-head"><h2>Queue size</h2></div>
+        <div class="section-head"><h2>Review queue</h2></div>
         <div class="settings-row">
-          <div><div class="label">Review songs per week</div><div class="sub">How many songs the Review queue offers each week</div></div>
+          <div><div class="label">Rotation draws from</div><div class="sub">Which songs can come up for review, in the Review queue and in practice sessions</div></div>
+          <select id="rotation-source" onchange="setRotationSource(this)">
+            <option value="all">All songs with 2+ ratings</option>
+            <option value="learnedOnly">Only recently learned songs</option>
+          </select>
+        </div>
+        <div class="settings-row">
+          <div><div class="label">Songs in rotation</div><div class="sub" id="rotation-size-sub">How many of those songs are in play at once</div></div>
+          <input type="number" id="rotation-size" min="1" max="500" onchange="setRotationSize(this)">
+        </div>
+        <div class="settings-row">
+          <div><div class="label">Review songs per week</div><div class="sub">How many songs the Review queue offers each week (practice sessions use their own tune count)</div></div>
           <input type="number" id="queue-size-review" min="1" max="100" onchange="setQueueSize('review')">
         </div>
         <div class="settings-row">
@@ -5626,6 +5637,7 @@ function renderSettings() {
   document.getElementById('section-toggle-review').checked = !!sections.review;
   document.getElementById('section-toggle-multikey').checked = !!sections.multikey;
   document.getElementById('queue-size-review').value = weeklyBudget(db);
+  renderRotationSettings(db);
   document.getElementById('queue-size-multikey').value = multiKeyBudget(db);
   document.getElementById('listening-goal').value = listeningGoal(db);
   renderSessionSettings(db);
@@ -5652,6 +5664,30 @@ function setQueueSize(which) {
   db[field.key] = n;
   saveDB(db); renderAll();
   toast(`${n} ${field.noun} ${n===1?'song':'songs'} per week.`);
+}
+// The rotation's source and size — the same settings as the Review section's settings dialog,
+// here so they can be changed without leaving structured practice.
+function renderRotationSettings(db) {
+  document.getElementById('rotation-source').value = db.reviewQueueMode==='learnedOnly' ? 'learnedOnly' : 'all';
+  document.getElementById('rotation-size').value = Math.max(1, db.rotationMax || ROTATION_MAX_DEFAULT);
+  const eligible = Object.values(db.songs).filter(s=>reviewEligible(db, s)).length;
+  const inPlay = rotationSongs(db).length;
+  document.getElementById('rotation-size-sub').textContent = `How many of those songs are in play at once · ${eligible} eligible, ${inPlay} in rotation`;
+}
+function setRotationSource(sel) {
+  const db = getDB();
+  db.reviewQueueMode = sel.value;
+  saveDB(db); renderRotationSettings(db); renderToday();
+  const eligible = Object.values(db.songs).filter(s=>reviewEligible(db, s)).length;
+  toast(`${eligible} songs eligible for review.`);
+}
+function setRotationSize(input) {
+  const db = getDB();
+  const n = parseInt(input.value, 10);
+  if(!n || n < 1 || n > 500) { input.value = db.rotationMax || ROTATION_MAX_DEFAULT; return; }
+  db.rotationMax = n;
+  saveDB(db); renderRotationSettings(db); renderToday();
+  toast(`${rotationSongs(db).length} songs in rotation.`);
 }
 function toggleTodaySection(key) {
   const db = getDB();

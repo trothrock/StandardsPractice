@@ -9606,7 +9606,7 @@
     }
   ],
   "voicingsSeedVersion": 2,
-  "reviewQueueMode": "learnedOnly",
+  "reviewQueueMode": "all",
   "todaySections": {
     "learning": true,
     "repertoire": false,
@@ -11756,5 +11756,13 @@
   "playerNames": {
     "261295": "Tony Williams"
   },
-  "vocabView": "items"
+  "vocabView": "items",
+  "sessionPlan": {
+    "voicing": {
+      "mins": 10
+    },
+    "learn": {
+      "mins": 20
+    }
+  }
 }
