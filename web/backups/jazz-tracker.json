@@ -9013,6 +9013,13 @@
       "passed": true,
       "key": "Ebm",
       "solo": 1
+    },
+    {
+      "ts": 1794928045681,
+      "date": 20261117,
+      "type": "vocab_practiced",
+      "name": "5-7-9-11 climb on ii",
+      "familiarity": 0
     }
   ],
   "extraReviewsToday": {
@@ -9761,8 +9768,7 @@
       "familiarity": 0,
       "addedDate": 20261115,
       "sortSeed": 0.6325330114596202,
-      "lastPracticed": null,
-      "pinnedDate": null,
+      "lastPracticed": 20261117,
       "levelUp": {
         "target": 1,
         "checks": {

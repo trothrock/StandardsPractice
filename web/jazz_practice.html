@@ -6429,7 +6429,7 @@ function markVocabPracticed(name) {
   delete c.deferredDate;
   stopTimerFor(db, 'vocab', name);
   logActivity(db, 'vocab_practiced', { name, familiarity: c.familiarity||0 });
-  saveDB(db); renderAll();
+  updateStreak(db); saveDB(db); renderAll();
   toast(`"${name}" marked as practiced.`);
 }
 function startPracticingVocab(name) {
