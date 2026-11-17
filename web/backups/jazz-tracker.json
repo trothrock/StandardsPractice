@@ -9687,7 +9687,14 @@
       "addedDate": 20261115,
       "sortSeed": 0.6325330114596202,
       "lastPracticed": null,
-      "pinnedDate": null
+      "pinnedDate": null,
+      "levelUp": {
+        "target": 1,
+        "checks": {
+          "keys": false
+        },
+        "passes": []
+      }
     }
   ],
   "keyCenters": {

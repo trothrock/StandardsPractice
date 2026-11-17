@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-11-16",
+  "lastSyncDate": "2026-11-17",
   "plays": [
     {
       "playedAt": "2026-10-01T01:25:15.151Z",
@@ -6747,6 +6747,398 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02b6f936d535913e3f425e5bbe",
       "durationMs": 556133,
       "context": null
+    },
+    {
+      "playedAt": "2026-11-16T07:00:36.791Z",
+      "trackId": "521OhfIeThXJKiTyz0m883",
+      "name": "Knives Out",
+      "artists": [
+        "Radiohead"
+      ],
+      "album": "Amnesiac",
+      "albumId": "1HrMmB5useeZ0F5lHrMvl0",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02863e0e305637100311c91aa7",
+      "durationMs": 254866,
+      "context": "spotify:album:1HrMmB5useeZ0F5lHrMvl0"
+    },
+    {
+      "playedAt": "2026-11-16T15:46:44.024Z",
+      "trackId": "3czlfQr2aQ9wijoOPxluCR",
+      "name": "Paper Doll",
+      "artists": [
+        "Kurt Elling",
+        "Sullivan Fortner"
+      ],
+      "album": "Wildflowers, Vol.1",
+      "albumId": "4RbKJI17ImGfxt6ariFkMR",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02702925e6c5a577bf27f51e7f",
+      "durationMs": 274920,
+      "context": "spotify:album:4RbKJI17ImGfxt6ariFkMR"
+    },
+    {
+      "playedAt": "2026-11-16T15:54:37.325Z",
+      "trackId": "6wcV1wdTyTLNwTgoS2ujpS",
+      "name": "A Memory of Enchantment",
+      "artists": [
+        "Kurt Elling",
+        "Sullivan Fortner"
+      ],
+      "album": "Wildflowers, Vol.1",
+      "albumId": "4RbKJI17ImGfxt6ariFkMR",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02702925e6c5a577bf27f51e7f",
+      "durationMs": 473240,
+      "context": "spotify:album:4RbKJI17ImGfxt6ariFkMR"
+    },
+    {
+      "playedAt": "2026-11-16T16:04:20.640Z",
+      "trackId": "5iiMNtira6eUzcOzqK7UOP",
+      "name": "After the Storm",
+      "artists": [
+        "Kurt Elling",
+        "Sullivan Fortner"
+      ],
+      "album": "Wildflowers, Vol.1",
+      "albumId": "4RbKJI17ImGfxt6ariFkMR",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02702925e6c5a577bf27f51e7f",
+      "durationMs": 292146,
+      "context": "spotify:album:4RbKJI17ImGfxt6ariFkMR"
+    },
+    {
+      "playedAt": "2026-11-16T16:31:04.573Z",
+      "trackId": "3WIkEtpv5WoDKHCzjx1a94",
+      "name": "A Wish (Valentine)",
+      "artists": [
+        "Kurt Elling",
+        "Sullivan Fortner",
+        "Cécile McLorin Salvant"
+      ],
+      "album": "Wildflowers, Vol.1",
+      "albumId": "4RbKJI17ImGfxt6ariFkMR",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02702925e6c5a577bf27f51e7f",
+      "durationMs": 214413,
+      "context": "spotify:album:4RbKJI17ImGfxt6ariFkMR"
+    },
+    {
+      "playedAt": "2026-11-16T16:35:47.362Z",
+      "trackId": "6t4JMLa5eLB3WVDfxtLTvV",
+      "name": "Things Ain't What They Used to Be",
+      "artists": [
+        "Kurt Elling",
+        "Sullivan Fortner"
+      ],
+      "album": "Wildflowers, Vol.1",
+      "albumId": "4RbKJI17ImGfxt6ariFkMR",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02702925e6c5a577bf27f51e7f",
+      "durationMs": 282773,
+      "context": "spotify:album:4RbKJI17ImGfxt6ariFkMR"
+    },
+    {
+      "playedAt": "2026-11-16T16:45:31.741Z",
+      "trackId": "7mRrU1wnrcVHdWDgEtItE8",
+      "name": "Ana Maria's Song",
+      "artists": [
+        "Kurt Elling",
+        "Sullivan Fortner"
+      ],
+      "album": "Wildflowers, Vol.1",
+      "albumId": "4RbKJI17ImGfxt6ariFkMR",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02702925e6c5a577bf27f51e7f",
+      "durationMs": 387346,
+      "context": "spotify:album:4RbKJI17ImGfxt6ariFkMR"
+    },
+    {
+      "playedAt": "2026-11-16T16:54:35.268Z",
+      "trackId": "6wcV1wdTyTLNwTgoS2ujpS",
+      "name": "A Memory of Enchantment",
+      "artists": [
+        "Kurt Elling",
+        "Sullivan Fortner"
+      ],
+      "album": "Wildflowers, Vol.1",
+      "albumId": "4RbKJI17ImGfxt6ariFkMR",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02702925e6c5a577bf27f51e7f",
+      "durationMs": 473240,
+      "context": "spotify:album:4RbKJI17ImGfxt6ariFkMR"
+    },
+    {
+      "playedAt": "2026-11-16T16:59:53.901Z",
+      "trackId": "2YTEOOZ5pxUDwkfS9MyG4B",
+      "name": "Solitude",
+      "artists": [
+        "Duke Ellington"
+      ],
+      "album": "Ellington Indigos (Expanded Edition)",
+      "albumId": "5BymHphSwXImKUTljcMJvu",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02160aa011e35301c4fdff9d78",
+      "durationMs": 280706,
+      "context": "spotify:album:5BymHphSwXImKUTljcMJvu"
+    },
+    {
+      "playedAt": "2026-11-16T17:05:22.057Z",
+      "trackId": "2CRSV0N5UCxR4Qrj4pBGPx",
+      "name": "Where or When",
+      "artists": [
+        "Duke Ellington"
+      ],
+      "album": "Ellington Indigos (Expanded Edition)",
+      "albumId": "5BymHphSwXImKUTljcMJvu",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02160aa011e35301c4fdff9d78",
+      "durationMs": 237186,
+      "context": "spotify:album:5BymHphSwXImKUTljcMJvu"
+    },
+    {
+      "playedAt": "2026-11-16T17:08:25.608Z",
+      "trackId": "5PgSSjSTgTi1nrKyzZMqEJ",
+      "name": "Mood Indigo",
+      "artists": [
+        "Duke Ellington"
+      ],
+      "album": "Ellington Indigos (Expanded Edition)",
+      "albumId": "5BymHphSwXImKUTljcMJvu",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02160aa011e35301c4fdff9d78",
+      "durationMs": 183546,
+      "context": "spotify:album:5BymHphSwXImKUTljcMJvu"
+    },
+    {
+      "playedAt": "2026-11-16T17:14:42.775Z",
+      "trackId": "3ZikLQCnH3SIswlGENBcKe",
+      "name": "My Favorite Things",
+      "artists": [
+        "John Coltrane"
+      ],
+      "album": "My Favorite Things",
+      "albumId": "3nLStxdTkSzihxm7FTLzCP",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02c00913832628c23c7952ae7b",
+      "durationMs": 824133,
+      "context": "spotify:playlist:5eHoBQa0oaSSEgDksRhiP9"
+    },
+    {
+      "playedAt": "2026-11-16T21:02:35.101Z",
+      "trackId": "0GEwr2oP0FfX9AIjYIiMc6",
+      "name": "Autumn Leaves - Full Version",
+      "artists": [
+        "Duke Ellington"
+      ],
+      "album": "Ellington Indigos (Expanded Edition)",
+      "albumId": "5BymHphSwXImKUTljcMJvu",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02160aa011e35301c4fdff9d78",
+      "durationMs": 429920,
+      "context": "spotify:album:5BymHphSwXImKUTljcMJvu"
+    },
+    {
+      "playedAt": "2026-11-16T21:32:29.144Z",
+      "trackId": "6wcV1wdTyTLNwTgoS2ujpS",
+      "name": "A Memory of Enchantment",
+      "artists": [
+        "Kurt Elling",
+        "Sullivan Fortner"
+      ],
+      "album": "Wildflowers, Vol.1",
+      "albumId": "4RbKJI17ImGfxt6ariFkMR",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02702925e6c5a577bf27f51e7f",
+      "durationMs": 473240,
+      "context": "spotify:playlist:2OSwpY0bEqqwEoVOxO5Cwy"
+    },
+    {
+      "playedAt": "2026-11-16T21:35:35.276Z",
+      "trackId": "7wdct6bK6n29N4D4soMNId",
+      "name": "The Sky Fell Down - Mono Version",
+      "artists": [
+        "Duke Ellington"
+      ],
+      "album": "Ellington Indigos (Expanded Edition)",
+      "albumId": "5BymHphSwXImKUTljcMJvu",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02160aa011e35301c4fdff9d78",
+      "durationMs": 177560,
+      "context": "spotify:album:5BymHphSwXImKUTljcMJvu"
+    },
+    {
+      "playedAt": "2026-11-16T21:40:16.956Z",
+      "trackId": "6iae60XLrvUIELZ2Ynymsd",
+      "name": "Prelude to a Kiss",
+      "artists": [
+        "Duke Ellington"
+      ],
+      "album": "Ellington Indigos (Expanded Edition)",
+      "albumId": "5BymHphSwXImKUTljcMJvu",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02160aa011e35301c4fdff9d78",
+      "durationMs": 281746,
+      "context": "spotify:album:5BymHphSwXImKUTljcMJvu"
+    },
+    {
+      "playedAt": "2026-11-16T21:44:30.912Z",
+      "trackId": "3U8STrSrwhIGqS9PRr0DYm",
+      "name": "Willow Weep for Me",
+      "artists": [
+        "Duke Ellington"
+      ],
+      "album": "Ellington Indigos (Expanded Edition)",
+      "albumId": "5BymHphSwXImKUTljcMJvu",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02160aa011e35301c4fdff9d78",
+      "durationMs": 253960,
+      "context": "spotify:album:5BymHphSwXImKUTljcMJvu"
+    },
+    {
+      "playedAt": "2026-11-16T21:49:51.051Z",
+      "trackId": "19UXKfWPm2qqZIdPQpYdTz",
+      "name": "Tenderly",
+      "artists": [
+        "Duke Ellington"
+      ],
+      "album": "Ellington Indigos (Expanded Edition)",
+      "albumId": "5BymHphSwXImKUTljcMJvu",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02160aa011e35301c4fdff9d78",
+      "durationMs": 320160,
+      "context": "spotify:album:5BymHphSwXImKUTljcMJvu"
+    },
+    {
+      "playedAt": "2026-11-16T22:40:23.380Z",
+      "trackId": "6jQ4V2mcYIvWs8XgkTkV9Y",
+      "name": "Dancing in the Dark",
+      "artists": [
+        "Duke Ellington"
+      ],
+      "album": "Ellington Indigos (Expanded Edition)",
+      "albumId": "5BymHphSwXImKUTljcMJvu",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02160aa011e35301c4fdff9d78",
+      "durationMs": 265800,
+      "context": "spotify:album:5BymHphSwXImKUTljcMJvu"
+    },
+    {
+      "playedAt": "2026-11-16T22:43:14.224Z",
+      "trackId": "67F0QNja9KPCSHSzhlsh3p",
+      "name": "Night and Day - Mono Version",
+      "artists": [
+        "Duke Ellington"
+      ],
+      "album": "Ellington Indigos (Expanded Edition)",
+      "albumId": "5BymHphSwXImKUTljcMJvu",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02160aa011e35301c4fdff9d78",
+      "durationMs": 170840,
+      "context": "spotify:album:5BymHphSwXImKUTljcMJvu"
+    },
+    {
+      "playedAt": "2026-11-16T22:46:04.838Z",
+      "trackId": "4tDb1XYhpSZlKP1OyoYiB9",
+      "name": "Cop Out",
+      "artists": [
+        "Duke Ellington"
+      ],
+      "album": "Ellington Indigos (Expanded Edition)",
+      "albumId": "5BymHphSwXImKUTljcMJvu",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02160aa011e35301c4fdff9d78",
+      "durationMs": 170586,
+      "context": "spotify:album:5BymHphSwXImKUTljcMJvu"
+    },
+    {
+      "playedAt": "2026-11-16T22:50:19.682Z",
+      "trackId": "6MLBsnuzlf6Pgy0AtmUyXU",
+      "name": "Under the Balcony",
+      "artists": [
+        "Duke Ellington"
+      ],
+      "album": "Ellington Indigos (Expanded Edition)",
+      "albumId": "5BymHphSwXImKUTljcMJvu",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02160aa011e35301c4fdff9d78",
+      "durationMs": 175973,
+      "context": "spotify:album:5BymHphSwXImKUTljcMJvu"
+    },
+    {
+      "playedAt": "2026-11-16T22:54:13.327Z",
+      "trackId": "4RId52JYRDG5oMZyrg6NgV",
+      "name": "Strange Feeling",
+      "artists": [
+        "Duke Ellington"
+      ],
+      "album": "Ellington Indigos (Expanded Edition)",
+      "albumId": "5BymHphSwXImKUTljcMJvu",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02160aa011e35301c4fdff9d78",
+      "durationMs": 233640,
+      "context": "spotify:album:5BymHphSwXImKUTljcMJvu"
+    },
+    {
+      "playedAt": "2026-11-16T23:10:28.207Z",
+      "trackId": "3czlfQr2aQ9wijoOPxluCR",
+      "name": "Paper Doll",
+      "artists": [
+        "Kurt Elling",
+        "Sullivan Fortner"
+      ],
+      "album": "Wildflowers, Vol.1",
+      "albumId": "4RbKJI17ImGfxt6ariFkMR",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02702925e6c5a577bf27f51e7f",
+      "durationMs": 274920,
+      "context": "spotify:album:4RbKJI17ImGfxt6ariFkMR"
+    },
+    {
+      "playedAt": "2026-11-16T23:15:35.416Z",
+      "trackId": "5iiMNtira6eUzcOzqK7UOP",
+      "name": "After the Storm",
+      "artists": [
+        "Kurt Elling",
+        "Sullivan Fortner"
+      ],
+      "album": "Wildflowers, Vol.1",
+      "albumId": "4RbKJI17ImGfxt6ariFkMR",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02702925e6c5a577bf27f51e7f",
+      "durationMs": 292146,
+      "context": "spotify:album:4RbKJI17ImGfxt6ariFkMR"
+    },
+    {
+      "playedAt": "2026-11-16T23:19:09.797Z",
+      "trackId": "3WIkEtpv5WoDKHCzjx1a94",
+      "name": "A Wish (Valentine)",
+      "artists": [
+        "Kurt Elling",
+        "Sullivan Fortner",
+        "Cécile McLorin Salvant"
+      ],
+      "album": "Wildflowers, Vol.1",
+      "albumId": "4RbKJI17ImGfxt6ariFkMR",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02702925e6c5a577bf27f51e7f",
+      "durationMs": 214413,
+      "context": "spotify:album:4RbKJI17ImGfxt6ariFkMR"
+    },
+    {
+      "playedAt": "2026-11-16T23:23:52.591Z",
+      "trackId": "6t4JMLa5eLB3WVDfxtLTvV",
+      "name": "Things Ain't What They Used to Be",
+      "artists": [
+        "Kurt Elling",
+        "Sullivan Fortner"
+      ],
+      "album": "Wildflowers, Vol.1",
+      "albumId": "4RbKJI17ImGfxt6ariFkMR",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02702925e6c5a577bf27f51e7f",
+      "durationMs": 282773,
+      "context": "spotify:album:4RbKJI17ImGfxt6ariFkMR"
+    },
+    {
+      "playedAt": "2026-11-16T23:30:19.860Z",
+      "trackId": "7mRrU1wnrcVHdWDgEtItE8",
+      "name": "Ana Maria's Song",
+      "artists": [
+        "Kurt Elling",
+        "Sullivan Fortner"
+      ],
+      "album": "Wildflowers, Vol.1",
+      "albumId": "4RbKJI17ImGfxt6ariFkMR",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02702925e6c5a577bf27f51e7f",
+      "durationMs": 387346,
+      "context": "spotify:album:4RbKJI17ImGfxt6ariFkMR"
+    },
+    {
+      "playedAt": "2026-11-17T00:17:17.997Z",
+      "trackId": "5pNtG6MWFdprihEB1fc0SB",
+      "name": "Everybody Loves to Cha Cha Cha",
+      "artists": [
+        "Sam Cooke"
+      ],
+      "album": "The Best of Sam Cooke",
+      "albumId": "2Dpw2XUAsBvuNdNLarNzz8",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028ae06030ae3a8dd0d3cc25ae",
+      "durationMs": 162642,
+      "context": "spotify:album:2Dpw2XUAsBvuNdNLarNzz8"
     }
   ]
 }
