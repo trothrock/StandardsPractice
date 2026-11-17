@@ -7139,6 +7139,23 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e028ae06030ae3a8dd0d3cc25ae",
       "durationMs": 162642,
       "context": "spotify:album:2Dpw2XUAsBvuNdNLarNzz8"
+    },
+    {
+      "playedAt": "2026-11-17T12:51:10.021Z",
+      "trackId": "5RQqoEIkp6XsYyULz7AlAS",
+      "name": "Bags' Groove - Take 1 / RVG Remastered 2008",
+      "artists": [
+        "Miles Davis",
+        "Thelonious Monk",
+        "Milt Jackson",
+        "Kenny Clarke",
+        "Percy Heath"
+      ],
+      "album": "Bags' Groove (Rudy Van Gelder 2008 Remaster)",
+      "albumId": "3rs2Wq1755vGmXxIioU7Xo",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0242a04303e6eb1100df3ea036",
+      "durationMs": 674800,
+      "context": "spotify:album:3rs2Wq1755vGmXxIioU7Xo"
     }
   ]
 }

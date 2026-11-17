@@ -313,6 +313,26 @@
   .btn-action.poi-add-vocab { padding: 3px 9px; flex-shrink: 0; }
   .poi-group-link { cursor: pointer; }
   .poi-group-link:hover { color: var(--gold2); }
+  .checkin-modal { width: 500px; max-height: calc(100vh - 40px); overflow-y: auto; }
+  .checkin-kind { font-size: 11px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+  .checkin-tempo { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--text3); }
+  .checkin-tempo input { width: 80px; text-align: center; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius); color: var(--text); font-size: 14px; padding: 6px 8px; }
+  .field label.checkin-check { display: flex; text-transform: none; letter-spacing: 0; font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; margin-bottom: 0; color: var(--text2); }
+  .field label.checkin-check.disabled, .field label.checkin-bump.disabled { color: var(--text3); }
+  .field label.checkin-bump { color: var(--gold2); }
+  .field .checkin-tempo input[type="number"] { width: 80px; flex: none; }
+  .checkin-tempo span { flex: 1; }
+  .checkin-check { display: flex; align-items: flex-start; gap: 10px; padding: 5px 0; font-size: 13px; color: var(--text2); cursor: pointer; }
+  .checkin-check input { margin-top: 3px; accent-color: var(--gold); }
+  .checkin-check.disabled { color: var(--text3); cursor: default; }
+  .checkin-bump { color: var(--gold2); border-top: 1px solid var(--border); margin-top: 6px; padding-top: 9px; }
+  .checkin-bump.disabled { color: var(--text3); }
+  .checkin-box { border-top: 1px solid var(--border); margin-top: 18px; padding-top: 16px; }
+  .checkin-heading { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--text); margin-bottom: 14px; }
+  #session-prompt-modal .modal { width: 500px; max-height: calc(100vh - 40px); overflow-y: auto; }
+  .checkin-modal .level-btn, #session-prompt-checkin .level-btn { font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; }
+  .checkin-last { font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; color: var(--text3); margin-left: 8px; }
+  #session-prompt-checkin .level-btn { font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; }
   .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 200; align-items: center; justify-content: center; }
   .modal-backdrop.open { display: flex; }
   .modal { background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius-lg); width: 420px; max-width: calc(100vw - 40px); padding: 28px; }
@@ -1210,14 +1230,29 @@
   </div>
 </div>
 
+<div class="modal-backdrop" id="checkin-modal" onclick="handleCheckinBackdropClick(event)">
+  <div class="modal checkin-modal">
+    <div class="checkin-kind" id="checkin-kind"></div>
+    <div class="modal-title" id="checkin-title"></div>
+    <div id="checkin-body"></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeCheckin()">Cancel</button>
+      <button class="btn-confirm" id="checkin-save" onclick="submitCheckin()"></button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-backdrop" id="session-prompt-modal">
   <div class="modal">
     <div class="modal-title" id="session-prompt-title"></div>
     <div class="session-prompt-sub" id="session-prompt-sub"></div>
+    <div class="checkin-box" id="session-prompt-checkin" style="display:none"></div>
     <div class="modal-actions session-prompt-actions">
-      <button class="btn-cancel" onclick="sessionPromptPause()">Pause</button>
-      <button class="btn-cancel" onclick="sessionExtend()">5 more minutes</button>
-      <button class="btn-confirm" id="session-prompt-switch" onclick="sessionNext()"></button>
+      <button class="btn-cancel" id="session-prompt-pause" onclick="sessionPromptPause()">Pause</button>
+      <button class="btn-cancel" id="session-prompt-extend" onclick="sessionExtend()">5 more minutes</button>
+      <button class="btn-cancel" id="session-prompt-cancel" onclick="sessionPromptCancel()">Keep going</button>
+      <button class="btn-cancel" id="session-prompt-skip" onclick="sessionPromptAdvance(false)"></button>
+      <button class="btn-confirm" id="session-prompt-switch" onclick="sessionPromptAdvance(true)"></button>
     </div>
   </div>
 </div>
@@ -1247,6 +1282,13 @@
       </div>
       <div class="level-desc" id="review-solo-desc"></div>
       <div class="review-solo-note">Recorded with the review — it never changes the memorization result. <span id="review-solo-last"></span></div>
+    </div>
+    <div class="field">
+      <label>Tomorrow</label>
+      <div class="level-picker">
+        <button class="level-btn" data-stay="0" onclick="reviewModalSet('stay',false)">Next song in rotation</button>
+        <button class="level-btn" data-stay="1" onclick="reviewModalSet('stay',true)">Keep this one tomorrow</button>
+      </div>
     </div>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeReviewModal()">Cancel</button>
@@ -1538,7 +1580,7 @@ function sessionItemFor(db, block, used) {
     case 'language': { const v = getFeaturedVocab(db); return v ? v.name : 'Language study'; }
     case 'learn':    return db.currentNewSong && db.songs[db.currentNewSong] ? db.currentNewSong : null;
     // The session's own review count is the day's budget, so it draws straight from the rotation.
-    case 'review':   { const sg = rotationSongs(db).filter(s=>!used.includes(s.name) && lastSeenInt(s)!==tod).sort((a,b)=>compareStaleness(a,b,tod))[0]; return sg ? sg.name : null; }
+    case 'review':   { const sg = reviewCandidates(db, tod).find(s=>!used.includes(s.name)); return sg ? sg.name : null; }
     case 'rep':      { const p = getFeaturedRepertoire(db); return p ? p.name : null; }
     case 'keys':     { const sg = multiKeyQueue(db, tod).find(s=>!used.includes(s.name)); return sg ? sg.name : null; }
   }
@@ -1615,6 +1657,7 @@ function sessionTogglePause() { const s = (loadDB()||{}).session; if(s && s.paus
 function sessionNext() {
   const db = getDB(), s = db.session;
   if(!s) return;
+  if(!s.prompt && sessionPromptKind(db)) { s.prompt = 'next'; saveDB(db); renderSessionPrompt(db); return; }
   sessionStartBlock(db, s.idx+1);
   saveDB(db); renderToday(); renderSessionPrompt(db);
   if(document.getElementById('panel-activity').classList.contains('active')) renderActivity();
@@ -1628,6 +1671,7 @@ function sessionExtend() {
 }
 function sessionEnd() {
   const db = getDB();
+  if(db.session && !db.session.prompt && sessionPromptKind(db)) { db.session.prompt = 'end'; saveDB(db); renderSessionPrompt(db); return; }
   sessionFinish(db);
   saveDB(db); renderToday(); renderSessionPrompt(db);
   if(document.getElementById('panel-activity').classList.contains('active')) renderActivity();
@@ -1653,7 +1697,7 @@ function sessionChime(soft) {
     o.type = 'sine'; o.frequency.value = f;
     const t = t0 + i*0.28;
     g.gain.setValueAtTime(0.0001, t);
-    g.gain.exponentialRampToValueAtTime(soft ? 0.12 : 0.28, t + 0.02);
+    g.gain.exponentialRampToValueAtTime(soft ? 0.09 : 0.21, t + 0.02);
     g.gain.exponentialRampToValueAtTime(0.0001, t + 1.6);
     o.connect(g).connect(sessionAudio.destination);
     o.start(t); o.stop(t + 1.7);
@@ -1727,9 +1771,8 @@ function itemMinutesToday(db, area, name) {
   const tod = todayInt();
   return (db.activity||[]).reduce((n,e)=>n + (e.type==='practice_time' && e.date===tod && e.area===area && e.name===name ? e.secs/60 : 0), 0);
 }
-const DONE_BTN = label => `<button class="btn-primary agenda-done" disabled>&#x2713; ${label}</button>`;
-// What a row says and offers, by activity. Each action is the same one the classic Today uses,
-// so finishing the current row's item also moves the session on.
+// What a row says, by activity. Marking items done happens in the prompt between blocks, so
+// rows carry no completion buttons; the new-tune row keeps Start learning / Mark as level 2.
 function agendaRowParts(db, row) {
   const tod = todayInt(), { block, name } = row;
   const parts = { title: name ? escHTML(name) : '<span class="agenda-none">Nothing queued</span>', meta: '', action: '', extra: '', open: '' };
@@ -1746,16 +1789,14 @@ function agendaRowParts(db, row) {
       const v = (db.voicings||[]).find(x=>x.name===name);
       if(!v) { parts.meta = 'Open warm-up'; break; }
       parts.open = `showVoicingDetail(${jsArg(name)})`;
-      parts.meta = [v.category, `familiarity ${v.familiarity||0}`, levelSummary('voicing', v), v.targetTempo ? `${v.targetTempo} bpm` : null].filter(Boolean).join(' · ');
-      parts.action = v.lastPracticed===tod ? DONE_BTN('Reviewed') : `<button class="btn-primary" onclick="markVoicingReviewed(${jsArg(name)})">Mark reviewed</button>`;
+      parts.meta = [v.category, `familiarity ${v.familiarity||0}`, levelSummary('voicing', v), tempoSummary(v)].filter(Boolean).join(' · ');
       break;
     }
     case 'language': {
       const c = (db.vocabulary||[]).find(x=>x.name===name);
       if(!c) { parts.meta = 'Open study — add Vocabulary items to rotate through them'; break; }
       parts.open = `showVocabDetail(${jsArg(name)})`;
-      parts.meta = [`familiarity ${c.familiarity||0}`, levelSummary('vocab', c), c.targetTempo ? `${c.targetTempo} bpm` : null, (c.tags||[]).join(', ')].filter(Boolean).join(' · ') + vocabSourceHTML(db, c, true);
-      parts.action = c.lastPracticed===tod ? DONE_BTN('Practiced') : `<button class="btn-primary" onclick="markVocabPracticed(${jsArg(name)})">Practiced</button>`;
+      parts.meta = [`familiarity ${c.familiarity||0}`, levelSummary('vocab', c), tempoSummary(c), (c.tags||[]).join(', ')].filter(Boolean).join(' · ') + vocabSourceHTML(db, c, true);
       break;
     }
     case 'learn': {
@@ -1775,27 +1816,23 @@ function agendaRowParts(db, row) {
       const today = (sg.reviews||[]).filter(r=>r.date===tod).slice(-1)[0];
       if(today) {
         parts.meta = `${today.passed ? 'Memorized' : 'Needs work'}${today.solo ? ' · solo ' + today.solo + ' · ' + SOLO_RATINGS[today.solo].label : ''}`;
-        parts.action = DONE_BTN('Reviewed');
       } else {
         const seen = lastSeenInt(sg), solo = lastSoloRating(sg);
-        parts.meta = [seen ? `${daysBetween(seen, tod)}d since last review` : 'not yet reviewed', `stage ${stageOf(sg)}`, solo ? `last solo ${solo.solo} · ${SOLO_RATINGS[solo.solo].label}` : null].filter(Boolean).join(' · ');
-        parts.action = `<button class="btn-primary" onclick="openReviewModal(${jsArg(name)})">Review</button>`;
+        parts.meta = [sg.pinnedReviewDate && sg.pinnedReviewDate <= tod ? 'kept up from last review' : null, seen ? `${daysBetween(seen, tod)}d since last review` : 'not yet reviewed', `stage ${stageOf(sg)}`, solo ? `last solo ${solo.solo} · ${SOLO_RATINGS[solo.solo].label}` : null].filter(Boolean).join(' · ');
       }
       break;
     }
     case 'rep': {
       const pc = (db.repertoire||[]).find(x=>x.name===name);
       parts.open = `showRepertoireDetail(${jsArg(name)})`;
-      parts.meta = pc && pc.composer ? escHTML(pc.composer) : '';
-      parts.action = pc && pc.lastReviewed===tod ? DONE_BTN('Reviewed') : `<button class="btn-primary" onclick="markRepertoireReviewed(${jsArg(name)})">Mark reviewed</button>`;
+      parts.meta = [pc && pc.composer ? escHTML(pc.composer) : null, pc && pc.lastReviewed===tod ? 'reviewed today' : null].filter(Boolean).join(' · ');
       break;
     }
     case 'keys': {
       const sg = db.songs[name];
       parts.open = `showSongDetail(${jsArg(name)})`;
       const key = sg.practiceKey && KEY_BY_ID[sg.practiceKey.key] ? sg.practiceKey.key : sg.standardKey;
-      parts.meta = `in ${keyLabel(key)}`;
-      parts.action = lastKeyReviewInt(sg)===tod ? DONE_BTN('Reviewed') : `<button class="btn-primary" onclick="doKeyReview(${jsArg(name)})">Reviewed</button>`;
+      parts.meta = `in ${keyLabel(key)}${lastKeyReviewInt(sg)===tod ? ' · reviewed today' : ''}`;
       break;
     }
   }
@@ -1828,15 +1865,110 @@ function renderSession(db) {
   document.getElementById('today-classic').style.display = structured ? 'none' : '';
   if(el) el.innerHTML = structured ? sessionHTML(db) + agendaHTML(db) : '';
 }
+// The prompt between blocks. It opens when a block's time is up (s.prompt === true), or when
+// Next or End is pressed on a block that has something to record ('next' / 'end'). It asks what
+// the block needs to mark its item done — the voicing/vocabulary check-in, the song review's
+// memorized + solo + tomorrow, whether the solo-set piece moves on — and saving it is what
+// marks the item. "Without saving" moves on and leaves the item as it was.
+let promptReview = null, promptRep = null;
+function sessionPromptKind(db) {
+  const s = db.session;
+  if(!s) return null;
+  const block = s.blocks[s.idx], tod = todayInt();
+  if(sessionCheckinTarget(db)) return 'checkin';
+  if(block.id==='review') { const sg = db.songs[s.name]; return sg && lastSeenInt(sg)!==tod ? 'review' : null; }
+  if(block.id==='rep') { const pc = (db.repertoire||[]).find(x=>x.name===s.name); return pc && pc.lastReviewed!==tod ? 'rep' : null; }
+  if(block.id==='keys') { const sg = db.songs[s.name]; return sg && lastKeyReviewInt(sg)!==tod ? 'keys' : null; }
+  return null;
+}
+function promptReviewSet(field, value) { if(!promptReview) return; promptReview[field] = value; renderSessionPrompt(getDB()); }
+function promptRepSet(value) { if(!promptRep) return; promptRep.stay = value; renderSessionPrompt(getDB()); }
+function promptReviewHTML(st) {
+  const btn = (attr, sel, cls, label, call) => `<button class="level-btn${sel?' '+cls:''}" ${attr} onclick="${call}">${label}</button>`;
+  return `<div class="field"><label>Memorized</label><ul class="review-criteria"><li>Melody from memory, start to finish</li><li>Comped the form without losing my place</li><li>Soloed through the form without getting lost</li><li>Can start and end the tune</li></ul><div class="level-picker">${btn('', st.passed===true, 'sel-2', 'Memorized', "promptReviewSet('passed',true)")}${btn('', st.passed===false, 'sel-3', 'Needs work', "promptReviewSet('passed',false)")}</div></div>`
+    + `<div class="field"><label>Solo quality</label><div class="level-picker">${[1,2,3].map(n=>btn('', st.solo===n, 'sel-'+n, `${n} · ${SOLO_RATINGS[n].label}`, `promptReviewSet('solo',${n})`)).join('')}</div><div class="level-desc">${st.solo ? SOLO_RATINGS[st.solo].desc : ''}</div></div>`
+    + `<div class="field"><label>Tomorrow</label><div class="level-picker">${btn('', !st.stay, 'sel-2', 'Next song in rotation', "promptReviewSet('stay',false)")}${btn('', st.stay, 'sel-3', 'Keep this one tomorrow', "promptReviewSet('stay',true)")}</div></div>`;
+}
 function renderSessionPrompt(db) {
   const modal = document.getElementById('session-prompt-modal');
   const s = db.session;
-  if(!s || !s.prompt) { modal.classList.remove('open'); return; }
+  if(!s || !s.prompt) {
+    if(modal.classList.contains('open') && checkin && !document.getElementById('checkin-modal').classList.contains('open')) checkin = null;
+    promptReview = null; promptRep = null;
+    modal.classList.remove('open'); return;
+  }
+  const mode = s.prompt===true ? 'time' : s.prompt;
   const block = s.blocks[s.idx], next = s.blocks[s.idx+1];
-  document.getElementById('session-prompt-title').textContent = `${block.label} time is up`;
-  document.getElementById('session-prompt-sub').textContent = next ? `Next up: ${next.label} · ${next.mins} min` : 'That was the last activity.';
-  document.getElementById('session-prompt-switch').textContent = next ? `Switch to ${next.label.toLowerCase()}` : 'Finish session';
+  const kind = sessionPromptKind(db);
+  const ms = sessionBlockMs(db);
+  document.getElementById('session-prompt-title').textContent =
+    mode==='end' ? 'End the session?' : mode==='time' ? `${block.label} time is up` : `Wrap up ${block.label.toLowerCase()}`;
+  document.getElementById('session-prompt-sub').textContent = mode==='end'
+    ? `${formatMinutes(ms/60000)} into ${block.label.toLowerCase()}`
+    : next ? `Next up: ${next.label} · ${next.mins} min` : 'That was the last activity.';
+  const box = document.getElementById('session-prompt-checkin');
+  let save = '', ready = true;
+  if(kind==='checkin') {
+    const target = sessionCheckinTarget(db);
+    if(!checkin || checkin.kind!==target.kind || checkin.name!==target.name) checkinInit(target.kind, target.name);
+    box.innerHTML = `<div class="checkin-heading">${escHTML(target.name)}</div>` + checkinHTML(db);
+    save = `mark ${CHECKIN_KIND[target.kind].done}`;
+  } else if(kind==='review') {
+    if(!promptReview || promptReview.name!==s.name) promptReview = { name: s.name, passed: null, solo: null, stay: false };
+    const last = lastSoloRating(db.songs[s.name]);
+    box.innerHTML = `<div class="checkin-heading">${escHTML(s.name)}${last ? `<span class="checkin-last">last solo ${last.solo} · ${SOLO_RATINGS[last.solo].label}</span>` : ''}</div>` + promptReviewHTML(promptReview);
+    ready = promptReview.passed!==null && !!promptReview.solo;
+    save = 'save review';
+  } else if(kind==='rep') {
+    if(!promptRep || promptRep.name!==s.name) promptRep = { name: s.name, stay: false };
+    box.innerHTML = `<div class="checkin-heading">${escHTML(s.name)}</div><div class="field"><label>Tomorrow</label><div class="level-picker"><button class="level-btn${promptRep.stay?'':' sel-2'}" onclick="promptRepSet(false)">Next piece (mark reviewed)</button><button class="level-btn${promptRep.stay?' sel-3':''}" onclick="promptRepSet(true)">Stay on this piece</button></div></div>`;
+    save = promptRep.stay ? '' : 'mark reviewed';
+  } else if(kind==='keys') {
+    const sg = db.songs[s.name], key = sg.practiceKey && KEY_BY_ID[sg.practiceKey.key] ? sg.practiceKey.key : sg.standardKey;
+    box.innerHTML = `<div class="checkin-heading">${escHTML(s.name)} <span class="checkin-last">in ${keyLabel(key)}</span></div>`;
+    save = 'mark reviewed';
+  } else box.innerHTML = '';
+  box.style.display = kind ? '' : 'none';
+  const go = mode==='end' ? 'End session' : next ? `Switch to ${next.label.toLowerCase()}` : 'Finish session';
+  const sw = document.getElementById('session-prompt-switch');
+  sw.textContent = go + (save ? ` · ${save}` : '');
+  sw.disabled = !ready;
+  sw.title = ready ? '' : 'Choose memorized and a solo rating first';
+  const skip = document.getElementById('session-prompt-skip');
+  skip.style.display = kind && save ? '' : 'none';
+  skip.textContent = mode==='end' ? 'End without saving' : 'Skip without saving';
+  document.getElementById('session-prompt-pause').style.display = mode==='time' ? '' : 'none';
+  document.getElementById('session-prompt-extend').style.display = mode==='time' ? '' : 'none';
+  document.getElementById('session-prompt-cancel').style.display = mode==='time' ? 'none' : '';
   modal.classList.add('open');
+}
+// Saves the prompt's answers (when save is true) and moves on: to the next block, or out of
+// the session for End.
+function sessionPromptAdvance(save) {
+  const db = getDB(), s = db.session;
+  if(!s) return;
+  const mode = s.prompt===true ? 'time' : s.prompt;
+  const kind = sessionPromptKind(db);
+  let msg = null, ck = null;
+  if(save && kind==='checkin' && checkin) ck = applyCheckin(db);
+  else if(save && kind==='review' && promptReview) {
+    if(promptReview.passed===null || !promptReview.solo) return;
+    msg = applyReview(db, s.name, promptReview.passed, promptReview.solo, promptReview.stay);
+  }
+  else if(save && kind==='rep' && promptRep && !promptRep.stay) msg = applyRepertoireReviewed(db, s.name);
+  else if(save && kind==='keys') msg = applyKeyReview(db, s.name);
+  checkin = null; promptReview = null; promptRep = null;
+  if(mode==='end') sessionFinish(db);
+  else sessionStartBlock(db, s.idx+1);
+  saveDB(db); renderToday(); renderSessionPrompt(db);
+  if(ck) checkinToast(ck); else if(msg) toast(msg);
+  if(document.getElementById('panel-activity').classList.contains('active')) renderActivity();
+}
+function sessionPromptCancel() {
+  const db = getDB();
+  if(!db.session) return;
+  db.session.prompt = false;
+  saveDB(db); renderSessionPrompt(db);
 }
 setInterval(() => {
   const db = loadDB();
@@ -1846,12 +1978,12 @@ setInterval(() => {
   if(!s.paused) {
     // The block's item was finished (reviewed, marked, rated) — on to the next block.
     if(!db.timer || db.timer.area!==s.area || db.timer.name!==s.name) {
-      if(document.getElementById('review-modal').classList.contains('open')) return;
+      if(document.getElementById('review-modal').classList.contains('open') || document.getElementById('checkin-modal').classList.contains('open')) return;
       const d = getDB(); sessionStartBlock(d, d.session.idx+1); saveDB(d);
       if(d.session) sessionChime(true);
       renderToday(); renderSessionPrompt(d); return;
     }
-    if(!s.alerted && sessionBlockMs(db) >= s.targetMs) {
+    if(!s.alerted && !s.prompt && sessionBlockMs(db) >= s.targetMs) {
       s.alerted = true; s.prompt = true;
       saveDB(db); sessionChime(false); renderSessionPrompt(db);
     }
@@ -1907,7 +2039,7 @@ const SOLO_RATINGS = [
 let reviewModalState = null;
 function openReviewModal(name) {
   sessionUnlockAudio();
-  reviewModalState = { name, passed:null, solo:null };
+  reviewModalState = { name, passed:null, solo:null, stay:false };
   document.getElementById('review-modal-title').textContent = name;
   const sg = getDB().songs[name], last = lastSoloRating(sg);
   document.getElementById('review-solo-last').textContent = last ? `Last time: ${last.solo} · ${SOLO_RATINGS[last.solo].label}` : '';
@@ -1927,6 +2059,10 @@ function drawReviewModal() {
     const n = +b.dataset.solo;
     b.className = 'level-btn' + (st.solo===n ? ` sel-${n}` : '');
   });
+  document.querySelectorAll('[data-stay]').forEach(b => {
+    const v = b.dataset.stay === '1';
+    b.className = 'level-btn' + (st.stay===v ? (v ? ' sel-3' : ' sel-2') : '');
+  });
   document.getElementById('review-solo-desc').textContent = st.solo ? SOLO_RATINGS[st.solo].desc : '';
   document.getElementById('review-modal-save').disabled = st.passed===null || !st.solo;
 }
@@ -1934,7 +2070,7 @@ function submitReviewModal() {
   const st = reviewModalState;
   if(!st || st.passed===null || !st.solo) return;
   closeReviewModal();
-  doReview(st.name, st.passed, st.solo);
+  doReview(st.name, st.passed, st.solo, st.stay);
 }
 function lastSoloRating(sg) {
   return sg ? [...(sg.reviews||[])].reverse().find(r=>r.solo) || null : null;
@@ -2594,24 +2730,34 @@ function markLearned(name) {
 // that work lives in the multi-key track instead.
 // Memorized (passed) moves the song through the stages; the solo rating is recorded with
 // the review but never changes where the song goes.
-function doReview(name, passed, solo) {
-  const db = getDB();
+// stay keeps the song up for review tomorrow, ahead of the rotation's own pick.
+function applyReview(db, name, passed, solo, stay) {
   const sg = db.songs[name];
   const key = sg.standardKey || null;
   const extra = { ...(key ? {key} : {}), ...(solo ? {solo} : {}) };
   sg.reviews.push({date:todayInt(), passed, ...extra});
   stopTimerFor(db, 'review', name);
   logActivity(db, 'review', { name, passed, ...extra });
+  let msg;
   if(passed) {
     const nextIdx = Math.min(sg.intervalIdx+1, STAGE_COUNT-1);
     sg.intervalIdx = nextIdx;
-    if(nextIdx >= STAGE_COUNT-1) { sg.status='graduated'; sg.currentLevel=3; toast(`${name} graduated! Level 3 — frees a rotation slot.`); }
-    else { toast(`Reviewed — now at stage ${nextIdx+1} of ${STAGE_COUNT}`); }
+    if(nextIdx >= STAGE_COUNT-1) { sg.status='graduated'; sg.currentLevel=3; msg = `${name} graduated! Level 3 — frees a rotation slot`; }
+    else msg = `Reviewed — now at stage ${nextIdx+1} of ${STAGE_COUNT}`;
   } else {
     sg.intervalIdx = Math.max(0, sg.intervalIdx - 1);
-    toast(`Back to stage ${stageOf(sg)} — it'll come up again soon`);
+    msg = `Back to stage ${stageOf(sg)}`;
   }
-  updateStreak(db); saveDB(db); renderAll();
+  if(stay) { sg.pinnedReviewDate = addDays(todayInt(), 1); msg += ' — it stays up tomorrow'; }
+  else { delete sg.pinnedReviewDate; if(!passed) msg += " — it'll come up again soon"; }
+  updateStreak(db);
+  return msg;
+}
+function doReview(name, passed, solo, stay) {
+  const db = getDB();
+  const msg = applyReview(db, name, passed, solo, stay);
+  saveDB(db); renderAll();
+  toast(msg);
 }
 function updateStreak(db) {
   const tod = todayInt(), yesterday = addDays(tod,-1);
@@ -2787,27 +2933,41 @@ function multiKeyQueue(db, tod) {
 // A multi-key session is best effort: playing it through in the week's key is the whole
 // point, so there is no pass or fail to record and nothing to repeat. Sessions logged before
 // this carry a `passed` flag; new ones simply happened.
-function doKeyReview(name) {
-  const db = getDB();
+function applyKeyReview(db, name) {
   const sg = db.songs[name];
   const key = sg.practiceKey && KEY_BY_ID[sg.practiceKey.key] ? sg.practiceKey.key : sg.standardKey;
   if(!sg.keyReviews) sg.keyReviews = [];
   sg.keyReviews.push({ date: todayInt(), key });
   stopTimerFor(db, 'keys', name);
   logActivity(db, 'key_review', { name, key });
-  updateStreak(db); saveDB(db); renderAll();
-  toast(`${name} in ${keyLabel(key)} — reviewed`);
+  updateStreak(db);
+  return `${name} in ${keyLabel(key)} — reviewed`;
+}
+function doKeyReview(name) {
+  const db = getDB();
+  const msg = applyKeyReview(db, name);
+  saveDB(db); renderAll();
+  toast(msg);
 }
 // The week's queue: the stalest songs in rotation, as many as the week has left to spend.
 // No due dates, so there is never a backlog to clear and never an empty day while work
 // remains — and the whole week is in view, to work through at whatever pace suits.
+// Songs to review, in order: any kept up from an earlier review ("Keep this one tomorrow"),
+// then the rotation by staleness. Today's reviews are left out.
+function pinnedReviewSongs(db, tod) {
+  return Object.values(db.songs)
+    .filter(s => s.pinnedReviewDate && s.pinnedReviewDate <= tod && lastSeenInt(s) !== tod)
+    .sort((a,b) => a.pinnedReviewDate - b.pinnedReviewDate || a.name.localeCompare(b.name));
+}
+function reviewCandidates(db, tod) {
+  const pinned = pinnedReviewSongs(db, tod), names = new Set(pinned.map(s=>s.name));
+  const rest = rotationSongs(db).filter(s => !names.has(s.name) && lastSeenInt(s) !== tod).sort((a,b)=>compareStaleness(a, b, tod));
+  return [...pinned, ...rest];
+}
 function reviewQueue(db, tod) {
   const n = reviewAllowance(db, tod);
   if(n <= 0) return [];
-  return rotationSongs(db)
-    .filter(s=>lastSeenInt(s) !== tod)
-    .sort((a,b)=>compareStaleness(a, b, tod))
-    .slice(0, n);
+  return reviewCandidates(db, tod).slice(0, n);
 }
 function toggleReviewMenu(e) {
   e.stopPropagation();
@@ -3132,11 +3292,11 @@ function formatActivityEntry(entry) {
     case 'voicing_added':      return { dot:'blue',  label:'Voicing added',              detail:entry.name };
     case 'voicing_session':    return { dot:'gold',  label:'Voicing practiced',          detail:entry.name };
     case 'voicing_practiced':  // the old move-on click, same as a review
-    case 'voicing_reviewed':   return { dot:'green', label:entry.familiarity>=2?'Voicing mastered':`Voicing reviewed — familiarity ${entry.familiarity}`, detail:entry.name };
+    case 'voicing_reviewed':   return { dot:'green', label:(entry.familiarity>=2?'Voicing mastered':`Voicing reviewed — familiarity ${entry.familiarity}`)+(entry.bpm?` · ${entry.bpm} bpm`:''), detail:entry.name };
     case 'voicing_deferred':   return { dot:'gold',  label:'Voicing continued',          detail:entry.name };
     case 'voicing_removed':    return { dot:'red',   label:'Voicing removed',            detail:entry.name };
     case 'vocab_added':        return { dot:'blue',  label:'Vocabulary added',           detail:entry.name };
-    case 'vocab_practiced':    return { dot:'green', label:entry.familiarity>=2?'Vocabulary mastered':`Vocabulary practiced — familiarity ${entry.familiarity}`, detail:entry.name };
+    case 'vocab_practiced':    return { dot:'green', label:(entry.familiarity>=2?'Vocabulary mastered':`Vocabulary practiced — familiarity ${entry.familiarity}`)+(entry.bpm?` · ${entry.bpm} bpm`:''), detail:entry.name };
     case 'voicing_level_up':   return { dot:'green', label:entry.familiarity>=LEVEL_MAX?'Voicing mastered':`Voicing moved to level ${entry.familiarity}`, detail:entry.name };
     case 'vocab_level_up':     return { dot:'green', label:entry.familiarity>=LEVEL_MAX?'Vocabulary mastered':`Vocabulary moved to level ${entry.familiarity}`, detail:entry.name };
     case 'vocab_deferred':     return { dot:'gold',  label:'Vocabulary continued',       detail:entry.name };
@@ -5922,17 +6082,23 @@ function startSetListDrag(e) {
   window.addEventListener('pointerup', end);
   window.addEventListener('pointercancel', end);
 }
-function markRepertoireReviewed(name) {
-  const db = getDB();
-  const p = db.repertoire.find(p=>p.name===name);
-  if(!p) return;
+function applyRepertoireReviewed(db, name) {
+  const p = (db.repertoire||[]).find(p=>p.name===name);
+  if(!p) return null;
   stopTimerFor(db, 'rep', name);   // first, so the session's pin is cleared below
   p.lastReviewed = todayInt();
   delete p.pinnedDate;
   delete p.deferredDate;
   logActivity(db, 'repertoire_reviewed', { name });
-  updateStreak(db); saveDB(db); renderAll();
-  toast(`"${name}" marked as reviewed — a new piece comes up tomorrow.`);
+  updateStreak(db);
+  return `"${name}" marked as reviewed — a new piece comes up tomorrow.`;
+}
+function markRepertoireReviewed(name) {
+  const db = getDB();
+  const msg = applyRepertoireReviewed(db, name);
+  if(!msg) return;
+  saveDB(db); renderAll();
+  toast(msg);
 }
 function startReviewingRep(name) {
   const db = getDB();
@@ -5964,18 +6130,8 @@ function getFeaturedVoicing(db) {
     return a.lastPracticed - b.lastPracticed;
   })[0];
 }
-function markVoicingReviewed(name) {
-  const db = getDB();
-  const v = (db.voicings||[]).find(v=>v.name===name);
-  if(!v) return;
-  stopTimerFor(db, 'voicing', name);   // first, so the session's pin is cleared below
-  v.lastPracticed = todayInt();
-  delete v.pinnedDate;
-  delete v.deferredDate;
-  logActivity(db, 'voicing_reviewed', { name, familiarity: v.familiarity||0 });
-  updateStreak(db); saveDB(db); renderAll();
-  toast(`"${name}" marked as reviewed — a new voicing comes up tomorrow.`);
-}
+// Mark reviewed opens the practice check-in; the check-in's Save does the marking.
+function markVoicingReviewed(name) { openCheckin('voicing', name); }
 function startPracticingVoicing(name) {
   const db = getDB();
   const v = (db.voicings||[]).find(v=>v.name===name);
@@ -6420,18 +6576,8 @@ function getFeaturedVocab(db) {
     return a.lastPracticed - b.lastPracticed;
   })[0];
 }
-function markVocabPracticed(name) {
-  const db = getDB();
-  const c = (db.vocabulary||[]).find(c=>c.name===name);
-  if(!c) return;
-  c.lastPracticed = todayInt();
-  delete c.pinnedDate;
-  delete c.deferredDate;
-  stopTimerFor(db, 'vocab', name);
-  logActivity(db, 'vocab_practiced', { name, familiarity: c.familiarity||0 });
-  updateStreak(db); saveDB(db); renderAll();
-  toast(`"${name}" marked as practiced.`);
-}
+// Practiced opens the practice check-in; the check-in's Save does the marking.
+function markVocabPracticed(name) { openCheckin('vocab', name); }
 function startPracticingVocab(name) {
   const db = getDB();
   const c = (db.vocabulary||[]).find(c=>c.name===name);
@@ -6629,9 +6775,169 @@ function bumpLevel(kind, name) {
   LEVEL_KIND[kind].redraw(name);
   toast(st.target >= LEVEL_MAX ? `"${name}" mastered — out of daily rotation; it'll come back in tunes` : `"${name}" is now level ${st.target}`);
 }
+// ── Practice check-in (voicings and vocabulary) ──
+// Finishing a voicing or vocabulary item — Mark reviewed / Practiced, or its block's time
+// running out in a session — asks three things: the tempo it was played at today, any
+// progress toward the next familiarity level (criteria, a cold pass, the bump itself), and
+// whether tomorrow brings the next item in the rotation or stays on this one.
+let checkin = null;
+const CHECKIN_KIND = {
+  voicing: { area:'voicing', event:'voicing_reviewed', verb:'Mark reviewed', done:'reviewed', noun:'voicing' },
+  vocab:   { area:'vocab',   event:'vocab_practiced',  verb:'Mark practiced', done:'practiced', noun:'vocabulary item' },
+};
+function checkinInit(kind, name) {
+  const db = getDB(), item = levelItem(db, kind, name);
+  if(!item) { checkin = null; return null; }
+  const lu = levelProgress(item);
+  checkin = { kind, name, checks: { ...lu.checks }, cold: false, bump: false,
+    bpm: item.lastTempo ? item.lastTempo.bpm : (item.targetTempo || ''), stay: false };
+  return checkin;
+}
+// Cold-pass days counting today's, if it is being logged now
+function checkinPassDays(item) {
+  const lu = levelProgress(item), tod = todayInt();
+  const days = new Set(lu.passes);
+  if(checkin.cold) days.add(tod);
+  return days.size;
+}
+function checkinAllChecked(item) {
+  const target = (item.familiarity||0) + 1;
+  return (LEVEL_CRITERIA[checkin.kind][target]||[]).every(([id]) => checkin.checks[id]);
+}
+function checkinReady(item) {
+  return (item.familiarity||0) < LEVEL_MAX && checkinAllChecked(item) && checkinPassDays(item) >= LEVEL_COLD_DAYS;
+}
+function checkinHTML(db) {
+  const c = checkin, item = levelItem(db, c.kind, c.name);
+  if(!item) return '';
+  const tod = todayInt(), k = CHECKIN_KIND[c.kind];
+  const last = item.lastTempo ? `last ${item.lastTempo.bpm} bpm on ${formatIntDate(item.lastTempo.date).replace(/, \d{4}$/,'')}` : '';
+  const hint = [item.targetTempo ? `target ${item.targetTempo} bpm` : '', last].filter(Boolean).join(' · ');
+  const tempo = `<div class="field"><label>Tempo today</label><div class="checkin-tempo"><input type="number" id="checkin-bpm" min="30" max="400" placeholder="bpm" value="${escHTML(String(c.bpm||''))}" oninput="checkin.bpm=this.value"><span>bpm${hint ? ' · ' + escHTML(hint) : ''}</span></div></div>`;
+  let level;
+  if((item.familiarity||0) >= LEVEL_MAX) {
+    level = `<div class="field"><label>Familiarity</label><div class="level-note">Mastered.</div></div>`;
+  } else {
+    const target = (item.familiarity||0) + 1, lu = levelProgress(item);
+    const crit = LEVEL_CRITERIA[c.kind][target].map(([id,label]) =>
+      `<label class="checkin-check"><input type="checkbox"${c.checks[id]?' checked':''} onchange="checkinSet('check','${id}',this.checked)"><span>${escHTML(label)}</span></label>`).join('');
+    const loggedToday = lu.passes.includes(tod), all = checkinAllChecked(item);
+    const cold = loggedToday
+      ? `<label class="checkin-check disabled"><input type="checkbox" checked disabled><span>Cold pass already logged today</span></label>`
+      : `<label class="checkin-check${all?'':' disabled'}"><input type="checkbox"${c.cold?' checked':''}${all?'':' disabled'} onchange="checkinSet('cold',null,this.checked)"><span>Passed every criterion cold today${all?'':' (tick them all first)'}</span></label>`;
+    const days = checkinPassDays(item), ready = checkinReady(item);
+    if(!ready && c.bump) c.bump = false;
+    const bump = `<label class="checkin-check checkin-bump${ready?'':' disabled'}"><input type="checkbox"${c.bump?' checked':''}${ready?'':' disabled'} onchange="checkinSet('bump',null,this.checked)"><span>Move to level ${target}${ready?'':` — needs every criterion and ${LEVEL_COLD_DAYS} cold days (${Math.min(days,LEVEL_COLD_DAYS)}/${LEVEL_COLD_DAYS})`}</span></label>`;
+    level = `<div class="field"><label>Toward level ${target} · now level ${item.familiarity||0}</label>${crit}${cold}${bump}</div>`;
+  }
+  const tomorrow = `<div class="field"><label>Tomorrow</label><div class="level-picker"><button class="level-btn${c.stay?'':' sel-2'}" onclick="checkinSet('stay',null,false)">Next ${k.noun} in rotation</button><button class="level-btn${c.stay?' sel-3':''}" onclick="checkinSet('stay',null,true)">Stay on this one</button></div></div>`;
+  return tempo + level + tomorrow;
+}
+function checkinSet(field, id, value) {
+  if(!checkin) return;
+  if(field==='check') { checkin.checks[id] = value; if(!value) checkin.cold = false; }
+  else checkin[field] = value;
+  const bpm = document.getElementById('checkin-bpm');
+  if(bpm) checkin.bpm = bpm.value;
+  checkinRerender();
+}
+function checkinRerender() {
+  const db = getDB();
+  ['checkin-body','session-prompt-checkin'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el && el.offsetParent !== null && checkin) el.innerHTML = checkinHTML(db);
+  });
+}
+function openCheckin(kind, name) {
+  if(!checkinInit(kind, name)) return;
+  const k = CHECKIN_KIND[kind];
+  document.getElementById('checkin-title').textContent = name;
+  document.getElementById('checkin-kind').textContent = kind==='voicing' ? 'Voicing' : 'Vocabulary';
+  document.getElementById('checkin-save').textContent = k.verb;
+  document.getElementById('checkin-modal').classList.add('open');
+  document.getElementById('checkin-body').innerHTML = checkinHTML(getDB());
+}
+function closeCheckin() { document.getElementById('checkin-modal').classList.remove('open'); checkin = null; }
+function handleCheckinBackdropClick(e) { if(e.target===document.getElementById('checkin-modal')) closeCheckin(); }
+// Applies the check-in to db (no save, no render): level progress, tempo, the bump, then the
+// item is marked done and tomorrow's choice is pinned.
+function applyCheckin(db) {
+  const c = checkin, k = CHECKIN_KIND[c.kind], item = levelItem(db, c.kind, c.name);
+  if(!item) return null;
+  const tod = todayInt();
+  const bpmEl = document.getElementById('checkin-bpm');
+  if(bpmEl) c.bpm = bpmEl.value;
+  let bumpedTo = null;
+  if((item.familiarity||0) < LEVEL_MAX) {
+    const ready = checkinReady(item);
+    const lu = levelProgress(item);
+    item.levelUp = { target: lu.target, checks: { ...c.checks }, passes: [...lu.passes] };
+    if(c.cold && checkinAllChecked(item) && !item.levelUp.passes.includes(tod)) item.levelUp.passes.push(tod);
+    if(c.bump && ready) {
+      bumpedTo = lu.target;
+      item.familiarity = bumpedTo;
+      item.levelSince = tod;
+      delete item.levelUp;
+      logActivity(db, c.kind==='voicing' ? 'voicing_level_up' : 'vocab_level_up', { name: c.name, familiarity: bumpedTo });
+    }
+  }
+  const bpm = parseInt(c.bpm, 10);
+  const hasBpm = bpm >= 30 && bpm <= 400;
+  if(hasBpm) {
+    item.lastTempo = { date: tod, bpm };
+    (item.tempoLog = item.tempoLog || []).push({ date: tod, bpm });
+  }
+  stopTimerFor(db, k.area, c.name);   // first, so the session's pin is cleared below
+  item.lastPracticed = tod;
+  delete item.pinnedDate;
+  delete item.deferredDate;
+  if(c.stay) {
+    (db[LEVEL_KIND[c.kind].list]||[]).forEach(x => { if(x!==item) { delete x.pinnedDate; delete x.deferredDate; } });
+    item.pinnedDate = addDays(tod, 1);
+  }
+  logActivity(db, k.event, { name: c.name, familiarity: item.familiarity||0, ...(hasBpm ? { bpm } : {}) });
+  updateStreak(db);
+  return { bumpedTo, stay: c.stay, bpm: hasBpm ? bpm : null, kind: c.kind, name: c.name };
+}
+function checkinToast(r) {
+  if(!r) return;
+  const k = CHECKIN_KIND[r.kind];
+  const parts = [`"${r.name}" ${k.done}${r.bpm ? ` at ${r.bpm} bpm` : ''}`];
+  if(r.bumpedTo) parts.push(r.bumpedTo >= LEVEL_MAX ? 'mastered' : `now level ${r.bumpedTo}`);
+  parts.push(r.stay ? 'it stays up tomorrow' : `a new ${k.noun} comes up tomorrow`);
+  toast(parts.join(' — '));
+}
+function submitCheckin() {
+  if(!checkin) return;
+  const db = getDB();
+  const r = applyCheckin(db);
+  saveDB(db);
+  document.getElementById('checkin-modal').classList.remove('open');
+  checkin = null;
+  renderAll(); refreshCurrentDetail();
+  checkinToast(r);
+}
+// The session's time-up prompt carries the same check-in for a voicing or vocabulary block
+// whose item is a real entry not yet done today.
+function sessionCheckinTarget(db) {
+  const s = db.session;
+  if(!s) return null;
+  const block = s.blocks[s.idx];
+  const kind = block.id==='voicing' ? 'voicing' : block.id==='language' ? 'vocab' : null;
+  if(!kind) return null;
+  const item = levelItem(db, kind, s.name);
+  return item && item.lastPracticed !== todayInt() ? { kind, name: s.name } : null;
+}
+function tempoSummary(item) {
+  const last = item.lastTempo ? item.lastTempo.bpm : null, target = item.targetTempo || null;
+  if(last && target) return `${last} of ${target} bpm`;
+  if(last) return `last ${last} bpm`;
+  return target ? `target ${target} bpm` : null;
+}
 function levelSectionHTML(db, kind, item) {
   const k = LEVEL_KIND[kind], arg = jsArg(item.name), kArg = `'${kind}'`;
-  const tempo = `<label class="level-tempo">Target tempo <input type="number" min="30" max="400" value="${item.targetTempo||''}" placeholder="bpm" onchange="setTargetTempo(${kArg},${arg},this)"><span>${escHTML(k.tempoHint)}</span></label>`;
+  const lastTempo = item.lastTempo ? ` · last practiced at ${item.lastTempo.bpm} bpm on ${formatIntDate(item.lastTempo.date).replace(/, \d{4}$/,'')}` : '';
+  const tempo = `<label class="level-tempo">Target tempo <input type="number" min="30" max="400" value="${item.targetTempo||''}" placeholder="bpm" onchange="setTargetTempo(${kArg},${arg},this)"><span>${escHTML(k.tempoHint)}${lastTempo}</span></label>`;
   const st = levelStatus(kind, item);
   if(!st) return `<div class="section"><div class="section-head"><h2>Familiarity</h2><span class="count">mastered</span></div><div class="level-body"><div class="level-note">Out of daily rotation. It gets tested again when it comes up in a tune during review.</div>${tempo}</div></div>`;
   const rows = st.crit.map(([id,label]) => `<label class="exit-row${st.lu.checks[id]?' done':''}"><input type="checkbox" class="chk"${st.lu.checks[id]?' checked':''} onchange="toggleLevelCheck(${kArg},${arg},'${id}')"><span>${escHTML(label)}</span></label>`).join('');

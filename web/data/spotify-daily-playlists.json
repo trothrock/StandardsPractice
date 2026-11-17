@@ -893,6 +893,67 @@
       ],
       "filled": true,
       "removedOn": "2026-11-17"
+    },
+    {
+      "date": "2026-11-17",
+      "id": "5PaRax0ljSfowj5j7dZP3C",
+      "name": "Daily Standards – Nov 17, 2026",
+      "tracks": [
+        {
+          "trackId": "1FGP7KqNANyPi10M3PkFtY",
+          "name": "Bags' Groove",
+          "artists": [
+            "Milt Jackson"
+          ],
+          "song": "Bags' Groove"
+        },
+        {
+          "trackId": "5uLFo8xWQq4zd9Sh2xPB5t",
+          "name": "More Than You Know",
+          "artists": [
+            "Sonny Rollins",
+            "Thelonious Monk"
+          ],
+          "song": "More Than You Know"
+        },
+        {
+          "trackId": "6gDOH2uybXcEkB6CumPX1J",
+          "name": "A Night In Tunisia - Live At Newport Jazz Festival, 1957",
+          "artists": [
+            "Dizzy Gillespie"
+          ],
+          "song": "Night in Tunisia"
+        },
+        {
+          "trackId": "1sce5VJvCOYYDAR9rp9KdG",
+          "name": "Stolen Moments",
+          "artists": [
+            "Oliver Nelson"
+          ],
+          "song": "Stolen Moments"
+        },
+        {
+          "trackId": "3ujbZ2FGIoTQG3v07tmV2D",
+          "name": "Bye Bye Blackbird (feat. John Coltrane, Red Garland, Paul Chambers & Philly Joe Jones)",
+          "artists": [
+            "Miles Davis",
+            "John Coltrane",
+            "Red Garland",
+            "Paul Chambers",
+            "Philly Joe Jones"
+          ],
+          "song": "Bye Bye Blackbird"
+        },
+        {
+          "trackId": "4lm669ZRk2EkTHg8An9n8T",
+          "name": "Anthropology",
+          "artists": [
+            "Charlie Parker"
+          ],
+          "song": "Anthropology"
+        }
+      ],
+      "filled": true
     }
   ]
 }

@@ -3400,6 +3400,12 @@
           "date": 20261011,
           "passed": false,
           "key": "Em"
+        },
+        {
+          "date": 20261117,
+          "passed": false,
+          "key": "Em",
+          "solo": 1
         }
       ],
       "sortSeed": 0.2842877483214954,
@@ -3419,7 +3425,8 @@
           "at": 155,
           "text": "McCoy Tyner vamp voicings"
         }
-      ]
+      ],
+      "pinnedReviewDate": 20261118
     },
     "My Foolish Heart": {
       "name": "My Foolish Heart",
@@ -9020,6 +9027,23 @@
       "type": "vocab_practiced",
       "name": "5-7-9-11 climb on ii",
       "familiarity": 0
+    },
+    {
+      "ts": 1794928814268,
+      "date": 20261117,
+      "type": "voicing_reviewed",
+      "name": "[3] Minor ii-V-i",
+      "familiarity": 0,
+      "bpm": 110
+    },
+    {
+      "ts": 1794929480440,
+      "date": 20261117,
+      "type": "review",
+      "name": "My Favorite Things",
+      "passed": false,
+      "key": "Em",
+      "solo": 1
     }
   ],
   "extraReviewsToday": {
@@ -9335,13 +9359,12 @@
       "familiarity": 0,
       "addedDate": 20260914,
       "sortSeed": 0.6936092227190404,
-      "lastPracticed": 20260922,
+      "lastPracticed": 20261117,
       "chords": [
         "B-7(♭5) · top E",
         "E7(♭9)",
         "A-6/9 · top E"
       ],
-      "pinnedDate": 20261117,
       "levelUp": {
         "target": 1,
         "checks": {
@@ -9351,7 +9374,18 @@
         "passes": []
       },
       "targetTempo": 160,
-      "notes": "110 bpm"
+      "notes": "110 bpm",
+      "lastTempo": {
+        "date": 20261117,
+        "bpm": 110
+      },
+      "tempoLog": [
+        {
+          "date": 20261117,
+          "bpm": 110
+        }
+      ],
+      "pinnedDate": 20261118
     },
     {
       "name": "[2] Major ii-V-I",
