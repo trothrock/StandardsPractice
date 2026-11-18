@@ -441,7 +441,21 @@
         "melody-rootless": true,
         "melody-shell": true,
         "bass-track": true
-      }
+      },
+      "pointsOfInterest": [
+        {
+          "trackId": "1FGP7KqNANyPi10M3PkFtY",
+          "album": "Wizard Of The Vibes",
+          "at": 45,
+          "text": "Milt Jackson ii-V"
+        },
+        {
+          "trackId": "1FGP7KqNANyPi10M3PkFtY",
+          "album": "Wizard Of The Vibes",
+          "at": 50,
+          "text": "Milt Jackson chromatic dominant"
+        }
+      ]
     },
     "Basin Street Blues": {
       "name": "Basin Street Blues",
@@ -5862,8 +5876,8 @@
     }
   },
   "currentNewSong": "Bags' Groove",
-  "streak": 13,
-  "lastPracticeDay": 20261117,
+  "streak": 14,
+  "lastPracticeDay": 20261118,
   "activity": [
     {
       "ts": 1776634938073,
@@ -9044,6 +9058,59 @@
       "passed": false,
       "key": "Em",
       "solo": 1
+    },
+    {
+      "ts": 1795004568064,
+      "date": 20261118,
+      "type": "practice_time",
+      "area": "voicing",
+      "name": "[3] Minor ii-V-i",
+      "secs": 623
+    },
+    {
+      "ts": 1795004568064,
+      "date": 20261118,
+      "type": "voicing_session",
+      "name": "[3] Minor ii-V-i"
+    },
+    {
+      "ts": 1795004568065,
+      "date": 20261118,
+      "type": "voicing_reviewed",
+      "name": "[3] Minor ii-V-i",
+      "familiarity": 0,
+      "bpm": 160
+    },
+    {
+      "ts": 1795005191547,
+      "date": 20261118,
+      "type": "practice_time",
+      "area": "vocab",
+      "name": "5-7-9-11 climb on ii",
+      "secs": 623
+    },
+    {
+      "ts": 1795005191547,
+      "date": 20261118,
+      "type": "vocab_practiced",
+      "name": "5-7-9-11 climb on ii",
+      "familiarity": 0,
+      "bpm": 120
+    },
+    {
+      "ts": 1795006512051,
+      "date": 20261118,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "Bags' Groove",
+      "secs": 1500,
+      "origSecs": 1221
+    },
+    {
+      "ts": 1795006512051,
+      "date": 20261118,
+      "type": "practiced",
+      "name": "Bags' Groove"
     }
   ],
   "extraReviewsToday": {
@@ -9359,7 +9426,7 @@
       "familiarity": 0,
       "addedDate": 20260914,
       "sortSeed": 0.6936092227190404,
-      "lastPracticed": 20261117,
+      "lastPracticed": 20261118,
       "chords": [
         "B-7(♭5) · top E",
         "E7(♭9)",
@@ -9376,16 +9443,20 @@
       "targetTempo": 160,
       "notes": "110 bpm",
       "lastTempo": {
-        "date": 20261117,
-        "bpm": 110
+        "date": 20261118,
+        "bpm": 160
       },
       "tempoLog": [
         {
           "date": 20261117,
           "bpm": 110
+        },
+        {
+          "date": 20261118,
+          "bpm": 160
         }
       ],
-      "pinnedDate": 20261118
+      "pinnedDate": 20261119
     },
     {
       "name": "[2] Major ii-V-I",
@@ -9802,14 +9873,27 @@
       "familiarity": 0,
       "addedDate": 20261115,
       "sortSeed": 0.6325330114596202,
-      "lastPracticed": 20261117,
+      "lastPracticed": 20261118,
       "levelUp": {
         "target": 1,
         "checks": {
-          "keys": false
+          "keys": false,
+          "sing": true,
+          "feel": true
         },
         "passes": []
-      }
+      },
+      "lastTempo": {
+        "date": 20261118,
+        "bpm": 120
+      },
+      "tempoLog": [
+        {
+          "date": 20261118,
+          "bpm": 120
+        }
+      ],
+      "pinnedDate": 20261119
     }
   ],
   "keyCenters": {
@@ -12440,9 +12524,9 @@
     }
   },
   "lastSession": {
-    "date": 20261117,
-    "start": 1794918295190,
-    "end": 1794921952237,
+    "date": 20261118,
+    "start": 1795003945080,
+    "end": 1795006773505,
     "blocks": [
       {
         "id": "voicing",
@@ -12479,9 +12563,8 @@
       "[3] Minor ii-V-i",
       "5-7-9-11 climb on ii",
       "Bags' Groove",
-      "My Favorite Things",
-      "Take Five"
+      "My Favorite Things"
     ],
-    "secs": 3657
+    "secs": 2467
   }
 }
