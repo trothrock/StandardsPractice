@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-11-17",
+  "lastSyncDate": "2026-11-18",
   "plays": [
     {
       "playedAt": "2026-10-01T01:25:15.151Z",
@@ -7156,6 +7156,362 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e0242a04303e6eb1100df3ea036",
       "durationMs": 674800,
       "context": "spotify:album:3rs2Wq1755vGmXxIioU7Xo"
+    },
+    {
+      "playedAt": "2026-11-17T16:04:09.140Z",
+      "trackId": "1YQWosTIljIvxAgHWTp7KP",
+      "name": "Take Five",
+      "artists": [
+        "The Dave Brubeck Quartet"
+      ],
+      "album": "Time Out",
+      "albumId": "0nTTEAhCZsbbeplyDMIFuA",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b6bd44cf06bf8f4d5ce1e080",
+      "durationMs": 328831,
+      "context": "spotify:album:0nTTEAhCZsbbeplyDMIFuA"
+    },
+    {
+      "playedAt": "2026-11-17T16:12:54.392Z",
+      "trackId": "1sce5VJvCOYYDAR9rp9KdG",
+      "name": "Stolen Moments",
+      "artists": [
+        "Oliver Nelson"
+      ],
+      "album": "The Blues And The Abstract Truth",
+      "albumId": "6lxRA8Rl9a9XoZDCVWBzBY",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e029ab9b4e0d804541ca54c3f6c",
+      "durationMs": 525613,
+      "context": "spotify:playlist:5PaRax0ljSfowj5j7dZP3C"
+    },
+    {
+      "playedAt": "2026-11-17T16:22:55.687Z",
+      "trackId": "6gDOH2uybXcEkB6CumPX1J",
+      "name": "A Night In Tunisia - Live At Newport Jazz Festival, 1957",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "album": "At Newport (Live at Newport Jazz Festival, 1957 / Expanded Edition)",
+      "albumId": "40uojcqOk5czLzsO4P2OOV",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a39b0f5822068ccedd1a9eae",
+      "durationMs": 600720,
+      "context": "spotify:playlist:5PaRax0ljSfowj5j7dZP3C"
+    },
+    {
+      "playedAt": "2026-11-17T16:33:45.162Z",
+      "trackId": "5uLFo8xWQq4zd9Sh2xPB5t",
+      "name": "More Than You Know",
+      "artists": [
+        "Sonny Rollins",
+        "Thelonious Monk"
+      ],
+      "album": "The Complete Prestige 10-Inch LP Collection",
+      "albumId": "5DPy4HeXMnoxi3PODdklOC",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02d1053d4d169474b26f605ca3",
+      "durationMs": 649059,
+      "context": "spotify:playlist:5PaRax0ljSfowj5j7dZP3C"
+    },
+    {
+      "playedAt": "2026-11-17T16:38:53.534Z",
+      "trackId": "4lm669ZRk2EkTHg8An9n8T",
+      "name": "Anthropology",
+      "artists": [
+        "Charlie Parker"
+      ],
+      "album": "Burnin' Bird",
+      "albumId": "2y3dGQKlcxl9KagD6QfHUY",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b48ed6e56a1e3cd589b20d10",
+      "durationMs": 307866,
+      "context": "spotify:playlist:5PaRax0ljSfowj5j7dZP3C"
+    },
+    {
+      "playedAt": "2026-11-17T16:46:48.658Z",
+      "trackId": "3ujbZ2FGIoTQG3v07tmV2D",
+      "name": "Bye Bye Blackbird (feat. John Coltrane, Red Garland, Paul Chambers & Philly Joe Jones)",
+      "artists": [
+        "Miles Davis",
+        "John Coltrane",
+        "Red Garland",
+        "Paul Chambers",
+        "Philly Joe Jones"
+      ],
+      "album": "'Round About Midnight",
+      "albumId": "4VUawqEDCHHfrUe77ScQ2K",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02cb6f92683ff9ad65f27a3f9f",
+      "durationMs": 474626,
+      "context": "spotify:playlist:5PaRax0ljSfowj5j7dZP3C"
+    },
+    {
+      "playedAt": "2026-11-17T18:43:56.346Z",
+      "trackId": "33NyBwOF6KyZSgb30Py7kT",
+      "name": "Don't You Worry About a Thing",
+      "artists": [
+        "Sullivan Fortner"
+      ],
+      "album": "Solo Game",
+      "albumId": "5j971j3kmm50vUWembyygk",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02193906ce54b48a69bccd32d7",
+      "durationMs": 230234,
+      "context": "spotify:album:5j971j3kmm50vUWembyygk"
+    },
+    {
+      "playedAt": "2026-11-17T20:06:28.715Z",
+      "trackId": "1R4efYXyXhXDNsX0fuRlMW",
+      "name": "I Didn't Know What Time It Was",
+      "artists": [
+        "Sullivan Fortner"
+      ],
+      "album": "Solo Game",
+      "albumId": "5j971j3kmm50vUWembyygk",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02193906ce54b48a69bccd32d7",
+      "durationMs": 564370,
+      "context": "spotify:album:5j971j3kmm50vUWembyygk"
+    },
+    {
+      "playedAt": "2026-11-17T20:11:08.620Z",
+      "trackId": "4yFUNKr9H7FDTdwS3bDEPj",
+      "name": "Congolese Children",
+      "artists": [
+        "Sullivan Fortner"
+      ],
+      "album": "Solo Game",
+      "albumId": "5j971j3kmm50vUWembyygk",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02193906ce54b48a69bccd32d7",
+      "durationMs": 279914,
+      "context": "spotify:album:5j971j3kmm50vUWembyygk"
+    },
+    {
+      "playedAt": "2026-11-17T20:15:38.273Z",
+      "trackId": "2N3tWKFTewcpNee9BmP7AQ",
+      "name": "I'm All Smiles",
+      "artists": [
+        "Sullivan Fortner"
+      ],
+      "album": "Solo Game",
+      "albumId": "5j971j3kmm50vUWembyygk",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02193906ce54b48a69bccd32d7",
+      "durationMs": 269655,
+      "context": "spotify:album:5j971j3kmm50vUWembyygk"
+    },
+    {
+      "playedAt": "2026-11-17T20:20:24.208Z",
+      "trackId": "6aKVsyIxX5A3NbyXVDvkNo",
+      "name": "Invitation",
+      "artists": [
+        "Sullivan Fortner"
+      ],
+      "album": "Solo Game",
+      "albumId": "5j971j3kmm50vUWembyygk",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02193906ce54b48a69bccd32d7",
+      "durationMs": 285920,
+      "context": "spotify:album:5j971j3kmm50vUWembyygk"
+    },
+    {
+      "playedAt": "2026-11-17T20:38:13.763Z",
+      "trackId": "588ZpHPHPa9gtHENchMkUi",
+      "name": "Once I loved",
+      "artists": [
+        "Sullivan Fortner"
+      ],
+      "album": "Solo Game",
+      "albumId": "5j971j3kmm50vUWembyygk",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02193906ce54b48a69bccd32d7",
+      "durationMs": 391886,
+      "context": "spotify:album:5j971j3kmm50vUWembyygk"
+    },
+    {
+      "playedAt": "2026-11-17T20:41:31.265Z",
+      "trackId": "6HY9B39Y0Kbq0GrqNs3KSA",
+      "name": "Cute",
+      "artists": [
+        "Sullivan Fortner"
+      ],
+      "album": "Solo Game",
+      "albumId": "5j971j3kmm50vUWembyygk",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02193906ce54b48a69bccd32d7",
+      "durationMs": 197534,
+      "context": "spotify:album:5j971j3kmm50vUWembyygk"
+    },
+    {
+      "playedAt": "2026-11-17T20:46:32.371Z",
+      "trackId": "5E7LgK50kuetk2e4wdqkkQ",
+      "name": "This Is New",
+      "artists": [
+        "Sullivan Fortner"
+      ],
+      "album": "Solo Game",
+      "albumId": "5j971j3kmm50vUWembyygk",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02193906ce54b48a69bccd32d7",
+      "durationMs": 301057,
+      "context": "spotify:album:5j971j3kmm50vUWembyygk"
+    },
+    {
+      "playedAt": "2026-11-17T20:51:09.770Z",
+      "trackId": "4eWSaaYU2dkjOhKLOXOXCT",
+      "name": "Come Sunday",
+      "artists": [
+        "Sullivan Fortner"
+      ],
+      "album": "Solo Game",
+      "albumId": "5j971j3kmm50vUWembyygk",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02193906ce54b48a69bccd32d7",
+      "durationMs": 277406,
+      "context": "spotify:album:5j971j3kmm50vUWembyygk"
+    },
+    {
+      "playedAt": "2026-11-17T20:51:26.166Z",
+      "trackId": "4wuT9hkSDZEIcphFqNRZhP",
+      "name": "Power Mode",
+      "artists": [
+        "Sullivan Fortner"
+      ],
+      "album": "Solo Game",
+      "albumId": "5j971j3kmm50vUWembyygk",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02193906ce54b48a69bccd32d7",
+      "durationMs": 15893,
+      "context": "spotify:album:5j971j3kmm50vUWembyygk"
+    },
+    {
+      "playedAt": "2026-11-17T20:56:34.055Z",
+      "trackId": "0GYRv5YNi51hLI8qMKvDsf",
+      "name": "It's a Game",
+      "artists": [
+        "Sullivan Fortner"
+      ],
+      "album": "Solo Game",
+      "albumId": "5j971j3kmm50vUWembyygk",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02193906ce54b48a69bccd32d7",
+      "durationMs": 307920,
+      "context": "spotify:album:5j971j3kmm50vUWembyygk"
+    },
+    {
+      "playedAt": "2026-11-17T21:02:02.859Z",
+      "trackId": "5AO7NE5qyQEIrx2qMQ8SGg",
+      "name": "Snakes And Ladders",
+      "artists": [
+        "Sullivan Fortner"
+      ],
+      "album": "Solo Game",
+      "albumId": "5j971j3kmm50vUWembyygk",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02193906ce54b48a69bccd32d7",
+      "durationMs": 328753,
+      "context": "spotify:album:5j971j3kmm50vUWembyygk"
+    },
+    {
+      "playedAt": "2026-11-17T21:03:28.161Z",
+      "trackId": "4l17RLop8UVjMOx5OWMchU",
+      "name": "Hounds and Jackal",
+      "artists": [
+        "Sullivan Fortner"
+      ],
+      "album": "Solo Game",
+      "albumId": "5j971j3kmm50vUWembyygk",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02193906ce54b48a69bccd32d7",
+      "durationMs": 85340,
+      "context": "spotify:album:5j971j3kmm50vUWembyygk"
+    },
+    {
+      "playedAt": "2026-11-17T21:05:32.757Z",
+      "trackId": "2neBZ2GyVuvFrCWDgtYCNB",
+      "name": "King's Table",
+      "artists": [
+        "Sullivan Fortner"
+      ],
+      "album": "Solo Game",
+      "albumId": "5j971j3kmm50vUWembyygk",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02193906ce54b48a69bccd32d7",
+      "durationMs": 124573,
+      "context": "spotify:album:5j971j3kmm50vUWembyygk"
+    },
+    {
+      "playedAt": "2026-11-17T21:06:39.945Z",
+      "trackId": "4c1zh2qXiTy8jrxpuNj2cH",
+      "name": "Stag",
+      "artists": [
+        "Sullivan Fortner"
+      ],
+      "album": "Solo Game",
+      "albumId": "5j971j3kmm50vUWembyygk",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02193906ce54b48a69bccd32d7",
+      "durationMs": 67246,
+      "context": "spotify:album:5j971j3kmm50vUWembyygk"
+    },
+    {
+      "playedAt": "2026-11-17T21:09:34.858Z",
+      "trackId": "1BIRs6juEB2w1iuJWqxRMh",
+      "name": "Cross and Circle",
+      "artists": [
+        "Sullivan Fortner"
+      ],
+      "album": "Solo Game",
+      "albumId": "5j971j3kmm50vUWembyygk",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02193906ce54b48a69bccd32d7",
+      "durationMs": 174857,
+      "context": "spotify:album:5j971j3kmm50vUWembyygk"
+    },
+    {
+      "playedAt": "2026-11-17T21:14:26.547Z",
+      "trackId": "4mCaZY2YoBtQAgD8v0eYmd",
+      "name": "Space Walk",
+      "artists": [
+        "Sullivan Fortner"
+      ],
+      "album": "Solo Game",
+      "albumId": "5j971j3kmm50vUWembyygk",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02193906ce54b48a69bccd32d7",
+      "durationMs": 291714,
+      "context": "spotify:album:5j971j3kmm50vUWembyygk"
+    },
+    {
+      "playedAt": "2026-11-17T21:17:47.161Z",
+      "trackId": "0DRuT37JuY98eZUM7Bq4sU",
+      "name": "Valse du petit chien",
+      "artists": [
+        "Sullivan Fortner"
+      ],
+      "album": "Solo Game",
+      "albumId": "5j971j3kmm50vUWembyygk",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02193906ce54b48a69bccd32d7",
+      "durationMs": 200611,
+      "context": "spotify:album:5j971j3kmm50vUWembyygk"
+    },
+    {
+      "playedAt": "2026-11-17T21:19:43.448Z",
+      "trackId": "2bSuk796s0VGcBlcjaKxKc",
+      "name": "Fred Hersch, notes on Solo",
+      "artists": [
+        "Sullivan Fortner"
+      ],
+      "album": "Solo Game",
+      "albumId": "5j971j3kmm50vUWembyygk",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02193906ce54b48a69bccd32d7",
+      "durationMs": 116262,
+      "context": "spotify:album:5j971j3kmm50vUWembyygk"
+    },
+    {
+      "playedAt": "2026-11-17T21:34:35.143Z",
+      "trackId": "2YTEOOZ5pxUDwkfS9MyG4B",
+      "name": "Solitude",
+      "artists": [
+        "Duke Ellington"
+      ],
+      "album": "Ellington Indigos (Expanded Edition)",
+      "albumId": "5BymHphSwXImKUTljcMJvu",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02160aa011e35301c4fdff9d78",
+      "durationMs": 280706,
+      "context": "spotify:album:5BymHphSwXImKUTljcMJvu"
+    },
+    {
+      "playedAt": "2026-11-17T21:38:32.299Z",
+      "trackId": "2CRSV0N5UCxR4Qrj4pBGPx",
+      "name": "Where or When",
+      "artists": [
+        "Duke Ellington"
+      ],
+      "album": "Ellington Indigos (Expanded Edition)",
+      "albumId": "5BymHphSwXImKUTljcMJvu",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02160aa011e35301c4fdff9d78",
+      "durationMs": 237186,
+      "context": "spotify:album:5BymHphSwXImKUTljcMJvu"
     }
   ]
 }

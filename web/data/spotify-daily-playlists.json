@@ -953,6 +953,66 @@
           "song": "Anthropology"
         }
       ],
+      "filled": true,
+      "removedOn": "2026-11-18"
+    },
+    {
+      "date": "2026-11-18",
+      "id": "52zViUchOy5Zh4nU50YObK",
+      "name": "Daily Standards – Nov 18, 2026",
+      "tracks": [
+        {
+          "trackId": "1FGP7KqNANyPi10M3PkFtY",
+          "name": "Bags' Groove",
+          "artists": [
+            "Milt Jackson"
+          ],
+          "song": "Bags' Groove"
+        },
+        {
+          "trackId": "2wjHWYJVAs5TYSRP83JLmc",
+          "name": "Footprints",
+          "artists": [
+            "Miles Davis"
+          ],
+          "song": "Footprints"
+        },
+        {
+          "trackId": "5qhSOJFmfdfoqQmQZMtNyP",
+          "name": "A Night In Tunisia",
+          "artists": [
+            "Charlie Parker",
+            "Miles Davis"
+          ],
+          "song": "Night in Tunisia"
+        },
+        {
+          "trackId": "59vZ4sIpNRXW9QCxT1Xr4P",
+          "name": "Fly Me To The Moon",
+          "artists": [
+            "Vince Guaraldi Trio"
+          ],
+          "song": "Fly Me to the Moon"
+        },
+        {
+          "trackId": "5uLFo8xWQq4zd9Sh2xPB5t",
+          "name": "More Than You Know",
+          "artists": [
+            "Sonny Rollins",
+            "Thelonious Monk"
+          ],
+          "song": "More Than You Know"
+        },
+        {
+          "trackId": "2VaOoXFfdlrHyhORSq9H1v",
+          "name": "Stompin' At The Savoy",
+          "artists": [
+            "Clifford Brown",
+            "Max Roach"
+          ],
+          "song": "Stompin' at the Savoy"
+        }
+      ],
       "filled": true
     }
   ]

@@ -11093,6 +11093,345 @@
           "name": "I Should Care - Remastered"
         }
       ]
+    },
+    {
+      "albumId": "16jGcnWVNR6rHO0NXv8eXV",
+      "album": "Jelly Roll Morton 1923/24",
+      "artists": [
+        "Jelly Roll Morton"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02047159c54500c6b5372fd974",
+      "year": "1923"
+    },
+    {
+      "albumId": "4fRxNElUcNCq9rUADhX1rY",
+      "album": "Piano Reflections",
+      "artists": [
+        "Duke Ellington"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02297386a7eb422f72936ff351",
+      "year": "1953"
+    },
+    {
+      "albumId": "5XqqNOyoyl0iAYUI4Mh3P3",
+      "album": "Solo Piano - The Keystone Transriptions",
+      "artists": [
+        "Teddy Wilson"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0257e7320ee39b32f5acfe4540",
+      "year": "1939"
+    },
+    {
+      "albumId": "2kdXqN44JDZknj35CdOOpN",
+      "album": "All Blues",
+      "artists": [
+        "Ray Bryant Trio"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028ae869979f8c87ec9988bfdf",
+      "year": "1978"
+    },
+    {
+      "albumId": "7gOZqHF69ORvWk0VQNSjjn",
+      "album": "Free Spirits",
+      "artists": [
+        "Mary Lou Williams"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e026103e28433269ef7677cd25c",
+      "year": "1976"
+    },
+    {
+      "albumId": "21I47sl9rvEugaiEIvDVyh",
+      "album": "Jazz Giant",
+      "artists": [
+        "Bud Powell"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02d62214e735ee24bccf902b04",
+      "year": "2001"
+    },
+    {
+      "albumId": "4Cu57f0WkNAOERhiCxGSSo",
+      "album": "Horace Silver Trio",
+      "artists": [
+        "Horace Silver"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0250cad66f9775d5f33ab89fbd",
+      "year": "1956"
+    },
+    {
+      "albumId": "38ERGmBgDAsCTb4KNeopsX",
+      "album": "Cool Struttin' (Remastered / Rudy Van Gelder Edition)",
+      "artists": [
+        "Sonny Clark"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024307bbd26c5a52a64463fee7",
+      "year": "1958"
+    },
+    {
+      "albumId": "5kDrLzI5ujfQ9eOjKM4h8o",
+      "album": "This Here Is Bobby Timmons (Remastered 2026)",
+      "artists": [
+        "Bobby Timmons"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021dc936f3ed4641ceb64e8053",
+      "year": "1960"
+    },
+    {
+      "albumId": "7bnMNGOVmWj7KPhrRMrTu8",
+      "album": "The Great Jazz Piano Of Phineas Newborn, Jr. (Remastered 1989)",
+      "artists": [
+        "Phineas Newborn Jr."
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02fd3655387553eecc93b20f75",
+      "year": "1963"
+    },
+    {
+      "albumId": "4yUwUa4u7Rz5xWNZzZu86m",
+      "album": "The Magnificent Tommy Flanagan",
+      "artists": [
+        "Tommy Flanagan"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02198a2c82f9d47cbc6f10de0d",
+      "year": "1981"
+    },
+    {
+      "albumId": "1NONihvQGQ4aVVV956pGH9",
+      "album": "Lennie Tristano / The New Tristano",
+      "artists": [
+        "Lennie Tristano"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02797d6a7438bde2cf9d890be0",
+      "year": "1956"
+    },
+    {
+      "albumId": "0X4i2tGfCate6RMkBvYUSG",
+      "album": "Herbie Nichols Trio",
+      "artists": [
+        "Herbie Nichols Trio"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024295e4b7650defdd5774a4c0",
+      "year": "1956"
+    },
+    {
+      "albumId": "5sJxY1pjo8qSUG5pgiMcI9",
+      "album": "Plays Misty",
+      "artists": [
+        "Erroll Garner"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a8785180cf41decb6f272e8e",
+      "year": "1955"
+    },
+    {
+      "albumId": "3nUwuIFxJid3GQo8c4F6HY",
+      "album": "Ahmad Jamal At The Pershing: But Not For Me",
+      "artists": [
+        "Ahmad Jamal Trio"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02953db381d84bbf30e3eee624",
+      "year": "1958"
+    },
+    {
+      "albumId": "3V91v9OV3nQc1YskTgoDA9",
+      "album": "Very Tall",
+      "artists": [
+        "Oscar Peterson",
+        "Milt Jackson"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02d86aa84b7fbd25c1a6e15f72",
+      "year": "1961"
+    },
+    {
+      "albumId": "1Ho6TDqRIfgliR193SyRaO",
+      "album": "Blue Hour",
+      "artists": [
+        "Stanley Turrentine & The Three Sounds"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02fe203d732fbacc4cbf65ac71",
+      "year": "1960"
+    },
+    {
+      "albumId": "5czxc3Y88J5agZsBLuLGQb",
+      "album": "The Best of the Modern Jazz Quartet",
+      "artists": [
+        "The Modern Jazz Quartet"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02dd70dd1e11faeef863a1f4c2",
+      "year": "1970"
+    },
+    {
+      "albumId": "5MuOxoJbvmGGIQxo6Pudu9",
+      "album": "Explorations",
+      "artists": [
+        "Bill Evans Trio"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02cab935f4386e58f05a9705bc",
+      "year": "1961"
+    },
+    {
+      "albumId": "22HoIP0ai6Wikh4R8yM0AX",
+      "album": "The Real McCoy (Remastered / Rudy Van Gelder Edition)",
+      "artists": [
+        "McCoy Tyner"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0275d3c6d8ab982f6ffc94a10d",
+      "year": "1967"
+    },
+    {
+      "albumId": "7wKVcBB5SgqVX3Cj3LPllE",
+      "album": "Now He Sings, Now He Sobs (Expanded Edition)",
+      "artists": [
+        "Chick Corea"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02164e2d6f045dbf3118174a2f",
+      "year": "1968"
+    },
+    {
+      "albumId": "5HCi1WVOT9SGks2deeceFu",
+      "album": "Empyrean Isles (Expanded Edition)",
+      "artists": [
+        "Herbie Hancock"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e9eb91ae8241234cb7aaaa4c",
+      "year": "1964"
+    },
+    {
+      "albumId": "1ddhGaJv9WeF1NCfcItnV6",
+      "album": "Standards Live",
+      "artists": [
+        "Keith Jarrett",
+        "Gary Peacock",
+        "Jack DeJohnette"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e026f126428453e38445bd8aa16",
+      "year": "1986"
+    },
+    {
+      "albumId": "5a8cjdV55tR5l2noku0vVv",
+      "album": "Unity (Remastered / Rudy Van Gelder Edition)",
+      "artists": [
+        "Larry Young"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e5433fc7ad7df2139dad3189",
+      "year": "1965"
+    },
+    {
+      "albumId": "5eTLd8qlHh0QHW6IF7Bi3J",
+      "album": "Black Fire",
+      "artists": [
+        "Andrew Hill"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024c24e1f5a6a037e6de89ff5d",
+      "year": "1964"
+    },
+    {
+      "albumId": "2yRgqc4XXKB0f6KxPOQIFg",
+      "album": "Mixed (Cecil Taylor Unit / Roswell Rudd Sextet)",
+      "artists": [
+        "Roswell Rudd Sextet",
+        "The Cecil Taylor Quintet"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a89a8ab0dfa622cae07f0f43",
+      "year": "1961"
+    },
+    {
+      "albumId": "0jXfYNJ1Pa3bJ0x6GZWRvK",
+      "album": "The Jaki Byard Experience",
+      "artists": [
+        "Jaki Byard"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02929077738016e6a95da94c70",
+      "year": "1968"
+    },
+    {
+      "albumId": "1CH2KvMLkMG6Py1S6sY41g",
+      "album": "Swiss Movement (Montreux 30th Anniversary)",
+      "artists": [
+        "Les McCann",
+        "Eddie Harris"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021cd3172580076cb17a81f966",
+      "year": "1969"
+    },
+    {
+      "albumId": "2uTk68gta8bfoIS5cmO7zd",
+      "album": "The In Crowd (Expanded Edition)",
+      "artists": [
+        "Ramsey Lewis Trio"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e022f968a25eaba9ecc6a79da41",
+      "year": "1965"
+    },
+    {
+      "albumId": "0Fg59sOpDn68VlzOvHIGhj",
+      "album": "Wild Man On The Loose",
+      "artists": [
+        "Mose Allison"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a732664c991d8500b62d6289",
+      "year": "1966"
+    },
+    {
+      "albumId": "5IIgif01E7Lru4PyFDquWO",
+      "album": "Sarabande",
+      "artists": [
+        "Fred Hersch"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0245edac85339a094dacfaf19c",
+      "year": "1986"
+    },
+    {
+      "albumId": "6Y7tgGIv5fI0EQZbOxL45s",
+      "album": "Etudes",
+      "artists": [
+        "Paul Motian",
+        "Charlie Haden"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021e13ec38c14ddfa0a977cd8c",
+      "year": "1988"
+    },
+    {
+      "albumId": "2M9F2yYsUvqiBPwUGeNvn1",
+      "album": "Heavy Weather",
+      "artists": [
+        "Weather Report"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021016655ec3d59ac9b33f8650",
+      "year": "1977"
+    },
+    {
+      "albumId": "1QlW8jmei8HgE3C4h3TPhH",
+      "album": "Water from an Ancient Well",
+      "artists": [
+        "Various Artists"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024edc41e41abac0fa4257781d",
+      "year": "1986"
+    },
+    {
+      "albumId": "5xy1owQvW9rJ3mfYCZMT1t",
+      "album": "Swing Me No Waltzes",
+      "artists": [
+        "Roland Hanna"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02688d8053d651ba78bf68a9e1",
+      "year": "1980"
+    },
+    {
+      "albumId": "1g1Sy4Dez7D3KSLCk3Xt1i",
+      "album": "Selections from the Gutter",
+      "artists": [
+        "Art Hodes"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0221d449d3404c26f71b4ca305",
+      "year": "1970"
+    },
+    {
+      "albumId": "1NlZoKyNYNdvPgQhpXsInz",
+      "album": "New Beginnings",
+      "artists": [
+        "Don Pullen"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02feb33af0dd586a3cf2101bcd",
+      "year": "1988"
     }
   ],
   "recordsSort": "year",
