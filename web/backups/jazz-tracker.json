@@ -10024,6 +10024,14 @@
     "contemporary": {
       "albumId": "4RbKJI17ImGfxt6ariFkMR",
       "weekStart": 20261116
+    },
+    "classical-classic": {
+      "albumId": "0ZcPAe1hhWpGkqo5fzRHsC",
+      "weekStart": 20261116
+    },
+    "classical-contemporary": {
+      "albumId": "712YQUbZXqjyrfSXW5CiFS",
+      "weekStart": 20261116
     }
   },
   "records": [
@@ -11516,6 +11524,1940 @@
       ],
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02feb33af0dd586a3cf2101bcd",
       "year": "1988"
+    },
+    {
+      "albumId": "4IFBg9LWw9DBbh454KZl7X",
+      "album": "Schubert: Lieder",
+      "artists": [
+        "Franz Schubert",
+        "Dietrich Fischer-Dieskau",
+        "Gerald Moore"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02eacf9dff1ca8cebddb94efa2",
+      "year": "2003",
+      "composers": [
+        {
+          "name": "Franz Schubert",
+          "born": 1797
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "712YQUbZXqjyrfSXW5CiFS",
+      "album": "Arnold: 4 Scottish Dances & Symphony No. 3",
+      "artists": [
+        "Malcolm Arnold",
+        "London Philharmonic Orchestra"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a6201696f7d1493e4dcdb6fd",
+      "year": "1965",
+      "composers": [
+        {
+          "name": "Malcolm Arnold",
+          "born": 1921
+        }
+      ],
+      "genre": "classical",
+      "featuredWeek": 20261116,
+      "tracks": [
+        {
+          "id": "6hANUDrW5EMsZxtOA3quh9",
+          "name": "Four Scottish Dances, Op. 59; I. Pesante"
+        },
+        {
+          "id": "3gkuHlxzBSP3GiFVCuTO5u",
+          "name": "Four Scottish Dances, Op. 59; II. Vivace"
+        },
+        {
+          "id": "5PPeKmOHYAIMmMoCZ73khv",
+          "name": "Four Scottish Dances, Op. 59; III. Allegretto"
+        },
+        {
+          "id": "1ZqYU1OfXxXwW5Vn33bHLx",
+          "name": "Four Scottish Dances, Op. 59; IV. Con brio"
+        },
+        {
+          "id": "7kAQ0H4nWAhuOxufgPXITt",
+          "name": "Symphony No. 3, Op. 63; I. Allegro - Vivace"
+        },
+        {
+          "id": "3wsJ0glKdlJnVvxN8GN1sN",
+          "name": "Symphony No. 3, Op. 63; II. Lento"
+        },
+        {
+          "id": "3woowZX6k7DVV4JR17Bp2x",
+          "name": "Symphony No. 3, Op. 63; III. Allegro con brio - Presto"
+        }
+      ]
+    },
+    {
+      "albumId": "11FzhwtOFCPB4vpgWo33xV",
+      "album": "Bach, J.S.: Brandenburg Concertos etc.",
+      "artists": [
+        "Johann Sebastian Bach",
+        "English Chamber Orchestra",
+        "Benjamin Britten",
+        "Carmel Kaine",
+        "Emanuel Hurwitz",
+        "Philip Ledger",
+        "Sir Neville Marriner",
+        "Tess Miller",
+        "William Bennett"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0208f25ef15caf048a49a69ee5",
+      "year": "1995",
+      "composers": [
+        {
+          "name": "Johann Sebastian Bach",
+          "born": 1685
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "5YtBZFeYIcAuxzv5P18odP",
+      "album": "Bach, J.S.: Italian Concerto, etc.",
+      "artists": [
+        "Johann Sebastian Bach",
+        "Alfred Brendel"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e026d67bd79cb219c3e9cd0e348",
+      "year": "1977",
+      "composers": [
+        {
+          "name": "Johann Sebastian Bach",
+          "born": 1685
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "6pNnif3akIbBs7bXRHeD9j",
+      "album": "Bach, J.S.: Mass in B minor",
+      "artists": [
+        "Johann Sebastian Bach",
+        "Margaret Marshall",
+        "Janet Baker",
+        "Robert Tear",
+        "Samuel Ramey",
+        "Academy of St Martin in the Fields Chorus",
+        "Academy of St. Martin in the Fields",
+        "Sir Neville Marriner"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0292c5ec971773fd936b44d287",
+      "year": "1978",
+      "composers": [
+        {
+          "name": "Johann Sebastian Bach",
+          "born": 1685
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "27COCAjc1ZoVwHEyJWd9HO",
+      "album": "Barber: Violin Concerto / Korngold: Violin Concerto; Much Ado About Nothing",
+      "artists": [
+        "Gil Shaham",
+        "Samuel Barber",
+        "London Symphony Orchestra",
+        "Erich Wolfgang Korngold",
+        "André Previn"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02671f4e8e1c17a1a94502e15d",
+      "year": "1994",
+      "composers": [
+        {
+          "name": "Samuel Barber",
+          "born": 1910
+        },
+        {
+          "name": "Erich Wolfgang Korngold",
+          "born": 1897
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "5piTVbCZmjpM2CZEU05lwT",
+      "album": "Beethoven: Fidelio",
+      "artists": [
+        "Ludwig van Beethoven",
+        "Christa Ludwig",
+        "Jon Vickers",
+        "Otto Klemperer",
+        "Philharmonia Orchestra"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e022e019445d77432413501c590",
+      "year": "1962",
+      "composers": [
+        {
+          "name": "Ludwig van Beethoven",
+          "born": 1770
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "2rFE6csJ54y18Y25HbQ7xA",
+      "album": "Beethoven: Symphonies Nos. 5 & 7",
+      "artists": [
+        "Ludwig van Beethoven",
+        "Wiener Philharmoniker",
+        "Carlos Kleiber"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b5e85f1b348e554336c44d49",
+      "year": "1995",
+      "composers": [
+        {
+          "name": "Ludwig van Beethoven",
+          "born": 1770
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "2WwP6E1UBMty0SDRNxwzKm",
+      "album": "Beethoven: Symphonies Nos. 1 & 3 \"Eroica\"",
+      "artists": [
+        "Ludwig van Beethoven",
+        "Otto Klemperer",
+        "Philharmonia Orchestra"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02d4a5b80933de7ee390b3291c",
+      "year": "2023",
+      "composers": [
+        {
+          "name": "Ludwig van Beethoven",
+          "born": 1770
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "090BlIN86zQHMkt4Z9gXV5",
+      "album": "Beethoven: Symphony No. 9 (Furtwangler) (1951)",
+      "artists": [
+        "Ludwig van Beethoven",
+        "Wilhelm Furtwängler",
+        "Bayreuth Festival Orchestra"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e025807c586c0e9782277d078ea",
+      "year": "2006",
+      "composers": [
+        {
+          "name": "Ludwig van Beethoven",
+          "born": 1770
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "1F14Qtr9qG8ClaT79iqwz5",
+      "album": "Pinchas Zukerman plays Beethoven Violin Sonatas",
+      "artists": [
+        "Ludwig van Beethoven",
+        "Pinchas Zukerman"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02efd1c5b29c797e9c932ba2e7",
+      "year": "1992",
+      "composers": [
+        {
+          "name": "Ludwig van Beethoven",
+          "born": 1770
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "2W2wgCnWw1auuW1OdB4CNH",
+      "album": "Beethoven: Triple Concerto, Op. 56 - Brahms: Double Concerto, Op. 102 & Tragic Overture, Op. 81 (Remastered)",
+      "artists": [
+        "David Oistrakh",
+        "Johannes Brahms",
+        "Ludwig van Beethoven",
+        "Philharmonia Orchestra"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e020919858da062ef31ba4165e5",
+      "year": "2025",
+      "composers": [
+        {
+          "name": "Ludwig van Beethoven",
+          "born": 1770
+        },
+        {
+          "name": "Johannes Brahms",
+          "born": 1833
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "0rNTs4jV3TjDmYypCdDxbe",
+      "album": "Beethoven: Piano Concertos Nos. 4 & 5",
+      "artists": [
+        "Ludwig van Beethoven",
+        "Emil Gilels"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02fde877111e732f265d3b75e0",
+      "year": "2013",
+      "composers": [
+        {
+          "name": "Ludwig van Beethoven",
+          "born": 1770
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "70eyD3fQy6P09hjRZjX3rw",
+      "album": "Beethoven: Piano Sonatas Nos. 29 \"Hammerklavier\" & 32",
+      "artists": [
+        "Ludwig van Beethoven",
+        "Solomon"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02cbc9a857f593666a33622f40",
+      "year": "2005",
+      "composers": [
+        {
+          "name": "Ludwig van Beethoven",
+          "born": 1770
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "4Ikkls6XBcVByvNGUDSe69",
+      "album": "Beethoven: Sonatas (Moonlight; Les Adieux; Pathetique; Appassionata)",
+      "artists": [
+        "Ludwig van Beethoven",
+        "Arthur Rubinstein"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0236bdbe5dc3ec0a35135db9b2",
+      "year": "1962",
+      "composers": [
+        {
+          "name": "Ludwig van Beethoven",
+          "born": 1770
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "6r3c4ei87MQ0Sisp0Qrkum",
+      "album": "Beethoven: Piano Sonatas Nos.30, 31 & 32",
+      "artists": [
+        "Ludwig van Beethoven",
+        "Mitsuko Uchida"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0237beb4e3cdbd40dacbeb931e",
+      "year": "2006",
+      "composers": [
+        {
+          "name": "Ludwig van Beethoven",
+          "born": 1770
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "3ntsXgurVmlTcUl3qPtbPP",
+      "album": "Beethoven: Symphony No.6 'Pastoral'",
+      "artists": [
+        "Philharmonia Orchestra",
+        "Otto Klemperer"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02778cb9fae16235a72e82f394",
+      "year": "2003",
+      "composers": [
+        {
+          "name": "Ludwig van Beethoven",
+          "born": 1770
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "6D0I5S6L5wbefuClA8TU3B",
+      "album": "Beethoven: Violin Concerto / Mozart: Violin Concerto No.5",
+      "artists": [
+        "Wolfgang Schneiderhan",
+        "Berliner Philharmoniker",
+        "Eugen Jochum"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02c14c8e6196110fb594c44e92",
+      "year": "1995",
+      "composers": [
+        {
+          "name": "Ludwig van Beethoven",
+          "born": 1770
+        },
+        {
+          "name": "Wolfgang Amadeus Mozart",
+          "born": 1756
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "5ohVURqiOAXlYGj9BU1lpr",
+      "album": "Berlioz: Symphonie Fantastique",
+      "artists": [
+        "Hector Berlioz",
+        "Sir Thomas Beecham"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e99c868d797aa6f974a09e46",
+      "year": "2003",
+      "composers": [
+        {
+          "name": "Hector Berlioz",
+          "born": 1803
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "2Baf4YUYVadWoTsK1r5HSh",
+      "album": "Bizet: Carmen",
+      "artists": [
+        "Georges Bizet",
+        "Victoria de los Ángeles"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0265fde4ffc75b336389ce6632",
+      "year": "2000",
+      "composers": [
+        {
+          "name": "Georges Bizet",
+          "born": 1838
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "0U6C93wCNl3n5VmroByjoG",
+      "album": "Borodin: Symphonies Nos. 2 & 3; Overture & Polovtsian Dances (Prnce Igor)",
+      "artists": [
+        "Alexander Borodin",
+        "London Symphony Orchestra",
+        "Jean Martinon",
+        "Sir Georg Solti",
+        "Orchestre de la Suisse Romande",
+        "Ernest Ansermet"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0293275088c68ec76741c2e9a4",
+      "year": "2002",
+      "composers": [
+        {
+          "name": "Alexander Borodin",
+          "born": 1833
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "6n7Ks7pcJcBGuWCmsUy2Sx",
+      "album": "Brahms: Clarinet Sonatas Nos. 1 & 2 - Beethoven: Clarinet Trio",
+      "artists": [
+        "Gervase De Peyer",
+        "Jacqueline du Pré",
+        "Daniel Barenboim"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02875b6fd489da4ed4c250c5fd",
+      "year": "2006",
+      "composers": [
+        {
+          "name": "Johannes Brahms",
+          "born": 1833
+        },
+        {
+          "name": "Ludwig van Beethoven",
+          "born": 1770
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "5HaEcNyN82ue3NHkqIBVQu",
+      "album": "Franck: Violin Sonata / Brahms: Horn Trio",
+      "artists": [
+        "Itzhak Perlman",
+        "Vladimir Ashkenazy",
+        "Barry Tuckwell"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0288f266993a05835b79d201ff",
+      "year": "1969",
+      "composers": [
+        {
+          "name": "Johannes Brahms",
+          "born": 1833
+        },
+        {
+          "name": "César Franck",
+          "born": 1822
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "55FSkCsbfWQnhgmDcBtAT9",
+      "album": "Brahms: Symphony No.1",
+      "artists": [
+        "Johannes Brahms",
+        "Berliner Philharmoniker",
+        "Herbert von Karajan"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02707e593b9f4e0c416433d6f4",
+      "year": "1987",
+      "composers": [
+        {
+          "name": "Johannes Brahms",
+          "born": 1833
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "7yv4q24L2dT1NyN3GdAdZu",
+      "album": "Mendelssohn: Violin Concerto / Bruch: Violin Concerto / Scottish Fantasy",
+      "artists": [
+        "Kyung Wha Chung",
+        "Orchestre Symphonique de Montréal",
+        "Charles Dutoit",
+        "Royal Philharmonic Orchestra",
+        "Rudolf Kempe"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0276cc9861ee3c708f06be67ba",
+      "year": "1982",
+      "composers": [
+        {
+          "name": "Max Bruch",
+          "born": 1838
+        },
+        {
+          "name": "Felix Mendelssohn",
+          "born": 1809
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "3MZzmjN4P88M4IvM01ZtSb",
+      "album": "Canteloube: Chants d'Auvergne - Chausson: Poème de l'amour et de la mer, Op. 19",
+      "artists": [
+        "Joseph Canteloube",
+        "Victoria de los Ángeles",
+        "Ernest Chausson",
+        "Jean-Pierre Jacquillat",
+        "Orchestre Lamoureux"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0206749a52bdd1fbcce6a98a76",
+      "year": "2023",
+      "composers": [
+        {
+          "name": "Joseph Canteloube",
+          "born": 1879
+        },
+        {
+          "name": "Ernest Chausson",
+          "born": 1855
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "6gAcAeDt5sUJ4EL5aZ8XpC",
+      "album": "Chopin: The Complete Recordings",
+      "artists": [
+        "Frédéric Chopin",
+        "Dinu Lipatti"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0272acb1e663f5eb3f39d2c4f6",
+      "year": "2005",
+      "composers": [
+        {
+          "name": "Frédéric Chopin",
+          "born": 1810
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "6beqQKZ9CiKs8MHUuShzN3",
+      "album": "Chopin: Etudes; Préludes; Polonaises",
+      "artists": [
+        "Frédéric Chopin",
+        "Maurizio Pollini"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e027ab1b51f3a37b29b782b3e94",
+      "year": "1984",
+      "composers": [
+        {
+          "name": "Frédéric Chopin",
+          "born": 1810
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "65QpY5UxQtAKUBGqlxhvsF",
+      "album": "Christmas with the Sixteen",
+      "artists": [
+        "The Sixteen",
+        "Harry Christophers"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e8dcce0bf64efa066750659d",
+      "year": "2004",
+      "composers": [
+        {
+          "name": "Josquin des Prez",
+          "born": 1450
+        },
+        {
+          "name": "Johann Sebastian Bach",
+          "born": 1685
+        },
+        {
+          "name": "Benjamin Britten",
+          "born": 1913
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "32RxWhBU9xCJScUv5ZX9yf",
+      "album": "Delius: Florida Suite & Orchestral Works by Sir Thomas Beecham (Remastered 2022)",
+      "artists": [
+        "Frederick Delius",
+        "Sir Thomas Beecham",
+        "Royal Philharmonic Orchestra"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e027c76c77c1485462b1095c9d5",
+      "year": "2022",
+      "composers": [
+        {
+          "name": "Frederick Delius",
+          "born": 1862
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "5ojJE1im0lRnq8SNKPQddT",
+      "album": "Dvorák: Symphonies 7, 8 & 9 - American Suite",
+      "artists": [
+        "Antonín Dvořák",
+        "Libor Pesek/Royal Liverpool Philharmonic Orchestra",
+        "Libor Pešek",
+        "Royal Liverpool Philharmonic Orchestra"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021859424903b0c0563cd6935f",
+      "year": "2008",
+      "composers": [
+        {
+          "name": "Antonín Dvořák",
+          "born": 1841
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "6Le4CwapwenYDxSGux8998",
+      "album": "Elgar: Symphony No. 1, Op. 55 & Cello Concerto, Op. 85",
+      "artists": [
+        "Sir John Barbirolli",
+        "Hallé"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028b50c2afe575605d754b4d25",
+      "year": "2020",
+      "composers": [
+        {
+          "name": "Edward Elgar",
+          "born": 1857
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "0vEFWa1z6Lz1Xtg2itWQ3X",
+      "album": "Elgar: Symphony No. 2 & In the South",
+      "artists": [
+        "Edward Elgar",
+        "Richard Hickox",
+        "BBC National Orchestra of Wales"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a52a6ddb8433b322ff4c04a5",
+      "year": "2004",
+      "composers": [
+        {
+          "name": "Edward Elgar",
+          "born": 1857
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "5bE9xVTlVYE0N4147mcfb4",
+      "album": "Elgar: Cello Concerto, Op. 85 & Sea Pictures, Op. 37",
+      "artists": [
+        "Edward Elgar",
+        "Jacqueline du Pré",
+        "Janet Baker",
+        "Sir John Barbirolli",
+        "London Symphony Orchestra"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e025cce37df71816d4201ecb2a6",
+      "year": "1965",
+      "composers": [
+        {
+          "name": "Edward Elgar",
+          "born": 1857
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "2pS2J5uHihljcuevwgEhB0",
+      "album": "English String Music. Elgar: Introduction and Allegro & Serenade - Vaughan Williams: Greensleeves & Tallis Fantasias",
+      "artists": [
+        "Sir John Barbirolli",
+        "Sinfonia Of London"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02446af8fcb2660756fccd06e7",
+      "year": "2021",
+      "composers": [
+        {
+          "name": "Edward Elgar",
+          "born": 1857
+        },
+        {
+          "name": "Ralph Vaughan Williams",
+          "born": 1872
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "5YnrgLkxfGMHAio9tacX6u",
+      "album": "Rodrigo: Concierto de Aranjuez / Falla: Nights in the Gardens of Spain etc.",
+      "artists": [
+        "Manuel de Falla",
+        "Carlos Bonell",
+        "Huguette Tourangeau",
+        "Orchestre Symphonique de Montréal",
+        "Charles Dutoit",
+        "Alicia de Larrocha",
+        "London Philharmonic Orchestra",
+        "Rafael Frühbeck de Burgos"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e020d082659d3d7789201858fdb",
+      "year": "1984",
+      "composers": [
+        {
+          "name": "Joaquín Rodrigo",
+          "born": 1901
+        },
+        {
+          "name": "Manuel de Falla",
+          "born": 1876
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "0F4UefyCYoPn2y7lKrjMyJ",
+      "album": "Gershwin: Porgy & Bess",
+      "artists": [
+        "George Gershwin",
+        "Sir Simon Rattle"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e0cf8094f12f5d69d9a6fb22",
+      "year": "1989",
+      "composers": [
+        {
+          "name": "George Gershwin",
+          "born": 1898
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "0uQkBddQxyFfS7oC4ylGTT",
+      "album": "Harp Concertos",
+      "artists": [
+        "Marisa Robles",
+        "Academy of St. Martin in the Fields",
+        "Iona Brown"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02c163d41d48f83f321138de78",
+      "year": "1990",
+      "composers": [
+        {
+          "name": "George Frideric Handel",
+          "born": 1685
+        },
+        {
+          "name": "François-Adrien Boieldieu",
+          "born": 1775
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "1hSk2tQTT6rCOkYuUU9MId",
+      "album": "Schumann: Piano Concerto in A Minor, Op. 54 - Grieg: Piano Concerto in A Minor, Op. 16",
+      "artists": [
+        "Murray Perahia",
+        "Sir Colin Davis",
+        "Bavarian Radio Symphony Orchestra"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02f2359b4855c83983a4786b32",
+      "year": "1989",
+      "composers": [
+        {
+          "name": "Edvard Grieg",
+          "born": 1843
+        },
+        {
+          "name": "Robert Schumann",
+          "born": 1810
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "15eDPyIfckhVY32Hwgvoyd",
+      "album": "Grieg: Norwegian Dances",
+      "artists": [
+        "Edvard Grieg",
+        "Paavo Järvi"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02d7637e69d1886b0b4fa8af44",
+      "year": "2006",
+      "composers": [
+        {
+          "name": "Edvard Grieg",
+          "born": 1843
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "7J7iS5dY3OHzxViZQocM3C",
+      "album": "The Seasons",
+      "artists": [
+        "Alexander Glazunov",
+        "Edo de Waart",
+        "Minnesota Orchestra"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0277d90f6653e74a64eaace3cc",
+      "year": "1993",
+      "composers": [
+        {
+          "name": "Alexander Glazunov",
+          "born": 1865
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "50jqQ0Yqd6EVPRHe1oSvmH",
+      "album": "Handel: Messiah (The Famous 1946 Columbia Recording)",
+      "artists": [
+        "George Frideric Handel",
+        "Liverpool Philharmonic Orchestra",
+        "Sir Malcolm Sargent"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02960b423a226f21bcded11656",
+      "year": "1946",
+      "composers": [
+        {
+          "name": "George Frideric Handel",
+          "born": 1685
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "2oMlM3BcwyAyTNyTLQagqt",
+      "album": "Haydn, J.: The Creation",
+      "artists": [
+        "Joseph Haydn",
+        "English Baroque Soloists",
+        "John Eliot Gardiner"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e027c9b5020a603267fcbf3553b",
+      "year": "2006",
+      "composers": [
+        {
+          "name": "Joseph Haydn",
+          "born": 1732
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "5JtCSqtCZfNREJIQ1WYPk1",
+      "album": "Haydn: The London Symphonies - Nos. 95, 96, 98 & 102 - 104",
+      "artists": [
+        "Joseph Haydn",
+        "Royal Concertgebouw Orchestra",
+        "Sir Colin Davis"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021775b2837ddca19482ce2ec7",
+      "year": "1994",
+      "composers": [
+        {
+          "name": "Joseph Haydn",
+          "born": 1732
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "2M23zXfgdnFjp8nPa1f0iD",
+      "album": "Holst: The Planets, Op. 32",
+      "artists": [
+        "Gustav Holst",
+        "Sir Adrian Boult",
+        "London Philharmonic Orchestra"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02d62c385407d26e8eb30ff4eb",
+      "year": "1979",
+      "composers": [
+        {
+          "name": "Gustav Holst",
+          "born": 1874
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "6UJOa0dRNJrc9y8OUUH6qK",
+      "album": "Kern: Show Boat (Broadway Show Album)",
+      "artists": [
+        "Jerome Kern",
+        "John McGlinn/London Sinfonietta",
+        "John McGlinn",
+        "London Sinfonietta"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02287cf22a87b23ee8252ec2ca",
+      "year": "1989",
+      "composers": [
+        {
+          "name": "Jerome Kern",
+          "born": 1885
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "6f5MGpjGMWPJ3cM1QQyUzv",
+      "album": "Barber, Korngold, Walton: Violin Concertos",
+      "artists": [
+        "James Ehnes",
+        "Bramwell Tovey"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02767be2488b01a4e0821f98e7",
+      "year": "2006",
+      "composers": [
+        {
+          "name": "Erich Wolfgang Korngold",
+          "born": 1897
+        },
+        {
+          "name": "Samuel Barber",
+          "born": 1910
+        },
+        {
+          "name": "William Walton",
+          "born": 1902
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "04EPY6tPLP2SEiHmsPZn7s",
+      "album": "Lehár: The Merry Widow",
+      "artists": [
+        "Franz Lehár",
+        "Anton Niessner",
+        "Emmy Loose",
+        "Erich Kunz",
+        "Elisabeth Schwarzkopf",
+        "Nicolai Gedda",
+        "Otakar Kraus",
+        "Josef Schmidinger",
+        "Philharmonia Orchestra",
+        "Philharmonia Chorus"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e9874bd328839daea83733c6",
+      "year": "2003",
+      "composers": [
+        {
+          "name": "Franz Lehár",
+          "born": 1870
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "5alwIsRJqqL1uYl5bA0OrB",
+      "album": "Liszt: Piano Works",
+      "artists": [
+        "Franz Liszt",
+        "Jorge Bolet"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02ac347aef6bb9314c4c82ce43",
+      "year": "2001",
+      "composers": [
+        {
+          "name": "Franz Liszt",
+          "born": 1811
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "7cErGib5476Zp0vKglVId8",
+      "album": "Mahler: Symphony No. 2 \"Resurrection\"",
+      "artists": [
+        "Gustav Mahler",
+        "Sir Simon Rattle",
+        "City of Birmingham Symphony Orchestra"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0284a1c5cceec70acf5704d793",
+      "year": "1987",
+      "composers": [
+        {
+          "name": "Gustav Mahler",
+          "born": 1860
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "0l0zR3qr2A076PB9knuQYd",
+      "album": "Mahler: Symphony No. 4 (Remastered)",
+      "artists": [
+        "Gustav Mahler",
+        "George Szell",
+        "The Cleveland Orchestra"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02aea60a19cd8ed9043a7116fe",
+      "year": "2018",
+      "composers": [
+        {
+          "name": "Gustav Mahler",
+          "born": 1860
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "6Ty9zvOL8mWxaeFQSCShlw",
+      "album": "Mahler: Symphony No. 5",
+      "artists": [
+        "Gustav Mahler",
+        "Sir John Barbirolli",
+        "New Philharmonia Orchestra"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e029411b70ccc1ef202567ad5cc",
+      "year": "1970",
+      "composers": [
+        {
+          "name": "Gustav Mahler",
+          "born": 1860
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "2NMqSbSEmbj8eV6ercH7W8",
+      "album": "Mahler: Symphony No. 9 in D Major",
+      "artists": [
+        "Gustav Mahler",
+        "Bernard Haitink",
+        "Royal Concertgebouw Orchestra"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02189d74322cbcb17bf9c5ccbd",
+      "year": "2025",
+      "composers": [
+        {
+          "name": "Gustav Mahler",
+          "born": 1860
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "5Gnjlpe2KtIhQUQYMFCj7t",
+      "album": "Mozart: Symphonies Nos.25 & 29; Serenata Notturna",
+      "artists": [
+        "Wolfgang Amadeus Mozart",
+        "English Chamber Orchestra",
+        "Benjamin Britten"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0246a33bedcfa63a93544fdc9c",
+      "year": "1991",
+      "composers": [
+        {
+          "name": "Wolfgang Amadeus Mozart",
+          "born": 1756
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "78twcMTl1Dbv6j0whJieZw",
+      "album": "Mozart: Don Giovanni",
+      "artists": [
+        "Wolfgang Amadeus Mozart",
+        "Carlo Maria Giulini",
+        "Philharmonia Orchestra"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02d7d911080bb952660a60157d",
+      "year": "1961",
+      "composers": [
+        {
+          "name": "Wolfgang Amadeus Mozart",
+          "born": 1756
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "2kHbURcUEHZ0DNetSIN1Zo",
+      "album": "Mozart: Die Zauberflöte",
+      "artists": [
+        "Wolfgang Amadeus Mozart",
+        "Mahler Chamber Orchestra",
+        "Claudio Abbado"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0294a4738aa0ba9d5c12572b14",
+      "year": "2005",
+      "composers": [
+        {
+          "name": "Wolfgang Amadeus Mozart",
+          "born": 1756
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "4OSwcIRDstTa9wEBozbniq",
+      "album": "Mozart: Le nozze di Figaro",
+      "artists": [
+        "Wolfgang Amadeus Mozart",
+        "Carlo Maria Giulini",
+        "Philharmonia Orchestra"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e027d5114bd08aba99614af1d78",
+      "year": "1961",
+      "composers": [
+        {
+          "name": "Wolfgang Amadeus Mozart",
+          "born": 1756
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "6PhmJxSmwwETZwdwtbtuHW",
+      "album": "Mozart: Horn Concertos Nos. 1 - 4 & Quintet for Piano and Winds, K. 452",
+      "artists": [
+        "Wolfgang Amadeus Mozart",
+        "Dennis Brain",
+        "Philharmonia Orchestra",
+        "Herbert von Karajan"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02c03cedde3be6ccfb3c7cdd57",
+      "year": "2009",
+      "composers": [
+        {
+          "name": "Wolfgang Amadeus Mozart",
+          "born": 1756
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "1wEEdVE1kqXXekpU6MTdg7",
+      "album": "New Year's Concert in Vienna 1987",
+      "artists": [
+        "Wiener Philharmoniker",
+        "Johann Strauss II",
+        "Herbert von Karajan",
+        "Josef Strauss",
+        "Kathleen Battle",
+        "Johann Strauss I"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02aa733c293df34195517b985c",
+      "year": "1987",
+      "composers": [
+        {
+          "name": "Johann Strauss II",
+          "born": 1825
+        },
+        {
+          "name": "Josef Strauss",
+          "born": 1827
+        },
+        {
+          "name": "Johann Strauss I",
+          "born": 1804
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "03myWpJQGTLWiTSAxvpzKs",
+      "album": "Prokofiev: Romeo and Juliet",
+      "artists": [
+        "Sergei Prokofiev",
+        "André Previn",
+        "London Symphony Orchestra"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e020fef6d80e6cdfe45c947057a",
+      "year": "1973",
+      "composers": [
+        {
+          "name": "Sergei Prokofiev",
+          "born": 1891
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "1qcysYI3uUqBfI6UWYvyVh",
+      "album": "Puccini: La bohème",
+      "artists": [
+        "Giacomo Puccini",
+        "Victoria de los Ángeles",
+        "Jussi Björling",
+        "RCA Victor Orchestra",
+        "Sir Thomas Beecham"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e025f87b21be77bc2653677ea61",
+      "year": "2023",
+      "composers": [
+        {
+          "name": "Giacomo Puccini",
+          "born": 1858
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "7eSbYerP9dGEjujwt0mm7N",
+      "album": "Puccini: La rondine",
+      "artists": [
+        "Giacomo Puccini",
+        "Angela Gheorghiu",
+        "Roberto Alagna",
+        "London Symphony Orchestra",
+        "Antonio Pappano"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e024cfed1d0a19cc30337bf5b4e",
+      "year": "1997",
+      "composers": [
+        {
+          "name": "Giacomo Puccini",
+          "born": 1858
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "2l8HDEuUM2McRE6xCtWiJ7",
+      "album": "Puccini: Tosca (1953 - de Sabata) - Callas Remastered",
+      "artists": [
+        "Giacomo Puccini",
+        "Maria Callas",
+        "Orchestra del Teatro alla Scala, Milano",
+        "Victor de Sabata"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e023cb8e3cdd097876bc49e7c38",
+      "year": "1953",
+      "composers": [
+        {
+          "name": "Giacomo Puccini",
+          "born": 1858
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "6LC6CJTFAcfCNnan4AncdY",
+      "album": "Rachmaninoff: Piano Concertos 1-4; Paganini Rhapsody",
+      "artists": [
+        "Sergei Rachmaninoff",
+        "Stephen Hough",
+        "Dallas Symphony Orchestra",
+        "Andrew Litton"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028c896e1466a828f6a1f53cc8",
+      "year": "2004",
+      "composers": [
+        {
+          "name": "Sergei Rachmaninoff",
+          "born": 1873
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "7BmrsvjNfaXzXb6IvKWby7",
+      "album": "Rachmaninov: Symphony No. 2, Op. 27",
+      "artists": [
+        "Sergei Rachmaninoff",
+        "André Previn",
+        "London Symphony Orchestra"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028b4762b3c05ddf53babdb87c",
+      "year": "1973",
+      "composers": [
+        {
+          "name": "Sergei Rachmaninoff",
+          "born": 1873
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "021fHMPCigfwXLcKXRAFME",
+      "album": "Rachmaninov: Piano Concerto No. 4 - Ravel: Piano Concerto in G Major",
+      "artists": [
+        "Arturo Benedetti Michelangeli",
+        "Ettore Gracis",
+        "Philharmonia Orchestra"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0233a30d67ba9d2b40266a5dba",
+      "year": "2000",
+      "composers": [
+        {
+          "name": "Maurice Ravel",
+          "born": 1875
+        },
+        {
+          "name": "Sergei Rachmaninoff",
+          "born": 1873
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "0WYg0YfdTZxROBvnogZWdo",
+      "album": "Ravel: Boléro, Rapsodie espagnole / Mussorgsky: Pictures at an Exhibition",
+      "artists": [
+        "Berliner Philharmoniker",
+        "Herbert von Karajan"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028576f8006c13cbf852fc0f68",
+      "year": "1987",
+      "composers": [
+        {
+          "name": "Maurice Ravel",
+          "born": 1875
+        },
+        {
+          "name": "Modest Mussorgsky",
+          "born": 1839
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "0ZcPAe1hhWpGkqo5fzRHsC",
+      "album": "Respighi: Pines of Rome; Fountains of Rome & Debussy: La mer",
+      "artists": [
+        "Fritz Reiner",
+        "Chicago Symphony Orchestra"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e029b36460d4fe304afd5e3b82d",
+      "year": "1960",
+      "composers": [
+        {
+          "name": "Ottorino Respighi",
+          "born": 1879
+        },
+        {
+          "name": "Claude Debussy",
+          "born": 1862
+        }
+      ],
+      "genre": "classical",
+      "featuredWeek": 20261116,
+      "tracks": [
+        {
+          "id": "348o7lfm1MqSZ6ad3zPxfF",
+          "name": "La mer: From Dawn Till Noon on the Sea - Redbook Stereo"
+        },
+        {
+          "id": "3HLM1TeuBZQ7D7hJzNUNmj",
+          "name": "La mer: Play of the Waves - Redbook Stereo"
+        },
+        {
+          "id": "4LIn5oL4vGTmAafHIyjUit",
+          "name": "La mer: Dialogue of the Wind and the Sea - Redbook Stereo"
+        },
+        {
+          "id": "3fIA5SIJb2NmkFM4zLhc0a",
+          "name": "Fountains of Rome: The Fountain of Valle Giulia at Dawn - Redbook Stereo"
+        },
+        {
+          "id": "6zK0KE9869WbV26qfJDHYP",
+          "name": "Fountains of Rome: The Triton Fountain at Morning - Redbook Stereo"
+        },
+        {
+          "id": "6iXEL2cB8rJNcdQNtWhR0i",
+          "name": "Fountains of Rome: The Fountain of Trevi at Midday - Redbook Stereo"
+        },
+        {
+          "id": "30yQ86MwVIyQDS7VNknzYQ",
+          "name": "Fountains of Rome: The Villa Medici Fountain at Sunset - Redbook Stereo"
+        },
+        {
+          "id": "3G9Q9fJ71yLAVBMZjdMaZg",
+          "name": "Pines of Rome: The Pines of the Villa Borghese - Redbook Stereo"
+        },
+        {
+          "id": "59f63skvGkSNKPH74LtnLA",
+          "name": "Pines of Rome: Pines Near a Catacomb - Redbook Stereo"
+        },
+        {
+          "id": "7t3gERXdJ6X0627lE7WJpH",
+          "name": "Pines of Rome: The Pines of the Janiculum - Redbook Stereo"
+        },
+        {
+          "id": "3xrXO8lIooRhhORWzPZfdx",
+          "name": "Pines of Rome: The Pines of the Appian Way - Redbook Stereo"
+        }
+      ]
+    },
+    {
+      "albumId": "0Bdr9lDY3PgonI1Xjnf5Yw",
+      "album": "Rimsky-Korsakov: Scheherazade",
+      "artists": [
+        "Mariinsky Orchestra",
+        "Nikolai Rimsky-Korsakov",
+        "Valery Gergiev",
+        "Alexander Borodin",
+        "Mily Balakirev"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02668f270d95adf9a3e982269f",
+      "year": "2002",
+      "composers": [
+        {
+          "name": "Nikolai Rimsky-Korsakov",
+          "born": 1844
+        },
+        {
+          "name": "Alexander Borodin",
+          "born": 1833
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "3SMC8dmGw2plgsYvNQJfVg",
+      "album": "Rossini: Overtures",
+      "artists": [
+        "Gioachino Rossini",
+        "Carlo Maria Giulini"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02f6231e836618cbfb87945c0a",
+      "year": "2004",
+      "composers": [
+        {
+          "name": "Gioachino Rossini",
+          "born": 1792
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "28R237Cmi8jdSse3LF1PUZ",
+      "album": "Saint-Saëns: Symphony No. 3 \"Organ Symphony\", The Carnival of the Animals, Danse macabre & Bacchanale from Samson and Delilah",
+      "artists": [
+        "Camille Saint-Saëns",
+        "Louis Frémaux",
+        "City of Birmingham Symphony Orchestra"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0224b00a62c406b58649072fe8",
+      "year": "2007",
+      "composers": [
+        {
+          "name": "Camille Saint-Saëns",
+          "born": 1835
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "2IQ7N3jRpuRCsdMXiG4vbq",
+      "album": "Clifford Curzon & Vienna Octet: Piano Quintet in a Major, D. 667, \"Trout Quintet\"",
+      "artists": [
+        "Franz Schubert",
+        "Sir Clifford Curzon",
+        "Vienna Octet"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a79d74d924b41f8b8f03fcf4",
+      "year": "2014",
+      "composers": [
+        {
+          "name": "Franz Schubert",
+          "born": 1797
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "2RTln55Jwbjb6XW0H9BH2y",
+      "album": "Schubert: Symphonies Nos. 3, 5 & 6",
+      "artists": [
+        "Franz Schubert",
+        "Royal Philharmonic Orchestra",
+        "Sir Thomas Beecham"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e94f805032bd5dd69e11cc7d",
+      "year": "1999",
+      "composers": [
+        {
+          "name": "Franz Schubert",
+          "born": 1797
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "64PvBqkk1iEjSUXezgznc8",
+      "album": "Schumann: Symphonies Nos.1-4 - Overture, Scherzo & Finale",
+      "artists": [
+        "Robert Schumann",
+        "Wolfgang Sawallisch"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02996e69a14778fa70d90deb69",
+      "year": "1973",
+      "composers": [
+        {
+          "name": "Robert Schumann",
+          "born": 1810
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "2O2gweH5qLl3mRnZaEQ5Gk",
+      "album": "Shostakovich: Symphony No.1; other short works",
+      "artists": [
+        "Dmitri Shostakovich",
+        "Andre Kostelanetz & His Orchestra",
+        "Eugene Ormandy",
+        "The Philadelphia Orchestra",
+        "Columbia Symphony Orchestra"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e824db7ff9fe9c7f803f4d35",
+      "year": "1960",
+      "composers": [
+        {
+          "name": "Dmitri Shostakovich",
+          "born": 1906
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "3QHK8vgaI7ot2jeEvZySL0",
+      "album": "Shostakovich: Piano Concertos Nos. 1 & 2 etc",
+      "artists": [
+        "Dmitri Shostakovich",
+        "Dmitri Alexeev/Jerzy Maksymiuk",
+        "Jerzy Maksymiuk"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02bf31bcfc6a87f49c72f5afab",
+      "year": "2007",
+      "composers": [
+        {
+          "name": "Dmitri Shostakovich",
+          "born": 1906
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "3VlihKkmTeZQrT2Iix1HaS",
+      "album": "R. Strauss Four Last Songs",
+      "artists": [
+        "Richard Strauss",
+        "Elisabeth Schwarzkopf",
+        "George Szell",
+        "Radio-Sinfonie-Orchester Berlin"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b276c906e4e1dc4a18f1173d",
+      "year": "2018",
+      "composers": [
+        {
+          "name": "Richard Strauss",
+          "born": 1864
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "58iYPFNfhAJfNMMaKedxWM",
+      "album": "Die Fledermaus",
+      "artists": [
+        "Hilde Gueden",
+        "Waldemar Kmentt",
+        "Wiener Philharmoniker",
+        "Herbert von Karajan"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a1b75f4cdeed5301cd07cc75",
+      "year": "2011",
+      "composers": [
+        {
+          "name": "Johann Strauss II",
+          "born": 1825
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "2F3ZZpM4dbmh592BnDOmGZ",
+      "album": "Strauss: Der Rosenkavalier",
+      "artists": [
+        "Elisabeth Schwarzkopf",
+        "Otto Edelmann",
+        "Christa Ludwig"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e021ac0473e99c5cbd29517e13b",
+      "year": "2013",
+      "composers": [
+        {
+          "name": "Richard Strauss",
+          "born": 1864
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "1jXDwpgAHt3G7j4IjyrR1h",
+      "album": "Strauss, R.: Orchestral Works",
+      "artists": [
+        "Richard Strauss",
+        "Herbert von Karajan",
+        "Berliner Philharmoniker"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e022311dd7553aba333d16dcb91",
+      "year": "2011",
+      "composers": [
+        {
+          "name": "Richard Strauss",
+          "born": 1864
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "35dkwtH35tW2tRyTJk8iW3",
+      "album": "John Tavener: The Protecting Veil",
+      "artists": [
+        "Steven Isserlis",
+        "London Symphony Orchestra",
+        "Gennady Rozhdestvensky"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02ed1a9c8a1ee6317d3aeaf008",
+      "year": "1992",
+      "composers": [
+        {
+          "name": "John Tavener",
+          "born": 1944
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "4KVK2jUt17GSCNincFWgXE",
+      "album": "Tchaikovsky / Wieniawski / Sibelius: Violin Concertos (Heifetz) (1935-1937)",
+      "artists": [
+        "Jascha Heifetz",
+        "London Philharmonic Orchestra"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e023b3200f50f5afd5e55ffd65a",
+      "year": "2001",
+      "composers": [
+        {
+          "name": "Pyotr Ilyich Tchaikovsky",
+          "born": 1840
+        },
+        {
+          "name": "Jean Sibelius",
+          "born": 1865
+        },
+        {
+          "name": "Henryk Wieniawski",
+          "born": 1835
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "6sruyMSNa4aTz9x7RCeD1D",
+      "album": "Tchaikovsky: Symphonies Nos.4, 5 & 6 \"Pathetique\"",
+      "artists": [
+        "Pyotr Ilyich Tchaikovsky",
+        "Leningrad Philharmonic Orchestra",
+        "Evgeny Mravinsky"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02ef43dd23246bb0bb7b98a96d",
+      "year": "1961",
+      "composers": [
+        {
+          "name": "Pyotr Ilyich Tchaikovsky",
+          "born": 1840
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "5Y1GIN1DjIohANcqm3JPSe",
+      "album": "Trumpet & Organ",
+      "artists": [
+        "Maurice André",
+        "Jane Parker-Smith",
+        "Alfred Mitterhofer",
+        "Hedwig Bilgram"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02571127cb47d5bd6d5c2834e5",
+      "year": "1987",
+      "composers": [
+        {
+          "name": "Johann Sebastian Bach",
+          "born": 1685
+        },
+        {
+          "name": "Marc-Antoine Charpentier",
+          "born": 1643
+        },
+        {
+          "name": "Tomaso Albinoni",
+          "born": 1671
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "4ISM5t59t6NJ7jZuqIhEJl",
+      "album": "Tchaikovsky: Eugene Onegin. Georg Solti",
+      "artists": [
+        "Pyotr Ilyich Tchaikovsky",
+        "Robert Tear",
+        "Ileana Cotrubas",
+        "Victor Braun"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02bfff2448c86e747147a0ae05",
+      "year": "2024",
+      "composers": [
+        {
+          "name": "Pyotr Ilyich Tchaikovsky",
+          "born": 1840
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "4E0swLUUZQcSoRud3K1szD",
+      "album": "British Light Music Classics, Vol. 1",
+      "artists": [
+        "The New London Orchestra",
+        "Eric Coates",
+        "Ronald Corp",
+        "Geoffrey Toye",
+        "Anthony Collins",
+        "Robert Farnon",
+        "Sydney Baynes",
+        "Frederic Curzon",
+        "Wilhelm Meyer Lutz",
+        "Ronald Binge"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e022bef66da50d3b62a38692d9b",
+      "year": "1996",
+      "composers": [
+        {
+          "name": "Eric Coates",
+          "born": 1886
+        },
+        {
+          "name": "Charles Williams",
+          "born": 1893
+        },
+        {
+          "name": "Meyer Lutz",
+          "born": 1829
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "7feNtVabPanUXWWbq2SmBL",
+      "album": "The Piano Album",
+      "artists": [
+        "Stephen Hough"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028e8ccbffba982af0c7ba61ea",
+      "year": "1993",
+      "composers": [
+        {
+          "name": "Moritz Moszkowski",
+          "born": 1854
+        },
+        {
+          "name": "Ignacy Jan Paderewski",
+          "born": 1860
+        },
+        {
+          "name": "Carl Czerny",
+          "born": 1791
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "6qbijL4LZbQ1V2ItQk3113",
+      "album": "Wagner, R.: Parsifal (Bayreuth / Knappertsbusch) (1951)",
+      "artists": [
+        "Richard Wagner",
+        "Hans Knappertsbusch",
+        "Bayreuth Festival Orchestra"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0269108505e1c57dd3c0a1a099",
+      "year": "2003",
+      "composers": [
+        {
+          "name": "Richard Wagner",
+          "born": 1813
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "73gLdpoIeuqIHVLQAs25N1",
+      "album": "Wagner: The \"Ring\" Without Words (Orchestral Highlights from the Ring Cycle)",
+      "artists": [
+        "Richard Wagner",
+        "Lorin Maazel",
+        "Berliner Philharmoniker"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a99bef508d47c13868e74f90",
+      "year": "1988",
+      "composers": [
+        {
+          "name": "Richard Wagner",
+          "born": 1813
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "1zxXuCUU9VDTUfJPAhl7gC",
+      "album": "Wagner: Der fliegende Holländer (Live at the Bayreuth Festival, 1955)",
+      "artists": [
+        "Richard Wagner",
+        "Bayreuth Festival Orchestra",
+        "Joseph Keilberth"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02ab644bfe856216f6400dd845",
+      "year": "1973",
+      "composers": [
+        {
+          "name": "Richard Wagner",
+          "born": 1813
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "7BOMjhsDdHh2G29bhjGzOI",
+      "album": "Verdi: La traviata (Live, Milan 1955)",
+      "artists": [
+        "Giuseppe Verdi",
+        "Maria Callas",
+        "Carlo Maria Giulini",
+        "Orchestra e Coro del Teatro alla Scala di Milano,",
+        "Giuseppe Di Stefano",
+        "Ettore Bastianini",
+        "Orchestra del Teatro alla Scala, Milano"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02c2d08db8f6bd1842f28db60c",
+      "year": "1997",
+      "composers": [
+        {
+          "name": "Giuseppe Verdi",
+          "born": 1813
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "1ShJzTZSPcqGAl5Gy3FurI",
+      "album": "Villa-Lobos: Bachianas Brasileiras",
+      "artists": [
+        "Heitor Villa-Lobos",
+        "Victoria de los Angeles/Heitor Villa-Lobos"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e026902f307b79ee0ab50b41821",
+      "year": "1987",
+      "composers": [
+        {
+          "name": "Heitor Villa-Lobos",
+          "born": 1887
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "48CzJlbgzkDUv3acyfZhVp",
+      "album": "Vivaldi: The Four Seasons and Three Concertos for Violin and Orchestra",
+      "artists": [
+        "Antonio Vivaldi",
+        "Giuliano Carmignola",
+        "Andrea Marcon",
+        "Venice Baroque Orchestra"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02c8417410e726a0fcc77641da",
+      "year": "2000",
+      "composers": [
+        {
+          "name": "Antonio Vivaldi",
+          "born": 1678
+        }
+      ],
+      "genre": "classical"
+    },
+    {
+      "albumId": "4rwGAiYeuiTs4WeniBPMbX",
+      "album": "The Best of Andreas Scholl",
+      "artists": [
+        "Andreas Scholl"
+      ],
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02c006f8ad522668aa81236a12",
+      "year": "2006",
+      "composers": [
+        {
+          "name": "George Frideric Handel",
+          "born": 1685
+        },
+        {
+          "name": "Antonio Vivaldi",
+          "born": 1678
+        },
+        {
+          "name": "Giulio Caccini",
+          "born": 1551
+        }
+      ],
+      "genre": "classical"
     }
   ],
   "recordsSort": "year",
@@ -12566,5 +14508,7 @@
       "My Favorite Things"
     ],
     "secs": 2467
-  }
+  },
+  "classicalSeeded": true,
+  "recordsGenre": "jazz"
 }

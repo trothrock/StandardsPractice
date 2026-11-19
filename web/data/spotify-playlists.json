@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-11-18",
+  "lastSyncDate": "2026-11-19",
   "playlists": [
     {
       "name": "Standards Practice",
@@ -352,6 +352,17 @@
           "albumId": "0nTTEAhCZsbbeplyDMIFuA",
           "albumImage": "https://i.scdn.co/image/ab67616d00001e02b6bd44cf06bf8f4d5ce1e080",
           "addedAt": "2026-11-17T13:16:59Z"
+        },
+        {
+          "trackId": "6iae60XLrvUIELZ2Ynymsd",
+          "name": "Prelude to a Kiss",
+          "artists": [
+            "Duke Ellington"
+          ],
+          "album": "Ellington Indigos (Expanded Edition)",
+          "albumId": "5BymHphSwXImKUTljcMJvu",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e02160aa011e35301c4fdff9d78",
+          "addedAt": "2026-11-19T04:05:53Z"
         }
       ]
     },

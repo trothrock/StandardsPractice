@@ -1013,6 +1013,63 @@
           "song": "Stompin' at the Savoy"
         }
       ],
+      "filled": true,
+      "removedOn": "2026-11-19"
+    },
+    {
+      "date": "2026-11-19",
+      "id": "2XR1xafNoH2jJTsPdpyOCa",
+      "name": "Daily Standards – Nov 19, 2026",
+      "tracks": [
+        {
+          "trackId": "1FGP7KqNANyPi10M3PkFtY",
+          "name": "Bags' Groove",
+          "artists": [
+            "Milt Jackson"
+          ],
+          "song": "Bags' Groove"
+        },
+        {
+          "trackId": "2dC71mbRBTewkyeHTXPzGz",
+          "name": "Lady Bird (Live) - Live At Cafe Bohemia, NY/1955 / Rudy Van Gelder Edition/2001",
+          "artists": [
+            "Art Blakey & The Jazz Messengers"
+          ],
+          "song": "Lady Bird"
+        },
+        {
+          "trackId": "7vBevujPxtjaG9l5gkAjW7",
+          "name": "Don't Blame Me",
+          "artists": [
+            "Ethel Waters"
+          ],
+          "song": "Don't Blame Me"
+        },
+        {
+          "trackId": "0T1EaGm6b9eM7xBf4F1hlc",
+          "name": "Maiden Voyage - Remastered 1999/Rudy Van Gelder Edition",
+          "artists": [
+            "Herbie Hancock"
+          ],
+          "song": "Maiden Voyage"
+        },
+        {
+          "trackId": "3bT0UkPPSIZAAWZcro6QvP",
+          "name": "All Of You - Live At The London House, Chicago, 1958",
+          "artists": [
+            "Sarah Vaughan"
+          ],
+          "song": "All of You"
+        },
+        {
+          "trackId": "1YQWosTIljIvxAgHWTp7KP",
+          "name": "Take Five",
+          "artists": [
+            "The Dave Brubeck Quartet"
+          ],
+          "song": "Take Five"
+        }
+      ],
       "filled": true
     }
   ]
