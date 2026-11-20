@@ -10071,7 +10071,7 @@
     "weekStart": 20261116,
     "key": "A"
   },
-  "exitChecklistOpen": true,
+  "exitChecklistOpen": false,
   "exitChecklistDetailOpen": false,
   "practiceFocusMigrated": true,
   "repertoireFocusMigrated": true,

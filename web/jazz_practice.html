@@ -383,6 +383,8 @@
   .listen-thumb.player-photo { font-size: 16px; }
   .album-feature-art.player-photo { font-size: 44px; flex-shrink: 0; }
   .player-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .album-week-pair + .album-week-pair { border-top: 1px solid var(--border); }
+  .records-genre { margin-bottom: 16px; }
   .album-week-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr)); }
   .album-feature { display: flex; align-items: flex-start; gap: 20px; padding: 20px; }
   .album-feature-era { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: var(--gold2); margin-bottom: 6px; }
@@ -694,7 +696,7 @@
     </div>
     <div id="panel-records" class="panel">
       <div class="panel-title">Records</div>
-      <div class="panel-sub">New albums are chosen at random each Monday</div>
+      <div class="panel-sub">New albums of the week are chosen at random each Monday</div>
       <div id="records-body"></div>
     </div>
     <div id="panel-players" class="panel">
@@ -767,6 +769,10 @@
         <div class="settings-row">
           <div><div class="label">Listening goal per recording</div><div class="sub">Spotify plays each reference recording needs to fill its progress bar on the song page</div></div>
           <input type="number" id="listening-goal" min="1" max="500" onchange="setListeningGoal()">
+        </div>
+        <div class="settings-row">
+          <div><div class="label">Listening calendar</div><div class="sub">Show the calendar of days with plays of library songs on the Listening tab</div></div>
+          <label class="toggle-switch"><input type="checkbox" id="listening-calendar-toggle" onchange="toggleListeningCalendar(this)"><span class="toggle-slider"></span></label>
         </div>
       </div>
       <div class="section">
@@ -1343,6 +1349,7 @@
 </div>
 
 <script src="jazz_data.js"></script>
+<script src="classical_data.js"></script>
 <script>
 // ALL_SONGS and PRIORITY_ORDER are loaded from jazz_data.js
 
@@ -2150,6 +2157,14 @@ function initDB() {
     db.records = [...(featured.album ? [{ ...featured, featuredWeek:weekStart }] : []), ...(db.albumBacklog||[])];
     db.albumOfWeek = featured.album ? { albumId:featured.albumId, weekStart } : null;
     delete db.albumBacklog;
+    saveDB(db);
+  }
+  // Classical records start with Classic FM's must-own list, added once so removed albums stay removed
+  if(!db.classicalSeeded && typeof CLASSICAL_SEED!=='undefined') {
+    if(!db.records) db.records = [];
+    const have = new Set(db.records.map(a => a.albumId));
+    CLASSICAL_SEED.filter(a => !have.has(a.albumId)).forEach(a => db.records.push({ ...a, genre:'classical', composers:a.composers.map(c => ({ ...c })) }));
+    db.classicalSeeded = true;
     saveDB(db);
   }
   // There used to be a single album of the week, which keeps its week in the slot for its era
@@ -3725,14 +3740,52 @@ function listenThumb(url, albumId, trackId) {
 // Records: db.records holds the albums to choose from, and db.albumOfWeek holds the current pick and
 // its week for each era. The first draw of each Monday-start week picks at random among the era's
 // albums without a featuredWeek. Once all have one they're cleared to start over, avoiding a repeat
-// of last week. An album with no year belongs to neither era, so it waits until one is added.
+// of last week. A jazz album's era is set by its year, a classical album's by when its oldest composer
+// was born. An album without that belongs to neither era, so it waits until it's added.
 let albumPlays = null;
 let albumSearch = { open:false, q:'', results:null, error:null, searching:false };
-const RECORD_ERAS = [['classic','CLASSIC','released before 2000'],['contemporary','CONTEMPORARY','released in 2000 or later']];
+// [era, label, what belongs there, name in a sentence]
+const RECORD_ERAS = [
+  ['classic','JAZZ · CLASSIC','a jazz album released before 2000','classic jazz'],
+  ['contemporary','JAZZ · CONTEMPORARY','a jazz album released in 2000 or later','contemporary jazz'],
+  ['classical-classic','CLASSICAL','a classical album by a composer born before 1900','classic classical'],
+  ['classical-contemporary','CLASSICAL · CONTEMPORARY','a classical album by composers born in 1900 or later','contemporary classical'],
+];
+const RECORD_GENRES = [['jazz','Jazz'],['classical','Classical']];
+const isClassical = a => a?.genre==='classical';
+const recordGenre = a => isClassical(a) ? 'classical' : 'jazz';
+function oldestComposerBorn(album) {
+  const years = (album.composers||[]).map(c => Number(c.born)).filter(Boolean);
+  return years.length ? Math.min(...years) : null;
+}
 function recordEra(album) {
-  const year = Number(album?.year);
+  if(!album) return null;
+  if(isClassical(album)) {
+    const born = oldestComposerBorn(album);
+    return born ? (born < 1900 ? 'classical-classic' : 'classical-contemporary') : null;
+  }
+  const year = Number(album.year);
   return year ? (year < 2000 ? 'classic' : 'contemporary') : null;
 }
+// Composers are matched ignoring accents and case, by full name or, when only one composer has it, by last name
+const composerKey = s => String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+const composerLast = name => composerKey(name).replace(/\s+(i|ii|iii)$/,'').split(' ').pop();
+function lookupComposer(name) {
+  const key = composerKey(name), names = Object.keys(typeof COMPOSER_BIRTHS==='undefined' ? {} : COMPOSER_BIRTHS);
+  const exact = names.find(n => composerKey(n)===key);
+  if(exact) return { name:exact, born:COMPOSER_BIRTHS[exact] };
+  const byLast = names.filter(n => composerLast(n)===key);
+  return byLast.length===1 ? { name:byLast[0], born:COMPOSER_BIRTHS[byLast[0]] } : null;
+}
+// Spotify lists a classical album's composers among its artists, ahead of the performers
+function composersFromArtists(artists) {
+  return (artists||[]).map(n => { const c = lookupComposer(n); return c && composerKey(c.name)===composerKey(n) ? c : null; }).filter(Boolean);
+}
+function albumPerformers(a) {
+  const composers = new Set((a.composers||[]).map(c => composerKey(c.name)));
+  return (a.artists||[]).filter(n => !composers.has(composerKey(n)));
+}
+const composerNames = a => (a.composers||[]).map(c => c.name).join(', ');
 function currentAlbumOfWeek(db, era, exclude) {
   const week = weekStartInt(todayInt()), records = (db.records||[]).filter(a => recordEra(a)===era), cur = db.albumOfWeek?.[era];
   const album = cur && records.find(a => a.albumId===cur.albumId);
@@ -3776,11 +3829,6 @@ function albumSongPlays(album, from = 0) {
   });
   return counts;
 }
-// A full play is every song on the album played once, so the count is that of its least-played song
-function fullAlbumPlays(album, weekStart) {
-  const from = weekStart ? new Date(Math.floor(weekStart/10000), Math.floor((weekStart%10000)/100)-1, weekStart%100).getTime() : 0;
-  return Math.min(...albumSongPlays(album, from));
-}
 // An album's songs are fetched once and kept on its record. A failed fetch isn't retried until the
 // Listening tab or the album's page is next opened.
 const albumTracksLoading = new Set(), albumTracksFailed = new Set();
@@ -3794,20 +3842,16 @@ async function loadAlbumTracks(albumId) {
   if(r?.ok && r.tracks?.length) {
     if(item) { item.tracks = r.tracks; saveDB(db); }
   } else albumTracksFailed.add(albumId);
-  const slot = document.getElementById('album-week-slot');
-  if(slot) slot.innerHTML = albumOfWeekHTML(getDB());
   drawAlbumDetail(albumId);
-}
-function albumPlaysLabel(album, weekStart) {
-  if(!album.tracks?.length) {
-    loadAlbumTracks(album.albumId);
-    return albumTracksFailed.has(album.albumId) ? "Couldn't load the album's songs" : 'Counting plays…';
-  }
-  const n = fullAlbumPlays(album, weekStart);
-  return n ? `${n} full play${n===1?'':'s'} this week` : 'No full plays yet this week';
 }
 // With editableYear, the year can be clicked to correct it (see editRecordYear)
 function albumMeta(a, editableYear) {
+  if(isClassical(a)) {
+    const who = [composerNames(a) || 'Composer unknown', albumPerformers(a).join(', ')].filter(Boolean).map(escHTML);
+    if(!editableYear) return [...who, a.year && escHTML(a.year)].filter(Boolean).join(' · ');
+    const year = `<span class="album-year" title="Click to correct the year" onclick="editRecordYear(this,'${escHTML(a.albumId)}')">${a.year ? escHTML(a.year) : 'Add year'}</span>`;
+    return [...who, year].join(' · ');
+  }
   if(!editableYear) return [a.artists.join(', '), a.year].filter(Boolean).map(escHTML).join(' · ');
   const year = `<span class="album-year" title="Click to correct the year" onclick="editRecordYear(this,'${escHTML(a.albumId)}')">${a.year ? escHTML(a.year) : 'Add year'}</span>`;
   return [escHTML(a.artists.join(', ')), year].filter(Boolean).join(' · ');
@@ -3826,6 +3870,21 @@ function artistSortName(artist) {
     .replace(/\s+(trio|quartet|quintet|sextet|septet|octet|nonet|orchestra|big band|band|ensemble|group|all[- ]stars)$/i,'')
     .replace(/,?\s+(jr\.?|sr\.?|ii|iii)$/i,'');
   return person.split(/\s+/).pop();
+}
+// The name a composer is filed under: the last name, with a few that are filed differently
+const COMPOSER_FILED_AS = { 'ralph vaughan williams':'Vaughan Williams', 'josquin des prez':'Josquin' };
+function composerSortName(name) {
+  return COMPOSER_FILED_AS[composerKey(name)] || String(name).replace(/\s+(I|II|III)$/,'').split(/\s+/).pop();
+}
+// Classical albums are filed under their main composer (listed first), then that composer's full
+// name to keep namesakes like the Strausses apart, then title. Albums with no composer go last.
+function sortedClassical(records) {
+  const cmp = (a,b) => a.localeCompare(b, undefined, { sensitivity:'base', numeric:true });
+  const lead = a => a.composers?.[0]?.name;
+  return [...records].sort((a,b) => (!lead(a) - !lead(b))
+    || cmp(composerSortName(lead(a)||''), composerSortName(lead(b)||''))
+    || cmp(lead(a)||'', lead(b)||'')
+    || cmp(withoutArticle(a.album), withoutArticle(b.album)));
 }
 // Titles ignore a leading article. By artist, an artist's albums stay together, ordered by title.
 // By year, oldest comes first, a year's albums are ordered by title, and unknown years go last.
@@ -3846,22 +3905,31 @@ function setRecordsSort(sort) {
   saveDB(db);
   drawRecords();
 }
+function setRecordsGenre(genre) {
+  const db = getDB();
+  db.recordsGenre = genre;
+  saveDB(db);
+  albumSearch = { open:false, q:'', results:null, error:null, searching:false };
+  drawRecords();
+}
 function setRecordsView(view) {
   const db = getDB();
   db.recordsView = view;
   saveDB(db);
   drawRecords();
 }
+// Jazz on one row and classical on the next, each with a classic and a contemporary album
 function albumOfWeekHTML(db) {
-  const features = RECORD_ERAS.map(([era, label, range]) => {
-    const cur = currentAlbumOfWeek(db, era);
-    if(!cur) return `<div class="album-feature"><div style="flex:1;min-width:0"><div class="album-feature-era">${label}</div><div class="album-feature-meta">Add an album ${range} on the <a href="#" style="color:var(--gold)" onclick="event.preventDefault();showPanel('records')">Records</a> tab to feature it here.</div></div></div>`;
+  const features = RECORD_ERAS.map(([era, label, range, noun]) => {
+    const cur = currentAlbumOfWeek(db, era), genre = era.startsWith('classical') ? 'classical' : 'jazz';
+    if(!cur) return `<div class="album-feature"><div style="flex:1;min-width:0"><div class="album-feature-era">${label}</div><div class="album-feature-meta">Add ${range} on the <a href="#" style="color:var(--gold)" onclick="event.preventDefault();setRecordsGenre('${genre}');showPanel('records')">Records</a> tab to feature it here.</div></div></div>`;
     const art = cur.albumImage ? `<img class="album-feature-art" src="${escHTML(cur.albumImage)}" alt="">` : '<div class="album-feature-art"></div>';
     const canSkip = db.records.filter(a => recordEra(a)===era).length > 1;
-    const skip = canSkip ? `<button class="btn-action" title="Pick a different ${label.toLowerCase()} album this week" onclick="skipAlbumOfWeek('${era}')">Skip</button>` : '';
-    return `<div class="album-feature"><a class="listen-thumb-link" href="spotify:album:${escHTML(cur.albumId)}" title="Open in Spotify">${art}</a><div style="flex:1;min-width:0"><div class="album-feature-era">${label}</div><div class="album-feature-title album-link" onclick="showAlbumDetail('${escHTML(cur.albumId)}')">${escHTML(cur.album)}</div><div class="album-feature-meta">${albumMeta(cur, true)}</div><div class="album-feature-foot"><span>${albumPlaysLabel(cur, db.albumOfWeek[era].weekStart)}</span>${skip}</div></div></div>`;
+    const skip = canSkip ? `<button class="btn-action" title="Pick a different ${noun} album this week" onclick="skipAlbumOfWeek('${era}')">Skip</button>` : '';
+    return `<div class="album-feature"><a class="listen-thumb-link" href="spotify:album:${escHTML(cur.albumId)}" title="Open in Spotify">${art}</a><div style="flex:1;min-width:0"><div class="album-feature-era">${label}</div><div class="album-feature-title album-link" onclick="showAlbumDetail('${escHTML(cur.albumId)}')">${escHTML(cur.album)}</div><div class="album-feature-meta">${albumMeta(cur, true)}</div>${skip?`<div class="album-feature-foot">${skip}</div>`:''}</div></div>`;
   });
-  return `<div class="section"><div class="section-head"><h2>Albums of the Week</h2></div><div class="album-week-pair">${features.join('')}</div></div>`;
+  const pair = cards => `<div class="album-week-pair">${cards.join('')}</div>`;
+  return `<div class="section"><div class="section-head"><h2>Albums of the Week</h2></div>${pair(features.slice(0,2))}${pair(features.slice(2))}</div>`;
 }
 // Records owned on vinyl or CD, from the Discogs collection. An album counts when its confirmed release,
 // or another pressing of the same master, is in the collection, or when one there has the same title
@@ -3901,13 +3969,16 @@ function ownsRecord(db, a) {
     && c.artists.map(ownedKey).some(ca => ca && artists.some(sa => ca.includes(sa) || sa.includes(ca))));
 }
 function recordsHTML(db) {
-  const current = new Set(RECORD_ERAS.map(([era]) => currentAlbumOfWeek(db, era))), records = db.records || [];
+  const genre = db.recordsGenre==='classical' ? 'classical' : 'jazz', classical = genre==='classical';
+  const current = new Set(RECORD_ERAS.map(([era]) => currentAlbumOfWeek(db, era)));
+  const records = (db.records || []).filter(a => recordGenre(a)===genre);
   const sort = db.recordsSort || 'year';
-  const sortToggle = records.length > 1 ? `<div class="kw-toggle">${RECORD_SORTS.map(([m,l]) => `<button class="${m===sort?'sel':''}" title="Sort by ${l.toLowerCase()}" onclick="setRecordsSort('${m}')">${l}</button>`).join('')}</div>` : '';
+  const genreTabs = `<div class="kw-toggle records-genre">${RECORD_GENRES.map(([g,l]) => `<button class="${g===genre?'sel':''}" onclick="setRecordsGenre('${g}')">${l}</button>`).join('')}</div>`;
+  const sortToggle = !classical && records.length > 1 ? `<div class="kw-toggle">${RECORD_SORTS.map(([m,l]) => `<button class="${m===sort?'sel':''}" title="Sort by ${l.toLowerCase()}" onclick="setRecordsSort('${m}')">${l}</button>`).join('')}</div>` : '';
   const view = db.recordsView==='list' ? 'list' : 'grid';
   const viewToggle = records.length > 1 ? `<div class="kw-toggle">${RECORD_VIEWS.map(([m,l]) => `<button class="${m===view?'sel':''}" title="Show as a ${l.toLowerCase()}" onclick="setRecordsView('${m}')">${l}</button>`).join('')}</div>` : '';
   const whenFor = a => current.has(a) ? 'This week' : a.featuredWeek ? `Featured ${formatIntDate(a.featuredWeek)}` : '';
-  const sorted = sortedRecords(records, sort);
+  const sorted = classical ? sortedClassical(records) : sortedRecords(records, sort);
   const cells = view==='grid' && sorted.length ? `<div class="record-grid">${sorted.map(a => {
     const art = a.albumImage ? `<img class="record-cell-art" src="${escHTML(a.albumImage)}" alt="" loading="lazy">` : '<div class="record-cell-art"></div>';
     const when = whenFor(a);
@@ -3925,11 +3996,13 @@ function recordsHTML(db) {
   else if(s.error) results = `<div class="empty">Search failed: ${escHTML(s.error)}.</div>`;
   else if(s.results && !s.results.length) results = '<div class="empty">No matches.</div>';
   else if(s.results) {
-    const have = new Set(records.map(a => a.albumId));
+    const have = new Set((db.records||[]).map(a => a.albumId));
     results = s.results.map((a,i) => `<div class="song-row">${listenThumb(a.albumImage, a.albumId)}<div style="flex:1;min-width:0"><div class="song-name">${escHTML(a.album)}</div><div style="font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace">${albumMeta(a)}</div></div>${have.has(a.albumId) ? '<span class="key-stat">added</span>' : `<button class="btn-action" onclick="addRecord(${i})">Add</button>`}</div>`).join('');
   }
   const form = s.open ? `<div class="rec-add-form"><div style="display:flex;gap:8px"><input class="focus-input" id="album-add-q" placeholder="Search Spotify, or paste an album link" value="${escHTML(s.q)}" onkeydown="if(event.key==='Enter')searchRecords();else if(event.key==='Escape')toggleRecordSearch()"><button class="btn-action" onclick="searchRecords()">Search</button><button class="btn-action" onclick="toggleRecordSearch()">Close</button></div><div id="album-add-results">${results}</div></div>` : '';
-  return `<div class="section"><div class="section-head"><h2>Albums</h2><div style="display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:10px">${records.length?`<span class="count">${records.length} album${records.length===1?'':'s'}</span>`:''}${sortToggle}${viewToggle}<button class="btn-action poi-add-btn" title="Add an album" aria-label="Add an album" onclick="toggleRecordSearch()">+</button></div></div>${form}${rows || (s.open ? '' : '<div class="empty">No albums yet.</div>')}</div>`;
+  const heading = classical ? 'Classical albums' : 'Jazz albums';
+  const sortNote = classical && records.length > 1 ? '<span class="count">by composer</span>' : '';
+  return `${genreTabs}<div class="section"><div class="section-head"><h2>${heading}</h2><div style="display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:10px">${records.length?`<span class="count">${records.length} album${records.length===1?'':'s'}</span>`:''}${sortNote}${sortToggle}${viewToggle}<button class="btn-action poi-add-btn" title="Add an album" aria-label="Add an album" onclick="toggleRecordSearch()">+</button></div></div>${form}${rows || (s.open ? '' : '<div class="empty">No albums yet.</div>')}</div>`;
 }
 // The card lives on the Listening tab, the list on the Records tab and the details on the album's
 // page, and a change to one can affect the others. The card's slot only exists once the Listening
@@ -3967,7 +4040,7 @@ function addRecord(i) {
   if(!a) return;
   if(!db.records) db.records = [];
   if(!db.records.some(x => x.albumId===a.albumId)) {
-    db.records.push({ ...a });
+    db.records.push(db.recordsGenre==='classical' ? { ...a, genre:'classical', composers:composersFromArtists(a.artists) } : { ...a });
     saveDB(db);
     toast(`Added ${a.album}`);
   }
@@ -4041,7 +4114,7 @@ function featureAlbumThisWeek(albumId) {
   album.featuredWeek = week;
   db.albumOfWeek = { ...db.albumOfWeek, [era]:{ albumId, weekStart:week } };
   saveDB(db);
-  toast(`${album.album} is this week's ${era} album.`);
+  toast(`${album.album} is this week's ${RECORD_ERAS.find(([id]) => id===era)[3]} album.`);
   drawRecords();
 }
 // Pulls the latest plays and reference playlists from Spotify now, outside the daily schedule
@@ -4123,7 +4196,7 @@ async function renderListening() {
   const activeDays = [...days.keys()].filter(d => d >= firstWeek).length;
   const calendar = `<div class="section"><div class="section-head"><h2>Listening calendar</h2><span class="count">${activeDays} listening day${activeDays===1?'':'s'} · ${current}-day streak · longest ${longest}</span></div><div class="viz-body">${listeningCalendarHTML(days, firstWeek, tod)}</div></div>`;
   vizTipInit();
-  body.innerHTML = calendar + albumSlot + playlistSection;
+  body.innerHTML = (db.showListeningCalendar ? calendar : '') + albumSlot + playlistSection;
 }
 let detailOriginPanel = 'library';
 let detailOriginScroll = 0;
@@ -4181,6 +4254,60 @@ async function renderAlbumDetail(albumId) {
   albumPlays = data.plays;
   if(changed) drawAlbumDetail(albumId);
 }
+// A classical album's composers, with birth years, clicked to correct them (see editRecordComposers)
+function composersField(a) {
+  const text = (a.composers||[]).map(c => c.born ? `${c.name} (${c.born})` : c.name).join(', ');
+  return `<span class="album-year" title="Click to correct the composers" onclick="editRecordComposers(this,'${escHTML(a.albumId)}')">${text ? escHTML(text) : 'Add composers'}</span>`;
+}
+// Composers are typed as "Name (born), Name (born)", main composer first. A known composer's birth
+// year can be left out. Enter or clicking away saves, Escape leaves them as they were.
+function parseComposers(text) {
+  const out = [];
+  for(const part of text.split(/[,;]\s*(?![^()]*\))/).map(p => p.trim()).filter(Boolean)) {
+    const m = part.match(/^(.*?)\s*(?:\((\d{4})\))?$/), name = m[1].trim(), born = m[2] ? +m[2] : null;
+    const known = lookupComposer(name);
+    if(born) out.push({ name: known && composerKey(known.name)===composerKey(name) ? known.name : name, born });
+    else if(known) out.push(known);
+    else return { error:`Add a birth year for ${name}, like ${name} (1900).` };
+  }
+  return { composers:out };
+}
+function editRecordComposers(span, albumId) {
+  const a = getDB().records?.find(r => r.albumId===albumId);
+  if(!a) return;
+  const input = document.createElement('input');
+  input.className = 'focus-input';
+  input.style.width = '100%';
+  input.placeholder = 'Beethoven, Brahms (1833)';
+  input.value = (a.composers||[]).map(c => c.born ? `${c.name} (${c.born})` : c.name).join(', ');
+  let finished = false;
+  const finish = (save, leaving) => {
+    if(finished) return;
+    if(save) {
+      const parsed = parseComposers(input.value);
+      if(parsed.error) {
+        toast(parsed.error);
+        if(!leaving) { input.select(); return; }
+        save = false;
+      } else {
+        const db = getDB(), item = db.records?.find(r => r.albumId===albumId);
+        if(item) {
+          // Like a year correction, a change can move this week's pick to the other era
+          const era = recordEra(item), wasPick = db.albumOfWeek?.[era]?.albumId===albumId;
+          item.composers = parsed.composers;
+          if(wasPick && recordEra(item)!==era) delete item.featuredWeek;
+          saveDB(db);
+        }
+      }
+    }
+    finished = true;
+    drawRecords();
+  };
+  input.onkeydown = e => { if(e.key==='Enter') finish(true); else if(e.key==='Escape') finish(false); };
+  input.onblur = () => finish(true, true);
+  span.replaceWith(input);
+  input.focus(); input.select();
+}
 function drawAlbumDetail(albumId) {
   if(detailType!=='album' || currentDetailName!==albumId) return;
   const container = document.getElementById('album-detail-main'), a = getDB().records?.find(r => r.albumId===albumId);
@@ -4192,12 +4319,12 @@ function drawAlbumDetail(albumId) {
   const era = RECORD_ERAS.find(([id]) => id===recordEra(a));
   const featured = era && currentAlbumOfWeek(getDB(), era[0])?.albumId===albumId;
   const feature = !era ? '' : featured
-    ? `<div class="album-feature-meta" style="margin-top:10px;color:var(--gold2)">This week's ${era[1].toLowerCase()} album</div>`
-    : `<button class="btn-action" style="margin-top:10px" title="Make this the ${era[1].toLowerCase()} album of the week in place of the current one" onclick="featureAlbumThisWeek('${escHTML(albumId)}')">Feature this week</button>`;
+    ? `<div class="album-feature-meta" style="margin-top:10px;color:var(--gold2)">This week's ${era[3]} album</div>`
+    : `<button class="btn-action" style="margin-top:10px" title="Make this the ${era[3]} album of the week in place of the current one" onclick="featureAlbumThisWeek('${escHTML(albumId)}')">Feature this week</button>`;
   const art = a.albumImage ? `<img class="album-feature-art" src="${escHTML(a.albumImage)}" alt="">` : '<div class="album-feature-art"></div>';
   const field = (label, value, tip) => `<div class="detail-meta-field"${tip?` title="${tip}"`:''}><div class="label">${label}</div><div class="value">${value}</div></div>`;
   const year = `<span class="album-year" title="Click to correct the year" onclick="editRecordYear(this,'${escHTML(albumId)}')">${a.year ? escHTML(a.year) : 'Add year'}</span>`;
-  const header = `<div class="detail-header"><div class="album-detail-top"><a class="listen-thumb-link" href="spotify:album:${escHTML(albumId)}" title="Open in Spotify">${art}</a><div style="flex:1;min-width:0">${era?`<div class="album-feature-era">${era[1]}</div>`:''}<div class="detail-title" style="margin-bottom:6px;overflow-wrap:anywhere">${escHTML(a.album)}</div><div class="album-feature-meta">${escHTML(a.artists.join(', '))}</div>${feature}</div></div><div class="detail-meta-grid">${field('Full plays', counts ? Math.min(...counts) : '—', 'Times every song on the album has been played')}${field('Songs', tracks.length || '—')}${field('Year', year)}</div></div>`;
+  const header = `<div class="detail-header"><div class="album-detail-top"><a class="listen-thumb-link" href="spotify:album:${escHTML(albumId)}" title="Open in Spotify">${art}</a><div style="flex:1;min-width:0">${era?`<div class="album-feature-era">${era[1]}</div>`:''}<div class="detail-title" style="margin-bottom:6px;overflow-wrap:anywhere">${escHTML(a.album)}</div><div class="album-feature-meta">${escHTML((isClassical(a) ? albumPerformers(a) : a.artists).join(', '))}</div>${feature}</div></div><div class="detail-meta-grid">${isClassical(a) ? field('Composers', composersField(a), 'The oldest composer decides whether this is a classic or contemporary album') : ''}${field('Full plays', counts ? Math.min(...counts) : '—', 'Times every song on the album has been played')}${field('Songs', tracks.length || '—')}${field('Year', year)}</div></div>`;
   const pois = a.pointsOfInterest || [], shown = new Set();
   const rows = tracks.map((t,i) => {
     const n = counts?.[i], stat = n===undefined ? '' : n ? `${n} play${n===1?'':'s'}` : 'not played yet';
@@ -4241,7 +4368,7 @@ function creditSources(db, references) {
     if(kind==='record') { entry.onRecords = true; entry.year = a.year || null; }
     else entry.recordings.add(a.trackId);
   };
-  (db.records||[]).forEach(a => place(a, 'record'));
+  (db.records||[]).filter(a => !isClassical(a)).forEach(a => place(a, 'record'));
   (references||[]).forEach(pl => pl.tracks.forEach(t => place(t, 'recording')));
   Object.values(db.songs).forEach(s => (s.otherRecordings||[]).forEach(t => place(t, 'recording')));
   return [...albums.values()];
@@ -5026,6 +5153,8 @@ function albumPersonnel(db, albumId) {
 function drawAlbumPersonnel(albumId) {
   const slot = document.getElementById('album-personnel');
   if(!slot || detailType!=='album' || currentDetailName!==albumId) return;
+  // Players aren't listed for classical albums
+  if(isClassical(getDB().records?.find(a => a.albumId===albumId))) { slot.innerHTML = ''; return; }
   const link = getDB().creditLinks?.[albumId];
   if(!playerReferences || !releasesLoaded) { slot.innerHTML = ''; return; }
   const change = `<button class="btn-action" onclick="changeAlbumLineup('${escHTML(albumId)}')">Change</button>`;
@@ -5800,7 +5929,15 @@ function renderSettings() {
   renderRotationSettings(db);
   document.getElementById('queue-size-multikey').value = multiKeyBudget(db);
   document.getElementById('listening-goal').value = listeningGoal(db);
+  document.getElementById('listening-calendar-toggle').checked = !!db.showListeningCalendar;
   renderSessionSettings(db);
+}
+// Off by default. The Listening tab is drawn afresh whenever it's opened, so no redraw is needed here.
+function toggleListeningCalendar(input) {
+  const db = getDB();
+  db.showListeningCalendar = input.checked;
+  saveDB(db);
+  toast(input.checked ? 'Listening calendar shown.' : 'Listening calendar hidden.');
 }
 function setListeningGoal() {
   const db = getDB();
