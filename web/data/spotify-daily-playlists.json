@@ -1070,6 +1070,67 @@
           "song": "Take Five"
         }
       ],
+      "filled": true,
+      "removedOn": "2026-11-20"
+    },
+    {
+      "date": "2026-11-20",
+      "id": "1DMZd7hIYd2bHTNV2sDrHU",
+      "name": "Daily Standards – Nov 20, 2026",
+      "tracks": [
+        {
+          "trackId": "1FGP7KqNANyPi10M3PkFtY",
+          "name": "Bags' Groove",
+          "artists": [
+            "Milt Jackson"
+          ],
+          "song": "Bags' Groove"
+        },
+        {
+          "trackId": "1FdulvpRiLgkseCz7RrNOR",
+          "name": "Quiet Nights of Quiet Stars (Corcovado)",
+          "artists": [
+            "Antônio Carlos Jobim",
+            "Frank Sinatra"
+          ],
+          "song": "Corcovado"
+        },
+        {
+          "trackId": "2VaOoXFfdlrHyhORSq9H1v",
+          "name": "Stompin' At The Savoy",
+          "artists": [
+            "Clifford Brown",
+            "Max Roach"
+          ],
+          "song": "Stompin' at the Savoy"
+        },
+        {
+          "trackId": "1YQWosTIljIvxAgHWTp7KP",
+          "name": "Take Five",
+          "artists": [
+            "The Dave Brubeck Quartet"
+          ],
+          "song": "Take Five"
+        },
+        {
+          "trackId": "3ZikLQCnH3SIswlGENBcKe",
+          "name": "My Favorite Things",
+          "artists": [
+            "John Coltrane"
+          ],
+          "song": "My Favorite Things"
+        },
+        {
+          "trackId": "0aWMVrwxPNYkKmFthzmpRi",
+          "name": "Blue in Green (feat. John Coltrane & Bill Evans)",
+          "artists": [
+            "Miles Davis",
+            "John Coltrane",
+            "Bill Evans"
+          ],
+          "song": "Blue in Green"
+        }
+      ],
       "filled": true
     }
   ]

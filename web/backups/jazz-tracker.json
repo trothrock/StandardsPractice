@@ -717,6 +717,14 @@
         "Bop",
         "Blues",
         "Jam"
+      ],
+      "pointsOfInterest": [
+        {
+          "trackId": "5BxzqNLhwISk6IN5RZFkt8",
+          "album": "The Magnificent Charlie Parker",
+          "at": 34,
+          "text": "Charlie Parker Birdism"
+        }
       ]
     },
     "Blues in the Night": {
@@ -2502,6 +2510,14 @@
       "multiKey": false,
       "tags": [
         "Swing"
+      ],
+      "pointsOfInterest": [
+        {
+          "trackId": "2jZgFEONQS7Bk64IytEBU8",
+          "album": "Verve Jazz Masters 43: Ben Webster",
+          "at": 215,
+          "text": "Ben Webster iii-VI"
+        }
       ]
     },
     "In a Sentimental Mood": {
@@ -10775,7 +10791,33 @@
           "name": "Coloratura"
         }
       ],
-      "featuredWeek": 20261116
+      "featuredWeek": 20261116,
+      "pointsOfInterest": [
+        {
+          "trackId": "2YTEOOZ5pxUDwkfS9MyG4B",
+          "album": "Ellington Indigos (Expanded Edition)",
+          "at": 45,
+          "text": "Duke Ellington Duke voicing"
+        },
+        {
+          "trackId": "6MLBsnuzlf6Pgy0AtmUyXU",
+          "album": "Ellington Indigos (Expanded Edition)",
+          "at": 50,
+          "text": "Duke Ellington arpeggiated descending run"
+        },
+        {
+          "trackId": "2CRSV0N5UCxR4Qrj4pBGPx",
+          "album": "Ellington Indigos (Expanded Edition)",
+          "at": 228,
+          "text": "Duke Ellington descending ornament"
+        },
+        {
+          "trackId": "2YTEOOZ5pxUDwkfS9MyG4B",
+          "album": "Ellington Indigos (Expanded Edition)",
+          "at": 259,
+          "text": "Duke Ellington upper structure"
+        }
+      ]
     },
     {
       "albumId": "1OjLx8J4i6GhNLBIJztwnC",
@@ -14532,7 +14574,7 @@
   "playerNames": {
     "261295": "Tony Williams"
   },
-  "vocabView": "pois",
+  "vocabView": "items",
   "sessionPlan": {
     "voicing": {
       "mins": 10

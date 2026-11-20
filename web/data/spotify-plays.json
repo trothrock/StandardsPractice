@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-11-19",
+  "lastSyncDate": "2026-11-20",
   "plays": [
     {
       "playedAt": "2026-10-01T01:25:15.151Z",
@@ -7789,6 +7789,665 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02702925e6c5a577bf27f51e7f",
       "durationMs": 473240,
       "context": "spotify:playlist:2OSwpY0bEqqwEoVOxO5Cwy"
+    },
+    {
+      "playedAt": "2026-11-19T16:48:00.896Z",
+      "trackId": "5PPeKmOHYAIMmMoCZ73khv",
+      "name": "Four Scottish Dances, Op. 59; III. Allegretto",
+      "artists": [
+        "Malcolm Arnold",
+        "London Philharmonic Orchestra"
+      ],
+      "album": "Arnold: 4 Scottish Dances & Symphony No. 3",
+      "albumId": "712YQUbZXqjyrfSXW5CiFS",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a6201696f7d1493e4dcdb6fd",
+      "durationMs": 227019,
+      "context": "spotify:album:712YQUbZXqjyrfSXW5CiFS"
+    },
+    {
+      "playedAt": "2026-11-19T16:50:05.730Z",
+      "trackId": "3gkuHlxzBSP3GiFVCuTO5u",
+      "name": "Four Scottish Dances, Op. 59; II. Vivace",
+      "artists": [
+        "Malcolm Arnold",
+        "London Philharmonic Orchestra"
+      ],
+      "album": "Arnold: 4 Scottish Dances & Symphony No. 3",
+      "albumId": "712YQUbZXqjyrfSXW5CiFS",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a6201696f7d1493e4dcdb6fd",
+      "durationMs": 124357,
+      "context": "spotify:album:712YQUbZXqjyrfSXW5CiFS"
+    },
+    {
+      "playedAt": "2026-11-19T17:03:36.289Z",
+      "trackId": "7kAQ0H4nWAhuOxufgPXITt",
+      "name": "Symphony No. 3, Op. 63; I. Allegro - Vivace",
+      "artists": [
+        "Malcolm Arnold",
+        "London Philharmonic Orchestra"
+      ],
+      "album": "Arnold: 4 Scottish Dances & Symphony No. 3",
+      "albumId": "712YQUbZXqjyrfSXW5CiFS",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a6201696f7d1493e4dcdb6fd",
+      "durationMs": 810112,
+      "context": "spotify:album:712YQUbZXqjyrfSXW5CiFS"
+    },
+    {
+      "playedAt": "2026-11-19T17:17:24.795Z",
+      "trackId": "3wsJ0glKdlJnVvxN8GN1sN",
+      "name": "Symphony No. 3, Op. 63; II. Lento",
+      "artists": [
+        "Malcolm Arnold",
+        "London Philharmonic Orchestra"
+      ],
+      "album": "Arnold: 4 Scottish Dances & Symphony No. 3",
+      "albumId": "712YQUbZXqjyrfSXW5CiFS",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a6201696f7d1493e4dcdb6fd",
+      "durationMs": 828441,
+      "context": "spotify:album:712YQUbZXqjyrfSXW5CiFS"
+    },
+    {
+      "playedAt": "2026-11-19T17:24:57.695Z",
+      "trackId": "3woowZX6k7DVV4JR17Bp2x",
+      "name": "Symphony No. 3, Op. 63; III. Allegro con brio - Presto",
+      "artists": [
+        "Malcolm Arnold",
+        "London Philharmonic Orchestra"
+      ],
+      "album": "Arnold: 4 Scottish Dances & Symphony No. 3",
+      "albumId": "712YQUbZXqjyrfSXW5CiFS",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a6201696f7d1493e4dcdb6fd",
+      "durationMs": 452957,
+      "context": "spotify:album:712YQUbZXqjyrfSXW5CiFS"
+    },
+    {
+      "playedAt": "2026-11-19T20:37:35.091Z",
+      "trackId": "348o7lfm1MqSZ6ad3zPxfF",
+      "name": "La mer: From Dawn Till Noon on the Sea - Redbook Stereo",
+      "artists": [
+        "Claude Debussy",
+        "Fritz Reiner",
+        "Chicago Symphony Orchestra"
+      ],
+      "album": "Respighi: Pines of Rome; Fountains of Rome & Debussy: La mer",
+      "albumId": "0ZcPAe1hhWpGkqo5fzRHsC",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e029b36460d4fe304afd5e3b82d",
+      "durationMs": 623212,
+      "context": "spotify:album:0ZcPAe1hhWpGkqo5fzRHsC"
+    },
+    {
+      "playedAt": "2026-11-19T20:44:05.701Z",
+      "trackId": "3HLM1TeuBZQ7D7hJzNUNmj",
+      "name": "La mer: Play of the Waves - Redbook Stereo",
+      "artists": [
+        "Claude Debussy",
+        "Fritz Reiner",
+        "Chicago Symphony Orchestra"
+      ],
+      "album": "Respighi: Pines of Rome; Fountains of Rome & Debussy: La mer",
+      "albumId": "0ZcPAe1hhWpGkqo5fzRHsC",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e029b36460d4fe304afd5e3b82d",
+      "durationMs": 390675,
+      "context": "spotify:album:0ZcPAe1hhWpGkqo5fzRHsC"
+    },
+    {
+      "playedAt": "2026-11-19T21:00:01.408Z",
+      "trackId": "7pAmA9cNxhIxudbn2huRby",
+      "name": "You And The Night And The Music - Remastered 2025",
+      "artists": [
+        "Bill Evans"
+      ],
+      "album": "Interplay (Remastered 2025)",
+      "albumId": "72WSznqhvxfLmh4r2QUlFz",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0213e0345b275968deb69ef25c",
+      "durationMs": 425101,
+      "context": "spotify:album:72WSznqhvxfLmh4r2QUlFz"
+    },
+    {
+      "playedAt": "2026-11-19T21:05:45.996Z",
+      "trackId": "4GbRvaTS23y7pU1fxIfBgD",
+      "name": "When You Wish Upon A Star - Remastered 2025",
+      "artists": [
+        "Bill Evans"
+      ],
+      "album": "Interplay (Remastered 2025)",
+      "albumId": "72WSznqhvxfLmh4r2QUlFz",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0213e0345b275968deb69ef25c",
+      "durationMs": 344606,
+      "context": "spotify:album:72WSznqhvxfLmh4r2QUlFz"
+    },
+    {
+      "playedAt": "2026-11-19T21:12:19.295Z",
+      "trackId": "0m0Y10K36VIt4Isc4nhiGW",
+      "name": "I'll Never Smile Again - Remastered 2025",
+      "artists": [
+        "Bill Evans"
+      ],
+      "album": "Interplay (Remastered 2025)",
+      "albumId": "72WSznqhvxfLmh4r2QUlFz",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0213e0345b275968deb69ef25c",
+      "durationMs": 393331,
+      "context": "spotify:album:72WSznqhvxfLmh4r2QUlFz"
+    },
+    {
+      "playedAt": "2026-11-19T21:20:33.693Z",
+      "trackId": "5XMzbMi8CJRx0RlyMOjYuT",
+      "name": "Interplay - Remastered 2025",
+      "artists": [
+        "Bill Evans"
+      ],
+      "album": "Interplay (Remastered 2025)",
+      "albumId": "72WSznqhvxfLmh4r2QUlFz",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0213e0345b275968deb69ef25c",
+      "durationMs": 494356,
+      "context": "spotify:album:72WSznqhvxfLmh4r2QUlFz"
+    },
+    {
+      "playedAt": "2026-11-19T21:25:36.582Z",
+      "trackId": "4qMlPy5bOZQdL5NZPdsIbo",
+      "name": "You Go To My Head - Remastered 2025",
+      "artists": [
+        "Bill Evans"
+      ],
+      "album": "Interplay (Remastered 2025)",
+      "albumId": "72WSznqhvxfLmh4r2QUlFz",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0213e0345b275968deb69ef25c",
+      "durationMs": 302942,
+      "context": "spotify:album:72WSznqhvxfLmh4r2QUlFz"
+    },
+    {
+      "playedAt": "2026-11-19T21:31:56.528Z",
+      "trackId": "0R1D4ZM37wRHXQENX9P3cT",
+      "name": "Wrap Your Troubles In Dreams - Remastered 2025",
+      "artists": [
+        "Bill Evans"
+      ],
+      "album": "Interplay (Remastered 2025)",
+      "albumId": "72WSznqhvxfLmh4r2QUlFz",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0213e0345b275968deb69ef25c",
+      "durationMs": 379822,
+      "context": "spotify:album:72WSznqhvxfLmh4r2QUlFz"
+    },
+    {
+      "playedAt": "2026-11-19T21:46:25.626Z",
+      "trackId": "1FGP7KqNANyPi10M3PkFtY",
+      "name": "Bags' Groove",
+      "artists": [
+        "Milt Jackson"
+      ],
+      "album": "Wizard Of The Vibes",
+      "albumId": "3DfX2LdvDIcrF4rdE3gxd0",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a0eb966776f5199adb48ddda",
+      "durationMs": 185760,
+      "context": "spotify:playlist:2XR1xafNoH2jJTsPdpyOCa"
+    },
+    {
+      "playedAt": "2026-11-19T21:55:24.983Z",
+      "trackId": "2dC71mbRBTewkyeHTXPzGz",
+      "name": "Lady Bird (Live) - Live At Cafe Bohemia, NY/1955 / Rudy Van Gelder Edition/2001",
+      "artists": [
+        "Art Blakey & The Jazz Messengers"
+      ],
+      "album": "At The Cafe Bohemia (Vol. 1/The Rudy Van Gelder Edition)",
+      "albumId": "6aUQ6zb8XRvxfoa2Zhx8yj",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e80e683dc5b6d510090fbada",
+      "durationMs": 450360,
+      "context": "spotify:playlist:2XR1xafNoH2jJTsPdpyOCa"
+    },
+    {
+      "playedAt": "2026-11-19T21:58:39.902Z",
+      "trackId": "7vBevujPxtjaG9l5gkAjW7",
+      "name": "Don't Blame Me",
+      "artists": [
+        "Ethel Waters"
+      ],
+      "album": "The First Torch Singers, Vol. 2: 1930 - 1934",
+      "albumId": "1Rw91oNLcFyESStYtOMOQ8",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e020df7f8ecee92d917c675bfb7",
+      "durationMs": 194374,
+      "context": "spotify:playlist:2XR1xafNoH2jJTsPdpyOCa"
+    },
+    {
+      "playedAt": "2026-11-19T23:15:13.760Z",
+      "trackId": "0T1EaGm6b9eM7xBf4F1hlc",
+      "name": "Maiden Voyage - Remastered 1999/Rudy Van Gelder Edition",
+      "artists": [
+        "Herbie Hancock"
+      ],
+      "album": "Maiden Voyage (Remastered 1999/Rudy Van Gelder Edition)",
+      "albumId": "7huPJTTsWVt854oZkr88mf",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02b6f936d535913e3f425e5bbe",
+      "durationMs": 477093,
+      "context": "spotify:playlist:2XR1xafNoH2jJTsPdpyOCa"
+    },
+    {
+      "playedAt": "2026-11-19T23:18:24.829Z",
+      "trackId": "6WouQmz6mGQfxg6vtv5RDG",
+      "name": "Hello World!",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Hello World!",
+      "albumId": "350X9LpA7KNzeFgQIcIUGB",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0290d460eb54fb255f7333bf33",
+      "durationMs": 191600,
+      "context": "spotify:album:350X9LpA7KNzeFgQIcIUGB"
+    },
+    {
+      "playedAt": "2026-11-19T23:21:07.054Z",
+      "trackId": "50Lxdbp1UkLjFLmi4tfroa",
+      "name": "Buono Appetito",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Hello World!",
+      "albumId": "350X9LpA7KNzeFgQIcIUGB",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0290d460eb54fb255f7333bf33",
+      "durationMs": 145693,
+      "context": "spotify:album:350X9LpA7KNzeFgQIcIUGB"
+    },
+    {
+      "playedAt": "2026-11-19T23:37:20.829Z",
+      "trackId": "6WouQmz6mGQfxg6vtv5RDG",
+      "name": "Hello World!",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Hello World!",
+      "albumId": "350X9LpA7KNzeFgQIcIUGB",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0290d460eb54fb255f7333bf33",
+      "durationMs": 191600,
+      "context": "spotify:album:350X9LpA7KNzeFgQIcIUGB"
+    },
+    {
+      "playedAt": "2026-11-19T23:39:46.518Z",
+      "trackId": "50Lxdbp1UkLjFLmi4tfroa",
+      "name": "Buono Appetito",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Hello World!",
+      "albumId": "350X9LpA7KNzeFgQIcIUGB",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0290d460eb54fb255f7333bf33",
+      "durationMs": 145693,
+      "context": "spotify:album:350X9LpA7KNzeFgQIcIUGB"
+    },
+    {
+      "playedAt": "2026-11-19T23:42:34.961Z",
+      "trackId": "4vUv2KOXKNDJksjr2CwrBm",
+      "name": "We're All In This Together",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Hello World!",
+      "albumId": "350X9LpA7KNzeFgQIcIUGB",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0290d460eb54fb255f7333bf33",
+      "durationMs": 168440,
+      "context": "spotify:album:350X9LpA7KNzeFgQIcIUGB"
+    },
+    {
+      "playedAt": "2026-11-19T23:45:17.973Z",
+      "trackId": "0sbEMlis0AstBWEOBTPPig",
+      "name": "On The Day You Were Born",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Hello World!",
+      "albumId": "350X9LpA7KNzeFgQIcIUGB",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0290d460eb54fb255f7333bf33",
+      "durationMs": 162960,
+      "context": "spotify:album:350X9LpA7KNzeFgQIcIUGB"
+    },
+    {
+      "playedAt": "2026-11-19T23:50:02.362Z",
+      "trackId": "6WouQmz6mGQfxg6vtv5RDG",
+      "name": "Hello World!",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Hello World!",
+      "albumId": "350X9LpA7KNzeFgQIcIUGB",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0290d460eb54fb255f7333bf33",
+      "durationMs": 191600,
+      "context": "spotify:album:350X9LpA7KNzeFgQIcIUGB"
+    },
+    {
+      "playedAt": "2026-11-19T23:52:28.060Z",
+      "trackId": "50Lxdbp1UkLjFLmi4tfroa",
+      "name": "Buono Appetito",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Hello World!",
+      "albumId": "350X9LpA7KNzeFgQIcIUGB",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0290d460eb54fb255f7333bf33",
+      "durationMs": 145693,
+      "context": "spotify:album:350X9LpA7KNzeFgQIcIUGB"
+    },
+    {
+      "playedAt": "2026-11-19T23:55:16.528Z",
+      "trackId": "4vUv2KOXKNDJksjr2CwrBm",
+      "name": "We're All In This Together",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Hello World!",
+      "albumId": "350X9LpA7KNzeFgQIcIUGB",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0290d460eb54fb255f7333bf33",
+      "durationMs": 168440,
+      "context": "spotify:album:350X9LpA7KNzeFgQIcIUGB"
+    },
+    {
+      "playedAt": "2026-11-19T23:57:59.454Z",
+      "trackId": "0sbEMlis0AstBWEOBTPPig",
+      "name": "On The Day You Were Born",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Hello World!",
+      "albumId": "350X9LpA7KNzeFgQIcIUGB",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0290d460eb54fb255f7333bf33",
+      "durationMs": 162960,
+      "context": "spotify:album:350X9LpA7KNzeFgQIcIUGB"
+    },
+    {
+      "playedAt": "2026-11-20T00:05:22.834Z",
+      "trackId": "6WouQmz6mGQfxg6vtv5RDG",
+      "name": "Hello World!",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Hello World!",
+      "albumId": "350X9LpA7KNzeFgQIcIUGB",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0290d460eb54fb255f7333bf33",
+      "durationMs": 191600,
+      "context": "spotify:album:350X9LpA7KNzeFgQIcIUGB"
+    },
+    {
+      "playedAt": "2026-11-20T00:23:57.584Z",
+      "trackId": "7IPAgDG7NgaFTjFZC1ban2",
+      "name": "Hikky-Burr",
+      "artists": [
+        "Quincy Jones"
+      ],
+      "album": "The Original Jam Sessions 1969",
+      "albumId": "0JapPMitYix8B0bQbEzpMP",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e022b966966b0bda59105aeaeaf",
+      "durationMs": 356320,
+      "context": "spotify:album:0JapPMitYix8B0bQbEzpMP"
+    },
+    {
+      "playedAt": "2026-11-20T00:32:08.248Z",
+      "trackId": "6MhdiXHfMteOvZWipPWcA6",
+      "name": "Groovy Gravy",
+      "artists": [
+        "Quincy Jones"
+      ],
+      "album": "The Original Jam Sessions 1969",
+      "albumId": "0JapPMitYix8B0bQbEzpMP",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e022b966966b0bda59105aeaeaf",
+      "durationMs": 490706,
+      "context": "spotify:album:0JapPMitYix8B0bQbEzpMP"
+    },
+    {
+      "playedAt": "2026-11-20T00:36:26.894Z",
+      "trackId": "2QHdsY3RRvx7UC0OOzyjqB",
+      "name": "Oh Happy Day",
+      "artists": [
+        "Quincy Jones"
+      ],
+      "album": "The Original Jam Sessions 1969",
+      "albumId": "0JapPMitYix8B0bQbEzpMP",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e022b966966b0bda59105aeaeaf",
+      "durationMs": 258600,
+      "context": "spotify:album:0JapPMitYix8B0bQbEzpMP"
+    },
+    {
+      "playedAt": "2026-11-20T00:38:09.428Z",
+      "trackId": "0xtuOF8cMfqg4vXfdejduX",
+      "name": "Jimmy Cookin' On Top - Album Version - (Interlude)",
+      "artists": [
+        "Quincy Jones"
+      ],
+      "album": "The Original Jam Sessions 1969",
+      "albumId": "0JapPMitYix8B0bQbEzpMP",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e022b966966b0bda59105aeaeaf",
+      "durationMs": 102586,
+      "context": "spotify:album:0JapPMitYix8B0bQbEzpMP"
+    },
+    {
+      "playedAt": "2026-11-20T00:45:58.983Z",
+      "trackId": "3w4L9RB3yLCOXIvu4yX73h",
+      "name": "Toe Jam",
+      "artists": [
+        "Quincy Jones"
+      ],
+      "album": "The Original Jam Sessions 1969",
+      "albumId": "0JapPMitYix8B0bQbEzpMP",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e022b966966b0bda59105aeaeaf",
+      "durationMs": 469533,
+      "context": "spotify:album:0JapPMitYix8B0bQbEzpMP"
+    },
+    {
+      "playedAt": "2026-11-20T00:49:12.882Z",
+      "trackId": "4gZXZ8zHgmAL1wNDMMIGKW",
+      "name": "Jive Den",
+      "artists": [
+        "Quincy Jones"
+      ],
+      "album": "The Original Jam Sessions 1969",
+      "albumId": "0JapPMitYix8B0bQbEzpMP",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e022b966966b0bda59105aeaeaf",
+      "durationMs": 193920,
+      "context": "spotify:album:0JapPMitYix8B0bQbEzpMP"
+    },
+    {
+      "playedAt": "2026-11-20T00:56:13.392Z",
+      "trackId": "3wNUaB9V0kpUiNcDrazehN",
+      "name": "Eubie Walkin'",
+      "artists": [
+        "Quincy Jones"
+      ],
+      "album": "The Original Jam Sessions 1969",
+      "albumId": "0JapPMitYix8B0bQbEzpMP",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e022b966966b0bda59105aeaeaf",
+      "durationMs": 420506,
+      "context": "spotify:album:0JapPMitYix8B0bQbEzpMP"
+    },
+    {
+      "playedAt": "2026-11-20T01:02:55.772Z",
+      "trackId": "2PJZcsYaYYcMWP5j0kNSGE",
+      "name": "Monty, Is That You?",
+      "artists": [
+        "Quincy Jones"
+      ],
+      "album": "The Original Jam Sessions 1969",
+      "albumId": "0JapPMitYix8B0bQbEzpMP",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e022b966966b0bda59105aeaeaf",
+      "durationMs": 402400,
+      "context": "spotify:album:0JapPMitYix8B0bQbEzpMP"
+    },
+    {
+      "playedAt": "2026-11-20T01:03:54.967Z",
+      "trackId": "4BfDTbdwNyK9E8yztFJsrR",
+      "name": "The Drawing Room - Album Version - (Interlude)",
+      "artists": [
+        "Quincy Jones"
+      ],
+      "album": "The Original Jam Sessions 1969",
+      "albumId": "0JapPMitYix8B0bQbEzpMP",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e022b966966b0bda59105aeaeaf",
+      "durationMs": 59213,
+      "context": "spotify:album:0JapPMitYix8B0bQbEzpMP"
+    },
+    {
+      "playedAt": "2026-11-20T01:44:04.029Z",
+      "trackId": "6WouQmz6mGQfxg6vtv5RDG",
+      "name": "Hello World!",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Hello World!",
+      "albumId": "350X9LpA7KNzeFgQIcIUGB",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0290d460eb54fb255f7333bf33",
+      "durationMs": 191600,
+      "context": "spotify:album:350X9LpA7KNzeFgQIcIUGB"
+    },
+    {
+      "playedAt": "2026-11-20T01:46:29.668Z",
+      "trackId": "50Lxdbp1UkLjFLmi4tfroa",
+      "name": "Buono Appetito",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Hello World!",
+      "albumId": "350X9LpA7KNzeFgQIcIUGB",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0290d460eb54fb255f7333bf33",
+      "durationMs": 145693,
+      "context": "spotify:album:350X9LpA7KNzeFgQIcIUGB"
+    },
+    {
+      "playedAt": "2026-11-20T01:49:18.120Z",
+      "trackId": "4vUv2KOXKNDJksjr2CwrBm",
+      "name": "We're All In This Together",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Hello World!",
+      "albumId": "350X9LpA7KNzeFgQIcIUGB",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0290d460eb54fb255f7333bf33",
+      "durationMs": 168440,
+      "context": "spotify:album:350X9LpA7KNzeFgQIcIUGB"
+    },
+    {
+      "playedAt": "2026-11-20T01:52:01.103Z",
+      "trackId": "0sbEMlis0AstBWEOBTPPig",
+      "name": "On The Day You Were Born",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Hello World!",
+      "albumId": "350X9LpA7KNzeFgQIcIUGB",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0290d460eb54fb255f7333bf33",
+      "durationMs": 162960,
+      "context": "spotify:album:350X9LpA7KNzeFgQIcIUGB"
+    },
+    {
+      "playedAt": "2026-11-20T03:47:08.881Z",
+      "trackId": "7eYF1tAcKBvhJU4W9K0Uca",
+      "name": "When It Rains",
+      "artists": [
+        "Brad Mehldau"
+      ],
+      "album": "Largo",
+      "albumId": "7i4wN3UGvFhr663Hpjgscx",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a4c3e2ce4bb985d6c4a28f64",
+      "durationMs": 396626,
+      "context": "spotify:playlist:2mRtUMHoaV03IhS4Nz6MQ5"
+    },
+    {
+      "playedAt": "2026-11-20T03:51:13.934Z",
+      "trackId": "73dk1Hmi0bDX9IMYISFuac",
+      "name": "Flim",
+      "artists": [
+        "The Bad Plus"
+      ],
+      "album": "These Are The Vistas",
+      "albumId": "3iVI9khuzGp8ohGEJLUi6Q",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02756dbe6b6ed250a41de8db04",
+      "durationMs": 244573,
+      "context": "spotify:playlist:2mRtUMHoaV03IhS4Nz6MQ5"
+    },
+    {
+      "playedAt": "2026-11-20T04:22:20.580Z",
+      "trackId": "5dxNgHm4D5CDJT8AaHcb6A",
+      "name": "Would That Not Be Nice",
+      "artists": [
+        "Divine Fits"
+      ],
+      "album": "A Thing Called Divine Fits",
+      "albumId": "0MRfpHRwSi6TUtg0w5zx6j",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e023a99c0423022cc4c8405ebcd",
+      "durationMs": 239937,
+      "context": "spotify:playlist:2VxHGhfHLcOylwQ90OCVs2"
+    },
+    {
+      "playedAt": "2026-11-20T04:26:08.630Z",
+      "trackId": "6nzXkCBOhb2mxctNihOqbb",
+      "name": "Bad Girls",
+      "artists": [
+        "M.I.A."
+      ],
+      "album": "Matangi",
+      "albumId": "3dAxXNscIj0p53lBMEziYR",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e023d6fa293f49903ed38fbe0de",
+      "durationMs": 227520,
+      "context": "spotify:playlist:2VxHGhfHLcOylwQ90OCVs2"
+    },
+    {
+      "playedAt": "2026-11-20T04:29:31.528Z",
+      "trackId": "01MBhRpvFkbeRwAp7gcF2W",
+      "name": "E-Pro",
+      "artists": [
+        "Beck"
+      ],
+      "album": "Guero",
+      "albumId": "2EugWXUZjr78KJFqZavvZT",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0246ef374f1639b196e6de5ed8",
+      "durationMs": 202360,
+      "context": "spotify:playlist:2VxHGhfHLcOylwQ90OCVs2"
+    },
+    {
+      "playedAt": "2026-11-20T05:29:49.230Z",
+      "trackId": "1TsmHRIXvMTLP7Vu53XsUV",
+      "name": "Rise",
+      "artists": [
+        "Herb Alpert"
+      ],
+      "album": "Rise",
+      "albumId": "7HY0aAzDNhAqmFHATtABPY",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e053bde519f23267361ad464",
+      "durationMs": 457400,
+      "context": "spotify:playlist:6tBVw52oEeeXL5IauDXWSt"
+    },
+    {
+      "playedAt": "2026-11-20T05:35:34.973Z",
+      "trackId": "4iKU4J0AjDeDXOCgpuol0C",
+      "name": "Angela (Theme From Taxi)",
+      "artists": [
+        "Bob James"
+      ],
+      "album": "Touchdown",
+      "albumId": "5ooWmAVLqcWvDDOid6hCC6",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0267d22420aae725b1107ceffa",
+      "durationMs": 345160,
+      "context": "spotify:playlist:6tBVw52oEeeXL5IauDXWSt"
+    },
+    {
+      "playedAt": "2026-11-20T06:37:46.400Z",
+      "trackId": "1qPjLHqDrvEOWGqXpNYDDQ",
+      "name": "Stardust - Live at Village Vanguard, New York, NY - December 1994",
+      "artists": [
+        "Wynton Marsalis"
+      ],
+      "album": "Live At The Village Vanguard",
+      "albumId": "59Ug4upXMB1sIkzFpJSKvr",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02be94e17af51f51f0ad7adc5d",
+      "durationMs": 319800,
+      "context": "spotify:album:59Ug4upXMB1sIkzFpJSKvr"
+    },
+    {
+      "playedAt": "2026-11-20T08:20:23.483Z",
+      "trackId": "39ougJT385Puzjejwycsp2",
+      "name": "When I Get A Feeling",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Hello World!",
+      "albumId": "350X9LpA7KNzeFgQIcIUGB",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0290d460eb54fb255f7333bf33",
+      "durationMs": 207573,
+      "context": "spotify:album:350X9LpA7KNzeFgQIcIUGB"
     }
   ]
 }
