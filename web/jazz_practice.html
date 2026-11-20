@@ -4191,7 +4191,6 @@ async function renderListening() {
   body.innerHTML = (db.showListeningCalendar ? calendar : '') + albumSlot + playlistSection;
 }
 let detailOriginPanel = 'library';
-let detailOriginScroll = 0;
 let detailType = 'song';
 let currentDetailName = null;
 let detailTrail = [];
@@ -4204,8 +4203,7 @@ function beginDetail(fallbackPanel) {
 function detailBack() {
   const previous = detailTrail.pop();
   if(!previous) {
-    showPanel(detailOriginPanel);
-    document.querySelector('.main').scrollTop = detailOriginScroll;
+    showPanel(detailOriginPanel);   // restores the list's own scroll position
     return;
   }
   detailType = previous.type;
@@ -5792,15 +5790,34 @@ function saveSongNotes(type, name) {
 function cancelEditSongNotes(type, name) {
   renderNotesView(type, name);
 }
-function showPanel(id) {
-  // The page scrolls as one, so a detail page would otherwise open wherever the last view was left.
-  // The list it was opened from keeps its place for Back.
-  const main = document.querySelector('.main');
-  if(id!=='detail') detailTrail = [];
-  else {
-    if(!document.getElementById('panel-detail').classList.contains('active')) detailOriginScroll = main.scrollTop;
-    main.scrollTop = 0;
+// The page scrolls as one container shared by every tab, so each tab's place is kept here and put
+// back when it is shown again; a tab not yet visited (and every detail page) starts at the top.
+const panelScroll = {};
+// Tabs like Players and Listening finish drawing after a fetch, so a saved place may be past the
+// end of what is on screen yet. Keep reapplying it as the tab grows, for a few seconds, unless
+// the user scrolls first or switches tabs.
+let scrollRestore = null;
+function restorePanelScroll(main, panel, target) {
+  if(scrollRestore) scrollRestore();
+  main.scrollTop = target;
+  if(main.scrollTop >= target - 1) return;
+  const ro = new ResizeObserver(() => { main.scrollTop = target; if(main.scrollTop >= target - 1) stop(); });
+  const userScroll = () => stop();
+  const timer = setTimeout(() => stop(), 4000);
+  function stop() {
+    ro.disconnect(); clearTimeout(timer);
+    ['wheel','touchstart','keydown','mousedown'].forEach(e => main.removeEventListener(e, userScroll));
+    if(scrollRestore===stop) scrollRestore = null;
   }
+  ['wheel','touchstart','keydown','mousedown'].forEach(e => main.addEventListener(e, userScroll, { passive:true }));
+  ro.observe(panel);
+  scrollRestore = stop;
+}
+function showPanel(id) {
+  const main = document.querySelector('.main');
+  const leaving = document.querySelector('.panel.active')?.id.replace('panel-','');
+  if(leaving && leaving!=='detail') panelScroll[leaving] = main.scrollTop;
+  if(id!=='detail') detailTrail = [];
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
@@ -5819,6 +5836,7 @@ function showPanel(id) {
   if(id==='records') drawRecords();
   if(id==='players') renderPlayers();
   if(id==='settings') renderSettings();
+  restorePanelScroll(main, document.getElementById('panel-'+id), id==='detail' ? 0 : (panelScroll[id] || 0));
 }
 function renderAll() {
   renderToday();
