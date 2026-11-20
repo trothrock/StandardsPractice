@@ -14628,5 +14628,26 @@
     "secs": 3089
   },
   "classicalSeeded": true,
-  "recordsGenre": "jazz"
+  "recordsGenre": "jazz",
+  "tabLayout": {
+    "order": [
+      "today",
+      "activity",
+      "listening",
+      "records",
+      "players",
+      "library",
+      "repertoire",
+      "voicings",
+      "vocabulary",
+      "concepts",
+      "keys",
+      "queue"
+    ],
+    "hidden": [
+      "queue",
+      "keys",
+      "concepts"
+    ]
+  }
 }

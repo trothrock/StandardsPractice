@@ -40,6 +40,14 @@
   .settings-row .sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
   .settings-row input[type="number"] { width: 64px; flex-shrink: 0; text-align: center; background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius); color: var(--text); font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; padding: 6px 8px; outline: none; transition: border-color 0.15s; }
   .settings-row input[type="number"]:focus { border-color: var(--gold); }
+  .tab-row { justify-content: flex-start; padding: 8px 20px; }
+  .tab-row .tab-name { flex: 1; }
+  .tab-row.tab-hidden .label { color: var(--text3); }
+  .tab-move { display: flex; gap: 4px; }
+  .tab-move .btn-timer:disabled { opacity: 0.3; cursor: default; }
+  .section-head .tab-reset { font-size: 11px; padding: 3px 10px; }
+  .toggle-switch input:disabled { cursor: not-allowed; }
+  .toggle-switch input:disabled + .toggle-slider { opacity: 0.45; }
   .toggle-switch { position: relative; width: 36px; height: 20px; flex-shrink: 0; }
   .toggle-switch input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
   .toggle-slider { position: absolute; inset: 0; background: var(--bg3); border: 1px solid var(--border2); border-radius: 999px; transition: all 0.15s; pointer-events: none; }
@@ -501,51 +509,51 @@
       <p>Practice Tracker</p>
     </div>
     <nav class="nav">
-      <div class="nav-item active" onclick="showPanel('today')">
+      <div class="nav-item active" data-tab="today" onclick="showPanel('today')">
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 8h6M5 5h2M5 11h4"/></svg>
         Today
       </div>
-      <div class="nav-item" onclick="showPanel('activity')">
+      <div class="nav-item" data-tab="activity" onclick="showPanel('activity')">
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
         Activity
       </div>
-      <div class="nav-item" onclick="showPanel('listening')">
+      <div class="nav-item" data-tab="listening" onclick="showPanel('listening')">
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 10V8a5 5 0 0 1 10 0v2"/><rect x="2" y="10" width="3" height="4" rx="1"/><rect x="11" y="10" width="3" height="4" rx="1"/></svg>
         Listening
       </div>
-      <div class="nav-item" onclick="showPanel('records')">
+      <div class="nav-item" data-tab="records" onclick="showPanel('records')">
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6.5"/><circle cx="8" cy="8" r="2"/></svg>
         Records
       </div>
-      <div class="nav-item" onclick="showPanel('players')">
+      <div class="nav-item" data-tab="players" onclick="showPanel('players')">
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="5" r="3"/><path d="M2.5 14c.6-3 2.7-4.5 5.5-4.5s4.9 1.5 5.5 4.5"/></svg>
         Players
       </div>
-      <div class="nav-item" onclick="showPanel('library')">
+      <div class="nav-item" data-tab="library" onclick="showPanel('library')">
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="2" width="10" height="12" rx="1"/><path d="M6 2v12M3 5h3M3 8h3"/></svg>
         Library
       </div>
-      <div class="nav-item" onclick="showPanel('repertoire')">
+      <div class="nav-item" data-tab="repertoire" onclick="showPanel('repertoire')">
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="8,2 9.8,6.2 14.4,6.2 10.8,9 12.1,13.5 8,11 3.9,13.5 5.2,9 1.6,6.2 6.2,6.2"/></svg>
         Repertoire
       </div>
-      <div class="nav-item" onclick="showPanel('voicings')">
+      <div class="nav-item" data-tab="voicings" onclick="showPanel('voicings')">
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 11V3M8 11V5M12 11V7"/><circle cx="4" cy="12" r="1.4"/><circle cx="8" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/></svg>
         Voicings
       </div>
-      <div class="nav-item" onclick="showPanel('vocabulary')">
+      <div class="nav-item" data-tab="vocabulary" onclick="showPanel('vocabulary')">
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5h12v7H6.5L3.5 13.5V10.5H2z"/><path d="M4.5 6h7M4.5 8h4"/></svg>
         Vocabulary
       </div>
-      <div class="nav-item" onclick="showPanel('concepts')">
+      <div class="nav-item" data-tab="concepts" onclick="showPanel('concepts')">
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1.8a4.2 4.2 0 0 0-2.5 7.6V11h5V9.4A4.2 4.2 0 0 0 8 1.8z"/><path d="M6 13h4M6.8 14.6h2.4"/></svg>
         Concepts
       </div>
-      <div class="nav-item" onclick="showPanel('keys')">
+      <div class="nav-item" data-tab="keys" onclick="showPanel('keys')">
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><circle cx="8" cy="8" r="2"/><path d="M8 2v2M8 12v2M2 8h2M12 8h2"/></svg>
         Key centers
       </div>
-      <div class="nav-item" onclick="showPanel('queue')">
+      <div class="nav-item" data-tab="queue" onclick="showPanel('queue')">
         <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3h12M2 6h12M2 9h8M2 12h5"/></svg>
         Review Queue
       </div>
@@ -711,6 +719,10 @@
     <div id="panel-settings" class="panel">
       <div class="panel-title">Settings</div>
       <div class="panel-sub">Manage your song library and data</div>
+      <div class="section" style="margin-bottom:20px">
+        <div class="section-head"><h2>Tabs</h2><button class="btn-action tab-reset" onclick="resetTabLayout()">Reset</button></div>
+        <div id="tab-settings"></div>
+      </div>
       <div class="section" style="margin-bottom:20px">
         <div class="section-head"><h2>Practice management</h2></div>
         <div class="settings-row">
@@ -5821,8 +5833,7 @@ function showPanel(id) {
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
-  const idx = ['today','activity','listening','records','players','library','repertoire','voicings','vocabulary','concepts','keys','queue'].indexOf(id);
-  if(idx>=0) document.querySelectorAll('.nav-item')[idx].classList.add('active');
+  document.querySelector(`.nav .nav-item[data-tab="${id}"]`)?.classList.add('active');
   if(id==='settings') document.getElementById('nav-settings').classList.add('active');
   if(id==='library') renderLibrary();
   if(id==='repertoire') renderRepertoire();
@@ -5941,6 +5952,74 @@ function renderSettings() {
   document.getElementById('listening-goal').value = listeningGoal(db);
   document.getElementById('listening-calendar-toggle').checked = !!db.showListeningCalendar;
   renderSessionSettings(db);
+  renderTabSettings(db);
+}
+// ── Sidebar tabs: order and visibility ──
+// db.tabLayout = { order:[tab ids], hidden:[tab ids] }. Tabs missing from a saved order (added
+// to the app later) keep their default place. Today can't be hidden: it's where the app opens.
+function defaultTabOrder() { return [...document.querySelectorAll('.nav .nav-item[data-tab]')].map(el => el.dataset.tab); }
+let DEFAULT_TAB_ORDER = null;
+function tabLayout(db) {
+  if(!DEFAULT_TAB_ORDER) DEFAULT_TAB_ORDER = defaultTabOrder();
+  const saved = db.tabLayout || {};
+  const order = (saved.order || []).filter(id => DEFAULT_TAB_ORDER.includes(id));
+  DEFAULT_TAB_ORDER.forEach((id, i) => {
+    if(order.includes(id)) return;
+    // Put a new tab after the tab that precedes it by default.
+    const before = DEFAULT_TAB_ORDER.slice(0, i).reverse().find(t => order.includes(t));
+    order.splice(before ? order.indexOf(before) + 1 : 0, 0, id);
+  });
+  return { order, hidden: (saved.hidden || []).filter(id => id !== 'today') };
+}
+function applyTabLayout(db) {
+  const { order, hidden } = tabLayout(db);
+  const nav = document.querySelector('.nav');
+  order.forEach(id => {
+    const el = nav.querySelector(`.nav-item[data-tab="${id}"]`);
+    nav.appendChild(el);
+    el.style.display = hidden.includes(id) ? 'none' : '';
+  });
+}
+function tabLabel(id) { return document.querySelector(`.nav .nav-item[data-tab="${id}"]`).textContent.trim(); }
+function renderTabSettings(db) {
+  const el = document.getElementById('tab-settings');
+  if(!el) return;
+  const { order, hidden } = tabLayout(db);
+  const arrow = d => `<svg viewBox="0 0 12 12"><path d="${d==='up' ? 'M2.5 7.5 6 4l3.5 3.5' : 'M2.5 4.5 6 8l3.5-3.5'}" style="fill:none" stroke="currentColor" stroke-width="1.5"/></svg>`;
+  el.innerHTML = order.map((id, i) => {
+    const shown = !hidden.includes(id);
+    const lock = id === 'today';
+    return `<div class="settings-row tab-row${shown?'':' tab-hidden'}">
+      <div class="tab-move">
+        <button class="btn-timer" title="Move up" aria-label="Move ${escHTML(tabLabel(id))} up" onclick="moveTab('${id}',-1)"${i===0?' disabled':''}>${arrow('up')}</button>
+        <button class="btn-timer" title="Move down" aria-label="Move ${escHTML(tabLabel(id))} down" onclick="moveTab('${id}',1)"${i===order.length-1?' disabled':''}>${arrow('down')}</button>
+      </div>
+      <div class="tab-name"><div class="label">${escHTML(tabLabel(id))}</div>${lock?'<div class="sub">Always shown — the app opens here</div>':''}</div>
+      <label class="toggle-switch" title="${lock?'Today is always shown':shown?'Hide tab':'Show tab'}"><input type="checkbox"${shown?' checked':''}${lock?' disabled':''} onchange="setTabShown('${id}', this.checked)"><span class="toggle-slider"></span></label>
+    </div>`;
+  }).join('');
+}
+function saveTabLayout(db, layout) {
+  db.tabLayout = layout;
+  saveDB(db); applyTabLayout(db); renderTabSettings(db);
+}
+function moveTab(id, dir) {
+  const db = getDB(), layout = tabLayout(db), i = layout.order.indexOf(id), j = i + dir;
+  if(j < 0 || j >= layout.order.length) return;
+  [layout.order[i], layout.order[j]] = [layout.order[j], layout.order[i]];
+  saveTabLayout(db, layout);
+}
+function setTabShown(id, shown) {
+  if(id === 'today') return;
+  const db = getDB(), layout = tabLayout(db);
+  layout.hidden = shown ? layout.hidden.filter(t => t !== id) : [...new Set([...layout.hidden, id])];
+  saveTabLayout(db, layout);
+}
+function resetTabLayout() {
+  const db = getDB();
+  delete db.tabLayout;
+  saveDB(db); applyTabLayout(db); renderTabSettings(db);
+  toast('Tabs back to the default order, all shown.');
 }
 // Off by default. The Listening tab is drawn afresh whenever it's opened, so no redraw is needed here.
 function toggleListeningCalendar(input) {
@@ -7378,6 +7457,7 @@ function rankerFinish() {
   if(rated > 0) toast(`Ratings saved — ${rated} song${rated===1?'':'s'} added to your schedule.`);
 }
 
+applyTabLayout(getDB());
 renderToday();
 // Every view works out "today" when it draws, so a tab left open overnight shows yesterday until
 // something redraws it. Redraw once the date has moved on: when the tab comes back into view or
