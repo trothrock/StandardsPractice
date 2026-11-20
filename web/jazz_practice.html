@@ -1796,21 +1796,19 @@ function agendaRowParts(db, row) {
       const v = (db.voicings||[]).find(x=>x.name===name);
       if(!v) { parts.meta = 'Open warm-up'; break; }
       parts.open = `showVoicingDetail(${jsArg(name)})`;
-      parts.meta = [v.category, `familiarity ${v.familiarity||0}`, levelSummary('voicing', v), tempoSummary(v)].filter(Boolean).join(' · ');
+      parts.meta = v.category ? escHTML(v.category) : '';
       break;
     }
     case 'language': {
       const c = (db.vocabulary||[]).find(x=>x.name===name);
       if(!c) { parts.meta = 'Open study — add Vocabulary items to rotate through them'; break; }
       parts.open = `showVocabDetail(${jsArg(name)})`;
-      parts.meta = [`familiarity ${c.familiarity||0}`, levelSummary('vocab', c), tempoSummary(c), (c.tags||[]).join(', ')].filter(Boolean).join(' · ') + vocabSourceHTML(db, c, true);
+      // Familiarity, levels, tempo, tags and source live in the detail view.
       break;
     }
     case 'learn': {
       const sg = db.songs[name];
       parts.open = `showSongDetail(${jsArg(name)})`;
-      parts.title += ' ' + lvlBadge(sg.baseLevel);
-      parts.meta = sortTags(sg.tags||[]).join(' / ') || 'Standard';
       const blocker = learningBlocker(db, sg);
       parts.action = blocker ? `<span class="agenda-hint" title="${escHTML(blocker)}">Level 2 after ${LEARNING_MIN_DAYS} days + exit criteria</span>` : `<button class="btn-primary" onclick="markLearned(${jsArg(name)})">Mark as level 2</button>`;
       parts.extra = `<div class="learning-wrap agenda-learning">${learningDaysHTML(db, sg)}${learningChecklistHTML(db, sg, name.replace(/\\/g,'\\\\').replace(/'/g,"\\'"))}</div>`;
@@ -1819,27 +1817,22 @@ function agendaRowParts(db, row) {
     case 'review': {
       const sg = db.songs[name];
       parts.open = `showSongDetail(${jsArg(name)})`;
-      parts.title += ' ' + lvlBadge(sg.currentLevel);
+      // Only the outcome once reviewed; stage, solo history and gaps live in the detail view.
       const today = (sg.reviews||[]).filter(r=>r.date===tod).slice(-1)[0];
-      if(today) {
-        parts.meta = `${today.passed ? 'Memorized' : 'Needs work'}${today.solo ? ' · solo ' + today.solo + ' · ' + SOLO_RATINGS[today.solo].label : ''}`;
-      } else {
-        const seen = lastSeenInt(sg), solo = lastSoloRating(sg);
-        parts.meta = [sg.pinnedReviewDate && sg.pinnedReviewDate <= tod ? 'kept up from last review' : null, seen ? `${daysBetween(seen, tod)}d since last review` : 'not yet reviewed', `stage ${stageOf(sg)}`, solo ? `last solo ${solo.solo} · ${SOLO_RATINGS[solo.solo].label}` : null].filter(Boolean).join(' · ');
-      }
+      if(today) parts.meta = today.passed ? 'Memorized' : 'Needs work';
       break;
     }
     case 'rep': {
       const pc = (db.repertoire||[]).find(x=>x.name===name);
       parts.open = `showRepertoireDetail(${jsArg(name)})`;
-      parts.meta = [pc && pc.composer ? escHTML(pc.composer) : null, pc && pc.lastReviewed===tod ? 'reviewed today' : null].filter(Boolean).join(' · ');
+      parts.meta = pc && pc.composer ? escHTML(pc.composer) : '';
       break;
     }
     case 'keys': {
       const sg = db.songs[name];
       parts.open = `showSongDetail(${jsArg(name)})`;
       const key = sg.practiceKey && KEY_BY_ID[sg.practiceKey.key] ? sg.practiceKey.key : sg.standardKey;
-      parts.meta = `in ${keyLabel(key)}${lastKeyReviewInt(sg)===tod ? ' · reviewed today' : ''}`;
+      parts.meta = `in ${keyLabel(key)}`;
       break;
     }
   }
@@ -1861,8 +1854,7 @@ function agendaHTML(db) {
   const ws = weekStartInt(tod);
   const reviewed = Object.values(db.songs).reduce((n,s)=>n+(s.reviews||[]).filter(r=>r.date>=ws&&r.date<=tod).length, 0);
   const weekMins = (db.activity||[]).reduce((n,e)=>n + (e.type==='practice_time' && e.date>=ws && e.date<=tod ? e.secs/60 : 0), 0);
-  const perSession = rows.filter(r=>r.block.id==='review').length;
-  const foot = `<div class="agenda-foot">This week · ${reviewed} ${reviewed===1?'tune':'tunes'} reviewed${perSession?` (${perSession} per session)`:''} · ${formatMinutes(weekMins)} practiced</div>`;
+  const foot = `<div class="agenda-foot">This week · ${reviewed} ${reviewed===1?'tune':'tunes'} reviewed · ${formatMinutes(weekMins)} practiced</div>`;
   const head = db.session ? 'Session' : db.lastSession && db.lastSession.date===tod ? "Today's session" : 'Up next';
   return `<div class="section agenda"><div class="section-head"><h2>${head}</h2></div>${body}${foot}</div>`;
 }
@@ -7369,6 +7361,19 @@ function rankerFinish() {
 }
 
 renderToday();
+// Every view works out "today" when it draws, so a tab left open overnight shows yesterday until
+// something redraws it. Redraw once the date has moved on: when the tab comes back into view or
+// the window regains focus, and on a minute timer for a page that stays on screen past midnight.
+let renderedDay = todayInt();
+function checkDayRollover() {
+  if(todayInt() === renderedDay) return;
+  renderedDay = todayInt();
+  renderAll();
+}
+document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible') checkDayRollover(); });
+window.addEventListener('focus', checkDayRollover);
+window.addEventListener('pageshow', checkDayRollover);
+setInterval(checkDayRollover, 60000);
 checkOnboarding();
 scheduleNotesSync();
 scheduleAutoBackup();

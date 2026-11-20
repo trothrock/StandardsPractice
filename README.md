@@ -36,6 +36,8 @@ Then open [http://localhost:3000](http://localhost:3000).
 
 A `Start Practice Tracker.command` file is also included for double-click launch on macOS.
 
+To launch without a Terminal window, run `web/make-app.sh` once. It builds `~/Applications/Practice Tracker.app`, which you can drag to the Dock or Desktop. Each double-click stops any running tracker server, starts a fresh one in the background (so code changes load), and opens the page. Server output goes to `~/Library/Logs/PracticeTracker.log`.
+
 ## Project structure
 
 ```
