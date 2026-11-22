@@ -470,7 +470,7 @@
       "baseLevel": 2,
       "currentLevel": 2,
       "status": "active",
-      "intervalIdx": 1,
+      "intervalIdx": 2,
       "learnedDate": 20260419,
       "reviews": [
         {
@@ -486,6 +486,12 @@
           "date": 20261005,
           "passed": true,
           "key": "Bb"
+        },
+        {
+          "date": 20261121,
+          "passed": true,
+          "key": "Bb",
+          "solo": 2
         }
       ],
       "sortSeed": 0.07817612644370597,
@@ -3427,7 +3433,7 @@
       "baseLevel": 2,
       "currentLevel": 2,
       "status": "active",
-      "intervalIdx": 0,
+      "intervalIdx": 1,
       "learnedDate": 20260419,
       "reviews": [
         {
@@ -3442,6 +3448,12 @@
         {
           "date": 20261117,
           "passed": false,
+          "key": "Em",
+          "solo": 1
+        },
+        {
+          "date": 20261121,
+          "passed": true,
           "key": "Em",
           "solo": 1
         }
@@ -3464,7 +3476,7 @@
           "text": "McCoy Tyner vamp voicings"
         }
       ],
-      "pinnedReviewDate": 20261118
+      "pinnedReviewDate": 20261122
     },
     "My Foolish Heart": {
       "name": "My Foolish Heart",
@@ -5900,8 +5912,8 @@
     }
   },
   "currentNewSong": "Bags' Groove",
-  "streak": 15,
-  "lastPracticeDay": 20261119,
+  "streak": 1,
+  "lastPracticeDay": 20261121,
   "activity": [
     {
       "ts": 1776634938073,
@@ -9195,6 +9207,92 @@
       "area": "review",
       "name": "My Favorite Things",
       "secs": 641
+    },
+    {
+      "ts": 1795265061556,
+      "date": 20261121,
+      "type": "practice_time",
+      "area": "voicing",
+      "name": "[3] Minor ii-V-i",
+      "secs": 311
+    },
+    {
+      "ts": 1795265061556,
+      "date": 20261121,
+      "type": "voicing_session",
+      "name": "[3] Minor ii-V-i"
+    },
+    {
+      "ts": 1795265061557,
+      "date": 20261121,
+      "type": "voicing_reviewed",
+      "name": "[3] Minor ii-V-i",
+      "familiarity": 0,
+      "bpm": 160
+    },
+    {
+      "ts": 1795265380686,
+      "date": 20261121,
+      "type": "practice_time",
+      "area": "vocab",
+      "name": "5-7-9-11 climb on ii",
+      "secs": 319
+    },
+    {
+      "ts": 1795265380686,
+      "date": 20261121,
+      "type": "vocab_practiced",
+      "name": "5-7-9-11 climb on ii",
+      "familiarity": 0,
+      "bpm": 120
+    },
+    {
+      "ts": 1795265559105,
+      "date": 20261121,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "Bags' Groove",
+      "secs": 178
+    },
+    {
+      "ts": 1795265559105,
+      "date": 20261121,
+      "type": "practiced",
+      "name": "Bags' Groove"
+    },
+    {
+      "ts": 1795266203729,
+      "date": 20261121,
+      "type": "practice_time",
+      "area": "review",
+      "name": "My Favorite Things",
+      "secs": 645
+    },
+    {
+      "ts": 1795266203729,
+      "date": 20261121,
+      "type": "review",
+      "name": "My Favorite Things",
+      "passed": true,
+      "key": "Em",
+      "solo": 1
+    },
+    {
+      "ts": 1795266843565,
+      "date": 20261121,
+      "type": "practice_time",
+      "area": "review",
+      "name": "Basin Street Blues",
+      "secs": 640
+    },
+    {
+      "ts": 1795266843565,
+      "date": 20261121,
+      "type": "review",
+      "name": "Basin Street Blues",
+      "passed": true,
+      "key": "Bb",
+      "solo": 2
     }
   ],
   "extraReviewsToday": {
@@ -9510,7 +9608,7 @@
       "familiarity": 0,
       "addedDate": 20260914,
       "sortSeed": 0.6936092227190404,
-      "lastPracticed": 20261119,
+      "lastPracticed": 20261121,
       "chords": [
         "B-7(♭5) · top E",
         "E7(♭9)",
@@ -9527,7 +9625,7 @@
       "targetTempo": 160,
       "notes": "110 bpm",
       "lastTempo": {
-        "date": 20261119,
+        "date": 20261121,
         "bpm": 160
       },
       "tempoLog": [
@@ -9542,9 +9640,13 @@
         {
           "date": 20261119,
           "bpm": 160
+        },
+        {
+          "date": 20261121,
+          "bpm": 160
         }
       ],
-      "pinnedDate": 20261120
+      "pinnedDate": 20261122
     },
     {
       "name": "[2] Major ii-V-I",
@@ -9961,7 +10063,7 @@
       "familiarity": 0,
       "addedDate": 20261115,
       "sortSeed": 0.6325330114596202,
-      "lastPracticed": 20261119,
+      "lastPracticed": 20261121,
       "levelUp": {
         "target": 1,
         "checks": {
@@ -9972,7 +10074,7 @@
         "passes": []
       },
       "lastTempo": {
-        "date": 20261119,
+        "date": 20261121,
         "bpm": 120
       },
       "tempoLog": [
@@ -9983,9 +10085,13 @@
         {
           "date": 20261119,
           "bpm": 120
+        },
+        {
+          "date": 20261121,
+          "bpm": 120
         }
       ],
-      "pinnedDate": 20261120
+      "pinnedDate": 20261122
     }
   ],
   "keyCenters": {
@@ -14577,34 +14683,37 @@
   "vocabView": "items",
   "sessionPlan": {
     "voicing": {
-      "mins": 10
+      "mins": 5
     },
     "learn": {
-      "mins": 20
+      "mins": 10
+    },
+    "language": {
+      "mins": 5
     }
   },
   "lastSession": {
-    "date": 20261119,
-    "start": 1795090375947,
-    "end": 1795093488349,
+    "date": 20261121,
+    "start": 1795264750098,
+    "end": 1795266843566,
     "blocks": [
       {
         "id": "voicing",
         "label": "Voicing warm-up",
         "area": "voicing",
-        "mins": 10
+        "mins": 5
       },
       {
         "id": "language",
         "label": "Language study",
         "area": "vocab",
-        "mins": 10
+        "mins": 5
       },
       {
         "id": "learn",
         "label": "New tune",
         "area": "learn",
-        "mins": 20
+        "mins": 10
       },
       {
         "id": "review",
@@ -14623,9 +14732,10 @@
       "[3] Minor ii-V-i",
       "5-7-9-11 climb on ii",
       "Bags' Groove",
-      "My Favorite Things"
+      "My Favorite Things",
+      "Basin Street Blues"
     ],
-    "secs": 3089
+    "secs": 2093
   },
   "classicalSeeded": true,
   "recordsGenre": "jazz",
