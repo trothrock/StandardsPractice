@@ -419,10 +419,10 @@
     "Bags' Groove": {
       "name": "Bags' Groove",
       "baseLevel": 0,
-      "currentLevel": 0,
-      "status": "learning",
-      "intervalIdx": -1,
-      "learnedDate": null,
+      "currentLevel": 2,
+      "status": "active",
+      "intervalIdx": 0,
+      "learnedDate": 20261123,
       "reviews": [],
       "sortSeed": 0.19115092350199903,
       "composer": "Milt Jackson",
@@ -442,7 +442,9 @@
         "melody-shell": true,
         "bass-track": true,
         "intro-outro": true,
-        "points": true
+        "points": true,
+        "substitutions": true,
+        "comping": true
       },
       "pointsOfInterest": [
         {
@@ -677,8 +679,8 @@
       "multiKey": true,
       "staleFrom": 20261002,
       "practiceKey": {
-        "date": 20261116,
-        "key": "A"
+        "date": 20261123,
+        "key": "Db"
       },
       "tags": [
         "Songbook"
@@ -2737,8 +2739,8 @@
         "Jam"
       ],
       "practiceKey": {
-        "date": 20261116,
-        "key": "A"
+        "date": 20261123,
+        "key": "Db"
       }
     },
     "Just One of Those Things": {
@@ -4598,7 +4600,7 @@
       "name": "Song for My Father",
       "baseLevel": 0,
       "currentLevel": 0,
-      "status": "untouched",
+      "status": "learning",
       "intervalIdx": -1,
       "learnedDate": null,
       "reviews": [],
@@ -5602,8 +5604,8 @@
         }
       ],
       "practiceKey": {
-        "date": 20261116,
-        "key": "A"
+        "date": 20261123,
+        "key": "Db"
       }
     },
     "What's New?": {
@@ -5922,9 +5924,9 @@
       ]
     }
   },
-  "currentNewSong": "Bags' Groove",
-  "streak": 2,
-  "lastPracticeDay": 20261122,
+  "currentNewSong": "Song for My Father",
+  "streak": 3,
+  "lastPracticeDay": 20261123,
   "activity": [
     {
       "ts": 1776634938073,
@@ -9390,6 +9392,63 @@
       "passed": true,
       "key": "C",
       "solo": 2
+    },
+    {
+      "ts": 1795437949905,
+      "date": 20261123,
+      "type": "learned",
+      "name": "Bags' Groove"
+    },
+    {
+      "ts": 1795437970446,
+      "date": 20261123,
+      "type": "started_learning",
+      "name": "Song for My Father"
+    },
+    {
+      "ts": 1795438496598,
+      "date": 20261123,
+      "type": "practice_time",
+      "area": "voicing",
+      "name": "[3] Major ii-V-I",
+      "secs": 328
+    },
+    {
+      "ts": 1795438496598,
+      "date": 20261123,
+      "type": "voicing_session",
+      "name": "[3] Major ii-V-I"
+    },
+    {
+      "ts": 1795438496598,
+      "date": 20261123,
+      "type": "voicing_reviewed",
+      "name": "[3] Major ii-V-I",
+      "familiarity": 0,
+      "bpm": 140
+    },
+    {
+      "ts": 1795439119144,
+      "date": 20261123,
+      "type": "vocab_level_up",
+      "name": "5-7-9-11 climb on ii",
+      "familiarity": 1
+    },
+    {
+      "ts": 1795439119144,
+      "date": 20261123,
+      "type": "practice_time",
+      "area": "vocab",
+      "name": "5-7-9-11 climb on ii",
+      "secs": 623
+    },
+    {
+      "ts": 1795439119145,
+      "date": 20261123,
+      "type": "vocab_practiced",
+      "name": "5-7-9-11 climb on ii",
+      "familiarity": 1,
+      "bpm": 120
     }
   ],
   "extraReviewsToday": {
@@ -9773,12 +9832,31 @@
       "familiarity": 0,
       "addedDate": 20261005,
       "sortSeed": 0.2461268586852252,
-      "lastPracticed": null,
+      "lastPracticed": 20261123,
       "chords": [
         "D-11 · top G",
         "G9",
         "CΔ13 · top G"
-      ]
+      ],
+      "levelUp": {
+        "target": 1,
+        "checks": {
+          "keys": true,
+          "leading": true
+        },
+        "passes": []
+      },
+      "lastTempo": {
+        "date": 20261123,
+        "bpm": 140
+      },
+      "tempoLog": [
+        {
+          "date": 20261123,
+          "bpm": 140
+        }
+      ],
+      "pinnedDate": 20261124
     },
     {
       "name": "[4] Major ii-V-I",
@@ -10162,23 +10240,12 @@
         "ii-V",
         "Major"
       ],
-      "familiarity": 0,
+      "familiarity": 1,
       "addedDate": 20261115,
       "sortSeed": 0.6325330114596202,
-      "lastPracticed": 20261122,
-      "levelUp": {
-        "target": 1,
-        "checks": {
-          "keys": true,
-          "sing": true,
-          "feel": true
-        },
-        "passes": [
-          20261122
-        ]
-      },
+      "lastPracticed": 20261123,
       "lastTempo": {
-        "date": 20261122,
+        "date": 20261123,
         "bpm": 120
       },
       "tempoLog": [
@@ -10197,8 +10264,13 @@
         {
           "date": 20261122,
           "bpm": 120
+        },
+        {
+          "date": 20261123,
+          "bpm": 120
         }
-      ]
+      ],
+      "levelSince": 20261123
     }
   ],
   "keyCenters": {
@@ -10281,8 +10353,8 @@
   "cadenceVersion": 7,
   "multiKeyPerWeek": 3,
   "multiKeyWeek": {
-    "weekStart": 20261116,
-    "key": "A"
+    "weekStart": 20261123,
+    "key": "Db"
   },
   "exitChecklistOpen": false,
   "exitChecklistDetailOpen": false,
@@ -10323,20 +10395,20 @@
   "voicingActivityNamesFixed": true,
   "albumOfWeek": {
     "classic": {
-      "albumId": "5BymHphSwXImKUTljcMJvu",
-      "weekStart": 20261116
+      "albumId": "5fmIolILp5NAtNYiRPjhzA",
+      "weekStart": 20261123
     },
     "contemporary": {
-      "albumId": "4RbKJI17ImGfxt6ariFkMR",
-      "weekStart": 20261116
+      "albumId": "5apzPGL9pMN4bLMaNG4pQ6",
+      "weekStart": 20261123
     },
     "classical-classic": {
-      "albumId": "0ZcPAe1hhWpGkqo5fzRHsC",
-      "weekStart": 20261116
+      "albumId": "1hSk2tQTT6rCOkYuUU9MId",
+      "weekStart": 20261123
     },
     "classical-contemporary": {
-      "albumId": "712YQUbZXqjyrfSXW5CiFS",
-      "weekStart": 20261116
+      "albumId": "35dkwtH35tW2tRyTJk8iW3",
+      "weekStart": 20261123
     }
   },
   "records": [
@@ -10620,7 +10692,8 @@
         "Herbie Hancock"
       ],
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02b170840d6fdbc754ba304058",
-      "year": "1973"
+      "year": "1973",
+      "featuredWeek": 20261123
     },
     {
       "albumId": "4VUawqEDCHHfrUe77ScQ2K",
@@ -11108,7 +11181,8 @@
         "Irma Thomas"
       ],
       "albumImage": "https://i.scdn.co/image/ab67616d00001e023609f6fbc510b790b86dd6ad",
-      "year": "2025"
+      "year": "2025",
+      "featuredWeek": 20261123
     },
     {
       "albumId": "0ZtyPgjVZsMzwxeDYYgllf",
@@ -12654,7 +12728,8 @@
           "born": 1810
         }
       ],
-      "genre": "classical"
+      "genre": "classical",
+      "featuredWeek": 20261123
     },
     {
       "albumId": "15eDPyIfckhVY32Hwgvoyd",
@@ -13506,7 +13581,8 @@
           "born": 1944
         }
       ],
-      "genre": "classical"
+      "genre": "classical",
+      "featuredWeek": 20261123
     },
     {
       "albumId": "4KVK2jUt17GSCNincFWgXE",
@@ -13791,7 +13867,7 @@
       "genre": "classical"
     }
   ],
-  "recordsSort": "year",
+  "recordsSort": "title",
   "recordsView": "grid",
   "creditLinks": {
     "3nLStxdTkSzihxm7FTLzCP": {
@@ -14793,10 +14869,10 @@
       "mins": 5
     },
     "learn": {
-      "mins": 10
+      "mins": 25
     },
     "language": {
-      "mins": 5
+      "mins": 10
     }
   },
   "lastSession": {
@@ -14866,5 +14942,64 @@
       "keys",
       "concepts"
     ]
+  },
+  "session": {
+    "start": 1795438168986,
+    "blocks": [
+      {
+        "id": "voicing",
+        "label": "Voicing warm-up",
+        "area": "voicing",
+        "mins": 5
+      },
+      {
+        "id": "language",
+        "label": "Language study",
+        "area": "vocab",
+        "mins": 10
+      },
+      {
+        "id": "learn",
+        "label": "New tune",
+        "area": "learn",
+        "mins": 25
+      },
+      {
+        "id": "review",
+        "label": "Tune review 1",
+        "area": "review",
+        "mins": 10
+      },
+      {
+        "id": "review",
+        "label": "Tune review 2",
+        "area": "review",
+        "mins": 10
+      }
+    ],
+    "idx": 2,
+    "used": [
+      "[3] Major ii-V-I",
+      "5-7-9-11 climb on ii",
+      "Song for My Father"
+    ],
+    "names": [
+      "[3] Major ii-V-I",
+      "5-7-9-11 climb on ii",
+      "Song for My Father"
+    ],
+    "paused": false,
+    "area": "learn",
+    "name": "Song for My Father",
+    "targetMs": 1500000,
+    "alerted": false,
+    "prompt": false
+  },
+  "timer": {
+    "area": "learn",
+    "name": "Song for My Father",
+    "start": 1795439119146,
+    "runStart": 1795439227778,
+    "accMs": 12092
   }
 }
