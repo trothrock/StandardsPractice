@@ -3789,6 +3789,7 @@ function listenThumb(url, albumId, trackId) {
 // of last week. A jazz album's era is set by its year, a classical album's by when its oldest composer
 // was born. An album without that belongs to neither era, so it waits until it's added.
 let albumPlays = null;
+let weekPlaylist = null; // the server's Spotify playlist of this week's albums, once it exists
 let albumSearch = { open:false, q:'', results:null, error:null, searching:false };
 // [era, label, what belongs there, name in a sentence]
 const RECORD_ERAS = [
@@ -3975,7 +3976,9 @@ function albumOfWeekHTML(db) {
     return `<div class="album-feature"><a class="listen-thumb-link" href="spotify:album:${escHTML(cur.albumId)}" title="Open in Spotify">${art}</a><div style="flex:1;min-width:0"><div class="album-feature-era">${label}</div><div class="album-feature-title album-link" onclick="showAlbumDetail('${escHTML(cur.albumId)}')">${escHTML(cur.album)}</div><div class="album-feature-meta">${albumMeta(cur, true)}</div>${skip?`<div class="album-feature-foot">${skip}</div>`:''}</div></div>`;
   });
   const pair = cards => `<div class="album-week-pair">${cards.join('')}</div>`;
-  return `<div class="section"><div class="section-head"><h2>Albums of the Week</h2></div>${pair(features.slice(0,2))}${pair(features.slice(2))}</div>`;
+  const pl = weekPlaylist?.weekStart===weekStartInt(todayInt()) ? weekPlaylist : null;
+  const plLink = pl ? `<a class="count" style="color:var(--gold)" href="spotify:playlist:${escHTML(pl.id)}" title="Open this week's albums as one playlist in Spotify">Playlist · ${pl.trackCount} tracks</a>` : '';
+  return `<div class="section"><div class="section-head"><h2>Albums of the Week</h2>${plLink}</div>${pair(features.slice(0,2))}${pair(features.slice(2))}</div>`;
 }
 // Records owned on vinyl or CD, from the Discogs collection. An album counts when its confirmed release,
 // or another pressing of the same master, is in the collection, or when one there has the same title
@@ -4224,6 +4227,7 @@ async function renderListening() {
     return `<div class="song-row clickable" onclick="showSongDetail('${safe(name)}')">${thumb}<div style="flex:1;min-width:0"><div class="song-name-group"><span class="song-name">${escHTML(name)}</span>${lvlBadge(sg.currentLevel)}</div>${bar}</div><span class="key-stat">${stat}</span></div>`;
   }).join('');
   albumPlays = data.plays;
+  weekPlaylist = data.weekPlaylist || null;
   albumTracksFailed.clear();
   const albumSlot = `<div id="album-week-slot">${albumOfWeekHTML(db)}</div>`;
   const playlistSection = `<div class="section"><div class="section-head"><h2>Today's playlist</h2>${playlist.length?`<span class="count">${playlist.length} song${playlist.length===1?'':'s'}</span>`:''}</div>${playlistRows || '<div class="empty">Today\'s playlist hasn\'t been created yet.</div>'}</div>`;

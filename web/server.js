@@ -135,6 +135,8 @@ function writeBackup(db, reply) {
         return;
       }
       backupDirty = true;
+      // The page saves after picking, skipping or featuring an album of the week
+      spotify.runWeeklyPlaylist();
       reply(200, { ok: true, file: path.basename(BACKUP_FILE) });
     });
   });
@@ -272,7 +274,7 @@ const server = http.createServer((req, res) => {
 
   if (req.method === 'GET' && req.url === '/api/spotify/plays') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ ...spotify.getStatus(), plays: spotify.loadPlays().plays, references: spotify.loadReferencePlaylists().playlists, todayPlaylist: spotify.getTodayPlaylist() }));
+    res.end(JSON.stringify({ ...spotify.getStatus(), plays: spotify.loadPlays().plays, references: spotify.loadReferencePlaylists().playlists, todayPlaylist: spotify.getTodayPlaylist(), weekPlaylist: spotify.getWeekPlaylist() }));
     return;
   }
 

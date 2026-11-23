@@ -9,6 +9,8 @@
 // The reference-recording playlists are re-read once a day into data/spotify-playlists.json.
 // A private "Daily Standards" playlist is created once a day after both have synced, and logged
 // to data/spotify-daily-playlists.json.
+// A private "Albums of the Week" playlist holds every track of the week's four albums, kept in step
+// with the page's picks and logged to data/spotify-weekly-playlists.json.
 // Run directly to check connectivity: node spotify.js
 
 const fs = require('fs');
@@ -28,6 +30,7 @@ const TOKEN_FILE = path.join(__dirname, '.spotify-token.json');
 const PLAYS_FILE = path.join(__dirname, 'data', 'spotify-plays.json');
 const PLAYLISTS_FILE = path.join(__dirname, 'data', 'spotify-playlists.json');
 const DAILY_PLAYLISTS_FILE = path.join(__dirname, 'data', 'spotify-daily-playlists.json');
+const WEEKLY_PLAYLISTS_FILE = path.join(__dirname, 'data', 'spotify-weekly-playlists.json');
 const DB_BACKUP_FILE = path.join(__dirname, 'backups', 'jazz-tracker.json'); // the page's latest saved data
 
 const DAILY_PLAYLIST_SIZE = 6;
@@ -465,6 +468,126 @@ function runDailyPlaylist() {
   return dailyPlaylistRun;
 }
 
+// ── Weekly albums playlist ──
+
+// Same order as RECORD_ERAS in jazz_practice.html
+const ALBUM_ERAS = ['classic', 'contemporary', 'classical-classic', 'classical-contemporary'];
+const PLAYLIST_ITEMS_LIMIT = 100; // Spotify's maximum per request
+
+function loadWeeklyPlaylists() {
+  return readJson(WEEKLY_PLAYLISTS_FILE, { playlists: [] });
+}
+
+// Monday of this week as YYYYMMDD, matching weekStartInt(todayInt()) on the page
+function weekStartInt(d = new Date()) {
+  const m = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  m.setDate(m.getDate() - ((m.getDay() + 6) % 7));
+  return m.getFullYear() * 10000 + (m.getMonth() + 1) * 100 + m.getDate();
+}
+
+// This week's albums, in era order, as the page last saved them. The page picks them the first
+// time it's opened each week, so until then there are none.
+function currentWeekAlbums(db, week) {
+  return ALBUM_ERAS
+    .map(era => db.albumOfWeek?.[era])
+    .filter(cur => cur?.albumId && cur.weekStart === week)
+    .map(cur => (db.records || []).find(a => a.albumId === cur.albumId))
+    .filter(Boolean);
+}
+
+// Keeps one private playlist per week holding every track of that week's albums. It's created once
+// the page has picked the week's albums, and refilled if an album is skipped or swapped mid-week.
+// As with the daily playlist, it's logged before it's filled, so a failure in between is retried
+// against the same playlist.
+async function buildWeeklyPlaylist() {
+  const granted = (readJson(TOKEN_FILE, null)?.scope || '').split(' ');
+  if (!granted.includes(DAILY_PLAYLIST_SCOPE)) return { skipped: true, reason: 'scope' };
+  const db = readJson(DB_BACKUP_FILE, null);
+  if (!db) return { skipped: true };
+  const week = weekStartInt();
+  const albums = currentWeekAlbums(db, week);
+  if (!albums.length) return { skipped: true };
+  const albumIds = albums.map(a => a.albumId);
+
+  const store = loadWeeklyPlaylists();
+  let entry = store.playlists.find(p => p.weekStart === week);
+  if (entry?.filled && entry.albumIds.join() === albumIds.join()) return { skipped: true };
+
+  const tracks = [];
+  for (const id of albumIds) tracks.push(...(await getAlbumTracks(id)).map(t => t.id));
+  if (!entry) {
+    const monday = new Date(Math.floor(week / 10000), Math.floor(week / 100) % 100 - 1, week % 100);
+    const name = `Albums of the Week – ${monday.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+    const created = await spotifyWrite('POST', '/me/playlists', { name, public: false, description: 'Created by the practice tracker' });
+    entry = { weekStart: week, id: created.id, name, albumIds, filled: false };
+    store.playlists.push(entry);
+    writeJson(WEEKLY_PLAYLISTS_FILE, store);
+  }
+  const refill = entry.filled;
+  entry.filled = false;
+  entry.albumIds = albumIds;
+  entry.albums = albums.map(a => ({ albumId: a.albumId, album: a.album, artists: a.artists }));
+  writeJson(WEEKLY_PLAYLISTS_FILE, store);
+
+  // The first request replaces whatever is there; the rest append
+  const uris = tracks.map(id => `spotify:track:${id}`);
+  for (let i = 0; i === 0 || i < uris.length; i += PLAYLIST_ITEMS_LIMIT) {
+    await spotifyWrite(i === 0 ? 'PUT' : 'POST', `/playlists/${entry.id}/items`, { uris: uris.slice(i, i + PLAYLIST_ITEMS_LIMIT) });
+  }
+  entry.filled = true;
+  entry.trackCount = uris.length;
+  writeJson(WEEKLY_PLAYLISTS_FILE, store);
+  return { skipped: false, name: entry.name, albums: albums.length, count: uris.length, refill };
+}
+
+// This week's playlist once it's on Spotify, else null
+function getWeekPlaylist() {
+  const week = weekStartInt();
+  return loadWeeklyPlaylists().playlists.find(p => p.weekStart === week && p.filled) || null;
+}
+
+// Takes weekly playlists out of the library once their week has passed (unfollowed, as with the
+// daily ones). Only playlists logged by buildWeeklyPlaylist are touched.
+async function removeOldWeeklyPlaylists() {
+  const store = loadWeeklyPlaylists();
+  const week = weekStartInt();
+  const due = store.playlists.filter(p => p.weekStart < week && !p.removedOn).slice(0, LIBRARY_REMOVE_LIMIT);
+  if (!due.length) return { removed: 0 };
+  const granted = (readJson(TOKEN_FILE, null)?.scope || '').split(' ');
+  if (!granted.includes(LIBRARY_REMOVE_SCOPE)) return { removed: 0, reason: 'scope' };
+  const uris = due.map(p => encodeURIComponent(`spotify:playlist:${p.id}`)).join(',');
+  await spotifyWrite('DELETE', `/me/library?uris=${uris}`);
+  const today = localDate();
+  due.forEach(p => { p.removedOn = today; });
+  writeJson(WEEKLY_PLAYLISTS_FILE, store);
+  return { removed: due.length };
+}
+
+// Safe to call after any backup or sync: overlapping calls share one run, and it never rejects.
+// A call made while a run is under way runs again afterwards, so a change saved mid-run isn't missed.
+let weeklyPlaylistRun = null;
+let weeklyPlaylistAgain = false;
+function runWeeklyPlaylist() {
+  if (!isConnected()) return Promise.resolve();
+  if (weeklyPlaylistRun) { weeklyPlaylistAgain = true; return weeklyPlaylistRun; }
+  weeklyPlaylistRun = buildWeeklyPlaylist()
+    .then(r => {
+      if (!r.skipped) console.log(`Spotify: ${r.refill ? 'updated' : 'created'} "${r.name}" (${r.albums} albums, ${r.count} tracks)`);
+      if (r.reason === 'scope') warnDailyScope();
+    })
+    .catch(e => console.error('Spotify weekly playlist failed:', e.message))
+    .then(removeOldWeeklyPlaylists)
+    .then(r => {
+      if (r.removed) console.log(`Spotify: removed ${r.removed} old weekly ${r.removed === 1 ? 'playlist' : 'playlists'} from the library`);
+    })
+    .catch(e => console.error('Spotify weekly playlist cleanup failed:', e.message))
+    .finally(() => {
+      weeklyPlaylistRun = null;
+      if (weeklyPlaylistAgain) { weeklyPlaylistAgain = false; runWeeklyPlaylist(); }
+    });
+  return weeklyPlaylistRun;
+}
+
 // Try a sync now and then hourly, so a server left running past midnight still picks up the new day
 function startDailySync() {
   const run = () => {
@@ -478,7 +601,8 @@ function startDailySync() {
       .then(() => syncReferencePlaylists())
       .then(r => { if (r && !r.skipped) console.log(`Spotify: reference playlists synced (${r.counts.join(', ')})`); })
       .catch(e => console.error('Spotify playlist sync failed:', e.message))
-      .then(runDailyPlaylist);
+      .then(runDailyPlaylist)
+      .then(runWeeklyPlaylist);
   };
   run();
   setInterval(run, 60 * 60 * 1000).unref();
@@ -624,7 +748,7 @@ async function checkConnection() {
   };
 }
 
-module.exports = { spotifyGet, checkConnection, getLoginUrl, handleCallback, syncRecentPlays, startDailySync, getStatus, loadPlays, syncReferencePlaylists, loadReferencePlaylists, selectDailyTracks, runDailyPlaylist, getTodayPlaylist, playTrackAt, searchTracks, searchAlbums, getAlbumTracks };
+module.exports = { spotifyGet, checkConnection, getLoginUrl, handleCallback, syncRecentPlays, startDailySync, getStatus, loadPlays, syncReferencePlaylists, loadReferencePlaylists, selectDailyTracks, runDailyPlaylist, getTodayPlaylist, runWeeklyPlaylist, getWeekPlaylist, playTrackAt, searchTracks, searchAlbums, getAlbumTracks };
 
 if (require.main === module) {
   checkConnection()
