@@ -1,5 +1,5 @@
 {
-  "lastSyncDate": "2026-11-20",
+  "lastSyncDate": "2026-11-23",
   "plays": [
     {
       "playedAt": "2026-10-01T01:25:15.151Z",
@@ -8448,6 +8448,662 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e0290d460eb54fb255f7333bf33",
       "durationMs": 207573,
       "context": "spotify:album:350X9LpA7KNzeFgQIcIUGB"
+    },
+    {
+      "playedAt": "2026-11-20T14:41:54.103Z",
+      "trackId": "4mZa7uIsrUz67fwbYsSqMj",
+      "name": "Pop On My Lid",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Circle of Light: Songs for Bucket Fillers",
+      "albumId": "4vxN9DNLQq5J9b3R073zTT",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e020ddc9ded8e41e3e385a8b855",
+      "durationMs": 50940,
+      "context": "spotify:artist:7tMAjOyRSfmuyinnMOFa5M"
+    },
+    {
+      "playedAt": "2026-11-20T14:44:37.602Z",
+      "trackId": "0sbEMlis0AstBWEOBTPPig",
+      "name": "On The Day You Were Born",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Hello World!",
+      "albumId": "350X9LpA7KNzeFgQIcIUGB",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0290d460eb54fb255f7333bf33",
+      "durationMs": 162960,
+      "context": "spotify:artist:7tMAjOyRSfmuyinnMOFa5M"
+    },
+    {
+      "playedAt": "2026-11-20T14:46:43.086Z",
+      "trackId": "6mKkv0mZfHPyTmqs2VWmN7",
+      "name": "Hooray For The World",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Teaching Peace",
+      "albumId": "5gTRqJWihEp6RzqNAKoqwK",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e025f9baee8544898217271f05f",
+      "durationMs": 125066,
+      "context": "spotify:artist:7tMAjOyRSfmuyinnMOFa5M"
+    },
+    {
+      "playedAt": "2026-11-20T14:50:21.187Z",
+      "trackId": "5rN3WDX5IF5sI8A7VkXSpm",
+      "name": "I Am a Bucket Filler",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Circle of Light: Songs for Bucket Fillers",
+      "albumId": "4vxN9DNLQq5J9b3R073zTT",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e020ddc9ded8e41e3e385a8b855",
+      "durationMs": 205040,
+      "context": "spotify:artist:7tMAjOyRSfmuyinnMOFa5M"
+    },
+    {
+      "playedAt": "2026-11-20T14:52:47.333Z",
+      "trackId": "50Lxdbp1UkLjFLmi4tfroa",
+      "name": "Buono Appetito",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Hello World!",
+      "albumId": "350X9LpA7KNzeFgQIcIUGB",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0290d460eb54fb255f7333bf33",
+      "durationMs": 145693,
+      "context": "spotify:artist:7tMAjOyRSfmuyinnMOFa5M"
+    },
+    {
+      "playedAt": "2026-11-20T14:56:27.242Z",
+      "trackId": "7vQTbkkrK7PT2YOYSwOnZr",
+      "name": "Me And The Morning",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Down The Do-Re-Mi",
+      "albumId": "0PqJ02BAYANqrHqWY54xsI",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e025dbbb4e658e696c3e6ef96f7",
+      "durationMs": 219440,
+      "context": "spotify:artist:7tMAjOyRSfmuyinnMOFa5M"
+    },
+    {
+      "playedAt": "2026-11-20T14:58:53.171Z",
+      "trackId": "07ryPF7QHAYoOjiKqxtTpx",
+      "name": "Power to Change the World",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Circle of Light: Songs for Bucket Fillers",
+      "albumId": "4vxN9DNLQq5J9b3R073zTT",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e020ddc9ded8e41e3e385a8b855",
+      "durationMs": 145333,
+      "context": "spotify:artist:7tMAjOyRSfmuyinnMOFa5M"
+    },
+    {
+      "playedAt": "2026-11-20T15:01:15.751Z",
+      "trackId": "695rQEltZinDF046R9jD9E",
+      "name": "Can You Sound Just Like Me?",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Can You Sound Just Like Me?",
+      "albumId": "0IALx1DJKHGIYhgDT7964D",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02090dc5a561ad7f3e81cd0c69",
+      "durationMs": 142173,
+      "context": "spotify:artist:7tMAjOyRSfmuyinnMOFa5M"
+    },
+    {
+      "playedAt": "2026-11-20T15:03:51.267Z",
+      "trackId": "3sAJXrB5JOdkVa4Sfci3ri",
+      "name": "Place In The Choir",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Down The Do-Re-Mi",
+      "albumId": "0PqJ02BAYANqrHqWY54xsI",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e025dbbb4e658e696c3e6ef96f7",
+      "durationMs": 155026,
+      "context": "spotify:artist:7tMAjOyRSfmuyinnMOFa5M"
+    },
+    {
+      "playedAt": "2026-11-20T15:06:01.504Z",
+      "trackId": "3hMZPs2aCzogWmlCDCOBkE",
+      "name": "Everybody Here Has a Bucket",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Circle of Light: Songs for Bucket Fillers",
+      "albumId": "4vxN9DNLQq5J9b3R073zTT",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e020ddc9ded8e41e3e385a8b855",
+      "durationMs": 129733,
+      "context": "spotify:artist:7tMAjOyRSfmuyinnMOFa5M"
+    },
+    {
+      "playedAt": "2026-11-20T15:08:41.046Z",
+      "trackId": "1NieNp7dhXmsLeneYTI7Wt",
+      "name": "Diggin' For Diamonds",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Hello World!",
+      "albumId": "350X9LpA7KNzeFgQIcIUGB",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0290d460eb54fb255f7333bf33",
+      "durationMs": 159040,
+      "context": "spotify:artist:7tMAjOyRSfmuyinnMOFa5M"
+    },
+    {
+      "playedAt": "2026-11-20T15:13:26.140Z",
+      "trackId": "5uNitxOfLPeR0ECv8WXJmE",
+      "name": "Rattlin' Bog",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Down The Do-Re-Mi",
+      "albumId": "0PqJ02BAYANqrHqWY54xsI",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e025dbbb4e658e696c3e6ef96f7",
+      "durationMs": 284573,
+      "context": "spotify:artist:7tMAjOyRSfmuyinnMOFa5M"
+    },
+    {
+      "playedAt": "2026-11-20T15:14:59.964Z",
+      "trackId": "3cWnQLAW5GknEn9p0ieK4U",
+      "name": "They Eat Grass",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Hooray for the World!",
+      "albumId": "1sqMjhFL5UvoPhOVNZ7ZuG",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0294ec8b3f1834b03bb05cfd79",
+      "durationMs": 93354,
+      "context": "spotify:artist:7tMAjOyRSfmuyinnMOFa5M"
+    },
+    {
+      "playedAt": "2026-11-20T15:16:32.137Z",
+      "trackId": "2BZ96j47mr8W7kvEYrBrKt",
+      "name": "Respect",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Bebop Your Best",
+      "albumId": "3T0SHuun1sNtk7mksQY3FA",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e026b3d34bf3a541a985e6cd499",
+      "durationMs": 91653,
+      "context": "spotify:artist:7tMAjOyRSfmuyinnMOFa5M"
+    },
+    {
+      "playedAt": "2026-11-20T15:19:47.335Z",
+      "trackId": "6jutDArnlJF8E2XgOkyl42",
+      "name": "Time Together",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Hello World!",
+      "albumId": "350X9LpA7KNzeFgQIcIUGB",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0290d460eb54fb255f7333bf33",
+      "durationMs": 194693,
+      "context": "spotify:artist:7tMAjOyRSfmuyinnMOFa5M"
+    },
+    {
+      "playedAt": "2026-11-20T15:21:49.669Z",
+      "trackId": "2e2VzpoTvT4mtwYKJrqkTU",
+      "name": "Ready Set",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Can You Sound Just Like Me?",
+      "albumId": "0IALx1DJKHGIYhgDT7964D",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02090dc5a561ad7f3e81cd0c69",
+      "durationMs": 121880,
+      "context": "spotify:artist:7tMAjOyRSfmuyinnMOFa5M"
+    },
+    {
+      "playedAt": "2026-11-20T15:23:45.228Z",
+      "trackId": "1UJhYL54hJJNAiO2pmiWak",
+      "name": "15,000 Kinds of Tomatoes",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Hooray for the World!",
+      "albumId": "1sqMjhFL5UvoPhOVNZ7ZuG",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0294ec8b3f1834b03bb05cfd79",
+      "durationMs": 115015,
+      "context": "spotify:artist:7tMAjOyRSfmuyinnMOFa5M"
+    },
+    {
+      "playedAt": "2026-11-20T15:25:28.133Z",
+      "trackId": "6XpsYBGQOUmIjSIeSpF07x",
+      "name": "Fairness",
+      "artists": [
+        "Red Grammer"
+      ],
+      "album": "Bebop Your Best",
+      "albumId": "3T0SHuun1sNtk7mksQY3FA",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e026b3d34bf3a541a985e6cd499",
+      "durationMs": 102373,
+      "context": "spotify:artist:7tMAjOyRSfmuyinnMOFa5M"
+    },
+    {
+      "playedAt": "2026-11-20T22:12:10.834Z",
+      "trackId": "3ViaQTjXB8RK2KP1oRbp3E",
+      "name": "In the Court of King Oliver - Live at Village Vanguard, New York, NY - December 1994",
+      "artists": [
+        "Wynton Marsalis"
+      ],
+      "album": "Live At The Village Vanguard",
+      "albumId": "59Ug4upXMB1sIkzFpJSKvr",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02be94e17af51f51f0ad7adc5d",
+      "durationMs": 470666,
+      "context": "spotify:album:59Ug4upXMB1sIkzFpJSKvr"
+    },
+    {
+      "playedAt": "2026-11-20T22:15:06.064Z",
+      "trackId": "1tfZtA15BfJHQTUy3dqTKC",
+      "name": "Build Me Up Buttercup - Mono",
+      "artists": [
+        "The Foundations"
+      ],
+      "album": "Baby Now That I've Found You",
+      "albumId": "7LFpclH3t4SnxqZpbjvSwE",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02663fe218f7d98306c533af10",
+      "durationMs": 180133,
+      "context": "spotify:playlist:38fz6GxTkHGqfdsxze3IKN"
+    },
+    {
+      "playedAt": "2026-11-20T22:18:02.831Z",
+      "trackId": "1JO1xLtVc8mWhIoE3YaCL0",
+      "name": "Happy Together",
+      "artists": [
+        "The Turtles"
+      ],
+      "album": "Happy Together",
+      "albumId": "2pMxs38Y5A0mmHrcu3twvB",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0272649ad8e79d1e8bdd54c929",
+      "durationMs": 176293,
+      "context": "spotify:playlist:38fz6GxTkHGqfdsxze3IKN"
+    },
+    {
+      "playedAt": "2026-11-20T22:20:25.803Z",
+      "trackId": "6FMGHBZaYQY7oFS7vyZx8a",
+      "name": "Little Bitty Pretty One",
+      "artists": [
+        "Thurston Harris",
+        "The Sharps"
+      ],
+      "album": "Little Bitty Pretty One",
+      "albumId": "4nYxAqSN5IKtwX1E1wJtTO",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0232877d1d766ba0f9b960e4e6",
+      "durationMs": 142453,
+      "context": "spotify:playlist:38fz6GxTkHGqfdsxze3IKN"
+    },
+    {
+      "playedAt": "2026-11-20T22:23:08.444Z",
+      "trackId": "2F4FNcz68howQWD4zaGJSi",
+      "name": "The Lion Sleeps Tonight (Wimoweh)",
+      "artists": [
+        "The Tokens"
+      ],
+      "album": "Wimoweh!!! - The Best Of The Tokens",
+      "albumId": "6NBox81OQox7U4I0hZB9t0",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e029df742dcaf9b79edad9009d0",
+      "durationMs": 162093,
+      "context": "spotify:playlist:38fz6GxTkHGqfdsxze3IKN"
+    },
+    {
+      "playedAt": "2026-11-20T22:25:33.161Z",
+      "trackId": "2iXcvnD3d1gfLBum0cE5Eg",
+      "name": "Tutti Frutti",
+      "artists": [
+        "Little Richard"
+      ],
+      "album": "Here's Little Richard (Deluxe Edition)",
+      "albumId": "18tV6PLXYvVjsdOVk0S7M8",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028a22827b01e5d68d3736d58b",
+      "durationMs": 144226,
+      "context": "spotify:playlist:38fz6GxTkHGqfdsxze3IKN"
+    },
+    {
+      "playedAt": "2026-11-20T22:27:42.649Z",
+      "trackId": "7N15WWy12QAMpGAh6QMAej",
+      "name": "(What A) Wonderful World",
+      "artists": [
+        "Sam Cooke"
+      ],
+      "album": "The Best of Sam Cooke",
+      "albumId": "2Dpw2XUAsBvuNdNLarNzz8",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e028ae06030ae3a8dd0d3cc25ae",
+      "durationMs": 129061,
+      "context": "spotify:playlist:38fz6GxTkHGqfdsxze3IKN"
+    },
+    {
+      "playedAt": "2026-11-20T22:30:18.538Z",
+      "trackId": "7iFdUmdqT9XrsJdSGf9KrX",
+      "name": "Twist And Shout",
+      "artists": [
+        "The Isley Brothers"
+      ],
+      "album": "Twist & Shout",
+      "albumId": "7jfWeD13O9Y9AOdVSMtGDT",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e020994c2cfe98e282c8e26d890",
+      "durationMs": 155400,
+      "context": "spotify:playlist:38fz6GxTkHGqfdsxze3IKN"
+    },
+    {
+      "playedAt": "2026-11-20T22:33:06.993Z",
+      "trackId": "1OppEieGNdItZbE14gLBEv",
+      "name": "You Can't Hurry Love",
+      "artists": [
+        "The Supremes"
+      ],
+      "album": "The Supremes A' Go-Go (Expanded Edition)",
+      "albumId": "5fpOmAuZaVyEXPlQ4oOqJ6",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02a16ea5e673cc4c6e8f91d5ca",
+      "durationMs": 167933,
+      "context": "spotify:playlist:38fz6GxTkHGqfdsxze3IKN"
+    },
+    {
+      "playedAt": "2026-11-20T22:37:13.054Z",
+      "trackId": "1h2xVEoJORqrg71HocgqXd",
+      "name": "Superstition - Single Version",
+      "artists": [
+        "Stevie Wonder"
+      ],
+      "album": "The Definitive Collection",
+      "albumId": "4E1itnJOhTMRSATNaxh0Sq",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e029e447b59bd3e2cbefaa31d91",
+      "durationMs": 245493,
+      "context": "spotify:playlist:38fz6GxTkHGqfdsxze3IKN"
+    },
+    {
+      "playedAt": "2026-11-20T22:39:58.040Z",
+      "trackId": "4aTCNddtjztjuK2EOgz7ZZ",
+      "name": "Itsy Bitsy Teenie Weenie Yellow Polka Dot Bikini",
+      "artists": [
+        "Brian Hyland"
+      ],
+      "album": "The Bashful Blond",
+      "albumId": "4RoVkWn8cGBtItzS5ah697",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e96f480cfbf16a5bf967ee9a",
+      "durationMs": 143733,
+      "context": "spotify:playlist:38fz6GxTkHGqfdsxze3IKN"
+    },
+    {
+      "playedAt": "2026-11-20T22:42:31.736Z",
+      "trackId": "2Gy7qnDwt8Z3MNxqat4CsK",
+      "name": "Wouldn't It Be Nice",
+      "artists": [
+        "The Beach Boys"
+      ],
+      "album": "Pet Sounds (Original Mono & Stereo Mix)",
+      "albumId": "6GphKx2QAPRoVGWE9D7ou8",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02bde8dfd1922129f3d9e3732f",
+      "durationMs": 153205,
+      "context": "spotify:playlist:38fz6GxTkHGqfdsxze3IKN"
+    },
+    {
+      "playedAt": "2026-11-20T22:45:48.517Z",
+      "trackId": "1GcPhT7osBb4LEJnQ0tmfj",
+      "name": "Come Fly With Me",
+      "artists": [
+        "Frank Sinatra"
+      ],
+      "album": "Come Fly With Me (Mono Version)",
+      "albumId": "2YNLQSEOtijlfgQQReP6hR",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0246ab198eb5fbd2f25ff7f164",
+      "durationMs": 196276,
+      "context": "spotify:playlist:38fz6GxTkHGqfdsxze3IKN"
+    },
+    {
+      "playedAt": "2026-11-20T22:48:16.028Z",
+      "trackId": "76ICmoJ4PcoMWoooaTxnQs",
+      "name": "Land of 1000 Dances",
+      "artists": [
+        "Wilson Pickett"
+      ],
+      "album": "The Exciting Wilson Pickett",
+      "albumId": "3fxWzXNMhTz01uShzMARnm",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e9417411c156207132d4c003",
+      "durationMs": 146973,
+      "context": "spotify:playlist:38fz6GxTkHGqfdsxze3IKN"
+    },
+    {
+      "playedAt": "2026-11-20T22:50:31.725Z",
+      "trackId": "75ewj77lCHHLKOlyx5KvGw",
+      "name": "Blue Moon",
+      "artists": [
+        "The Marcels"
+      ],
+      "album": "The Best Of The Marcels",
+      "albumId": "3rgajlw95Z2hWWggHCUkRa",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02769842fb1a387f9fb0cf8c96",
+      "durationMs": 135200,
+      "context": "spotify:playlist:38fz6GxTkHGqfdsxze3IKN"
+    },
+    {
+      "playedAt": "2026-11-20T23:28:27.467Z",
+      "trackId": "2Co0JqgbSXZ0ouldYKv6ck",
+      "name": "Old McDonald",
+      "artists": [
+        "Ella Fitzgerald"
+      ],
+      "album": "Whisper Not",
+      "albumId": "1RoqgK11h7AAQ7PYfkLwIw",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e31962fe6b633db0d2cab73d",
+      "durationMs": 139493,
+      "context": null
+    },
+    {
+      "playedAt": "2026-11-20T23:30:53.322Z",
+      "trackId": "65irrLqfCMRiO3p87P4C0D",
+      "name": "Frosty The Snowman",
+      "artists": [
+        "Ella Fitzgerald"
+      ],
+      "album": "Ella Wishes You A Swinging Christmas (Expanded Edition)",
+      "albumId": "2UhPCUgK2IGUrg7lIvMYfb",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0256849c42c652a7e4025fd6eb",
+      "durationMs": 131733,
+      "context": "spotify:artist:5V0MlUE1Bft0mbLlND7FJz"
+    },
+    {
+      "playedAt": "2026-11-20T23:36:47.034Z",
+      "trackId": "5TNpCThzzXHEipXGKgNG8T",
+      "name": "Cheek To Cheek",
+      "artists": [
+        "Ella Fitzgerald",
+        "Louis Armstrong"
+      ],
+      "album": "Ella and Louis",
+      "albumId": "3kfnwa4p4uYiTOP8K8ooSE",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02bbe653db27f7711379f92fc5",
+      "durationMs": 353266,
+      "context": "spotify:artist:5V0MlUE1Bft0mbLlND7FJz"
+    },
+    {
+      "playedAt": "2026-11-20T23:39:05.431Z",
+      "trackId": "1BYTpW7bWXhMONQNqUa5el",
+      "name": "Christmas Island",
+      "artists": [
+        "Ella Fitzgerald"
+      ],
+      "album": "Christmas By The Beach",
+      "albumId": "54Bx9atIEJ3dV1ABowvpFR",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0239aaae0222e133c122534dab",
+      "durationMs": 137880,
+      "context": "spotify:artist:5V0MlUE1Bft0mbLlND7FJz"
+    },
+    {
+      "playedAt": "2026-11-20T23:42:01.869Z",
+      "trackId": "4ukUoXLuFzMixyZyabSGc4",
+      "name": "Sleigh Ride",
+      "artists": [
+        "Ella Fitzgerald"
+      ],
+      "album": "Ella Wishes You A Swinging Christmas (Expanded Edition)",
+      "albumId": "2UhPCUgK2IGUrg7lIvMYfb",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0256849c42c652a7e4025fd6eb",
+      "durationMs": 175986,
+      "context": "spotify:artist:5V0MlUE1Bft0mbLlND7FJz"
+    },
+    {
+      "playedAt": "2026-11-20T23:42:33.338Z",
+      "trackId": "2gNjmvuQiEd2z9SqyYi8HH",
+      "name": "Summertime",
+      "artists": [
+        "Ella Fitzgerald",
+        "Louis Armstrong"
+      ],
+      "album": "Porgy And Bess",
+      "albumId": "1vvnTmmNWnGmqvVFjVIINf",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0211aafea0ad62648d4669626f",
+      "durationMs": 298133,
+      "context": "spotify:artist:5V0MlUE1Bft0mbLlND7FJz"
+    },
+    {
+      "playedAt": "2026-11-21T01:34:07.870Z",
+      "trackId": "2D1ViTpNpIOuTMM9lTixuy",
+      "name": "School Days - Live",
+      "artists": [
+        "Dizzy Gillespie"
+      ],
+      "album": "Dizzy Gillespie At Newport",
+      "albumId": "5fGj14UbUEMl2v8tu7sqi4",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02555943f813d6e4a80d26bf19",
+      "durationMs": 347893,
+      "context": "spotify:playlist:6ATlyODFiNAyi1XOv3MOVy"
+    },
+    {
+      "playedAt": "2026-11-21T01:38:47.509Z",
+      "trackId": "1ZKh2iEJToarYfWhWhSkkR",
+      "name": "Linus & Lucy",
+      "artists": [
+        "Wynton Marsalis"
+      ],
+      "album": "Joe Cool's Blues",
+      "albumId": "4GmtCBT9EtoxkXH5jdvgh0",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02d9b2c17ab4304832ab474113",
+      "durationMs": 279160,
+      "context": "spotify:playlist:6ATlyODFiNAyi1XOv3MOVy"
+    },
+    {
+      "playedAt": "2026-11-21T01:41:07.501Z",
+      "trackId": "2Co0JqgbSXZ0ouldYKv6ck",
+      "name": "Old McDonald",
+      "artists": [
+        "Ella Fitzgerald"
+      ],
+      "album": "Whisper Not",
+      "albumId": "1RoqgK11h7AAQ7PYfkLwIw",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e31962fe6b633db0d2cab73d",
+      "durationMs": 139493,
+      "context": "spotify:playlist:6ATlyODFiNAyi1XOv3MOVy"
+    },
+    {
+      "playedAt": "2026-11-21T03:08:03.232Z",
+      "trackId": "0KyYrq0cy5Tqy0u56aDU7h",
+      "name": "Put It Where You Want It",
+      "artists": [
+        "The Crusaders"
+      ],
+      "album": "Crusaders 1",
+      "albumId": "6Rf2oSu4p6FZUDYQp4nI4Y",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02cbe0c26ff690a9ca48bcfe48",
+      "durationMs": 320253,
+      "context": "spotify:playlist:6tBVw52oEeeXL5IauDXWSt"
+    },
+    {
+      "playedAt": "2026-11-21T14:38:14.792Z",
+      "trackId": "0KyYrq0cy5Tqy0u56aDU7h",
+      "name": "Put It Where You Want It",
+      "artists": [
+        "The Crusaders"
+      ],
+      "album": "Crusaders 1",
+      "albumId": "6Rf2oSu4p6FZUDYQp4nI4Y",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02cbe0c26ff690a9ca48bcfe48",
+      "durationMs": 320253,
+      "context": "spotify:playlist:6tBVw52oEeeXL5IauDXWSt"
+    },
+    {
+      "playedAt": "2026-11-21T14:45:02.781Z",
+      "trackId": "4iKU4J0AjDeDXOCgpuol0C",
+      "name": "Angela (Theme From Taxi)",
+      "artists": [
+        "Bob James"
+      ],
+      "album": "Touchdown",
+      "albumId": "5ooWmAVLqcWvDDOid6hCC6",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e0267d22420aae725b1107ceffa",
+      "durationMs": 345160,
+      "context": "spotify:playlist:6tBVw52oEeeXL5IauDXWSt"
+    },
+    {
+      "playedAt": "2026-11-21T14:57:21.773Z",
+      "trackId": "2HBNpowBFX4mAdVHQN1ET9",
+      "name": "Graceland",
+      "artists": [
+        "Paul Simon"
+      ],
+      "album": "Graceland",
+      "albumId": "4WoQ94qzwQj28n3nlSOVLB",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02dd83eef605c1ce2f27722ea1",
+      "durationMs": 291200,
+      "context": "spotify:album:4WoQ94qzwQj28n3nlSOVLB"
+    },
+    {
+      "playedAt": "2026-11-21T15:00:35.189Z",
+      "trackId": "6uKtine48noy5bOCSWVPzw",
+      "name": "I Know What I Know (with General M.D.Shirinda & The Gaza Sisters)",
+      "artists": [
+        "Paul Simon",
+        "General M.D.Shirinda",
+        "The Gaza Sisters"
+      ],
+      "album": "Graceland",
+      "albumId": "4WoQ94qzwQj28n3nlSOVLB",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02dd83eef605c1ce2f27722ea1",
+      "durationMs": 193373,
+      "context": "spotify:album:4WoQ94qzwQj28n3nlSOVLB"
+    },
+    {
+      "playedAt": "2026-11-21T15:03:19.981Z",
+      "trackId": "3RW8QrsExRGXZup3B0vsYl",
+      "name": "Gumboots (with Boyoyo Boys)",
+      "artists": [
+        "Paul Simon",
+        "Boyoyo Boys"
+      ],
+      "album": "Graceland",
+      "albumId": "4WoQ94qzwQj28n3nlSOVLB",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02dd83eef605c1ce2f27722ea1",
+      "durationMs": 164826,
+      "context": "spotify:album:4WoQ94qzwQj28n3nlSOVLB"
+    },
+    {
+      "playedAt": "2026-11-21T22:06:24.518Z",
+      "trackId": "6soLo7Z2vDBPulJgC1VC8J",
+      "name": "Diamonds on the Soles of Her Shoes",
+      "artists": [
+        "Paul Simon"
+      ],
+      "album": "Graceland",
+      "albumId": "4WoQ94qzwQj28n3nlSOVLB",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02dd83eef605c1ce2f27722ea1",
+      "durationMs": 350723,
+      "context": "spotify:album:4WoQ94qzwQj28n3nlSOVLB"
+    },
+    {
+      "playedAt": "2026-11-21T23:46:13.670Z",
+      "trackId": "2Co0JqgbSXZ0ouldYKv6ck",
+      "name": "Old McDonald",
+      "artists": [
+        "Ella Fitzgerald"
+      ],
+      "album": "Whisper Not",
+      "albumId": "1RoqgK11h7AAQ7PYfkLwIw",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e02e31962fe6b633db0d2cab73d",
+      "durationMs": 139493,
+      "context": null
     }
   ]
 }

@@ -1131,6 +1131,64 @@
           "song": "Blue in Green"
         }
       ],
+      "filled": true,
+      "removedOn": "2026-11-23"
+    },
+    {
+      "date": "2026-11-23",
+      "id": "0CbsrNuBZ1Fd5yK7CEegJI",
+      "name": "Daily Standards – Nov 23, 2026",
+      "tracks": [
+        {
+          "trackId": "4lm669ZRk2EkTHg8An9n8T",
+          "name": "Anthropology",
+          "artists": [
+            "Charlie Parker"
+          ],
+          "song": "Anthropology"
+        },
+        {
+          "trackId": "5AodXZjIg8C6Trar4dTapB",
+          "name": "Corcovado",
+          "artists": [
+            "João Gilberto"
+          ],
+          "song": "Corcovado"
+        },
+        {
+          "trackId": "5uLFo8xWQq4zd9Sh2xPB5t",
+          "name": "More Than You Know",
+          "artists": [
+            "Sonny Rollins",
+            "Thelonious Monk"
+          ],
+          "song": "More Than You Know"
+        },
+        {
+          "trackId": "2dC71mbRBTewkyeHTXPzGz",
+          "name": "Lady Bird (Live) - Live At Cafe Bohemia, NY/1955 / Rudy Van Gelder Edition/2001",
+          "artists": [
+            "Art Blakey & The Jazz Messengers"
+          ],
+          "song": "Lady Bird"
+        },
+        {
+          "trackId": "7vBevujPxtjaG9l5gkAjW7",
+          "name": "Don't Blame Me",
+          "artists": [
+            "Ethel Waters"
+          ],
+          "song": "Don't Blame Me"
+        },
+        {
+          "trackId": "1YQWosTIljIvxAgHWTp7KP",
+          "name": "Take Five",
+          "artists": [
+            "The Dave Brubeck Quartet"
+          ],
+          "song": "Take Five"
+        }
+      ],
       "filled": true
     }
   ]
