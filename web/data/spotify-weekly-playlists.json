@@ -1,0 +1,52 @@
+{
+  "playlists": [
+    {
+      "weekStart": 20261123,
+      "id": "0AMSGOqYdmLDp3X0Jg8Xdl",
+      "name": "Albums of the Week – Nov 23, 2026",
+      "albumIds": [
+        "5fmIolILp5NAtNYiRPjhzA",
+        "5apzPGL9pMN4bLMaNG4pQ6",
+        "1hSk2tQTT6rCOkYuUU9MId",
+        "35dkwtH35tW2tRyTJk8iW3"
+      ],
+      "filled": true,
+      "albums": [
+        {
+          "albumId": "5fmIolILp5NAtNYiRPjhzA",
+          "album": "Head Hunters",
+          "artists": [
+            "Herbie Hancock"
+          ]
+        },
+        {
+          "albumId": "5apzPGL9pMN4bLMaNG4pQ6",
+          "album": "Audience With the Queen",
+          "artists": [
+            "Galactic",
+            "Irma Thomas"
+          ]
+        },
+        {
+          "albumId": "1hSk2tQTT6rCOkYuUU9MId",
+          "album": "Schumann: Piano Concerto in A Minor, Op. 54 - Grieg: Piano Concerto in A Minor, Op. 16",
+          "artists": [
+            "Murray Perahia",
+            "Sir Colin Davis",
+            "Bavarian Radio Symphony Orchestra"
+          ]
+        },
+        {
+          "albumId": "35dkwtH35tW2tRyTJk8iW3",
+          "album": "John Tavener: The Protecting Veil",
+          "artists": [
+            "Steven Isserlis",
+            "London Symphony Orchestra",
+            "Gennady Rozhdestvensky"
+          ]
+        }
+      ],
+      "trackCount": 39
+    }
+  ]
+}
