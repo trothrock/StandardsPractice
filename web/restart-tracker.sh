@@ -15,6 +15,12 @@ if [ -z "$NODE" ]; then
 fi
 if [ -z "$NODE" ]; then echo "Couldn't find node" >&2; exit 1; fi
 
+# Apps launched from Finder also skip ~/.zshrc, where the API credentials are exported, so ask
+# an interactive zsh for them. The marker keeps anything else the rc files print out of the eval.
+eval "$(/bin/zsh -i -c 'for v in SPOTIFY_JAZZ_STANDARDS_CLIENT_ID SPOTIFY_JAZZ_STANDARDS_CLIENT_SECRET DISCOGS_TOKEN; do
+  [ -n "${(P)v}" ] && printf "__TRACKER_ENV__ export %s=%q\n" $v "${(P)v}"; done' 2>/dev/null < /dev/null \
+  | sed -n 's/^__TRACKER_ENV__ //p')"
+
 # Stop whatever holds the port (an earlier run, or one started from Terminal) so the new code loads.
 old=$(lsof -tiTCP:$PORT -sTCP:LISTEN)
 if [ -n "$old" ]; then
