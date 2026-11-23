@@ -2797,7 +2797,7 @@
       "baseLevel": 2,
       "currentLevel": 2,
       "status": "active",
-      "intervalIdx": 2,
+      "intervalIdx": 3,
       "learnedDate": 20260419,
       "reviews": [
         {
@@ -2819,6 +2819,12 @@
         {
           "date": 20260502,
           "passed": true
+        },
+        {
+          "date": 20261122,
+          "passed": true,
+          "key": "C",
+          "solo": 2
         }
       ],
       "sortSeed": 0.06964188975717078,
@@ -3433,7 +3439,7 @@
       "baseLevel": 2,
       "currentLevel": 2,
       "status": "active",
-      "intervalIdx": 1,
+      "intervalIdx": 2,
       "learnedDate": 20260419,
       "reviews": [
         {
@@ -3456,6 +3462,12 @@
           "passed": true,
           "key": "Em",
           "solo": 1
+        },
+        {
+          "date": 20261122,
+          "passed": true,
+          "key": "Em",
+          "solo": 1
         }
       ],
       "sortSeed": 0.2842877483214954,
@@ -3475,8 +3487,7 @@
           "at": 155,
           "text": "McCoy Tyner vamp voicings"
         }
-      ],
-      "pinnedReviewDate": 20261122
+      ]
     },
     "My Foolish Heart": {
       "name": "My Foolish Heart",
@@ -5912,8 +5923,8 @@
     }
   },
   "currentNewSong": "Bags' Groove",
-  "streak": 1,
-  "lastPracticeDay": 20261121,
+  "streak": 2,
+  "lastPracticeDay": 20261122,
   "activity": [
     {
       "ts": 1776634938073,
@@ -9293,6 +9304,92 @@
       "passed": true,
       "key": "Bb",
       "solo": 2
+    },
+    {
+      "ts": 1795350923101,
+      "date": 20261122,
+      "type": "practice_time",
+      "area": "voicing",
+      "name": "[3] Minor ii-V-i",
+      "secs": 328
+    },
+    {
+      "ts": 1795350923101,
+      "date": 20261122,
+      "type": "voicing_session",
+      "name": "[3] Minor ii-V-i"
+    },
+    {
+      "ts": 1795350923102,
+      "date": 20261122,
+      "type": "voicing_reviewed",
+      "name": "[3] Minor ii-V-i",
+      "familiarity": 0,
+      "bpm": 160
+    },
+    {
+      "ts": 1795351235673,
+      "date": 20261122,
+      "type": "practice_time",
+      "area": "vocab",
+      "name": "5-7-9-11 climb on ii",
+      "secs": 313
+    },
+    {
+      "ts": 1795351235673,
+      "date": 20261122,
+      "type": "vocab_practiced",
+      "name": "5-7-9-11 climb on ii",
+      "familiarity": 0,
+      "bpm": 120
+    },
+    {
+      "ts": 1795351846428,
+      "date": 20261122,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "Bags' Groove",
+      "secs": 611
+    },
+    {
+      "ts": 1795351846429,
+      "date": 20261122,
+      "type": "practiced",
+      "name": "Bags' Groove"
+    },
+    {
+      "ts": 1795352465422,
+      "date": 20261122,
+      "type": "practice_time",
+      "area": "review",
+      "name": "My Favorite Things",
+      "secs": 619
+    },
+    {
+      "ts": 1795352465423,
+      "date": 20261122,
+      "type": "review",
+      "name": "My Favorite Things",
+      "passed": true,
+      "key": "Em",
+      "solo": 1
+    },
+    {
+      "ts": 1795353225006,
+      "date": 20261122,
+      "type": "practice_time",
+      "area": "review",
+      "name": "Lady Bird",
+      "secs": 760
+    },
+    {
+      "ts": 1795353225006,
+      "date": 20261122,
+      "type": "review",
+      "name": "Lady Bird",
+      "passed": true,
+      "key": "C",
+      "solo": 2
     }
   ],
   "extraReviewsToday": {
@@ -9608,7 +9705,7 @@
       "familiarity": 0,
       "addedDate": 20260914,
       "sortSeed": 0.6936092227190404,
-      "lastPracticed": 20261121,
+      "lastPracticed": 20261122,
       "chords": [
         "B-7(♭5) · top E",
         "E7(♭9)",
@@ -9617,15 +9714,17 @@
       "levelUp": {
         "target": 1,
         "checks": {
-          "keys": false,
-          "leading": false
+          "keys": true,
+          "leading": true
         },
-        "passes": []
+        "passes": [
+          20261122
+        ]
       },
       "targetTempo": 160,
       "notes": "110 bpm",
       "lastTempo": {
-        "date": 20261121,
+        "date": 20261122,
         "bpm": 160
       },
       "tempoLog": [
@@ -9644,9 +9743,12 @@
         {
           "date": 20261121,
           "bpm": 160
+        },
+        {
+          "date": 20261122,
+          "bpm": 160
         }
-      ],
-      "pinnedDate": 20261122
+      ]
     },
     {
       "name": "[2] Major ii-V-I",
@@ -10063,18 +10165,20 @@
       "familiarity": 0,
       "addedDate": 20261115,
       "sortSeed": 0.6325330114596202,
-      "lastPracticed": 20261121,
+      "lastPracticed": 20261122,
       "levelUp": {
         "target": 1,
         "checks": {
-          "keys": false,
+          "keys": true,
           "sing": true,
           "feel": true
         },
-        "passes": []
+        "passes": [
+          20261122
+        ]
       },
       "lastTempo": {
-        "date": 20261121,
+        "date": 20261122,
         "bpm": 120
       },
       "tempoLog": [
@@ -10089,9 +10193,12 @@
         {
           "date": 20261121,
           "bpm": 120
+        },
+        {
+          "date": 20261122,
+          "bpm": 120
         }
-      ],
-      "pinnedDate": 20261122
+      ]
     }
   ],
   "keyCenters": {
@@ -14693,9 +14800,9 @@
     }
   },
   "lastSession": {
-    "date": 20261121,
-    "start": 1795264750098,
-    "end": 1795266843566,
+    "date": 20261122,
+    "start": 1795350594918,
+    "end": 1795353225006,
     "blocks": [
       {
         "id": "voicing",
@@ -14733,9 +14840,9 @@
       "5-7-9-11 climb on ii",
       "Bags' Groove",
       "My Favorite Things",
-      "Basin Street Blues"
+      "Lady Bird"
     ],
-    "secs": 2093
+    "secs": 2631
   },
   "classicalSeeded": true,
   "recordsGenre": "jazz",
