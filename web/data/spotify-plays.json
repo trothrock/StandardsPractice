@@ -9104,6 +9104,19 @@
       "albumImage": "https://i.scdn.co/image/ab67616d00001e02e31962fe6b633db0d2cab73d",
       "durationMs": 139493,
       "context": null
+    },
+    {
+      "playedAt": "2026-11-23T14:27:50.059Z",
+      "trackId": "1CDBaGlisZlOJzvx88lL8A",
+      "name": "Song For My Father",
+      "artists": [
+        "Horace Silver"
+      ],
+      "album": "Song For My Father",
+      "albumId": "4LEnATSqKeANOJ0mLUAuCE",
+      "albumImage": "https://i.scdn.co/image/ab67616d00001e022bf57f865f7e88140d69a047",
+      "durationMs": 438280,
+      "context": "spotify:album:4LEnATSqKeANOJ0mLUAuCE"
     }
   ]
 }

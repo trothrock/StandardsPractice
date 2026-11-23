@@ -13973,7 +13973,7 @@
       "year": "1964"
     }
   ],
-  "recordsSort": "title",
+  "recordsSort": "year",
   "recordsView": "grid",
   "creditLinks": {
     "3nLStxdTkSzihxm7FTLzCP": {
@@ -15032,13 +15032,13 @@
   "playerNames": {
     "261295": "Tony Williams"
   },
-  "vocabView": "items",
+  "vocabView": "pois",
   "sessionPlan": {
     "voicing": {
-      "mins": 5
+      "mins": 10
     },
     "learn": {
-      "mins": 25
+      "mins": 20
     },
     "language": {
       "mins": 10
@@ -15112,5 +15112,5 @@
       "concepts"
     ]
   },
-  "sessionEnabled": false
+  "sessionEnabled": true
 }

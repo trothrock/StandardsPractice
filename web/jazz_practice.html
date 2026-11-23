@@ -233,6 +233,8 @@
   .session-info { flex: 1; min-width: 0; }
   .session-info .label { font-size: 11px; color: var(--text3); font-family: 'IBM Plex Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
   .session-info .name { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--text); }
+  .session-info .name[onclick] { cursor: pointer; }
+  .session-info .name[onclick]:hover { color: var(--gold2); }
   .session-info .sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
   .session-clock { font-family: 'IBM Plex Mono', monospace; font-size: 22px; color: var(--gold2); font-variant-numeric: tabular-nums; flex-shrink: 0; }
   .session-card.paused .session-clock { color: var(--text2); }
@@ -1508,7 +1510,18 @@ function finishTimer(db) {
 // Marking an item done (or continuing tomorrow) ends its session.
 function stopTimerFor(db, area, name) { if(timerIs(db, area, name)) finishTimer(db); }
 function timerStart(area, name) {
-  const db = getDB();
+  const db = getDB(), s = db.session;
+  // Ad hoc practice during a session pauses it and sets the block's timer aside, so the
+  // session doesn't read the switch as the block's item being finished. Resuming, Next or
+  // End logs the ad hoc time and puts the block's timer back (sessionRestoreHeld).
+  if(s && !(s.area===area && s.name===name)) {
+    if(!s.heldTimer && db.timer && db.timer.area===s.area && db.timer.name===s.name) {
+      if(db.timer.runStart) { db.timer.accMs += Date.now() - db.timer.runStart; db.timer.runStart = null; }
+      s.heldTimer = db.timer;
+      delete db.timer;
+    }
+    s.paused = true; s.prompt = false;
+  }
   if(timerIs(db, area, name)) {
     if(!db.timer.runStart) db.timer.runStart = Date.now();
   } else {
@@ -1516,23 +1529,37 @@ function timerStart(area, name) {
     const now = Date.now();
     db.timer = { area, name, start: now, runStart: now, accMs: 0 };
   }
-  saveDB(db); renderToday();
+  saveDB(db); renderTimerViews();
+  if(s) renderSessionPrompt(db);
 }
 function timerPause() {
   const db = getDB(), t = db.timer;
   if(!t || !t.runStart) return;
   t.accMs += Date.now() - t.runStart;
   t.runStart = null;
-  saveDB(db); renderToday();
+  saveDB(db); renderTimerViews();
 }
 function timerStop() {
   const db = getDB();
   if(finishTimer(db)) updateStreak(db);
-  saveDB(db); renderToday();
+  saveDB(db); renderTimerViews();
   if(document.getElementById('panel-activity').classList.contains('active')) renderActivity();
 }
-function timerControlsHTML(db, area, name) {
-  if(db.session) return '';   // the session drives the timer; its own card has the controls
+// Timer buttons live on Today and on the list tabs, so a change redraws whichever is showing.
+const TIMER_LIST_PANELS = { library:()=>renderLibrary(), repertoire:()=>renderRepertoire(), voicings:()=>renderVoicings(), vocabulary:()=>renderVocabulary() };
+function renderTimerViews() {
+  renderToday();
+  Object.entries(TIMER_LIST_PANELS).forEach(([id, render]) => { if(document.getElementById('panel-'+id).classList.contains('active')) render(); });
+}
+// Ad hoc time on a Library song: the tune being learned counts as that day's learning; any
+// other song is logged with song reviews.
+function songTimerArea(db, name) { return db.currentNewSong===name ? 'learn' : 'review'; }
+// During a session the session drives the timer and its card has the controls, so rows hide
+// theirs. The list tabs pass duringSession to keep their buttons for ad hoc practice
+// (see timerStart), except on the piece the session is on right now.
+function timerControlsHTML(db, area, name, duringSession) {
+  const s = db.session;
+  if(s && (!duringSession || (s.area===area && s.name===name))) return '';
   const a = `'${area}'`, n = `'${name.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}'`;
   if(!timerIs(db, area, name)) {
     return `<div class="timer"><button class="btn-timer" title="Start timing" aria-label="Start timing" onclick="timerStart(${a},${n});event.stopPropagation()"><svg viewBox="0 0 12 12"><path d="M3 1.8v8.4L10 6z"/></svg></button></div>`;
@@ -1607,12 +1634,23 @@ function sessionItemFor(db, block, used) {
 }
 function sessionBlockMs(db) {
   const s = db.session;
+  if(s && s.heldTimer) return timerElapsedMs(s.heldTimer);
   return s && db.timer && db.timer.area===s.area && db.timer.name===s.name ? timerElapsedMs(db.timer) : 0;
+}
+// Ends ad hoc practice started during the session (logging its time) and puts the block's
+// timer back, still paused.
+function sessionRestoreHeld(db) {
+  const s = db.session;
+  if(!s || !s.heldTimer) return;
+  finishTimer(db);
+  db.timer = s.heldTimer;
+  delete s.heldTimer;
 }
 // Starts the first block at or after idx that has something to work on; ends the session
 // when none is left.
 function sessionStartBlock(db, idx) {
   const s = db.session;
+  sessionRestoreHeld(db);
   finishTimer(db);
   for(; idx < s.blocks.length; idx++) {
     const block = s.blocks[idx];
@@ -1633,6 +1671,7 @@ function sessionStartBlock(db, idx) {
 function sessionFinish(db) {
   const s = db.session;
   if(!s) return;
+  sessionRestoreHeld(db);
   finishTimer(db);
   delete db.session;
   updateStreak(db);
@@ -1663,6 +1702,7 @@ function sessionResume() {
   sessionUnlockAudio();
   const db = getDB(), s = db.session;
   if(!s) return;
+  sessionRestoreHeld(db);
   s.paused = false;
   // The block's item may have been finished while paused; if so, move on.
   if(!db.timer || db.timer.area!==s.area || db.timer.name!==s.name) sessionStartBlock(db, s.idx+1);
@@ -1738,6 +1778,8 @@ function sessionHTML(db) {
   }
   const block = blocks[s.idx], next = blocks[s.idx+1];
   const ms = sessionBlockMs(db);
+  // The title opens the item's detail view, the same as its agenda row.
+  const open = agendaRowParts(db, { block, name: s.name }).open;
   const segs = blocks.map((b,i) => {
     const fill = i < s.idx ? 100 : i > s.idx ? 0 : Math.min(100, ms / s.targetMs * 100);
     return `<div class="session-seg${i===s.idx?' current':''}" style="flex:${b.mins}" title="${escHTML(b.label)} · ${b.mins} min"><i${i===s.idx?' data-session-fill':''} style="width:${fill}%"></i></div>`;
@@ -1747,7 +1789,7 @@ function sessionHTML(db) {
     : `<button class="btn-timer" title="Pause" aria-label="Pause" onclick="sessionPause()"><svg viewBox="0 0 12 12"><rect x="2.5" y="2" width="2.6" height="8" rx=".5"/><rect x="6.9" y="2" width="2.6" height="8" rx=".5"/></svg></button>`;
   const nextBtn = `<button class="btn-timer" title="${next?'Switch to '+escHTML(next.label.toLowerCase()):'Finish session'}" aria-label="Next activity" onclick="sessionNext()"><svg viewBox="0 0 12 12"><path d="M2 1.8v8.4L8 6z"/><rect x="8.4" y="2" width="1.8" height="8" rx=".4"/></svg></button>`;
   const endBtn = `<button class="btn-timer" title="End session" aria-label="End session" onclick="sessionEnd()"><svg viewBox="0 0 12 12"><rect x="2.5" y="2.5" width="7" height="7" rx="1"/></svg></button>`;
-  return `<div class="session-card${s.paused?' paused':''}"><div class="session-top"><div class="current-song-dot"></div><div class="session-info"><div class="label">${escHTML(block.label)} · ${s.idx+1} of ${blocks.length}${s.paused?' · paused':''}</div><div class="name">${escHTML(s.name)}</div><div class="sub">${next?'Next: '+escHTML(next.label):'Last activity'}</div></div><span class="session-clock" data-session-clock>${sessionClockText(s, ms)}</span><div class="timer">${endBtn}${nextBtn}${pauseBtn}</div></div><div class="session-bar">${segs}</div></div>`;
+  return `<div class="session-card${s.paused?' paused':''}"><div class="session-top"><div class="current-song-dot"></div><div class="session-info"><div class="label">${escHTML(block.label)} · ${s.idx+1} of ${blocks.length}${s.paused?' · paused':''}</div><div class="name"${open?` onclick="${open}" title="Open details"`:''}>${escHTML(s.name)}</div><div class="sub">${next?'Next: '+escHTML(next.label):'Last activity'}</div></div><span class="session-clock" data-session-clock>${sessionClockText(s, ms)}</span><div class="timer">${endBtn}${nextBtn}${pauseBtn}</div></div><div class="session-bar">${segs}</div></div>`;
 }
 function sessionClockText(s, ms) {
   const left = s.targetMs - ms;
@@ -3211,7 +3253,7 @@ function renderLibrary() {
     else if(sg.status==='active') statusBadge='<span class="badge badge-active">In review</span>';
     else if(sg.status==='learning') statusBadge='<span class="badge badge-learning">Learning</span>';
     const safeName = sg.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-    return `<div class="song-row clickable" onclick="showSongDetail('${safeName}')">${lvlBadge(sg.currentLevel)}<div class="song-name-group"><span class="song-name">${sg.name}</span>${tagBadges(sg)}</div>${statusBadge}<button class="btn-dots" onclick="openRowMenu(event,'${safeName}')">···</button></div>`;
+    return `<div class="song-row clickable" onclick="showSongDetail('${safeName}')">${lvlBadge(sg.currentLevel)}<div class="song-name-group"><span class="song-name">${sg.name}</span>${tagBadges(sg)}</div>${statusBadge}${timerClockHTML(db, songTimerArea(db, sg.name), sg.name)}${timerControlsHTML(db, songTimerArea(db, sg.name), sg.name, true)}<button class="btn-dots" onclick="openRowMenu(event,'${safeName}')">···</button></div>`;
   }).join('');
 }
 
@@ -6256,7 +6298,7 @@ function renderRepertoire() {
   setList.forEach((name, i) => {
     const p = pieces.find(p => p.name === name);
     const safe = name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-    html += `<div class="song-row setlist-row" data-name="${name.replace(/"/g,'&quot;')}" onclick="showRepertoireDetail('${safe}')"><span class="drag-handle" title="Drag to reorder" onclick="event.stopPropagation()" onpointerdown="startSetListDrag(event)">⋮⋮</span><span class="setlist-num">${i+1}</span><div class="song-name-group"><span class="song-name">${p.name}</span>${p.composer?`<span class="song-meta">${p.composer}</span>`:''}</div><button class="setlist-remove" title="Remove from set list" onclick="event.stopPropagation();removeFromSetList('${safe}')">×</button></div>`;
+    html += `<div class="song-row setlist-row" data-name="${name.replace(/"/g,'&quot;')}" onclick="showRepertoireDetail('${safe}')"><span class="drag-handle" title="Drag to reorder" onclick="event.stopPropagation()" onpointerdown="startSetListDrag(event)">⋮⋮</span><span class="setlist-num">${i+1}</span><div class="song-name-group"><span class="song-name">${p.name}</span>${p.composer?`<span class="song-meta">${p.composer}</span>`:''}</div>${timerClockHTML(db, 'rep', p.name)}${timerControlsHTML(db, 'rep', p.name, true)}<button class="setlist-remove" title="Remove from set list" onclick="event.stopPropagation();removeFromSetList('${safe}')">×</button></div>`;
   });
   html += '</div></div>';
   html += `<div class="section"><div class="section-head"><h2>All pieces</h2><span class="count">${pieces.length}</span></div>`;
@@ -6264,7 +6306,7 @@ function renderRepertoire() {
     const meta = p.composer || '';
     const reviewed = p.lastReviewed ? `Last reviewed ${formatIntDate(p.lastReviewed)}` : 'Never reviewed';
     const safe = p.name.replace(/'/g,"\\'");
-    html += `<div class="song-row clickable" onclick="showRepertoireDetail('${safe}')"><div class="song-name-group"><span class="song-name">${p.name}</span>${meta?`<span class="song-meta">${meta}</span>`:''}</div><span class="song-meta">${reviewed}</span><button class="btn-dots" onclick="openRepMenu(event,'${safe}')">···</button></div>`;
+    html += `<div class="song-row clickable" onclick="showRepertoireDetail('${safe}')"><div class="song-name-group"><span class="song-name">${p.name}</span>${meta?`<span class="song-meta">${meta}</span>`:''}</div><span class="song-meta">${reviewed}</span>${timerClockHTML(db, 'rep', p.name)}${timerControlsHTML(db, 'rep', p.name, true)}<button class="btn-dots" onclick="openRepMenu(event,'${safe}')">···</button></div>`;
   });
   html += '</div>';
   container.innerHTML = html;
@@ -6550,7 +6592,7 @@ function renderVoicings() {
     const img = voicingImgHTML(v, 'voicing-thumb');
     const top = showTop && v.topNote!=null ? `<span class="top-note">top: ${v.topNote}</span>` : '';
     const reviews = `<span class="key-stat">${voicingReviewsLabel(voicingReviewCount(db, v.name))}</span>`;
-    return `<div class="song-row clickable" onclick="showVoicingDetail('${safe}')">${img}<div class="song-name-group"><span class="song-name">${v.name}</span>${top}</div>${reviews}${lvlBadge(v.familiarity||0)}<button class="btn-dots" onclick="openVoicingMenu(event,'${safe}')">···</button></div>`;
+    return `<div class="song-row clickable" onclick="showVoicingDetail('${safe}')">${img}<div class="song-name-group"><span class="song-name">${v.name}</span>${top}</div>${reviews}${lvlBadge(v.familiarity||0)}${timerClockHTML(db, 'voicing', v.name)}${timerControlsHTML(db, 'voicing', v.name, true)}<button class="btn-dots" onclick="openVoicingMenu(event,'${safe}')">···</button></div>`;
   }).join('');
   const sectionHead = (title, n) => `<div class="section-head"><h2>${title}</h2><span class="count">${n}</span></div>`;
   const section = (title, items) => items.length ? `<div class="section">${sectionHead(title, items.length)}${rowsHTML(items)}</div>` : '';
@@ -7263,7 +7305,7 @@ function renderVocabulary() {
   sorted.forEach(c=>{
     const safe = c.name.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
     const img = vocabImgHTML(c, 'voicing-thumb');
-    html += `<div class="song-row clickable" onclick="showVocabDetail('${safe}')">${img}<div class="song-name-group vocab-row-main"><div><span class="song-name">${escHTML(c.name)}</span>${vocabTagBadges(c)}</div>${vocabSourceHTML(db, c, true)}</div>${lvlBadge(c.familiarity||0)}<button class="btn-dots" onclick="openVocabMenu(event,'${safe}')">···</button></div>`;
+    html += `<div class="song-row clickable" onclick="showVocabDetail('${safe}')">${img}<div class="song-name-group vocab-row-main"><div><span class="song-name">${escHTML(c.name)}</span>${vocabTagBadges(c)}</div>${vocabSourceHTML(db, c, true)}</div>${lvlBadge(c.familiarity||0)}${timerClockHTML(db, 'vocab', c.name)}${timerControlsHTML(db, 'vocab', c.name, true)}<button class="btn-dots" onclick="openVocabMenu(event,'${safe}')">···</button></div>`;
   });
   html += '</div>';
   container.innerHTML = html;
