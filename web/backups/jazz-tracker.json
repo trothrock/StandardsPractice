@@ -172,7 +172,7 @@
       "baseLevel": 2,
       "currentLevel": 2,
       "status": "active",
-      "intervalIdx": 2,
+      "intervalIdx": 3,
       "learnedDate": 20260419,
       "reviews": [
         {
@@ -190,6 +190,12 @@
         {
           "date": 20260724,
           "passed": true
+        },
+        {
+          "date": 20261123,
+          "passed": true,
+          "key": "Eb",
+          "solo": 1
         }
       ],
       "sortSeed": 0.15187667815847483,
@@ -207,7 +213,9 @@
       ],
       "tags": [
         "Songbook"
-      ]
+      ],
+      "pinnedReviewDate": 20261124,
+      "notes": "Abmin(Maj7) and Fmin7(b5) use the same scale."
     },
     "All the Things You Are": {
       "name": "All the Things You Are",
@@ -1404,7 +1412,7 @@
       "baseLevel": 2,
       "currentLevel": 2,
       "status": "active",
-      "intervalIdx": 2,
+      "intervalIdx": 1,
       "learnedDate": 20260419,
       "reviews": [
         {
@@ -1434,6 +1442,12 @@
         {
           "date": 20260702,
           "passed": true
+        },
+        {
+          "date": 20261123,
+          "passed": false,
+          "key": "Ab",
+          "solo": 1
         }
       ],
       "sortSeed": 0.1035655254316945,
@@ -1446,7 +1460,8 @@
         "Bop",
         "Contrafact",
         "Jam"
-      ]
+      ],
+      "pinnedReviewDate": 20261124
     },
     "East of the Sun": {
       "name": "East of the Sun",
@@ -4614,6 +4629,26 @@
         "Latin",
         "Minor",
         "Jam"
+      ],
+      "otherRecordings": [
+        {
+          "trackId": "1CDBaGlisZlOJzvx88lL8A",
+          "name": "Song For My Father",
+          "artists": [
+            "Horace Silver"
+          ],
+          "album": "Song For My Father",
+          "albumId": "4LEnATSqKeANOJ0mLUAuCE",
+          "albumImage": "https://i.scdn.co/image/ab67616d00001e022bf57f865f7e88140d69a047"
+        }
+      ],
+      "pointsOfInterest": [
+        {
+          "trackId": "1CDBaGlisZlOJzvx88lL8A",
+          "album": "Song For My Father",
+          "at": 390,
+          "text": "comping pattern"
+        }
       ]
     },
     "Sophisticated Lady": {
@@ -9449,6 +9484,68 @@
       "name": "5-7-9-11 climb on ii",
       "familiarity": 1,
       "bpm": 120
+    },
+    {
+      "ts": 1795441030913,
+      "date": 20261123,
+      "type": "practice_time",
+      "area": "learn",
+      "name": "Song for My Father",
+      "secs": 1815
+    },
+    {
+      "ts": 1795441030915,
+      "date": 20261123,
+      "type": "practiced",
+      "name": "Song for My Father"
+    },
+    {
+      "ts": 1795442437915,
+      "date": 20261123,
+      "type": "practice_time",
+      "area": "review",
+      "name": "Donna Lee",
+      "secs": 1407
+    },
+    {
+      "ts": 1795442437915,
+      "date": 20261123,
+      "type": "review",
+      "name": "Donna Lee",
+      "passed": false,
+      "key": "Ab",
+      "solo": 1
+    },
+    {
+      "ts": 1795443366050,
+      "date": 20261123,
+      "type": "practice_time",
+      "area": "review",
+      "name": "All of You",
+      "secs": 928
+    },
+    {
+      "ts": 1795443366051,
+      "date": 20261123,
+      "type": "review",
+      "name": "All of You",
+      "passed": true,
+      "key": "Eb",
+      "solo": 1
+    },
+    {
+      "ts": 1795445023090,
+      "date": 20261123,
+      "type": "practice_time",
+      "area": "rep",
+      "name": "Basin Street Blues",
+      "secs": 1348
+    },
+    {
+      "ts": 1795445023090,
+      "date": 20261123,
+      "type": "repertoire_practiced",
+      "name": "Basin Street Blues"
     }
   ],
   "extraReviewsToday": {
@@ -9555,7 +9652,8 @@
           "text": "Ending",
           "done": false
         }
-      ]
+      ],
+      "pinnedDate": 20261123
     },
     {
       "name": "A Sleepin' Bee",
@@ -9563,7 +9661,6 @@
       "notes": null,
       "addedDate": 20260502,
       "lastReviewed": null,
-      "pinnedDate": 20261115,
       "practiceFocus": [
         {
           "text": "Head out chord subs",
@@ -14716,6 +14813,69 @@
       "included": [],
       "added": [],
       "confirmedAt": 20261115
+    },
+    "16jGcnWVNR6rHO0NXv8eXV": {
+      "releaseId": 2487402,
+      "title": "Jelly Roll Morton - Jelly Roll Morton 1923/24",
+      "year": null,
+      "url": "https://www.discogs.com/release/2487402-Jelly-Roll-Morton-Jelly-Roll-Morton-192324",
+      "excluded": [
+        2760945,
+        307390,
+        2760941,
+        2760948,
+        1338828,
+        1348279,
+        1052897,
+        2760946,
+        1409392,
+        634898,
+        938661,
+        4048862
+      ],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261123
+    },
+    "5XqqNOyoyl0iAYUI4Mh3P3": {
+      "releaseId": 19345435,
+      "title": "Teddy Wilson - Solo Piano (The Keystone Transcriptions c.1939-1940)",
+      "year": 1997,
+      "url": "https://www.discogs.com/release/19345435-Teddy-Wilson-Solo-Piano-The-Keystone-Transcriptions-c1939-1940",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261123
+    },
+    "2kdXqN44JDZknj35CdOOpN": {
+      "releaseId": 2301505,
+      "title": "Ray Bryant Trio - All Blues",
+      "year": 1979,
+      "url": "https://www.discogs.com/release/2301505-Ray-Bryant-Trio-All-Blues",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261123
+    },
+    "7gOZqHF69ORvWk0VQNSjjn": {
+      "releaseId": 13791625,
+      "title": "Mary Lou Williams Trio - Free Spirits",
+      "year": 1976,
+      "url": "https://www.discogs.com/release/13791625-Mary-Lou-Williams-Trio-Free-Spirits",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261123
+    },
+    "21I47sl9rvEugaiEIvDVyh": {
+      "releaseId": 7233148,
+      "title": "Bud Powell - Jazz Giant",
+      "year": 2001,
+      "url": "https://www.discogs.com/release/7233148-Bud-Powell-Jazz-Giant",
+      "excluded": [],
+      "included": [],
+      "added": [],
+      "confirmedAt": 20261123
     }
   },
   "playersSort": "name",
@@ -14885,75 +15045,9 @@
     }
   },
   "lastSession": {
-    "date": 20261122,
-    "start": 1795350594918,
-    "end": 1795353225006,
-    "blocks": [
-      {
-        "id": "voicing",
-        "label": "Voicing warm-up",
-        "area": "voicing",
-        "mins": 5
-      },
-      {
-        "id": "language",
-        "label": "Language study",
-        "area": "vocab",
-        "mins": 5
-      },
-      {
-        "id": "learn",
-        "label": "New tune",
-        "area": "learn",
-        "mins": 10
-      },
-      {
-        "id": "review",
-        "label": "Tune review 1",
-        "area": "review",
-        "mins": 10
-      },
-      {
-        "id": "review",
-        "label": "Tune review 2",
-        "area": "review",
-        "mins": 10
-      }
-    ],
-    "names": [
-      "[3] Minor ii-V-i",
-      "5-7-9-11 climb on ii",
-      "Bags' Groove",
-      "My Favorite Things",
-      "Lady Bird"
-    ],
-    "secs": 2631
-  },
-  "classicalSeeded": true,
-  "recordsGenre": "jazz",
-  "tabLayout": {
-    "order": [
-      "today",
-      "activity",
-      "listening",
-      "records",
-      "players",
-      "library",
-      "repertoire",
-      "voicings",
-      "vocabulary",
-      "concepts",
-      "keys",
-      "queue"
-    ],
-    "hidden": [
-      "queue",
-      "keys",
-      "concepts"
-    ]
-  },
-  "session": {
+    "date": 20261123,
     "start": 1795438168986,
+    "end": 1795443366051,
     "blocks": [
       {
         "id": "voicing",
@@ -14986,29 +15080,37 @@
         "mins": 10
       }
     ],
-    "idx": 2,
-    "used": [
-      "[3] Major ii-V-I",
-      "5-7-9-11 climb on ii",
-      "Song for My Father"
-    ],
     "names": [
       "[3] Major ii-V-I",
       "5-7-9-11 climb on ii",
-      "Song for My Father"
+      "Song for My Father",
+      "Donna Lee",
+      "All of You"
     ],
-    "paused": false,
-    "area": "learn",
-    "name": "Song for My Father",
-    "targetMs": 1500000,
-    "alerted": false,
-    "prompt": false
+    "secs": 5101
   },
-  "timer": {
-    "area": "learn",
-    "name": "Song for My Father",
-    "start": 1795439119146,
-    "runStart": 1795439227778,
-    "accMs": 12092
-  }
+  "classicalSeeded": true,
+  "recordsGenre": "jazz",
+  "tabLayout": {
+    "order": [
+      "today",
+      "activity",
+      "listening",
+      "records",
+      "players",
+      "library",
+      "repertoire",
+      "voicings",
+      "vocabulary",
+      "concepts",
+      "keys",
+      "queue"
+    ],
+    "hidden": [
+      "queue",
+      "keys",
+      "concepts"
+    ]
+  },
+  "sessionEnabled": false
 }
